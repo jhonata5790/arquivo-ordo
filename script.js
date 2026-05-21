@@ -1335,22 +1335,24 @@ function applyCharacterWheelAssets() {
     return;
   }
 
-  const wheelConfig = {
-    yuna: {
-      folder: "yuna",
-      prefix: "Yuna"
-    },
-    maisie: {
-      folder: "maisie",
-      prefix: "Maisie"
-    }
-  };
-
-  const config = wheelConfig[currentAgent.id];
-
-  if (!config) {
-    return;
+const wheelConfig = {
+  yuna: {
+    folder: "yuna",
+    prefix: "Yuna"
+  },
+  maisie: {
+    folder: "maisie",
+    prefix: "Maisie"
+  },
+  roselyn: {
+    folder: "roselyn",
+    prefix: "Roselyn"
+  },
+  lilian: {
+    folder: "lilian",
+    prefix: "Lilian"
   }
+};
 
   const basePath = `../assets/imagens/rodas/${config.folder}/`;
 
@@ -1426,7 +1428,28 @@ function setupCharacterAttributeInteractions() {
         text: "Resistência limitada. O corpo de Yuna sobreviveu ao Outro Lado, mas continua sendo um lembrete de que sobreviver não é sair inteiro."
       }
     },
-
+lilian: {
+  FOR: {
+    name: "FOR — Força",
+    text: "O centro físico da Lilian. Força para bater, segurar, bloquear e permanecer de pé quando o resto do corpo já deveria ter pedido pausa."
+  },
+  AGI: {
+    name: "AGI — Agilidade",
+    text: "Mobilidade funcional. Lilian não se move para parecer leve; se move para encurtar distância, reagir ao impacto e entrar na frente na hora certa."
+  },
+  INT: {
+    name: "INT — Intelecto",
+    text: "Baixo foco acadêmico e técnico. Lilian entende o mundo mais pelo corpo, pela prática e pela leitura instintiva de ameaça do que por análise formal."
+  },
+  PRE: {
+    name: "PRE — Presença",
+    text: "Presença social baixa no papel, mas difícil de ignorar em campo. Lilian não precisa falar muito para deixar claro que não vai sair da frente."
+  },
+  VIG: {
+    name: "VIG — Vigor",
+    text: "A outra base da ficha. Resistência, bloqueio, teimosia e a perigosa tendência de aguentar mais do que deveria."
+  }
+},
     maisie: {
       FOR: {
         name: "FOR — Força",
@@ -1448,7 +1471,9 @@ function setupCharacterAttributeInteractions() {
         name: "VIG — Vigor",
         text: "Resistência acima do mínimo. O corpo dela já foi atravessado por perda, reconstrução e Energia, mas ainda continua funcionando."
       }
+      
     }
+    
   };
 
   const agentInsights = insightByAgent[currentAgent.id] || {};
@@ -2034,4 +2059,238 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCharacterAttributeInteractions();
     createRoselynEffects();
   }, 320);
+});
+/* LILIAN 1.0 PREMIUM — DADOS, RODA E EFEITOS */
+
+if (typeof agentsData !== "undefined" && agentsData.lilian) {
+  agentsData.lilian.modeClass = "lilian-mode";
+
+  agentsData.lilian.description =
+    "Combatente de linha de frente. Proteção, contenção física e resistência sob pressão.";
+
+  agentsData.lilian.status = "Arquivo liberado — Recruta / Personagem Jogador";
+
+  agentsData.lilian.theme = {
+    main: "#7e24ff",
+    secondary: "#8b0000",
+    glow: "rgba(126, 36, 255, 0.24)"
+  };
+
+  agentsData.lilian.banner = {
+    label: "Registro de jogador — acesso liberado",
+    title: "A CASCA GROSSA NÃO É FRIEZA. É DEFESA.",
+    text: "Ficha pública de personagem jogador. Registro operacional consolidado para Corações do Outro Lado."
+  };
+
+  agentsData.lilian.className = "Combatente";
+  agentsData.lilian.origin = "Atleta";
+  agentsData.lilian.nex = "40%";
+  agentsData.lilian.rank = "Recruta";
+
+  agentsData.lilian.attributes = {
+    FOR: 3,
+    AGI: 2,
+    INT: 1,
+    PRE: 1,
+    VIG: 3
+  };
+
+  agentsData.lilian.derived = {
+    life: "80 / 80",
+    determination: "35 / 35",
+    defense: "12",
+    dodge: "17",
+    ritualDT: "---",
+    peTurn: "8"
+  };
+
+  agentsData.lilian.folders = {
+    descricao: {
+      title: "Descrição",
+      html: `
+        <p>Lilian Rodrigues Moretti é uma combatente de linha de frente, moldada por solidão, disciplina física e uma necessidade quase instintiva de proteger aquilo que considera seu.</p>
+
+        <p>À primeira vista, parece fechada, emburrada e difícil de alcançar. Mas essa dureza não é vazio emocional: é uma armadura construída por alguém que aprendeu cedo demais que presença vale mais que dinheiro.</p>
+
+        <p>Na Ordo, Lilian funciona como contenção, escudo humano e resposta direta contra ameaças físicas. Ela não tenta parecer invencível. Ela age como se não tivesse outra escolha.</p>
+
+        <div class="lore-quote">“A casca grossa existe por um motivo.”</div>
+
+        <div class="data-cluster">
+          <div class="data-chip"><span>Jogadora</span><strong>Nathalie</strong></div>
+          <div class="data-chip"><span>Função</span><strong>Linha de frente / proteção</strong></div>
+          <div class="data-chip"><span>Codinome</span><strong>A Casca Grossa</strong></div>
+          <div class="data-chip"><span>Status</span><strong>Recruta</strong></div>
+          <div class="data-chip"><span>Estilo</span><strong>Boxe / impacto físico</strong></div>
+          <div class="data-chip"><span>Risco</span><strong>Autossacrifício</strong></div>
+        </div>
+      `
+    },
+
+    habilidades: {
+      title: "Habilidades",
+      html: `
+        <div class="skill-list">
+          <article class="skill-item">
+            <h3>Atleta</h3>
+            <p>Lilian pode gastar energia para melhorar testes ligados a Força ou Agilidade, reforçando seu corpo como principal ferramenta de sobrevivência.</p>
+          </article>
+
+          <article class="skill-item">
+            <h3>Artista Marcial</h3>
+            <p>Seus golpes desarmados são letais quando necessário. O boxe não é só treino: é linguagem, defesa e identidade.</p>
+          </article>
+
+          <article class="skill-item">
+            <h3>Ataque Especial</h3>
+            <p>Quando decide avançar, Lilian concentra força, técnica e raiva controlada em um golpe mais preciso ou mais destrutivo.</p>
+          </article>
+
+          <article class="skill-item">
+            <h3>Golpe Demolidor</h3>
+            <p>Contra obstáculos, objetos e barreiras físicas, Lilian transforma impacto em solução.</p>
+          </article>
+        </div>
+      `
+    },
+
+    trilha: {
+      title: "Trilha",
+      html: `
+        <p><strong>Tropa de Choque.</strong> A trilha de Lilian define uma combatente feita para aguentar, proteger e chamar o perigo para si.</p>
+
+        <div class="skill-list">
+          <article class="skill-item">
+            <h3>NEX 10% — Casca Grossa</h3>
+            <p>Seu corpo aprendeu a resistir. Lilian aguenta mais dano e bloqueia melhor, sustentando a linha de frente quando outros precisariam recuar.</p>
+          </article>
+
+          <article class="skill-item">
+            <h3>NEX 40% — Cai Dentro</h3>
+            <p>Quando um aliado vira alvo, Lilian força a ameaça a olhar para ela. A proteção dela não é delicada: é presença física entre o perigo e a equipe.</p>
+          </article>
+        </div>
+      `
+    },
+
+    rituais: {
+      title: "Rituais",
+      html: `
+        <div class="ritual-grid">
+          <div class="ritual-folder ritual-sangue">
+            <small>Rituais</small>
+            <h3>Nenhum ritual registrado</h3>
+            <p>Lilian não possui rituais informados. Seu contato com o paranormal aparece mais como trauma, enfrentamento e resistência física do que como conjuração.</p>
+          </div>
+
+          <div class="ritual-folder ritual-morte">
+            <small>Contato paranormal</small>
+            <h3>Solidão e reflexos</h3>
+            <p>Seu primeiro contato conhecido envolveu isolamento, corredores vazios, reflexos e uma manifestação ligada à sensação de não ser vista.</p>
+          </div>
+
+          <div class="ritual-folder ritual-sangue">
+            <small>Marca observada</small>
+            <h3>Sangue em combate clandestino</h3>
+            <p>O segundo evento paranormal envolveu uma luta amadora, alteração física do adversário e símbolo de Sangue encontrado após o confronto.</p>
+          </div>
+        </div>
+      `
+    },
+
+    pericias: {
+      title: "Perícias",
+      html: `
+        <p>Perícias principais registradas. O perfil mecânico de Lilian reforça combate físico, resistência, movimento e resposta rápida.</p>
+
+        <table class="pericia-table">
+          <thead>
+            <tr>
+              <th>Perícia</th>
+              <th>Atributo</th>
+              <th>Bônus</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr><td>Luta</td><td>FOR</td><td>+10</td></tr>
+            <tr><td>Fortitude</td><td>VIG</td><td>+10</td></tr>
+            <tr><td>Atletismo</td><td>FOR</td><td>+5</td></tr>
+            <tr><td>Acrobacia</td><td>AGI</td><td>+5</td></tr>
+            <tr><td>Crime</td><td>AGI</td><td>+5</td></tr>
+            <tr><td>Iniciativa</td><td>AGI</td><td>+5</td></tr>
+            <tr><td>Pilotagem</td><td>AGI</td><td>+5</td></tr>
+            <tr><td>Pontaria</td><td>AGI</td><td>+5</td></tr>
+            <tr><td>Reflexos</td><td>AGI</td><td>+5</td></tr>
+          </tbody>
+        </table>
+      `
+    },
+
+    inventario: {
+      title: "Inventário",
+      html: `
+        <p><strong>Arma principal:</strong> manoplas.</p>
+
+        <p>As manoplas aparecem como extensão direta do estilo de combate de Lilian. Elas não substituem sua força: amplificam aquilo que ela já aprendeu a fazer com o próprio corpo.</p>
+
+        <p>Inventário geral registrado como vazio no documento bruto, reforçando uma personagem que entra em campo com pouca coisa além do próprio corpo, treino e teimosia.</p>
+
+        <div class="lore-quote">Quando Lilian levanta a guarda, a mensagem é simples: se alguém vai apanhar, começa por ela.</div>
+      `
+    },
+
+    relacoes: {
+      title: "Relações",
+      html: `
+        <p><strong>Lucas Moretti:</strong> irmão mais novo e vínculo afetivo mais importante. É uma das poucas pessoas que acessa o lado mais leve e vulnerável de Lilian.</p>
+
+        <p><strong>Seu Jonas:</strong> antigo caseiro e ex-boxeador. Foi quem apresentou Lilian ao boxe e ofereceu a ela uma presença adulta concreta quando a família falhou.</p>
+
+        <p><strong>Henrique e Helena Moretti:</strong> pais distantes, ligados ao conforto material e à ausência emocional que moldou grande parte da dureza de Lilian.</p>
+      `
+    },
+
+    ordo: {
+      title: "O que a Ordo acha",
+      html: `
+        <p>A Ordo avalia Lilian como agente de valor operacional elevado em combate direto, proteção de equipe e resistência sob pressão.</p>
+
+        <p>Ela não deve ser tratada apenas como músculo. Sua força nasce de abandono, disciplina e proteção seletiva. Usar essa força sem reconhecer a pessoa por trás dela seria um erro operacional e humano.</p>
+
+        <div class="data-cluster">
+          <div class="data-chip"><span>Status</span><strong>Atuação aprovada</strong></div>
+          <div class="data-chip"><span>Função</span><strong>Contenção / defesa de aliados</strong></div>
+          <div class="data-chip"><span>Monitoramento</span><strong>Comportamental discreto</strong></div>
+          <div class="data-chip"><span>Alerta</span><strong>Não abandonar na linha de frente</strong></div>
+        </div>
+
+        <div class="lore-quote">Ela parece o tipo de agente que entra na frente de uma ameaça antes de admitir que está com medo.</div>
+      `
+    }
+  };
+}
+
+function createLilianEffects() {
+  const agentPage = document.getElementById("agentPage");
+  const layer = document.getElementById("specialFxLayer");
+
+  if (!agentPage || !layer || !agentPage.classList.contains("lilian-mode")) {
+    return;
+  }
+
+  for (let i = 0; i < 24; i++) {
+    const spark = document.createElement("span");
+    spark.classList.add("lilian-impact-spark");
+
+    spark.style.left = Math.random() * 100 + "%";
+    spark.style.animationDuration = 4 + Math.random() * 7 + "s";
+    spark.style.animationDelay = Math.random() * 6 + "s";
+
+    layer.appendChild(spark);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(createLilianEffects, 450);
 });
