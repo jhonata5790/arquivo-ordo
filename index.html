@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Arquivo Ordo Realitas</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="app">
+
+    <section id="loginScreen" class="login-screen">
+      <div class="login-card">
+        <div class="scanline"></div>
+
+        <p class="ordo-tag">Ordo Realitas — Sistema Interno</p>
+
+        <h1 class="title glitch-text" data-text="Arquivo da Campanha">
+          Arquivo da Campanha
+        </h1>
+
+        <p class="subtitle">
+          Terminal de acesso aos registros visuais, dossiês, locais, missões e arquivos restritos
+          da operação em Santa Luzia.
+        </p>
+
+        <div class="input-group">
+          <label for="agentCode">Código de Agente</label>
+          <input id="agentCode" type="text" placeholder="Ex: visitante, agente, mestre" />
+        </div>
+
+        <div class="input-group">
+          <label for="agentPassword">Senha</label>
+          <input id="agentPassword" type="password" placeholder="Digite a senha de acesso" />
+        </div>
+
+        <button class="login-button" onclick="login()">Acessar Sistema</button>
+
+        <p class="hint">
+          Teste rápido: use <strong>visitante</strong> com qualquer senha, ou use
+          <strong>mestre</strong> com a senha <strong>coracoes</strong> para liberar os arquivos secretos.
+        </p>
+      </div>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <header class="topbar">
+        <div>
+          <p class="system-status">Sistema ativo — conexão local</p>
+
+          <h2 class="dashboard-title glitch-text" data-text="Ordo Realitas">
+            Ordo Realitas
+          </h2>
+
+          <p class="user-access">
+            Acesso atual: <strong id="accessName">Visitante</strong>
+          </p>
+        </div>
+
+        <button class="logout-button" onclick="logout()">Encerrar Acesso</button>
+      </header>
+
+      <div class="terminal-message">
+        <strong>Registro:</strong> Arquivo visual iniciado. Algumas áreas estão protegidas por nível de acesso.
+        Dados secretos permanecem ocultos para visitantes e agentes comuns.
+      </div>
+
+      <h3 class="section-title">Arquivos Principais</h3>
+
+      <section class="grid">
+        <article class="module-card" onclick="openModule('Agentes')">
+          <p class="card-status">Arquivo liberado</p>
+          <h3 class="card-title">Agentes</h3>
+          <p class="card-text">
+            Dossiês, fichas e registros operacionais dos agentes envolvidos na campanha.
+          </p>
+        </article>
+
+        <article class="module-card" onclick="openModule('Locais')">
+          <p class="card-status">Arquivo liberado</p>
+          <h3 class="card-title">Locais</h3>
+          <p class="card-text">
+            Registros visuais de Santa Luzia, mapas, zonas investigadas e pontos de interesse.
+          </p>
+        </article>
+
+        <article class="module-card" onclick="openModule('Missões')">
+          <p class="card-status">Arquivo liberado</p>
+          <h3 class="card-title">Missões</h3>
+          <p class="card-text">
+            Casos ativos, operações encerradas, eventos importantes e progresso narrativo.
+          </p>
+        </article>
+
+        <article class="module-card" onclick="openModule('Documentos')">
+          <p class="card-status">Arquivo liberado</p>
+          <h3 class="card-title">Documentos</h3>
+          <p class="card-text">
+            Relatórios, PDFs, fichas brutas, dossiês narrativos e arquivos da investigação.
+          </p>
+        </article>
+
+        <article class="module-card" onclick="openModule('Ordo Realitas')">
+          <p class="card-status">Arquivo liberado</p>
+          <h3 class="card-title">Ordo Realitas</h3>
+          <p class="card-text">
+            Estrutura interna, patentes, setores, Trindade da Ordo e comando operacional.
+          </p>
+        </article>
+      </section>
+
+      <h3 class="section-title">Acesso Restrito</h3>
+
+      <section class="grid">
+        <article class="module-card secret locked" onclick="openSecretModule('Elementos')">
+          <span class="lock-label">Bloqueado</span>
+          <p class="card-status">Arquivo secreto</p>
+          <h3 class="card-title">Elementos</h3>
+          <p class="card-text">
+            Informações sensíveis sobre Sangue, Morte, Conhecimento, Energia e Medo.
+          </p>
+        </article>
+
+        <article class="module-card secret locked" onclick="openSecretModule('Klint')">
+          <span class="lock-label">Bloqueado</span>
+          <p class="card-status">Arquivo secreto</p>
+          <h3 class="card-title">Klint</h3>
+          <p class="card-text">
+            Arquivo de comando, avaliações internas e registros não públicos do líder da Ordo.
+          </p>
+        </article>
+
+        <article class="module-card secret locked" onclick="openSecretModule('Jogadores')">
+          <span class="lock-label">Bloqueado</span>
+          <p class="card-status">Arquivo secreto</p>
+          <h3 class="card-title">Jogadores</h3>
+          <p class="card-text">
+            Área do mestre com informações dos jogadores, ganchos narrativos e segredos.
+          </p>
+        </article>
+
+        <article class="module-card secret locked" onclick="openSecretModule('Componentes Ritualísticos')">
+          <span class="lock-label">Bloqueado</span>
+          <p class="card-status">Arquivo secreto</p>
+          <h3 class="card-title">Componentes Ritualísticos</h3>
+          <p class="card-text">
+            Objetos paranormais e componentes físicos, como o Coração Amaldiçoado.
+          </p>
+        </article>
+      </section>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

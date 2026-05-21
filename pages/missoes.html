@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Missões — Arquivo Ordo Realitas</title>
+
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <main class="app internal-page">
+    <header class="page-header">
+      <div>
+        <p class="system-status">Arquivo liberado — operações ativas</p>
+
+        <h1 class="dashboard-title glitch-text" data-text="Missões">
+          Missões
+        </h1>
+
+        <p class="page-description">
+          Registro das investigações, casos ativos, relatórios de campo e operações relacionadas à campanha Corações do Outro Lado.
+        </p>
+      </div>
+
+      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
+    </header>
+
+    <section class="terminal-message">
+      <strong>Operação atual:</strong> Corações do Outro Lado. A primeira equipe enviada para Santa Luzia será responsável pela investigação inicial do Caso Miyara.
+    </section>
+
+    <section class="page-grid">
+      <article class="profile-card">
+        <p class="card-status">Campanha ativa</p>
+        <h2 class="card-title">Corações do Outro Lado</h2>
+        <p class="card-text">Investigação principal em Santa Luzia envolvendo o desaparecimento/alteração de Miyara e a influência crescente do Sangue.</p>
+      </article>
+
+      <article class="profile-card">
+        <p class="card-status">Caso inicial</p>
+        <h2 class="card-title">Caso Miyara</h2>
+        <p class="card-text">Primeiro caso documentado pela Ordo na região. Informações iniciais são limitadas e dependem da equipe em campo.</p>
+      </article>
+
+      <article class="profile-card disabled-card">
+        <p class="card-status">Registro futuro</p>
+        <h2 class="card-title">Relatórios de Sessão</h2>
+        <p class="card-text">Área reservada para registrar eventos importantes conforme a campanha avançar.</p>
+      </article>
+
+      <article class="profile-card disabled-card">
+        <p class="card-status">Registro futuro</p>
+        <h2 class="card-title">Eventos Críticos</h2>
+        <p class="card-text">Futuros marcos narrativos, mortes, revelações e mudanças no estado da cidade.</p>
+      </article>
+    </section>
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>

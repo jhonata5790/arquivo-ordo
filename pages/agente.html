@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Agente — Arquivo Ordo Realitas</title>
+
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <main id="agentPage" class="app agent-sheet-page">
+    <div id="specialFxLayer" class="special-fx-layer"></div>
+
+    <header class="agent-sheet-header">
+      <div>
+        <p id="agentStatus" class="system-status">Carregando registro...</p>
+
+        <h1 id="agentName" class="dashboard-title glitch-text" data-text="Agente">
+          Agente
+        </h1>
+
+        <p id="agentDescription" class="page-description">
+          Recuperando dados do arquivo interno da Ordo Realitas.
+        </p>
+      </div>
+
+      <button class="logout-button" onclick="goToAgents()">Voltar para Agentes</button>
+    </header>
+
+    <section id="specialDossierBanner" class="special-dossier-banner hidden">
+      <div>
+        <span id="specialBannerLabel">Registro interno</span>
+        <strong id="specialBannerTitle">Arquivo classificado</strong>
+      </div>
+
+      <p id="specialBannerText">
+        Dados adicionais carregados.
+      </p>
+    </section>
+
+    <section class="interactive-sheet">
+      <section class="character-stage">
+        <div class="character-aura"></div>
+        <div class="character-back-symbol"></div>
+
+        <div class="yuna-time-sigil">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="yuna-clock-fragments">
+          <span>III</span>
+          <span>VI</span>
+          <span>IX</span>
+          <span>XII</span>
+        </div>
+
+        <img id="agentImage" class="agent-render" src="" alt="Render do agente" />
+
+        <div class="agent-nameplate">
+          <span id="agentCodename">ARQUIVO</span>
+          <strong id="agentAccessStamp">LIBERADO</strong>
+        </div>
+      </section>
+
+      <aside class="attribute-wheel-panel">
+        <div class="attribute-wheel">
+
+          <img
+            class="yuna-wheel-asset yuna-wheel-outer"
+            src="../assets/imagens/rodas/yuna/Roda-Yuna-Anel-Externo.png"
+            alt=""
+          />
+
+          <img
+            class="yuna-wheel-asset yuna-wheel-inner"
+            src="../assets/imagens/rodas/yuna/Roda-Yuna-Anel-Interno.png"
+            alt=""
+          />
+
+          <img
+            class="yuna-wheel-asset yuna-wheel-core-img"
+            src="../assets/imagens/rodas/yuna/Roda-Yuna-Nucleo.png"
+            alt=""
+          />
+
+          <div class="wheel-frame-spikes">
+            <span class="spike spike-top"></span>
+            <span class="spike spike-right"></span>
+            <span class="spike spike-bottom"></span>
+            <span class="spike spike-left"></span>
+          </div>
+
+          <div class="wheel-sigil-ring ring-outer"></div>
+          <div class="wheel-sigil-ring ring-middle"></div>
+          <div class="wheel-sigil-ring ring-inner"></div>
+
+          <div class="wheel-roman">
+            <span class="roman top">XII</span>
+            <span class="roman right">III</span>
+            <span class="roman bottom">VI</span>
+            <span class="roman left">IX</span>
+          </div>
+
+          <div class="wheel-constellation">
+            <span class="const-dot dot-1"></span>
+            <span class="const-dot dot-2"></span>
+            <span class="const-dot dot-3"></span>
+            <span class="const-dot dot-4"></span>
+            <span class="const-dot dot-5"></span>
+            <span class="const-dot dot-6"></span>
+            <span class="const-dot dot-7"></span>
+            <span class="const-dot dot-8"></span>
+          </div>
+
+          <div class="wheel-cross-lines">
+            <span class="line line-v"></span>
+            <span class="line line-h"></span>
+          </div>
+
+          <div class="wheel-ring"></div>
+
+          <div class="wheel-core">
+            <div class="wheel-core-symbol">
+              <span class="core-eye"></span>
+              <span class="core-crescent"></span>
+            </div>
+            <em>YUNA</em>
+          </div>
+
+          <div class="attribute-node node-for">
+            <img class="yuna-node-bg" src="../assets/imagens/rodas/yuna/Roda-Yuna-No.png" alt="" />
+            <img class="attribute-icon yuna-wheel-asset" src="../assets/imagens/rodas/yuna/Icone-Yuna-FOR.png" alt="" />
+            <span>FOR</span>
+            <strong id="attrFOR">0</strong>
+          </div>
+
+          <div class="attribute-node node-agi">
+            <img class="yuna-node-bg" src="../assets/imagens/rodas/yuna/Roda-Yuna-No.png" alt="" />
+            <img class="attribute-icon yuna-wheel-asset" src="../assets/imagens/rodas/yuna/Icone-Yuna-AGI.png" alt="" />
+            <span>AGI</span>
+            <strong id="attrAGI">0</strong>
+          </div>
+
+          <div class="attribute-node node-int">
+            <img class="yuna-node-bg" src="../assets/imagens/rodas/yuna/Roda-Yuna-No.png" alt="" />
+            <img class="attribute-icon yuna-wheel-asset" src="../assets/imagens/rodas/yuna/Icone-Yuna-INT.png" alt="" />
+            <span>INT</span>
+            <strong id="attrINT">0</strong>
+          </div>
+
+          <div class="attribute-node node-pre">
+            <img class="yuna-node-bg" src="../assets/imagens/rodas/yuna/Roda-Yuna-No.png" alt="" />
+            <img class="attribute-icon yuna-wheel-asset" src="../assets/imagens/rodas/yuna/Icone-Yuna-PRE.png" alt="" />
+            <span>PRE</span>
+            <strong id="attrPRE">0</strong>
+          </div>
+
+          <div class="attribute-node node-vig">
+            <img class="yuna-node-bg" src="../assets/imagens/rodas/yuna/Roda-Yuna-No.png" alt="" />
+            <img class="attribute-icon yuna-wheel-asset" src="../assets/imagens/rodas/yuna/Icone-Yuna-VIG.png" alt="" />
+            <span>VIG</span>
+            <strong id="attrVIG">0</strong>
+          </div>
+        </div>
+
+        <div class="mini-info-grid">
+          <article>
+            <span>Classe</span>
+            <strong id="agentClass">---</strong>
+          </article>
+
+          <article>
+            <span>Origem</span>
+            <strong id="agentOrigin">---</strong>
+          </article>
+
+          <article>
+            <span>NEX</span>
+            <strong id="agentNex">---</strong>
+          </article>
+
+          <article>
+            <span>Patente</span>
+            <strong id="agentRank">---</strong>
+          </article>
+        </div>
+
+        <div id="attributeInsightPanel" class="attribute-insight-panel">
+  <p class="card-status">Atributo selecionado</p>
+
+  <div class="attribute-insight-content">
+    <span id="attributeInsightName">Nenhum atributo</span>
+    <strong id="attributeInsightValue">--</strong>
+    <p id="attributeInsightText">
+      Clique em um atributo da roda para revelar a leitura operacional da Yuna.
+    </p>
+  </div>
+</div>
+        <div id="derivedStatsPanel" class="derived-stats-panel">
+          <p class="card-status">Valores derivados</p>
+
+          <div class="derived-grid">
+            <article>
+              <span>Vida</span>
+              <strong id="statLife">---</strong>
+            </article>
+
+            <article>
+              <span>Determinação</span>
+              <strong id="statDetermination">---</strong>
+            </article>
+
+            <article>
+              <span>Defesa</span>
+              <strong id="statDefense">---</strong>
+            </article>
+
+            <article>
+              <span>Esquiva</span>
+              <strong id="statDodge">---</strong>
+            </article>
+
+            <article>
+              <span>DT Ritual</span>
+              <strong id="statRitualDT">---</strong>
+            </article>
+
+            <article>
+              <span>PE/Turno</span>
+              <strong id="statPE">---</strong>
+            </article>
+          </div>
+        </div>
+      </aside>
+
+      <section class="folder-system">
+        <nav class="folder-tabs">
+          <button class="folder-tab active" onclick="changeFolder('descricao')">Descrição</button>
+          <button class="folder-tab" onclick="changeFolder('habilidades')">Habilidades</button>
+          <button class="folder-tab" onclick="changeFolder('trilha')">Trilha</button>
+          <button class="folder-tab" onclick="changeFolder('rituais')">Rituais</button>
+          <button class="folder-tab" onclick="changeFolder('pericias')">Perícias</button>
+          <button class="folder-tab" onclick="changeFolder('inventario')">Inventário</button>
+          <button class="folder-tab" onclick="changeFolder('relacoes')">Relações</button>
+          <button class="folder-tab" onclick="changeFolder('ordo')">Ordo</button>
+        </nav>
+
+        <article class="folder-content">
+          <p id="folderLabel" class="card-status">Pasta aberta</p>
+          <h2 id="folderTitle" class="folder-title">Descrição</h2>
+          <div id="folderBody" class="folder-body">
+            Carregando dados...
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>

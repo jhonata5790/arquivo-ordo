@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Agentes — Arquivo Ordo Realitas</title>
+
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <main class="app internal-page">
+    <header class="page-header">
+      <div>
+        <p class="system-status">Arquivo liberado — registros operacionais</p>
+
+        <h1 class="dashboard-title glitch-text" data-text="Agentes">
+          Agentes
+        </h1>
+
+        <p class="page-description">
+          Dossiês visuais e registros de agentes envolvidos direta ou indiretamente na operação em Santa Luzia.
+        </p>
+      </div>
+
+      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
+    </header>
+
+    <section class="terminal-message">
+      <strong>Status:</strong> Selecione um agente para acessar a ficha visual interativa registrada no sistema da Ordo.
+    </section>
+
+    <section class="page-grid">
+      <article class="profile-card clickable-card" onclick="openAgent('yuna')">
+        <p class="card-status">Semi-Líder Ocultista</p>
+        <h2 class="card-title">Yuna</h2>
+        <p class="card-text">Ocultista reservada, analista de manifestações e integrante da Trindade da Ordo.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card" onclick="openAgent('lisa')">
+        <p class="card-status">Semi-Líder Especialista</p>
+        <h2 class="card-title">Lisa</h2>
+        <p class="card-text">Coordenadora operacional, ex-ginasta e principal elo estratégico da Trindade.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card" onclick="openAgent('blender')">
+        <p class="card-status">Semi-Líder Combatente</p>
+        <h2 class="card-title">Blender</h2>
+        <p class="card-text">Combatente de linha de frente, ex-lutador e força bruta da Trindade da Ordo.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card" onclick="openAgent('maisie')">
+        <p class="card-status">Agente em campo</p>
+        <h2 class="card-title">Maisie Hundown</h2>
+        <p class="card-text">Agente enviada para Santa Luzia durante os primeiros movimentos da investigação.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card" onclick="openAgent('roselyn')">
+        <p class="card-status">Agente em campo</p>
+        <h2 class="card-title">Roselyn Tate</h2>
+        <p class="card-text">Especialista associada à operação Corações do Outro Lado.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card" onclick="openAgent('lilian')">
+        <p class="card-status">Agente em campo</p>
+        <h2 class="card-title">Lilian Rodrigues Moretti</h2>
+        <p class="card-text">Combatente vinculada à investigação inicial do Caso Miyara.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+
+      <article class="profile-card clickable-card secret-profile" onclick="openAgent('klint')">
+        <p class="card-status">Comando / Temporário</p>
+        <h2 class="card-title">Klint</h2>
+        <p class="card-text">Render temporário no lugar da Anny. Registro de comando utilizado para testes visuais.</p>
+        <span class="card-action">Abrir ficha interativa</span>
+      </article>
+    </section>
+  </main>
+
+  <script src="../script.js"></script>
+</body>
+</html>
