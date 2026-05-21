@@ -2294,3 +2294,319 @@ function createLilianEffects() {
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(createLilianEffects, 450);
 });
+/* MODO PÚBLICO — ESCONDER CONTA MESTRE E BLOQUEAR ARQUIVOS PROIBIDOS */
+
+const PUBLIC_ALLOWED_AGENTS = ["maisie", "roselyn", "lilian"];
+
+const PUBLIC_FORBIDDEN_AGENT_IDS = [
+  "yuna",
+  "lisa",
+  "blender",
+  "klint",
+  "anny"
+];
+
+const PUBLIC_FORBIDDEN_KEYWORDS = [
+  "elementos",
+  "elemento",
+  "klint",
+  "jogadores",
+  "componentes",
+  "ritualisticos",
+  "ritualísticos",
+  "coração amaldiçoado",
+  "coracao amaldicoado",
+  "mestre",
+  "secreto",
+  "yuna",
+  "lisa",
+  "blender",
+  "anny"
+];
+
+const PUBLIC_FORBIDDEN_PAGES = [
+  "elementos.html",
+  "klint.html",
+  "jogadores.html",
+  "componentes-ritualisticos.html",
+  "componentes-ritualísticos.html"
+];
+
+function normalizePublicText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getCurrentAgentIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return normalizePublicText(params.get("id"));
+}
+
+function isForbiddenAgentId(agentId) {
+  const cleanId = normalizePublicText(agentId);
+  return PUBLIC_FORBIDDEN_AGENT_IDS.includes(cleanId);
+}
+
+function isCurrentPublicPageForbidden() {
+  const pathname = normalizePublicText(window.location.pathname);
+  const pageName = pathname.split("/").pop();
+
+  const forbiddenPage = PUBLIC_FORBIDDEN_PAGES.some((page) => {
+    return pageName === normalizePublicText(page);
+  });
+
+  if (forbiddenPage) {
+    return true;
+  }
+
+  const currentAgentId = getCurrentAgentIdFromUrl();
+
+  if (pageName === "agente.html" && isForbiddenAgentId(currentAgentId)) {
+    return true;
+  }
+
+  return false;
+}
+
+function renderForbiddenFileScreen() {
+  document.body.innerHTML = `
+    <main class="forbidden-file-screen">
+      <section class="forbidden-file-card">
+        <p class="forbidden-file-status">Arquivo corrompido</p>
+        <h1 class="forbidden-file-title">Acesso negado</h1>
+
+        <p class="forbidden-file-text">
+          O arquivo solicitado existe nos registros da Ordo Realitas, mas seu conteúdo não está disponível para este nível de acesso.
+          A tentativa de abertura causou corrupção temporária da interface.
+        </p>
+
+        <code class="forbidden-file-code">
+          ERRO: CREDENCIAL_INSUFICIENTE // FRAGMENTO BLOQUEADO // LEITURA INTERROMPIDA
+        </code>
+
+        <button class="forbidden-file-button" onclick="window.location.href='../index.html'">
+          Retornar ao Arquivo Público
+        </button>
+      </section>
+    </main>
+  `;
+}
+
+function showCorruptionPopup(label = "Arquivo proibido") {
+  const oldPopup = document.querySelector(".corruption-popup");
+
+  if (oldPopup) {
+    oldPopup.remove();
+  }
+
+  const popup = document.createElement("div");
+  popup.className = "corruption-popup";
+
+  popup.innerHTML = `
+    <section class="corruption-popup-card">
+      <span>Falha de leitura</span>
+      <strong>Arquivo corrompido</strong>
+      <p>
+        ${label} não pode ser aberto a partir do Arquivo Público.
+        O fragmento foi isolado antes que a leitura fosse concluída.
+      </p>
+      <button type="button">Fechar registro</button>
+    </section>
+  `;
+
+  popup.querySelector("button").addEventListener("click", () => {
+    popup.remove();
+  });
+
+  popup.addEventListener("click", (event) => {
+    if (event.target === popup) {
+      popup.remove();
+    }
+  });
+
+  document.body.appendChild(popup);
+}
+
+function isElementForbiddenPublic(element) {
+  if (!element) {
+    return false;
+  }
+
+  const href = element.getAttribute("href") || "";
+  const onclick = element.getAttribute("onclick") || "";
+  const dataId =
+    element.dataset.agentId ||
+    element.dataset.id ||
+    element.dataset.page ||
+    "";
+  const text = element.textContent || "";
+
+  const signature = normalizePublicText(`${href} ${onclick} ${dataId} ${text}`);
+
+  if (!signature.trim()) {
+    return false;
+  }
+
+  if (PUBLIC_FORBIDDEN_AGENT_IDS.some((id) => signature.includes(id))) {
+    return true;
+  }
+
+  if (PUBLIC_FORBIDDEN_KEYWORDS.some((keyword) => {
+    return signature.includes(normalizePublicText(keyword));
+  })) {
+    return true;
+  }
+
+  if (PUBLIC_FORBIDDEN_PAGES.some((page) => {
+    return signature.includes(normalizePublicText(page));
+  })) {
+    return true;
+  }
+
+  return false;
+}
+
+function markForbiddenPublicCards() {
+  const possibleCards = document.querySelectorAll(
+    "a, button, .module-card, .profile-card, .info-block, .clickable-card, [onclick], [data-agent-id], [data-id], [data-page]"
+  );
+
+  possibleCards.forEach((element) => {
+    if (isElementForbiddenPublic(element)) {
+      element.classList.add("public-corrupted-file");
+
+      if (element.tagName === "A") {
+        element.setAttribute("href", "#");
+      }
+
+      element.setAttribute("data-public-forbidden", "true");
+    }
+  });
+}
+
+function interceptForbiddenPublicClicks() {
+  document.addEventListener(
+    "click",
+    (event) => {
+      const target = event.target.closest(
+        "a, button, .module-card, .profile-card, .info-block, .clickable-card, [onclick], [data-agent-id], [data-id], [data-page]"
+      );
+
+      if (!target) {
+        return;
+      }
+
+      if (
+        target.dataset.publicForbidden === "true" ||
+        isElementForbiddenPublic(target)
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        const label =
+          target.querySelector(".card-title")?.textContent ||
+          target.textContent ||
+          "Arquivo proibido";
+
+        showCorruptionPopup(label.trim());
+      }
+    },
+    true
+  );
+}
+
+function hideMasterLoginTraces() {
+  const bodyTextTargets = document.querySelectorAll("p, span, small, label, strong, h1, h2, h3");
+
+  bodyTextTargets.forEach((element) => {
+    const cleanText = normalizePublicText(element.textContent);
+
+    if (
+      cleanText.includes("senha do mestre") ||
+      cleanText.includes("conta mestre") ||
+      cleanText.includes("login mestre") ||
+      cleanText.includes("acesso mestre")
+    ) {
+      element.textContent = "Arquivo público da campanha. Algumas áreas permanecem corrompidas ou indisponíveis.";
+    }
+  });
+
+  const inputs = document.querySelectorAll("input");
+
+  inputs.forEach((input) => {
+    const placeholder = normalizePublicText(input.placeholder);
+    const name = normalizePublicText(input.name);
+    const id = normalizePublicText(input.id);
+
+    if (
+      placeholder.includes("mestre") ||
+      name.includes("mestre") ||
+      id.includes("mestre")
+    ) {
+      input.value = "";
+      input.placeholder = "Acesso público";
+    }
+  });
+}
+
+function forcePublicAccessMode() {
+  try {
+    localStorage.setItem("ordoAccessLevel", "public");
+    localStorage.setItem("ordoRole", "public");
+    localStorage.setItem("arquivoOrdoRole", "public");
+    localStorage.removeItem("master");
+    localStorage.removeItem("mestre");
+    localStorage.removeItem("masterPassword");
+    localStorage.removeItem("mestrePassword");
+  } catch (error) {
+    console.warn("Não foi possível ajustar o modo público.", error);
+  }
+}
+
+function setupPublicArchiveMode() {
+  forcePublicAccessMode();
+
+  if (isCurrentPublicPageForbidden()) {
+    renderForbiddenFileScreen();
+    return;
+  }
+
+  hideMasterLoginTraces();
+  markForbiddenPublicCards();
+  interceptForbiddenPublicClicks();
+}
+
+/* Sobrescreve login público, caso exista função de login antiga */
+function publicArchiveLogin() {
+  forcePublicAccessMode();
+
+  const possiblePages = [
+    "pages/agentes.html",
+    "./pages/agentes.html",
+    "agentes.html"
+  ];
+
+  window.location.href = possiblePages[0];
+}
+
+window.publicArchiveLogin = publicArchiveLogin;
+
+/* Se seu botão antigo chamar login(), isso impede login mestre no site público */
+window.login = publicArchiveLogin;
+window.handleLogin = publicArchiveLogin;
+window.checkLogin = publicArchiveLogin;
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupPublicArchiveMode();
+
+  setTimeout(() => {
+    markForbiddenPublicCards();
+  }, 300);
+
+  setTimeout(() => {
+    markForbiddenPublicCards();
+  }, 900);
+});

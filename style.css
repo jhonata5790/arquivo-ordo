@@ -5483,3 +5483,346 @@ button {
     font-size: 1.15rem !important;
   }
 }
+/* MODO PÚBLICO — ARQUIVOS PROIBIDOS / CORROMPIDOS */
+
+.public-corrupted-file {
+  position: relative !important;
+  overflow: hidden !important;
+  border-color: rgba(255, 0, 0, 0.42) !important;
+  filter: grayscale(0.85) contrast(1.15);
+  cursor: pointer !important;
+}
+
+.public-corrupted-file::before {
+  content: "ARQUIVO CORROMPIDO";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 70, 70, 0.92);
+  font-weight: 900;
+  font-size: 0.82rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.88) 0px,
+      rgba(0, 0, 0, 0.88) 3px,
+      rgba(255, 0, 0, 0.08) 4px,
+      rgba(255, 0, 0, 0.08) 6px
+    ),
+    rgba(0, 0, 0, 0.78);
+  text-shadow:
+    2px 0 rgba(255, 0, 0, 0.9),
+    -2px 0 rgba(126, 36, 255, 0.8),
+    0 0 18px rgba(255, 0, 0, 0.7);
+  animation: corruptedTextPulse 1.4s steps(2, end) infinite;
+}
+
+.public-corrupted-file::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 21;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.18), transparent),
+    linear-gradient(180deg, transparent, rgba(126, 36, 255, 0.12), transparent);
+  mix-blend-mode: screen;
+  animation: corruptedSweep 1.1s linear infinite;
+}
+
+@keyframes corruptedTextPulse {
+  0%, 100% {
+    opacity: 0.86;
+    transform: translate(0, 0);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(2px, -1px);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: translate(-2px, 1px);
+  }
+
+  75% {
+    opacity: 1;
+    transform: translate(1px, 2px);
+  }
+}
+
+@keyframes corruptedSweep {
+  from {
+    transform: translateX(-60%) rotate(8deg);
+  }
+
+  to {
+    transform: translateX(60%) rotate(8deg);
+  }
+}
+
+/* TELA DE BLOQUEIO QUANDO ABRE URL PROIBIDA */
+
+.forbidden-file-screen {
+  min-height: 100vh;
+  padding: 32px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, rgba(139, 0, 0, 0.32), transparent 36%),
+    radial-gradient(circle at top left, rgba(126, 36, 255, 0.20), transparent 34%),
+    linear-gradient(135deg, #050505, #100408, #050505);
+  color: #f2f2f2;
+  position: relative;
+  overflow: hidden;
+}
+
+.forbidden-file-screen::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 2px,
+      transparent 5px
+    );
+  opacity: 0.38;
+  pointer-events: none;
+  animation: forbiddenScan 0.7s linear infinite;
+}
+
+@keyframes forbiddenScan {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(8px);
+  }
+}
+
+.forbidden-file-card {
+  width: min(760px, 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 0, 0, 0.42);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(0, 0, 0, 0.78);
+  padding: 34px;
+  box-shadow:
+    0 0 42px rgba(255, 0, 0, 0.18),
+    inset 0 0 34px rgba(255,255,255,0.025);
+  position: relative;
+  overflow: hidden;
+}
+
+.forbidden-file-card::before {
+  content: "ACESSO NEGADO";
+  position: absolute;
+  top: 18px;
+  right: -48px;
+  transform: rotate(35deg);
+  background: #8b0000;
+  color: white;
+  padding: 8px 50px;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  font-weight: 900;
+  opacity: 0.9;
+}
+
+.forbidden-file-status {
+  color: #ff4040;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 0.75rem;
+  margin-bottom: 14px;
+}
+
+.forbidden-file-title {
+  font-size: clamp(2.2rem, 7vw, 4.7rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-shadow:
+    2px 0 rgba(255, 0, 0, 0.7),
+    -2px 0 rgba(126, 36, 255, 0.65),
+    0 0 24px rgba(255, 0, 0, 0.42);
+  animation: forbiddenTitleGlitch 1.1s steps(2, end) infinite;
+}
+
+@keyframes forbiddenTitleGlitch {
+  0%, 100% {
+    transform: translate(0, 0);
+    filter: none;
+  }
+
+  20% {
+    transform: translate(2px, -1px);
+    filter: brightness(1.25);
+  }
+
+  40% {
+    transform: translate(-2px, 1px);
+  }
+
+  60% {
+    transform: translate(1px, 2px);
+    filter: contrast(1.25);
+  }
+
+  80% {
+    transform: translate(-1px, -2px);
+  }
+}
+
+.forbidden-file-text {
+  color: #c8c8c8;
+  line-height: 1.65;
+  margin-bottom: 24px;
+  max-width: 620px;
+}
+
+.forbidden-file-code {
+  display: block;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.54);
+  color: #ff7b7b;
+  font-family: monospace;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.forbidden-file-button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid rgba(214, 179, 90, 0.55);
+  background: transparent;
+  color: #d6b35a;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.forbidden-file-button:hover {
+  color: #050505;
+  background: #d6b35a;
+  box-shadow: 0 0 18px rgba(214, 179, 90, 0.28);
+}
+
+/* POPUP DE BUG AO CLICAR EM ARQUIVO PROIBIDO */
+
+.corruption-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at center, rgba(255, 0, 0, 0.18), transparent 38%),
+    rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  animation: corruptionPopupIn 0.18s ease both;
+}
+
+@keyframes corruptionPopupIn {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.corruption-popup-card {
+  width: min(520px, calc(100% - 32px));
+  border-radius: 20px;
+  border: 1px solid rgba(255, 0, 0, 0.45);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 2px,
+      transparent 5px
+    ),
+    rgba(10, 0, 0, 0.92);
+  padding: 26px;
+  box-shadow:
+    0 0 34px rgba(255, 0, 0, 0.22),
+    inset 0 0 24px rgba(255,255,255,0.025);
+  animation: corruptionShake 0.25s steps(2, end) infinite;
+}
+
+@keyframes corruptionShake {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(2px, -1px);
+  }
+
+  50% {
+    transform: translate(-2px, 1px);
+  }
+
+  75% {
+    transform: translate(1px, 2px);
+  }
+}
+
+.corruption-popup-card span {
+  display: block;
+  color: #ff4040;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.72rem;
+  margin-bottom: 12px;
+}
+
+.corruption-popup-card strong {
+  display: block;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  text-shadow:
+    2px 0 rgba(255, 0, 0, 0.75),
+    -2px 0 rgba(126, 36, 255, 0.65);
+}
+
+.corruption-popup-card p {
+  color: #c9c9c9;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.corruption-popup-card button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 0, 0, 0.55);
+  background: rgba(255, 0, 0, 0.12);
+  color: #ffb3b3;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
