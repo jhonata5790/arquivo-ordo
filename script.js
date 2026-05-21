@@ -2609,4 +2609,837 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     markForbiddenPublicCards();
   }, 900);
+});''
+/* AGENTES — PARTÍCULAS ÚNICAS POR CARD */
+
+function createAgentCardBurst(card, type) {
+  if (!card) return;
+
+  const amountByType = {
+    yuna: 10,
+    lisa: 8,
+    blender: 12,
+    maisie: 14,
+    roselyn: 12,
+    lilian: 10,
+    klint: 9
+  };
+
+  const amount = amountByType[type] || 8;
+
+  for (let i = 0; i < amount; i++) {
+    const particle = document.createElement("span");
+    particle.className = `agent-card-particle particle-${type}`;
+
+    const x = 40 + Math.random() * 20;
+    const y = 50 + Math.random() * 28;
+
+    particle.style.left = `${x}%`;
+    particle.style.top = `${y}%`;
+
+    particle.style.setProperty("--px", `${(Math.random() - 0.5) * 140}px`);
+    particle.style.setProperty("--py", `${(Math.random() - 0.8) * 120}px`);
+    particle.style.animationDuration = `${0.55 + Math.random() * 0.45}s`;
+
+    card.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 1200);
+  }
+}
+
+function detectAgentTypeFromCard(card) {
+  if (!card) return null;
+
+  const signature = normalizePublicText(
+    `${card.textContent || ""} ${card.innerHTML || ""} ${card.getAttribute("onclick") || ""}`
+  );
+
+  if (signature.includes("yuna")) return "yuna";
+  if (signature.includes("lisa")) return "lisa";
+  if (signature.includes("blender")) return "blender";
+  if (signature.includes("maisie")) return "maisie";
+  if (signature.includes("roselyn")) return "roselyn";
+  if (signature.includes("lilian")) return "lilian";
+  if (signature.includes("klint")) return "klint";
+
+  return null;
+}
+
+function setupAgentCardUniqueBursts() {
+  const cards = document.querySelectorAll(".profile-card, .module-card, .clickable-card");
+
+  cards.forEach((card) => {
+    const type = detectAgentTypeFromCard(card);
+
+    if (!type) return;
+
+    let hoverCooldown = false;
+
+    card.addEventListener("mouseenter", () => {
+      if (hoverCooldown) return;
+
+      hoverCooldown = true;
+      createAgentCardBurst(card, type);
+
+      setTimeout(() => {
+        hoverCooldown = false;
+      }, 900);
+    });
+
+    card.addEventListener("click", () => {
+      createAgentCardBurst(card, type);
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupAgentCardUniqueBursts, 500);
+});
+/* FICHAS DOS JOGADORES — INTERAÇÃO PREMIUM GERAL */
+
+function isPlayerPremiumAgentPage() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage) {
+    return false;
+  }
+
+  return (
+    agentPage.classList.contains("maisie-mode") ||
+    agentPage.classList.contains("roselyn-mode") ||
+    agentPage.classList.contains("lilian-mode")
+  );
+}
+
+function setupPlayerPremiumMouseLight() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  agentPage.classList.add("player-premium-motion");
+
+  window.addEventListener("mousemove", (event) => {
+    const x = (event.clientX / window.innerWidth) * 100;
+    const y = (event.clientY / window.innerHeight) * 100;
+
+    agentPage.style.setProperty("--mouse-x", `${x}%`);
+    agentPage.style.setProperty("--mouse-y", `${y}%`);
+  });
+}
+
+function setupPlayerPremiumParallax() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  const characterStage = document.querySelector(".character-stage");
+  const wheelPanel = document.querySelector(".attribute-wheel-panel");
+
+  if (characterStage) {
+    characterStage.addEventListener("mousemove", (event) => {
+      const rect = characterStage.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      characterStage.style.transform = `
+        perspective(1000px)
+        rotateX(${y * -4}deg)
+        rotateY(${x * 5}deg)
+      `;
+
+      characterStage.style.setProperty("--render-shift-x", `${x * 12}px`);
+      characterStage.style.setProperty("--render-shift-y", `${y * 8}px`);
+    });
+
+    characterStage.addEventListener("mouseleave", () => {
+      characterStage.style.transform = "";
+      characterStage.style.setProperty("--render-shift-x", "0px");
+      characterStage.style.setProperty("--render-shift-y", "0px");
+    });
+  }
+
+  if (wheelPanel) {
+    wheelPanel.addEventListener("mousemove", (event) => {
+      const rect = wheelPanel.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      wheelPanel.style.transform = `
+        perspective(1000px)
+        rotateX(${y * -3}deg)
+        rotateY(${x * 4}deg)
+      `;
+
+      wheelPanel.style.setProperty("--wheel-shift-x", `${x * 9}px`);
+      wheelPanel.style.setProperty("--wheel-shift-y", `${y * 7}px`);
+    });
+
+    wheelPanel.addEventListener("mouseleave", () => {
+      wheelPanel.style.transform = "";
+      wheelPanel.style.setProperty("--wheel-shift-x", "0px");
+      wheelPanel.style.setProperty("--wheel-shift-y", "0px");
+    });
+  }
+}
+
+function setupPlayerPremiumCardTilt() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  const items = document.querySelectorAll(
+    ".skill-item, .ritual-folder, .data-chip, .mini-info-grid article, .derived-grid article, .attribute-insight-panel"
+  );
+
+  items.forEach((item) => {
+    item.addEventListener("mousemove", (event) => {
+      const rect = item.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      item.style.setProperty("--tilt-x", `${x * 7}deg`);
+      item.style.setProperty("--tilt-y", `${y * -7}deg`);
+    });
+
+    item.addEventListener("mouseleave", () => {
+      item.style.setProperty("--tilt-x", "0deg");
+      item.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
+
+function createPremiumRipple(target, event) {
+  if (!target) {
+    return;
+  }
+
+  const rect = target.getBoundingClientRect();
+  const ripple = document.createElement("span");
+
+  ripple.className = "interaction-ripple";
+  ripple.style.left = `${event.clientX - rect.left}px`;
+  ripple.style.top = `${event.clientY - rect.top}px`;
+
+  target.appendChild(ripple);
+
+  setTimeout(() => {
+    ripple.remove();
+  }, 650);
+}
+
+function setupPlayerPremiumRipples() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  const clickableItems = document.querySelectorAll(
+    ".folder-tab, .attribute-node, .skill-item, .ritual-folder, .data-chip, .mini-info-grid article, .derived-grid article, .logout-button"
+  );
+
+  clickableItems.forEach((item) => {
+    item.style.position = item.style.position || "relative";
+    item.style.overflow = item.style.overflow || "hidden";
+
+    item.addEventListener("click", (event) => {
+      createPremiumRipple(item, event);
+    });
+  });
+}
+
+function setupPlayerPremiumFolderAnimation() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  const folderContent = document.querySelector(".folder-content");
+  const folderTabs = document.querySelectorAll(".folder-tab");
+
+  if (!folderContent || folderTabs.length === 0) {
+    return;
+  }
+
+  folderTabs.forEach((tab) => {
+    tab.addEventListener("mousemove", (event) => {
+      const rect = tab.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+      tab.style.setProperty("--tab-x", `${x}%`);
+      tab.style.setProperty("--tab-y", `${y}%`);
+    });
+
+    tab.addEventListener("click", () => {
+      folderContent.classList.remove("folder-switching");
+      void folderContent.offsetWidth;
+      folderContent.classList.add("folder-switching");
+    });
+  });
+}
+
+function createPlayerPageParticles() {
+  const agentPage = document.getElementById("agentPage");
+  const layer = document.getElementById("specialFxLayer");
+
+  if (!agentPage || !layer || !isPlayerPremiumAgentPage()) {
+    return;
+  }
+
+  const particleCount = agentPage.classList.contains("maisie-mode")
+    ? 34
+    : agentPage.classList.contains("roselyn-mode")
+      ? 24
+      : 26;
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement("span");
+
+    particle.className = "player-page-particle";
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${6 + Math.random() * 9}s`;
+    particle.style.animationDelay = `${Math.random() * 8}s`;
+    particle.style.setProperty("--drift", `${(Math.random() - 0.5) * 120}px`);
+
+    layer.appendChild(particle);
+  }
+}
+
+function setupPlayerPremiumInteractions() {
+  setupPlayerPremiumMouseLight();
+  setupPlayerPremiumParallax();
+  setupPlayerPremiumCardTilt();
+  setupPlayerPremiumRipples();
+  setupPlayerPremiumFolderAnimation();
+  createPlayerPageParticles();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupPlayerPremiumInteractions, 650);
+});
+/* FICHAS DOS JOGADORES — HABILIDADES INTERATIVAS EXCLUSIVAS */
+
+function removeTemporaryClass(element, className, delay = 1200) {
+  if (!element) return;
+
+  element.classList.add(className);
+
+  setTimeout(() => {
+    element.classList.remove(className);
+  }, delay);
+}
+
+function triggerMaisieOvercharge(event) {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !agentPage.classList.contains("maisie-mode")) {
+    return;
+  }
+
+  removeTemporaryClass(agentPage, "player-overcharge", 2200);
+
+  for (let i = 0; i < 12; i++) {
+    const bolt = document.createElement("span");
+    bolt.className = "maisie-overcharge-bolt";
+
+    bolt.style.left = `${Math.random() * 100}%`;
+    bolt.style.top = `${-20 - Math.random() * 30}%`;
+    bolt.style.animationDelay = `${Math.random() * 0.45}s`;
+    bolt.style.animationDuration = `${0.55 + Math.random() * 0.55}s`;
+
+    document.body.appendChild(bolt);
+
+    setTimeout(() => {
+      bolt.remove();
+    }, 1400);
+  }
+
+  const insightPanel = document.getElementById("attributeInsightPanel");
+  const insightName = document.getElementById("attributeInsightName");
+  const insightValue = document.getElementById("attributeInsightValue");
+  const insightText = document.getElementById("attributeInsightText");
+
+  if (insightPanel && insightName && insightValue && insightText) {
+    insightName.textContent = "SOBRECARGA — Energia";
+    insightValue.textContent = "!";
+    insightText.textContent =
+      "O sistema da Maisie entra em sobrecarga: faíscas rosa e azul atravessam a interface enquanto o caos vira ferramenta.";
+    
+    insightPanel.classList.remove("active-insight");
+    void insightPanel.offsetWidth;
+    insightPanel.classList.add("active-insight");
+  }
+}
+
+function triggerRoselynTemporalHiatus() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !agentPage.classList.contains("roselyn-mode")) {
+    return;
+  }
+
+  if (agentPage.classList.contains("temporal-hiatus")) {
+    return;
+  }
+
+  agentPage.classList.add("temporal-hiatus");
+
+  const overlay = document.createElement("div");
+  overlay.className = "temporal-hiatus-overlay";
+
+  const tickText = document.createElement("div");
+  tickText.className = "temporal-tick-text";
+  tickText.textContent = "TIC — TAC";
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(tickText);
+
+  const insightPanel = document.getElementById("attributeInsightPanel");
+  const insightName = document.getElementById("attributeInsightName");
+  const insightValue = document.getElementById("attributeInsightValue");
+  const insightText = document.getElementById("attributeInsightText");
+
+  if (insightPanel && insightName && insightValue && insightText) {
+    insightName.textContent = "HIATO — Tempo Suspenso";
+    insightValue.textContent = "∞";
+    insightText.textContent =
+      "O metrônomo prende o desfecho por um instante. A ficha desacelera como se a realidade ainda não tivesse decidido o próximo segundo.";
+
+    insightPanel.classList.remove("active-insight");
+    void insightPanel.offsetWidth;
+    insightPanel.classList.add("active-insight");
+  }
+
+  setTimeout(() => {
+    agentPage.classList.remove("temporal-hiatus");
+    overlay.remove();
+    tickText.remove();
+  }, 2200);
+}
+
+function triggerLilianImpact(event) {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !agentPage.classList.contains("lilian-mode")) {
+    return;
+  }
+
+  removeTemporaryClass(agentPage, "impact-mode", 1100);
+
+  const wave = document.createElement("span");
+  wave.className = "lilian-impact-wave";
+
+  const x = event?.clientX || window.innerWidth / 2;
+  const y = event?.clientY || window.innerHeight / 2;
+
+  wave.style.setProperty("--impact-x", `${x}px`);
+  wave.style.setProperty("--impact-y", `${y}px`);
+
+  document.body.appendChild(wave);
+
+  setTimeout(() => {
+    wave.remove();
+  }, 900);
+
+  const insightPanel = document.getElementById("attributeInsightPanel");
+  const insightName = document.getElementById("attributeInsightName");
+  const insightValue = document.getElementById("attributeInsightValue");
+  const insightText = document.getElementById("attributeInsightText");
+
+  if (insightPanel && insightName && insightValue && insightText) {
+    insightName.textContent = "IMPACTO — Guarda Fechada";
+    insightValue.textContent = "!";
+    insightText.textContent =
+      "Lilian fecha a guarda e transforma presença em barreira. A interface treme como se a própria ficha tivesse recebido o impacto.";
+
+    insightPanel.classList.remove("active-insight");
+    void insightPanel.offsetWidth;
+    insightPanel.classList.add("active-insight");
+  }
+}
+
+function setupExclusivePlayerSheetActions() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage) {
+    return;
+  }
+
+  const core = document.querySelector(".yuna-wheel-core-img");
+  const wheel = document.querySelector(".attribute-wheel");
+  const characterStage = document.querySelector(".character-stage");
+
+  if (agentPage.classList.contains("maisie-mode")) {
+    if (core) {
+      core.title = "Ativar Sobrecarga";
+      core.addEventListener("dblclick", triggerMaisieOvercharge);
+    }
+
+    if (wheel) {
+      wheel.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        triggerMaisieOvercharge(event);
+      });
+    }
+  }
+
+  if (agentPage.classList.contains("roselyn-mode")) {
+    if (core) {
+      core.title = "Ativar Hiato Temporal";
+      core.addEventListener("dblclick", triggerRoselynTemporalHiatus);
+    }
+
+    if (wheel) {
+      wheel.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        triggerRoselynTemporalHiatus();
+      });
+    }
+  }
+
+  if (agentPage.classList.contains("lilian-mode")) {
+    if (core) {
+      core.title = "Ativar Impacto";
+      core.addEventListener("dblclick", triggerLilianImpact);
+    }
+
+    if (characterStage) {
+      characterStage.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        triggerLilianImpact(event);
+      });
+    }
+
+    const strongNodes = document.querySelectorAll(".node-for, .node-vig");
+
+    strongNodes.forEach((node) => {
+      node.addEventListener("dblclick", (event) => {
+        event.stopPropagation();
+        triggerLilianImpact(event);
+      });
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupExclusivePlayerSheetActions, 850);
+});
+/* =========================================================
+   FICHAS DOS JOGADORES — INTERAÇÕES POR ABA / OBJETO
+========================================================= */
+
+function getPlayerSheetKind() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage) return null;
+
+  if (agentPage.classList.contains("maisie-mode")) return "maisie";
+  if (agentPage.classList.contains("roselyn-mode")) return "roselyn";
+  if (agentPage.classList.contains("lilian-mode")) return "lilian";
+
+  return null;
+}
+
+function getFolderKindFromButton(button) {
+  if (!button) return "";
+
+  const text = normalizePublicText(button.textContent || "");
+
+  if (text.includes("descricao")) return "descricao";
+  if (text.includes("habilidades")) return "habilidades";
+  if (text.includes("trilha")) return "trilha";
+  if (text.includes("rituais")) return "rituais";
+  if (text.includes("pericias")) return "pericias";
+  if (text.includes("inventario")) return "inventario";
+  if (text.includes("relacoes")) return "relacoes";
+  if (text.includes("ordo")) return "ordo";
+
+  return text;
+}
+
+function setupFolderTabKinds() {
+  const tabs = document.querySelectorAll(".folder-tab");
+
+  tabs.forEach((tab) => {
+    const kind = getFolderKindFromButton(tab);
+    tab.dataset.folderKind = kind;
+  });
+}
+
+function createFolderActionOverlay(kind, folderKind) {
+  const sheetKind = getPlayerSheetKind();
+
+  if (!sheetKind) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = `folder-action-effect ${sheetKind}-folder-effect`;
+
+  const text = document.createElement("div");
+  text.className = `folder-action-text ${sheetKind}-folder-text`;
+
+  const labels = {
+    maisie: {
+      inventario: "TANQUE ATIVO",
+      habilidades: "SISTEMA ARMADO",
+      trilha: "LÂMINA ONLINE",
+      rituais: "ENERGIA INSTÁVEL",
+      pericias: "SCANNER TÉCNICO",
+      relacoes: "REGISTROS PESSOAIS",
+      ordo: "ANÁLISE DA ORDO",
+      descricao: "DOSSIÊ CARREGADO"
+    },
+    roselyn: {
+      inventario: "METRÔNOMO EM SINCRONIA",
+      habilidades: "TIRO SUSPENSO",
+      trilha: "BALÍSTICA RESIDUAL",
+      rituais: "SEM CONJURAÇÃO",
+      pericias: "CÁLCULO DE TRAJETÓRIA",
+      relacoes: "MEMÓRIA TATE",
+      ordo: "RELATÓRIO INTERNO",
+      descricao: "TEMPO ESPESSO"
+    },
+    lilian: {
+      inventario: "MANOPLAS PRONTAS",
+      habilidades: "GUARDA FECHADA",
+      trilha: "TROPA DE CHOQUE",
+      rituais: "SEM RITUAL",
+      pericias: "CORPO EM ALERTA",
+      relacoes: "VÍNCULOS PROTEGIDOS",
+      ordo: "AVALIAÇÃO DE CAMPO",
+      descricao: "CASCA GROSSA"
+    }
+  };
+
+  text.textContent =
+    labels[sheetKind]?.[folderKind] ||
+    labels[sheetKind]?.descricao ||
+    "ARQUIVO ABERTO";
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(text);
+
+  setTimeout(() => {
+    overlay.remove();
+    text.remove();
+  }, 1300);
+}
+
+function createFolderActionParticles(event, amount = 18) {
+  const sheetKind = getPlayerSheetKind();
+
+  if (!sheetKind) return;
+
+  const x = event?.clientX || window.innerWidth / 2;
+  const y = event?.clientY || window.innerHeight / 2;
+
+  for (let i = 0; i < amount; i++) {
+    const particle = document.createElement("span");
+
+    particle.className = `folder-action-particle ${sheetKind}-action-particle`;
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    particle.style.setProperty("--fx-x", `${(Math.random() - 0.5) * 180}px`);
+    particle.style.setProperty("--fx-y", `${(Math.random() - 0.8) * 160}px`);
+    particle.style.animationDuration = `${0.55 + Math.random() * 0.55}s`;
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 1100);
+  }
+}
+
+function applyFolderBodySpecialClass(folderKind) {
+  const folderBody = document.getElementById("folderBody");
+
+  if (!folderBody) return;
+
+  folderBody.classList.remove(
+    "folder-body-special-flash",
+    "inventory-focus",
+    "skills-focus",
+    "ritual-focus",
+    "pericias-focus",
+    "relacoes-focus",
+    "ordo-focus"
+  );
+
+  void folderBody.offsetWidth;
+
+  folderBody.classList.add("folder-body-special-flash");
+
+  if (folderKind === "inventario") {
+    folderBody.classList.add("inventory-focus");
+  }
+
+  if (folderKind === "habilidades" || folderKind === "trilha") {
+    folderBody.classList.add("skills-focus");
+  }
+
+  if (folderKind === "rituais") {
+    folderBody.classList.add("ritual-focus");
+  }
+
+  if (folderKind === "pericias") {
+    folderBody.classList.add("pericias-focus");
+  }
+
+  if (folderKind === "relacoes") {
+    folderBody.classList.add("relacoes-focus");
+  }
+
+  if (folderKind === "ordo") {
+    folderBody.classList.add("ordo-focus");
+  }
+}
+
+function setupFolderSpecificInteractions() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !getPlayerSheetKind()) return;
+
+  setupFolderTabKinds();
+
+  const tabs = document.querySelectorAll(".folder-tab");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (event) => {
+      const folderKind = tab.dataset.folderKind || getFolderKindFromButton(tab);
+
+      tab.classList.remove("folder-tab-activated");
+      void tab.offsetWidth;
+      tab.classList.add("folder-tab-activated");
+
+      createFolderActionOverlay(getPlayerSheetKind(), folderKind);
+      createFolderActionParticles(event, folderKind === "rituais" ? 26 : 18);
+
+      setTimeout(() => {
+        applyFolderBodySpecialClass(folderKind);
+      }, 60);
+    });
+  });
+}
+
+function setupCharacterIconInteractions() {
+  const agentPage = document.getElementById("agentPage");
+  const characterStage = document.querySelector(".character-stage");
+  const render = document.querySelector(".agent-render");
+
+  if (!agentPage || !characterStage || !render || !getPlayerSheetKind()) {
+    return;
+  }
+
+  characterStage.addEventListener("click", (event) => {
+    characterStage.classList.remove("character-focus-pulse");
+    render.classList.remove("character-clicked");
+
+    void characterStage.offsetWidth;
+
+    characterStage.classList.add("character-focus-pulse");
+    render.classList.add("character-clicked");
+
+    createFolderActionParticles(event, 22);
+
+    const sheetKind = getPlayerSheetKind();
+
+    if (sheetKind === "maisie") {
+      const insightName = document.getElementById("attributeInsightName");
+      const insightValue = document.getElementById("attributeInsightValue");
+      const insightText = document.getElementById("attributeInsightText");
+      const insightPanel = document.getElementById("attributeInsightPanel");
+
+      if (insightName && insightValue && insightText && insightPanel) {
+        insightName.textContent = "MAISIE — Sistema pessoal";
+        insightValue.textContent = "⚡";
+        insightText.textContent =
+          "A prótese, o tanque e a energia instável respondem como partes de um mesmo circuito.";
+
+        insightPanel.classList.remove("active-insight");
+        void insightPanel.offsetWidth;
+        insightPanel.classList.add("active-insight");
+      }
+    }
+
+    if (sheetKind === "roselyn") {
+      const insightName = document.getElementById("attributeInsightName");
+      const insightValue = document.getElementById("attributeInsightValue");
+      const insightText = document.getElementById("attributeInsightText");
+      const insightPanel = document.getElementById("attributeInsightPanel");
+
+      if (insightName && insightValue && insightText && insightPanel) {
+        insightName.textContent = "ROSELYN — Mira temporal";
+        insightValue.textContent = "⌁";
+        insightText.textContent =
+          "O metrônomo pulsa em silêncio. A mira dela parece esperar o mundo terminar antes do disparo.";
+
+        insightPanel.classList.remove("active-insight");
+        void insightPanel.offsetWidth;
+        insightPanel.classList.add("active-insight");
+      }
+    }
+
+    if (sheetKind === "lilian") {
+      const insightName = document.getElementById("attributeInsightName");
+      const insightValue = document.getElementById("attributeInsightValue");
+      const insightText = document.getElementById("attributeInsightText");
+      const insightPanel = document.getElementById("attributeInsightPanel");
+
+      if (insightName && insightValue && insightText && insightPanel) {
+        insightName.textContent = "LILIAN — Linha de frente";
+        insightValue.textContent = "!";
+        insightText.textContent =
+          "A presença dela fecha espaço. Quando Lilian entra na frente, a ameaça precisa passar por ela primeiro.";
+
+        insightPanel.classList.remove("active-insight");
+        void insightPanel.offsetWidth;
+        insightPanel.classList.add("active-insight");
+      }
+    }
+
+    setTimeout(() => {
+      characterStage.classList.remove("character-focus-pulse");
+      render.classList.remove("character-clicked");
+    }, 900);
+  });
+}
+
+function setupInteractiveFolderItems() {
+  const agentPage = document.getElementById("agentPage");
+
+  if (!agentPage || !getPlayerSheetKind()) return;
+
+  document.addEventListener("click", (event) => {
+    const item = event.target.closest(
+      ".skill-item, .ritual-folder, .data-chip, .pericia-table tr, .lore-quote"
+    );
+
+    if (!item || !agentPage.contains(item)) return;
+
+    createFolderActionParticles(event, 10);
+
+    item.classList.remove("folder-tab-activated");
+    void item.offsetWidth;
+    item.classList.add("folder-tab-activated");
+  });
+}
+
+function setupFullPlayerSheetMicroInteractions() {
+  setupFolderSpecificInteractions();
+  setupCharacterIconInteractions();
+  setupInteractiveFolderItems();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupFullPlayerSheetMicroInteractions, 900);
 });

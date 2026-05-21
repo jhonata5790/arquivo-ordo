@@ -5826,3 +5826,2426 @@ button {
   letter-spacing: 2px;
   cursor: pointer;
 }
+/* AGENTES — PÁGINA PREMIUM / ARQUIVO PÚBLICO */
+
+body:has(.internal-page),
+body:has(.page-grid) {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(126, 36, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 82% 42%, rgba(139, 0, 0, 0.20), transparent 36%),
+    radial-gradient(circle at 50% 100%, rgba(214, 179, 90, 0.08), transparent 40%),
+    linear-gradient(135deg, #050407, #100911 46%, #070303);
+}
+
+/* fundo geral com scanlines */
+.internal-page {
+  position: relative;
+  overflow: hidden;
+}
+
+.internal-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.028) 0px,
+      rgba(255,255,255,0.028) 1px,
+      transparent 2px,
+      transparent 5px
+    ),
+    linear-gradient(90deg, transparent, rgba(126,36,255,0.045), transparent);
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  animation: agentsScanMove 0.8s linear infinite;
+}
+
+@keyframes agentsScanMove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(7px);
+  }
+}
+
+/* camada de brilho no fundo */
+.internal-page::after {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(126,36,255,0.16), transparent 25%),
+    radial-gradient(circle at 76% 28%, rgba(214,179,90,0.08), transparent 24%),
+    radial-gradient(circle at 78% 82%, rgba(139,0,0,0.16), transparent 28%);
+  filter: blur(24px);
+  opacity: 0.72;
+  animation: agentsBackgroundBreath 6s ease-in-out infinite;
+}
+
+@keyframes agentsBackgroundBreath {
+  0%, 100% {
+    transform: scale(0.98);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 0.86;
+  }
+}
+
+.internal-page > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* cabeçalho da página */
+.internal-page .page-header,
+.internal-page header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(214, 179, 90, 0.18);
+}
+
+.internal-page .dashboard-title,
+.internal-page h1 {
+  letter-spacing: 8px;
+  text-shadow:
+    0 0 18px rgba(214, 179, 90, 0.16),
+    0 0 38px rgba(126, 36, 255, 0.20),
+    0 0 54px rgba(139, 0, 0, 0.18);
+}
+
+.internal-page .page-description,
+.internal-page header p {
+  max-width: 760px;
+  color: rgba(232, 229, 236, 0.62);
+}
+
+/* status */
+.internal-page .status-bar,
+.internal-page .page-status,
+.internal-page .system-message {
+  border: 1px solid rgba(214, 179, 90, 0.16);
+  background:
+    linear-gradient(90deg, rgba(214,179,90,0.05), transparent),
+    rgba(0, 0, 0, 0.42);
+  box-shadow:
+    inset 0 0 22px rgba(255,255,255,0.025),
+    0 0 22px rgba(126,36,255,0.08);
+  backdrop-filter: blur(8px);
+}
+
+/* grid dos agentes */
+.page-grid {
+  margin-top: 28px;
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* cards base */
+.profile-card,
+.module-card,
+.clickable-card {
+  position: relative;
+  min-height: 178px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(214, 179, 90, 0.14);
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.055), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)),
+    rgba(0, 0, 0, 0.58);
+  box-shadow:
+    0 0 22px rgba(0,0,0,0.45),
+    inset 0 0 22px rgba(255,255,255,0.025);
+  transition:
+    transform 0.24s ease,
+    border-color 0.24s ease,
+    box-shadow 0.24s ease,
+    filter 0.24s ease,
+    background 0.24s ease;
+}
+
+/* textura interna dos cards */
+.profile-card::before,
+.module-card::before,
+.clickable-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.026) 0px,
+      rgba(255,255,255,0.026) 1px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(115deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: translateX(-120%);
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  transition: 0.35s ease;
+}
+
+.profile-card:hover::before,
+.module-card:hover::before,
+.clickable-card:hover::before {
+  transform: translateX(120%);
+}
+
+/* cards liberados */
+.profile-card:not(.public-corrupted-file):hover,
+.module-card:not(.public-corrupted-file):hover,
+.clickable-card:not(.public-corrupted-file):hover {
+  transform: translateY(-7px) scale(1.015);
+  border-color: rgba(214, 179, 90, 0.42);
+  box-shadow:
+    0 0 24px rgba(214, 179, 90, 0.14),
+    0 0 42px rgba(126, 36, 255, 0.13),
+    inset 0 0 28px rgba(255,255,255,0.04);
+}
+
+/* nomes dos agentes */
+.profile-card h2,
+.profile-card h3,
+.module-card h2,
+.module-card h3,
+.clickable-card h2,
+.clickable-card h3 {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.14),
+    0 0 20px rgba(214,179,90,0.12);
+}
+
+/* subtítulos/status dos cards */
+.profile-card .card-status,
+.module-card .card-status,
+.clickable-card .card-status {
+  color: rgba(214, 179, 90, 0.82);
+  letter-spacing: 3px;
+}
+
+/* link abrir ficha */
+.profile-card a,
+.profile-card button,
+.module-card a,
+.module-card button,
+.clickable-card a,
+.clickable-card button {
+  position: relative;
+  z-index: 5;
+  letter-spacing: 3px;
+}
+
+/* cards dos jogadores com assinatura visual */
+.profile-card:has([href*="maisie"]),
+.profile-card:has([onclick*="maisie"]),
+.profile-card:has([href*="roselyn"]),
+.profile-card:has([onclick*="roselyn"]),
+.profile-card:has([href*="lilian"]),
+.profile-card:has([onclick*="lilian"]) {
+  border-color: rgba(214, 179, 90, 0.25);
+}
+
+/* Maisie */
+.profile-card:has([href*="maisie"]),
+.profile-card:has([onclick*="maisie"]) {
+  background:
+    radial-gradient(circle at bottom right, rgba(255, 74, 190, 0.23), transparent 42%),
+    radial-gradient(circle at top left, rgba(0, 180, 255, 0.10), transparent 34%),
+    rgba(0, 0, 0, 0.58);
+}
+
+/* Roselyn */
+.profile-card:has([href*="roselyn"]),
+.profile-card:has([onclick*="roselyn"]) {
+  background:
+    radial-gradient(circle at bottom right, rgba(130, 90, 210, 0.20), transparent 42%),
+    radial-gradient(circle at top left, rgba(220, 220, 220, 0.08), transparent 34%),
+    rgba(0, 0, 0, 0.58);
+}
+
+/* Lilian */
+.profile-card:has([href*="lilian"]),
+.profile-card:has([onclick*="lilian"]) {
+  background:
+    radial-gradient(circle at bottom right, rgba(139, 0, 0, 0.23), transparent 42%),
+    radial-gradient(circle at top left, rgba(126, 36, 255, 0.10), transparent 34%),
+    rgba(0, 0, 0, 0.58);
+}
+
+/* botão voltar */
+.internal-page .logout-button,
+.internal-page .back-button,
+.internal-page a[href*="index"] {
+  border-color: rgba(214, 179, 90, 0.32);
+  background:
+    linear-gradient(135deg, rgba(214,179,90,0.08), rgba(0,0,0,0.16));
+  box-shadow:
+    inset 0 0 16px rgba(255,255,255,0.025),
+    0 0 18px rgba(214,179,90,0.08);
+  transition: 0.22s ease;
+}
+
+.internal-page .logout-button:hover,
+.internal-page .back-button:hover,
+.internal-page a[href*="index"]:hover {
+  color: #050505;
+  background: #d6b35a;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 20px rgba(214,179,90,0.25),
+    inset 0 0 16px rgba(255,255,255,0.18);
+}
+
+/* melhora dos corrompidos nessa página */
+.page-grid .public-corrupted-file {
+  opacity: 0.72;
+  border-color: rgba(255, 0, 0, 0.28) !important;
+}
+
+.page-grid .public-corrupted-file:hover {
+  opacity: 0.95;
+  transform: translateY(-4px);
+  filter: grayscale(0.6) contrast(1.25) brightness(1.05);
+  box-shadow:
+    0 0 20px rgba(255, 0, 0, 0.20),
+    inset 0 0 18px rgba(255,255,255,0.025);
+}
+
+.page-grid .public-corrupted-file::before {
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+}
+
+/* efeito de “registro sendo analisado” nos cards livres */
+.profile-card:not(.public-corrupted-file)::after,
+.module-card:not(.public-corrupted-file)::after,
+.clickable-card:not(.public-corrupted-file)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 42%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(214, 179, 90, 0.85), transparent);
+  opacity: 0.55;
+  animation: cardTraceMove 3.2s ease-in-out infinite;
+}
+
+@keyframes cardTraceMove {
+  0%, 100% {
+    transform: translateX(-20%);
+    opacity: 0.25;
+  }
+
+  50% {
+    transform: translateX(165%);
+    opacity: 0.8;
+  }
+}
+
+/* responsivo */
+@media (max-width: 900px) {
+  .internal-page .dashboard-title,
+  .internal-page h1 {
+    letter-spacing: 4px;
+    font-size: clamp(2.6rem, 14vw, 4.2rem);
+  }
+
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card,
+  .module-card,
+  .clickable-card {
+    min-height: 150px;
+  }
+}
+/* AGENTES — INTERAÇÕES ÚNICAS POR ARQUIVO */
+
+/* Base para todos os cards */
+.profile-card {
+  isolation: isolate;
+}
+
+.profile-card::before,
+.profile-card::after {
+  pointer-events: none;
+}
+
+/* =========================
+   YUNA — ESPIRAL DE DECADÊNCIA
+========================= */
+
+.profile-card:has([href*="yuna"])::after,
+.profile-card:has([onclick*="yuna"])::after,
+.profile-card:has([data-agent-id="yuna"])::after {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  z-index: 2;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(160, 130, 255, 0.08),
+      rgba(95, 76, 150, 0.18),
+      transparent,
+      rgba(210, 200, 255, 0.08),
+      transparent
+    );
+  opacity: 0;
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  transition: opacity 0.25s ease;
+}
+
+.profile-card:has([href*="yuna"]):hover::after,
+.profile-card:has([onclick*="yuna"]):hover::after,
+.profile-card:has([data-agent-id="yuna"]):hover::after {
+  opacity: 0.9;
+  animation: yunaCardDecaySpiral 3.5s linear infinite;
+}
+
+@keyframes yunaCardDecaySpiral {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-card:has([href*="yuna"]):hover,
+.profile-card:has([onclick*="yuna"]):hover,
+.profile-card:has([data-agent-id="yuna"]):hover {
+  border-color: rgba(190, 170, 255, 0.42);
+  box-shadow:
+    0 0 24px rgba(160, 130, 255, 0.20),
+    inset 0 0 28px rgba(160, 130, 255, 0.05);
+}
+
+/* =========================
+   LISA — RASTRO ACROBÁTICO / CORTE LIMPO
+========================= */
+
+.profile-card:has([href*="lisa"])::after,
+.profile-card:has([onclick*="lisa"])::after,
+.profile-card:has([data-agent-id="lisa"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(125deg, transparent 0 35%, rgba(180, 255, 220, 0.12) 42%, transparent 50%),
+    linear-gradient(55deg, transparent 0 54%, rgba(255, 255, 255, 0.10) 60%, transparent 68%);
+  opacity: 0;
+  transform: translateX(-120%);
+  mix-blend-mode: screen;
+}
+
+.profile-card:has([href*="lisa"]):hover::after,
+.profile-card:has([onclick*="lisa"]):hover::after,
+.profile-card:has([data-agent-id="lisa"]):hover::after {
+  opacity: 1;
+  animation: lisaCardAcrobaticSlash 0.8s ease-in-out infinite;
+}
+
+@keyframes lisaCardAcrobaticSlash {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+
+  100% {
+    transform: translateX(120%) skewX(-12deg);
+  }
+}
+
+.profile-card:has([href*="lisa"]):hover,
+.profile-card:has([onclick*="lisa"]):hover,
+.profile-card:has([data-agent-id="lisa"]):hover {
+  border-color: rgba(180, 255, 220, 0.38);
+  box-shadow:
+    0 0 22px rgba(140, 255, 210, 0.15),
+    inset 0 0 24px rgba(255,255,255,0.04);
+}
+
+/* =========================
+   BLENDER — IMPACTO / SANGUE / TREMORES
+========================= */
+
+.profile-card:has([href*="blender"]):hover,
+.profile-card:has([onclick*="blender"]):hover,
+.profile-card:has([data-agent-id="blender"]):hover {
+  border-color: rgba(255, 60, 60, 0.42);
+  box-shadow:
+    0 0 24px rgba(255, 0, 0, 0.22),
+    inset 0 0 28px rgba(255, 0, 0, 0.06);
+  animation: blenderCardImpactShake 0.22s steps(2, end) infinite;
+}
+
+@keyframes blenderCardImpactShake {
+  0%, 100% {
+    transform: translateY(-7px) scale(1.015);
+  }
+
+  25% {
+    transform: translateY(-7px) translateX(2px) scale(1.015);
+  }
+
+  50% {
+    transform: translateY(-7px) translateX(-2px) scale(1.015);
+  }
+
+  75% {
+    transform: translateY(-7px) translateX(1px) scale(1.015);
+  }
+}
+
+.profile-card:has([href*="blender"])::after,
+.profile-card:has([onclick*="blender"])::after,
+.profile-card:has([data-agent-id="blender"])::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(255, 0, 0, 0.20), transparent 28%),
+    repeating-radial-gradient(circle at center, rgba(255, 0, 0, 0.08) 0 2px, transparent 3px 12px);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.profile-card:has([href*="blender"]):hover::after,
+.profile-card:has([onclick*="blender"]):hover::after,
+.profile-card:has([data-agent-id="blender"]):hover::after {
+  opacity: 0.85;
+  animation: blenderBloodImpact 0.7s ease-out infinite;
+}
+
+@keyframes blenderBloodImpact {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   MAISIE — SOBRECARGA ELÉTRICA ROSA/AZUL
+========================= */
+
+.profile-card:has([href*="maisie"])::after,
+.profile-card:has([onclick*="maisie"])::after,
+.profile-card:has([data-agent-id="maisie"])::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 74, 190, 0.22), transparent),
+    linear-gradient(0deg, transparent, rgba(0, 180, 255, 0.16), transparent);
+  opacity: 0;
+  transform: rotate(12deg) translateX(-120%);
+  mix-blend-mode: screen;
+}
+
+.profile-card:has([href*="maisie"]):hover::after,
+.profile-card:has([onclick*="maisie"]):hover::after,
+.profile-card:has([data-agent-id="maisie"]):hover::after {
+  opacity: 1;
+  animation: maisieCardOverload 0.7s linear infinite;
+}
+
+@keyframes maisieCardOverload {
+  from {
+    transform: rotate(12deg) translateX(-120%);
+  }
+
+  to {
+    transform: rotate(12deg) translateX(120%);
+  }
+}
+
+.profile-card:has([href*="maisie"]):hover,
+.profile-card:has([onclick*="maisie"]):hover,
+.profile-card:has([data-agent-id="maisie"]):hover {
+  border-color: rgba(255, 74, 190, 0.55);
+  box-shadow:
+    0 0 26px rgba(255, 74, 190, 0.24),
+    0 0 38px rgba(0, 180, 255, 0.13),
+    inset 0 0 28px rgba(255,255,255,0.04);
+}
+
+/* =========================
+   ROSELYN — FOGO ROXO / METRÔNOMO / TEMPO
+========================= */
+
+.profile-card:has([href*="roselyn"])::after,
+.profile-card:has([onclick*="roselyn"])::after,
+.profile-card:has([data-agent-id="roselyn"])::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 105%, rgba(130, 80, 255, 0.34), transparent 34%),
+    radial-gradient(circle at 35% 100%, rgba(210, 200, 255, 0.12), transparent 22%),
+    radial-gradient(circle at 68% 100%, rgba(120, 60, 220, 0.18), transparent 25%);
+  opacity: 0;
+  filter: blur(4px);
+  mix-blend-mode: screen;
+  transform-origin: bottom center;
+}
+
+.profile-card:has([href*="roselyn"]):hover::after,
+.profile-card:has([onclick*="roselyn"]):hover::after,
+.profile-card:has([data-agent-id="roselyn"]):hover::after {
+  opacity: 0.95;
+  animation: roselynPurpleFire 1.2s ease-in-out infinite;
+}
+
+@keyframes roselynPurpleFire {
+  0%, 100% {
+    transform: translateY(10px) scaleY(0.92);
+    filter: blur(5px);
+  }
+
+  50% {
+    transform: translateY(-6px) scaleY(1.12);
+    filter: blur(3px);
+  }
+}
+
+.profile-card:has([href*="roselyn"]):hover,
+.profile-card:has([onclick*="roselyn"]):hover,
+.profile-card:has([data-agent-id="roselyn"]):hover {
+  border-color: rgba(210, 200, 255, 0.45);
+  box-shadow:
+    0 0 24px rgba(130, 80, 255, 0.22),
+    0 0 40px rgba(220, 220, 220, 0.08),
+    inset 0 0 28px rgba(255,255,255,0.035);
+}
+
+/* efeito de tique-taque visual */
+.profile-card:has([href*="roselyn"]):hover h2,
+.profile-card:has([href*="roselyn"]):hover h3,
+.profile-card:has([onclick*="roselyn"]):hover h2,
+.profile-card:has([onclick*="roselyn"]):hover h3,
+.profile-card:has([data-agent-id="roselyn"]):hover h2,
+.profile-card:has([data-agent-id="roselyn"]):hover h3 {
+  animation: roselynTickText 0.8s steps(2, end) infinite;
+}
+
+@keyframes roselynTickText {
+  0%, 100% {
+    transform: translateX(0);
+    letter-spacing: 2px;
+  }
+
+  50% {
+    transform: translateX(1px);
+    letter-spacing: 2.8px;
+  }
+}
+
+/* =========================
+   LILIAN — IMPACTO / GUARDA / LINHA DE FRENTE
+========================= */
+
+.profile-card:has([href*="lilian"])::after,
+.profile-card:has([onclick*="lilian"])::after,
+.profile-card:has([data-agent-id="lilian"])::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(126, 36, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 50% 50%, transparent 0 24%, rgba(139, 0, 0, 0.20) 25%, transparent 34%);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.profile-card:has([href*="lilian"]):hover::after,
+.profile-card:has([onclick*="lilian"]):hover::after,
+.profile-card:has([data-agent-id="lilian"]):hover::after {
+  opacity: 0.95;
+  animation: lilianGuardImpact 0.9s ease-out infinite;
+}
+
+@keyframes lilianGuardImpact {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}
+
+.profile-card:has([href*="lilian"]):hover,
+.profile-card:has([onclick*="lilian"]):hover,
+.profile-card:has([data-agent-id="lilian"]):hover {
+  border-color: rgba(160, 120, 255, 0.46);
+  box-shadow:
+    0 0 24px rgba(126, 36, 255, 0.22),
+    0 0 38px rgba(139, 0, 0, 0.12),
+    inset 0 0 28px rgba(255,255,255,0.035);
+}
+
+/* =========================
+   KLINT — COMANDO / ALERTA VERMELHO
+========================= */
+
+.profile-card:has([href*="klint"])::after,
+.profile-card:has([onclick*="klint"])::after,
+.profile-card:has([data-agent-id="klint"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(0deg, transparent, rgba(255, 0, 0, 0.18), transparent),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18px,
+      rgba(255, 0, 0, 0.06) 19px,
+      transparent 21px
+    );
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.profile-card:has([href*="klint"]):hover::after,
+.profile-card:has([onclick*="klint"]):hover::after,
+.profile-card:has([data-agent-id="klint"]):hover::after {
+  opacity: 0.9;
+  animation: klintCommandScan 0.9s linear infinite;
+}
+
+@keyframes klintCommandScan {
+  from {
+    background-position: 0 -100px, 0 0;
+  }
+
+  to {
+    background-position: 0 100px, 40px 0;
+  }
+}
+
+.profile-card:has([href*="klint"]):hover,
+.profile-card:has([onclick*="klint"]):hover,
+.profile-card:has([data-agent-id="klint"]):hover {
+  border-color: rgba(255, 0, 0, 0.44);
+  box-shadow:
+    0 0 26px rgba(255, 0, 0, 0.20),
+    inset 0 0 28px rgba(255,255,255,0.025);
+}
+
+/* =========================
+   CORROMPIDOS — não perder identidade
+========================= */
+
+.profile-card.public-corrupted-file:hover::before {
+  opacity: 0.88;
+}
+
+.profile-card.public-corrupted-file:hover {
+  cursor: not-allowed !important;
+}
+
+/* Conteúdo sempre acima dos efeitos */
+.profile-card > * {
+  position: relative;
+  z-index: 5;
+}
+/* AGENTES — PARTÍCULAS DE INTERAÇÃO DOS CARDS */
+
+.agent-card-particle {
+  position: absolute;
+  z-index: 6;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  animation: agentCardParticleBurst ease-out forwards;
+}
+
+@keyframes agentCardParticleBurst {
+  0% {
+    transform: translate(0, 0) scale(0.6);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--px), var(--py)) scale(0);
+    opacity: 0;
+  }
+}
+
+.particle-yuna {
+  background: #c7b8ff;
+  box-shadow:
+    0 0 8px rgba(199, 184, 255, 0.9),
+    0 0 18px rgba(100, 80, 160, 0.55);
+}
+
+.particle-lisa {
+  background: #b6ffe4;
+  box-shadow:
+    0 0 8px rgba(182, 255, 228, 0.9),
+    0 0 18px rgba(100, 255, 200, 0.42);
+}
+
+.particle-blender {
+  background: #ff3535;
+  box-shadow:
+    0 0 8px rgba(255, 53, 53, 0.9),
+    0 0 18px rgba(255, 0, 0, 0.55);
+}
+
+.particle-maisie {
+  background: #ff4abe;
+  box-shadow:
+    0 0 8px rgba(255, 74, 190, 0.95),
+    0 0 18px rgba(0, 180, 255, 0.55);
+}
+
+.particle-roselyn {
+  background: #bda6ff;
+  box-shadow:
+    0 0 8px rgba(189, 166, 255, 0.95),
+    0 0 18px rgba(120, 70, 220, 0.55);
+}
+
+.particle-lilian {
+  background: #a078ff;
+  box-shadow:
+    0 0 8px rgba(160, 120, 255, 0.95),
+    0 0 18px rgba(139, 0, 0, 0.55);
+}
+
+.particle-klint {
+  background: #ff3030;
+  box-shadow:
+    0 0 8px rgba(255, 48, 48, 0.95),
+    0 0 18px rgba(120, 0, 0, 0.65);
+}
+/* FICHAS DOS JOGADORES — INTERAÇÃO PREMIUM GERAL */
+
+.agent-sheet-page.player-premium-motion {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* brilho seguindo o mouse na página */
+.agent-sheet-page.player-premium-motion::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.075),
+      transparent 18%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+
+/* todos os blocos principais ganham profundidade */
+.player-premium-motion .character-stage,
+.player-premium-motion .attribute-wheel-panel,
+.player-premium-motion .folder-system,
+.player-premium-motion .special-dossier-banner {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    filter 0.18s ease;
+}
+
+/* efeito de “dossiê tocável” */
+.player-premium-motion .character-stage:hover,
+.player-premium-motion .attribute-wheel-panel:hover,
+.player-premium-motion .folder-system:hover {
+  border-color: color-mix(in srgb, var(--agent-main), white 20%);
+  filter: brightness(1.06);
+}
+
+/* personagem reage ao mouse */
+.player-premium-motion .agent-render {
+  transition:
+    transform 0.22s ease,
+    filter 0.22s ease;
+  transform:
+    translateX(var(--render-shift-x, 0px))
+    translateY(var(--render-shift-y, 0px))
+    scale(var(--render-scale, 1));
+}
+
+.player-premium-motion .character-stage:hover .agent-render {
+  --render-scale: 1.025;
+}
+
+/* roda fica mais “viva” */
+.player-premium-motion .attribute-wheel {
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+  transform:
+    translateX(var(--wheel-shift-x, 0px))
+    translateY(var(--wheel-shift-y, 0px))
+    scale(var(--wheel-scale, 1));
+}
+
+.player-premium-motion .attribute-wheel-panel:hover .attribute-wheel {
+  --wheel-scale: 1.035;
+}
+
+/* ripple de clique */
+.interaction-ripple {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 30;
+  background: radial-gradient(circle, rgba(255,255,255,0.75), transparent 62%);
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0.9;
+  animation: premiumRipple 0.55s ease-out forwards;
+}
+
+@keyframes premiumRipple {
+  to {
+    transform: translate(-50%, -50%) scale(9);
+    opacity: 0;
+  }
+}
+
+/* troca de pasta mais dramática */
+.folder-content.folder-switching {
+  animation: premiumFolderSwitch 0.38s ease both;
+}
+
+@keyframes premiumFolderSwitch {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+    filter: blur(3px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.006);
+    filter: blur(0);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* abas com sensação de botão físico */
+.player-premium-motion .folder-tab {
+  position: relative;
+  overflow: hidden;
+}
+
+.player-premium-motion .folder-tab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--tab-x, 50%) var(--tab-y, 50%), rgba(255,255,255,0.18), transparent 34%);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.player-premium-motion .folder-tab:hover::after {
+  opacity: 1;
+}
+
+/* cartões internos com tilt */
+.player-premium-motion .skill-item,
+.player-premium-motion .ritual-folder,
+.player-premium-motion .data-chip,
+.player-premium-motion .mini-info-grid article,
+.player-premium-motion .derived-grid article,
+.player-premium-motion .attribute-insight-panel {
+  position: relative;
+  overflow: hidden;
+  transform:
+    perspective(900px)
+    rotateX(var(--tilt-y, 0deg))
+    rotateY(var(--tilt-x, 0deg));
+  transition:
+    transform 0.16s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.player-premium-motion .skill-item:hover,
+.player-premium-motion .ritual-folder:hover,
+.player-premium-motion .data-chip:hover,
+.player-premium-motion .mini-info-grid article:hover,
+.player-premium-motion .derived-grid article:hover,
+.player-premium-motion .attribute-insight-panel:hover {
+  transform:
+    perspective(900px)
+    rotateX(var(--tilt-y, 0deg))
+    rotateY(var(--tilt-x, 0deg))
+    translateY(-4px);
+}
+
+/* partículas de página dos jogadores */
+.player-page-particle {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: playerPageParticleFloat linear infinite;
+}
+
+@keyframes playerPageParticleFloat {
+  0% {
+    transform: translateY(110vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.65;
+  }
+
+  72% {
+    opacity: 0.22;
+  }
+
+  100% {
+    transform: translateY(-20vh) translateX(var(--drift, 40px)) rotate(240deg);
+    opacity: 0;
+  }
+}
+
+/* Maisie: faíscas elétricas */
+.maisie-mode .player-page-particle {
+  width: 3px;
+  height: 24px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, transparent, #ff4abe, #00b4ff, transparent);
+  box-shadow:
+    0 0 10px rgba(255, 74, 190, 0.85),
+    0 0 18px rgba(0, 180, 255, 0.35);
+}
+
+/* Roselyn: cinzas/fagulhas roxas temporais */
+.roselyn-mode .player-page-particle {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #bda6ff;
+  box-shadow:
+    0 0 9px rgba(189, 166, 255, 0.9),
+    0 0 18px rgba(120, 70, 220, 0.45);
+}
+
+/* Lilian: fragmentos de impacto */
+.lilian-mode .player-page-particle {
+  width: 5px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #a078ff, #8b0000);
+  box-shadow:
+    0 0 9px rgba(160, 120, 255, 0.8),
+    0 0 18px rgba(139, 0, 0, 0.42);
+}
+
+/* “modo foco” quando passa em cima da ficha */
+.player-premium-motion .interactive-sheet:hover .folder-system,
+.player-premium-motion .interactive-sheet:hover .attribute-wheel-panel,
+.player-premium-motion .interactive-sheet:hover .character-stage {
+  box-shadow:
+    0 0 28px color-mix(in srgb, var(--agent-main), transparent 72%),
+    inset 0 0 28px rgba(255,255,255,0.025);
+}
+
+/* acessibilidade/performance */
+@media (prefers-reduced-motion: reduce) {
+  .player-premium-motion *,
+  .player-page-particle {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* FICHAS DOS JOGADORES — HABILIDADES INTERATIVAS EXCLUSIVAS */
+
+/* =========================
+   MAISIE — SOBRECARGA
+========================= */
+
+.maisie-mode.player-overcharge {
+  animation: maisieOverchargePage 0.75s ease-in-out infinite;
+}
+
+@keyframes maisieOverchargePage {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+
+  50% {
+    filter: brightness(1.14) saturate(1.35);
+  }
+}
+
+.maisie-mode.player-overcharge .attribute-wheel-panel,
+.maisie-mode.player-overcharge .folder-system,
+.maisie-mode.player-overcharge .character-stage,
+.maisie-mode.player-overcharge .special-dossier-banner {
+  box-shadow:
+    0 0 28px rgba(255, 74, 190, 0.34),
+    0 0 54px rgba(0, 180, 255, 0.18),
+    inset 0 0 34px rgba(255,255,255,0.045) !important;
+}
+
+.maisie-mode.player-overcharge .yuna-wheel-outer {
+  animation-duration: 5s !important;
+}
+
+.maisie-mode.player-overcharge .yuna-wheel-inner {
+  animation-duration: 3.5s !important;
+}
+
+.maisie-mode.player-overcharge .agent-render {
+  filter:
+    drop-shadow(0 24px 30px rgba(0, 0, 0, 0.88))
+    drop-shadow(0 0 22px rgba(255, 74, 190, 0.62))
+    drop-shadow(0 0 32px rgba(0, 180, 255, 0.38)) !important;
+}
+
+.maisie-overcharge-bolt {
+  position: fixed;
+  z-index: 999;
+  pointer-events: none;
+  width: 3px;
+  height: 160px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, transparent, #ff4abe, #00b4ff, transparent);
+  box-shadow:
+    0 0 12px rgba(255, 74, 190, 0.9),
+    0 0 28px rgba(0, 180, 255, 0.55);
+  opacity: 0;
+  animation: maisieBoltStrike 0.8s ease-out forwards;
+}
+
+@keyframes maisieBoltStrike {
+  0% {
+    transform: translateY(-20vh) rotate(24deg) scaleY(0.4);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(120vh) rotate(24deg) scaleY(1.2);
+    opacity: 0;
+  }
+}
+
+/* =========================
+   ROSELYN — HIATO TEMPORAL
+========================= */
+
+.roselyn-mode.temporal-hiatus {
+  animation: roselynHiatusPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes roselynHiatusPulse {
+  0%, 100% {
+    filter: grayscale(0.08) brightness(0.92);
+  }
+
+  50% {
+    filter: grayscale(0.28) brightness(0.78) contrast(1.12);
+  }
+}
+
+.roselyn-mode.temporal-hiatus * {
+  animation-duration: 8s !important;
+  transition-duration: 0.65s !important;
+}
+
+.roselyn-mode.temporal-hiatus .yuna-wheel-outer,
+.roselyn-mode.temporal-hiatus .yuna-wheel-inner,
+.roselyn-mode.temporal-hiatus .yuna-wheel-core-img {
+  filter:
+    drop-shadow(0 0 18px rgba(189, 166, 255, 0.72))
+    drop-shadow(0 0 34px rgba(220, 220, 220, 0.22))
+    brightness(1.08);
+}
+
+.temporal-hiatus-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(189, 166, 255, 0.16), transparent 35%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 42px,
+      rgba(220, 220, 220, 0.045) 43px,
+      transparent 46px
+    ),
+    rgba(0, 0, 0, 0.22);
+  mix-blend-mode: screen;
+  animation: temporalHiatusOverlay 1.6s ease-in-out infinite;
+}
+
+@keyframes temporalHiatusOverlay {
+  0%, 100% {
+    opacity: 0.38;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.015);
+  }
+}
+
+.temporal-tick-text {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 12%;
+  transform: translateX(-50%);
+  color: rgba(232, 226, 255, 0.88);
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  pointer-events: none;
+  text-shadow:
+    0 0 12px rgba(189, 166, 255, 0.9),
+    0 0 30px rgba(0,0,0,1);
+  animation: temporalTickText 0.8s steps(2, end) infinite;
+}
+
+@keyframes temporalTickText {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(2px);
+  }
+}
+
+/* =========================
+   LILIAN — IMPACTO
+========================= */
+
+.lilian-mode.impact-mode {
+  animation: lilianImpactScreenShake 0.28s steps(2, end) 3;
+}
+
+@keyframes lilianImpactScreenShake {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(3px, -2px);
+  }
+
+  50% {
+    transform: translate(-3px, 2px);
+  }
+
+  75% {
+    transform: translate(2px, 3px);
+  }
+}
+
+.lilian-impact-wave {
+  position: fixed;
+  z-index: 999;
+  left: var(--impact-x, 50%);
+  top: var(--impact-y, 50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 2px solid rgba(160, 120, 255, 0.8);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  box-shadow:
+    0 0 18px rgba(160, 120, 255, 0.7),
+    0 0 34px rgba(139, 0, 0, 0.38);
+  animation: lilianImpactWave 0.75s ease-out forwards;
+}
+
+@keyframes lilianImpactWave {
+  to {
+    transform: translate(-50%, -50%) scale(18);
+    opacity: 0;
+  }
+}
+
+.lilian-mode.impact-mode .character-stage,
+.lilian-mode.impact-mode .attribute-wheel-panel,
+.lilian-mode.impact-mode .folder-system,
+.lilian-mode.impact-mode .special-dossier-banner {
+  box-shadow:
+    0 0 34px rgba(160, 120, 255, 0.34),
+    0 0 58px rgba(139, 0, 0, 0.18),
+    inset 0 0 34px rgba(255,255,255,0.045) !important;
+}
+
+.lilian-mode.impact-mode .agent-render {
+  filter:
+    drop-shadow(0 24px 30px rgba(0, 0, 0, 0.88))
+    drop-shadow(0 0 22px rgba(160, 120, 255, 0.46))
+    drop-shadow(0 0 30px rgba(139, 0, 0, 0.28)) !important;
+}
+/* =========================================================
+   FICHAS DOS JOGADORES — INTERAÇÕES POR ABA / OBJETO
+   Maisie, Roselyn e Lilian
+========================================================= */
+
+/* ---------- BASE DOS EFEITOS ---------- */
+
+.folder-action-effect {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  pointer-events: none;
+  opacity: 0;
+  animation: folderActionFade 1.2s ease-out forwards;
+}
+
+@keyframes folderActionFade {
+  0% {
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.folder-action-text {
+  position: fixed;
+  left: 50%;
+  top: 16%;
+  z-index: 1002;
+  transform: translateX(-50%);
+  pointer-events: none;
+  font-size: clamp(0.9rem, 2.6vw, 1.6rem);
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 6px;
+  opacity: 0;
+  animation: folderActionText 1.2s ease-out forwards;
+}
+
+@keyframes folderActionText {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px) scale(0.96);
+    filter: blur(4px);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1.02);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-18px) scale(1);
+  }
+}
+
+/* ---------- PERSONAGEM / RENDER ---------- */
+
+.player-premium-motion .character-stage {
+  cursor: crosshair;
+}
+
+.player-premium-motion .character-stage.character-focus-pulse {
+  animation: characterFocusPulse 0.9s ease-out;
+}
+
+@keyframes characterFocusPulse {
+  0% {
+    filter: brightness(1);
+  }
+
+  45% {
+    filter: brightness(1.2) saturate(1.25);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.player-premium-motion .agent-render.character-clicked {
+  animation: characterClickedFloat 0.75s ease-out;
+}
+
+@keyframes characterClickedFloat {
+  0% {
+    transform:
+      translateX(var(--render-shift-x, 0px))
+      translateY(var(--render-shift-y, 0px))
+      scale(1);
+  }
+
+  45% {
+    transform:
+      translateX(var(--render-shift-x, 0px))
+      translateY(calc(var(--render-shift-y, 0px) - 10px))
+      scale(1.045);
+  }
+
+  100% {
+    transform:
+      translateX(var(--render-shift-x, 0px))
+      translateY(var(--render-shift-y, 0px))
+      scale(1);
+  }
+}
+
+/* ---------- ABAS COM PERSONALIDADE ---------- */
+
+.player-premium-motion .folder-tab {
+  isolation: isolate;
+}
+
+.player-premium-motion .folder-tab.folder-tab-activated {
+  animation: folderTabActivated 0.5s ease;
+}
+
+@keyframes folderTabActivated {
+  0% {
+    transform: scale(0.96);
+  }
+
+  55% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- MAISIE: TECNOLOGIA / ENERGIA ---------- */
+
+.maisie-folder-effect {
+  background:
+    radial-gradient(circle at center, rgba(255, 74, 190, 0.20), transparent 30%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 24px,
+      rgba(255, 74, 190, 0.035) 25px,
+      transparent 28px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 28px,
+      rgba(0, 180, 255, 0.028) 29px,
+      transparent 32px
+    );
+  mix-blend-mode: screen;
+}
+
+.maisie-folder-text {
+  color: #ff8de6;
+  text-shadow:
+    0 0 10px rgba(255, 74, 190, 0.95),
+    0 0 24px rgba(0, 180, 255, 0.45),
+    0 0 38px rgba(0, 0, 0, 1);
+}
+
+.maisie-mode .folder-tab[data-folder-kind="inventario"]:hover {
+  box-shadow:
+    0 0 18px rgba(255, 74, 190, 0.38),
+    0 0 30px rgba(0, 180, 255, 0.18),
+    inset 0 0 14px rgba(255,255,255,0.1);
+}
+
+.maisie-mode .folder-tab[data-folder-kind="inventario"]:hover::before {
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 74, 190, 0.35), rgba(0, 180, 255, 0.22), transparent);
+}
+
+.maisie-mode .folder-tab[data-folder-kind="habilidades"]:hover,
+.maisie-mode .folder-tab[data-folder-kind="trilha"]:hover {
+  animation: maisieTabGlitch 0.28s steps(2, end) infinite;
+}
+
+@keyframes maisieTabGlitch {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  33% {
+    transform: translate(1px, -1px);
+  }
+
+  66% {
+    transform: translate(-1px, 1px);
+  }
+}
+
+.maisie-mode .folder-tab[data-folder-kind="rituais"]:hover {
+  filter: brightness(1.25) saturate(1.35);
+}
+
+/* ---------- ROSELYN: TEMPO / METRÔNOMO ---------- */
+
+.roselyn-folder-effect {
+  background:
+    radial-gradient(circle at center, rgba(189, 166, 255, 0.18), transparent 30%),
+    repeating-radial-gradient(
+      circle at center,
+      rgba(220, 220, 220, 0.045) 0 2px,
+      transparent 3px 18px
+    ),
+    linear-gradient(90deg, transparent, rgba(120, 70, 220, 0.14), transparent);
+  mix-blend-mode: screen;
+}
+
+.roselyn-folder-text {
+  color: #ded5ff;
+  text-shadow:
+    0 0 10px rgba(189, 166, 255, 0.95),
+    0 0 24px rgba(220, 220, 220, 0.28),
+    0 0 38px rgba(0, 0, 0, 1);
+}
+
+.roselyn-mode .folder-tab:hover {
+  animation: roselynTabTick 0.7s steps(2, end) infinite;
+}
+
+@keyframes roselynTabTick {
+  0%, 100% {
+    transform: translateX(0);
+    letter-spacing: 1.5px;
+  }
+
+  50% {
+    transform: translateX(1px);
+    letter-spacing: 2.4px;
+  }
+}
+
+.roselyn-mode .folder-tab[data-folder-kind="inventario"]:hover {
+  box-shadow:
+    0 0 18px rgba(189, 166, 255, 0.32),
+    inset 0 0 18px rgba(220, 220, 220, 0.08);
+}
+
+.roselyn-mode .folder-tab[data-folder-kind="rituais"]:hover,
+.roselyn-mode .folder-tab[data-folder-kind="habilidades"]:hover {
+  filter: grayscale(0.2) brightness(1.18);
+}
+
+/* ---------- LILIAN: IMPACTO / GUARDA ---------- */
+
+.lilian-folder-effect {
+  background:
+    radial-gradient(circle at center, rgba(160, 120, 255, 0.18), transparent 26%),
+    radial-gradient(circle at center, transparent 0 20%, rgba(139, 0, 0, 0.18) 21%, transparent 36%),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 18px,
+      rgba(160, 120, 255, 0.028) 19px,
+      transparent 22px
+    );
+  mix-blend-mode: screen;
+}
+
+.lilian-folder-text {
+  color: #dac8ff;
+  text-shadow:
+    0 0 10px rgba(160, 120, 255, 0.95),
+    0 0 24px rgba(139, 0, 0, 0.45),
+    0 0 38px rgba(0, 0, 0, 1);
+}
+
+.lilian-mode .folder-tab[data-folder-kind="habilidades"]:hover,
+.lilian-mode .folder-tab[data-folder-kind="trilha"]:hover {
+  animation: lilianTabImpact 0.34s steps(2, end) infinite;
+}
+
+@keyframes lilianTabImpact {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+
+  35% {
+    transform: translate(2px, -1px);
+  }
+
+  70% {
+    transform: translate(-2px, 1px);
+  }
+}
+
+.lilian-mode .folder-tab[data-folder-kind="inventario"]:hover {
+  box-shadow:
+    0 0 18px rgba(160, 120, 255, 0.35),
+    0 0 30px rgba(139, 0, 0, 0.14),
+    inset 0 0 14px rgba(255,255,255,0.08);
+}
+
+/* ---------- EFEITOS NAS PASTAS INTERNAS ---------- */
+
+.player-premium-motion .folder-body.folder-body-special-flash {
+  animation: folderBodySpecialFlash 0.75s ease;
+}
+
+@keyframes folderBodySpecialFlash {
+  0% {
+    filter: brightness(1);
+  }
+
+  45% {
+    filter: brightness(1.25);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* Inventário ganha moldura especial */
+.player-premium-motion .folder-body.inventory-focus .lore-quote,
+.player-premium-motion .folder-body.inventory-focus p:first-child {
+  animation: inventoryFocusGlow 1.2s ease;
+}
+
+@keyframes inventoryFocusGlow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+
+  45% {
+    filter: brightness(1.35);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--agent-main), white 25%);
+  }
+}
+
+/* Habilidades dão pulso nos cards */
+.player-premium-motion .folder-body.skills-focus .skill-item {
+  animation: skillCardWake 0.5s ease both;
+}
+
+.player-premium-motion .folder-body.skills-focus .skill-item:nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.player-premium-motion .folder-body.skills-focus .skill-item:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.player-premium-motion .folder-body.skills-focus .skill-item:nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+@keyframes skillCardWake {
+  0% {
+    opacity: 0.3;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.01);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Rituais ficam mais místicos */
+.player-premium-motion .folder-body.ritual-focus .ritual-folder {
+  animation: ritualFolderWake 0.7s ease both;
+}
+
+.player-premium-motion .folder-body.ritual-focus .ritual-folder:nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.player-premium-motion .folder-body.ritual-focus .ritual-folder:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.player-premium-motion .folder-body.ritual-focus .ritual-folder:nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+@keyframes ritualFolderWake {
+  0% {
+    opacity: 0.35;
+    filter: blur(4px);
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* Perícias parecem scanner técnico */
+.player-premium-motion .folder-body.pericias-focus .pericia-table {
+  animation: periciaTableScan 0.9s ease;
+}
+
+@keyframes periciaTableScan {
+  0% {
+    filter: brightness(0.7) blur(2px);
+  }
+
+  55% {
+    filter: brightness(1.3) blur(0);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* Relações dão efeito mais emocional */
+.player-premium-motion .folder-body.relacoes-focus p {
+  animation: relationTextAppear 0.55s ease both;
+}
+
+.player-premium-motion .folder-body.relacoes-focus p:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.player-premium-motion .folder-body.relacoes-focus p:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+@keyframes relationTextAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+    filter: blur(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* Ordo fica mais institucional */
+.player-premium-motion .folder-body.ordo-focus {
+  border-left: 2px solid color-mix(in srgb, var(--agent-main), white 10%);
+  padding-left: 18px;
+}
+
+/* ---------- MICRO PARTÍCULAS POR AÇÃO ---------- */
+
+.folder-action-particle {
+  position: fixed;
+  z-index: 1003;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 999px;
+  animation: folderActionParticle 0.85s ease-out forwards;
+}
+
+@keyframes folderActionParticle {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--fx-x), var(--fx-y)) scale(0);
+    opacity: 0;
+  }
+}
+
+.maisie-action-particle {
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(to bottom, #ff4abe, #00b4ff);
+  box-shadow:
+    0 0 10px rgba(255, 74, 190, 0.9),
+    0 0 18px rgba(0, 180, 255, 0.4);
+}
+
+.roselyn-action-particle {
+  width: 6px;
+  height: 6px;
+  background: #c9b8ff;
+  box-shadow:
+    0 0 10px rgba(201, 184, 255, 0.9),
+    0 0 18px rgba(120, 70, 220, 0.45);
+}
+
+.lilian-action-particle {
+  width: 5px;
+  height: 14px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #a078ff, #8b0000);
+  box-shadow:
+    0 0 10px rgba(160, 120, 255, 0.9),
+    0 0 18px rgba(139, 0, 0, 0.45);
+}
+/* CORREÇÃO DE PALETA — MAISIE COM FOGO ROXO / ROSELYN DOURADO E PRETO */
+
+/* MAISIE — fogo roxo/rosa nos cards */
+.profile-card:has([href*="maisie"])::after,
+.profile-card:has([onclick*="maisie"])::after,
+.profile-card:has([data-agent-id="maisie"])::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 105%, rgba(255, 74, 190, 0.38), transparent 34%),
+    radial-gradient(circle at 36% 100%, rgba(180, 80, 255, 0.28), transparent 24%),
+    radial-gradient(circle at 68% 100%, rgba(0, 180, 255, 0.14), transparent 26%);
+  opacity: 0;
+  filter: blur(4px);
+  mix-blend-mode: screen;
+  transform-origin: bottom center;
+}
+
+.profile-card:has([href*="maisie"]):hover::after,
+.profile-card:has([onclick*="maisie"]):hover::after,
+.profile-card:has([data-agent-id="maisie"]):hover::after {
+  opacity: 0.95;
+  animation: maisiePurpleFire 1.05s ease-in-out infinite;
+}
+
+@keyframes maisiePurpleFire {
+  0%, 100% {
+    transform: translateY(10px) scaleY(0.9);
+    filter: blur(5px);
+  }
+
+  50% {
+    transform: translateY(-7px) scaleY(1.15);
+    filter: blur(3px);
+  }
+}
+
+/* mantém sobrecarga elétrica da Maisie junto do fogo */
+.profile-card:has([href*="maisie"]):hover,
+.profile-card:has([onclick*="maisie"]):hover,
+.profile-card:has([data-agent-id="maisie"]):hover {
+  border-color: rgba(255, 74, 190, 0.58);
+  box-shadow:
+    0 0 26px rgba(255, 74, 190, 0.26),
+    0 0 38px rgba(180, 80, 255, 0.18),
+    0 0 46px rgba(0, 180, 255, 0.10),
+    inset 0 0 28px rgba(255,255,255,0.04);
+}
+
+/* ROSELYN — card dourado/preto temporal, sem fogo roxo */
+.profile-card:has([href*="roselyn"])::after,
+.profile-card:has([onclick*="roselyn"])::after,
+.profile-card:has([data-agent-id="roselyn"])::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(214, 179, 90, 0.10),
+      rgba(255, 240, 180, 0.16),
+      transparent,
+      rgba(120, 95, 45, 0.12),
+      transparent
+    ),
+    radial-gradient(circle at center, rgba(214, 179, 90, 0.12), transparent 34%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  filter: blur(1px);
+}
+
+.profile-card:has([href*="roselyn"]):hover::after,
+.profile-card:has([onclick*="roselyn"]):hover::after,
+.profile-card:has([data-agent-id="roselyn"]):hover::after {
+  opacity: 0.9;
+  animation: roselynGoldenClockSpin 3.2s linear infinite;
+}
+
+@keyframes roselynGoldenClockSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-card:has([href*="roselyn"]):hover,
+.profile-card:has([onclick*="roselyn"]):hover,
+.profile-card:has([data-agent-id="roselyn"]):hover {
+  border-color: rgba(214, 179, 90, 0.52);
+  box-shadow:
+    0 0 24px rgba(214, 179, 90, 0.22),
+    0 0 40px rgba(255, 230, 150, 0.08),
+    inset 0 0 28px rgba(255,255,255,0.035);
+}
+
+/* tique-taque dourado da Roselyn */
+.profile-card:has([href*="roselyn"]):hover h2,
+.profile-card:has([href*="roselyn"]):hover h3,
+.profile-card:has([onclick*="roselyn"]):hover h2,
+.profile-card:has([onclick*="roselyn"]):hover h3,
+.profile-card:has([data-agent-id="roselyn"]):hover h2,
+.profile-card:has([data-agent-id="roselyn"]):hover h3 {
+  color: #f1d98a;
+  text-shadow:
+    0 0 8px rgba(214, 179, 90, 0.75),
+    0 0 18px rgba(0, 0, 0, 1);
+  animation: roselynGoldenTickText 0.8s steps(2, end) infinite;
+}
+
+@keyframes roselynGoldenTickText {
+  0%, 100% {
+    transform: translateX(0);
+    letter-spacing: 2px;
+  }
+
+  50% {
+    transform: translateX(1px);
+    letter-spacing: 2.8px;
+  }
+}
+
+/* ROSELYN — ficha inteira em preto/dourado */
+
+.roselyn-mode {
+  background:
+    radial-gradient(circle at 18% 30%, rgba(214, 179, 90, 0.14), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(90, 70, 35, 0.16), transparent 34%),
+    radial-gradient(circle at 80% 78%, rgba(255, 240, 180, 0.06), transparent 36%),
+    linear-gradient(135deg, #030303, #11100b 45%, #050403);
+}
+
+.roselyn-mode .system-status {
+  color: #d6b35a;
+}
+
+.roselyn-mode .dashboard-title {
+  text-shadow:
+    0 0 18px rgba(214, 179, 90, 0.45),
+    0 0 38px rgba(255, 230, 150, 0.12),
+    0 0 52px rgba(0, 0, 0, 0.85);
+}
+
+.roselyn-mode .agent-sheet-header {
+  border-bottom-color: rgba(214, 179, 90, 0.24);
+}
+
+.roselyn-mode .special-dossier-banner {
+  border-color: rgba(214, 179, 90, 0.30);
+  background:
+    radial-gradient(circle at top left, rgba(214, 179, 90, 0.12), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.42), transparent 34%),
+    rgba(0,0,0,0.62);
+}
+
+.roselyn-mode .character-stage {
+  background:
+    radial-gradient(circle at center, rgba(214, 179, 90, 0.12), transparent 45%),
+    radial-gradient(circle at bottom, rgba(0,0,0,0.88), transparent 58%),
+    linear-gradient(145deg, rgba(214, 179, 90, 0.055), rgba(255, 255, 255, 0.015)),
+    rgba(0,0,0,0.62);
+  border-color: rgba(214, 179, 90, 0.24);
+}
+
+.roselyn-mode .character-aura {
+  background:
+    radial-gradient(circle, rgba(214, 179, 90, 0.28), transparent 58%);
+  filter: blur(28px);
+}
+
+.roselyn-mode .character-back-symbol {
+  border-color: rgba(214, 179, 90, 0.32);
+  box-shadow:
+    0 0 22px rgba(214,179,90,0.18),
+    inset 0 0 18px rgba(255,240,180,0.08);
+}
+
+.roselyn-mode .agent-render {
+  filter:
+    drop-shadow(0 24px 30px rgba(0, 0, 0, 0.88))
+    drop-shadow(0 0 12px rgba(214, 179, 90, 0.24))
+    drop-shadow(0 0 20px rgba(255, 240, 180, 0.08)) !important;
+}
+
+.roselyn-mode .attribute-wheel-panel,
+.roselyn-mode .folder-system {
+  border-color: rgba(214, 179, 90, 0.24);
+  background:
+    linear-gradient(145deg, rgba(214, 179, 90, 0.055), rgba(255,255,255,0.01)),
+    rgba(0,0,0,0.52);
+}
+
+.roselyn-mode .folder-tab:hover,
+.roselyn-mode .folder-tab.active {
+  color: #050403;
+  background: linear-gradient(135deg, #d6b35a, #fff0b4);
+  border-color: rgba(255,255,255,0.25);
+  box-shadow:
+    0 0 16px rgba(214, 179, 90, 0.32),
+    inset 0 0 12px rgba(255,255,255,0.14);
+}
+
+.roselyn-mode .attribute-node span {
+  color: #f1d98a !important;
+  text-shadow:
+    0 0 6px rgba(214, 179, 90, 0.9),
+    0 0 12px rgba(0, 0, 0, 1);
+}
+
+.roselyn-mode .attribute-node strong {
+  color: #ffffff !important;
+  text-shadow:
+    0 0 8px rgba(214, 179, 90, 1),
+    0 0 14px rgba(255, 240, 180, 0.42),
+    0 0 22px rgba(0, 0, 0, 1);
+}
+
+.roselyn-mode .yuna-node-bg {
+  filter:
+    drop-shadow(0 0 10px rgba(214, 179, 90, 0.28))
+    drop-shadow(0 0 18px rgba(0, 0, 0, 0.6)) !important;
+}
+
+.roselyn-mode .yuna-wheel-core-img,
+.roselyn-mode .yuna-wheel-outer,
+.roselyn-mode .yuna-wheel-inner {
+  filter:
+    drop-shadow(0 0 12px rgba(214, 179, 90, 0.34))
+    drop-shadow(0 0 22px rgba(0, 0, 0, 0.55)) !important;
+}
+
+.roselyn-mode .attribute-insight-panel {
+  border-color: rgba(214, 179, 90, 0.28);
+  background:
+    radial-gradient(circle at top left, rgba(214, 179, 90, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.roselyn-mode .attribute-insight-content span {
+  color: #d6b35a;
+}
+
+/* partículas da Roselyn agora douradas */
+.roselyn-mode .player-page-particle {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #d6b35a;
+  box-shadow:
+    0 0 9px rgba(214, 179, 90, 0.9),
+    0 0 18px rgba(255, 240, 180, 0.35);
+}
+
+.roselyn-action-particle,
+.particle-roselyn {
+  background: #d6b35a !important;
+  box-shadow:
+    0 0 10px rgba(214, 179, 90, 0.95),
+    0 0 18px rgba(255, 240, 180, 0.38) !important;
+}
+
+.roselyn-folder-effect {
+  background:
+    radial-gradient(circle at center, rgba(214, 179, 90, 0.16), transparent 30%),
+    repeating-radial-gradient(
+      circle at center,
+      rgba(255, 240, 180, 0.04) 0 2px,
+      transparent 3px 18px
+    ),
+    linear-gradient(90deg, transparent, rgba(214, 179, 90, 0.12), transparent);
+  mix-blend-mode: screen;
+}
+
+.roselyn-folder-text {
+  color: #f1d98a;
+  text-shadow:
+    0 0 10px rgba(214, 179, 90, 0.95),
+    0 0 24px rgba(255, 240, 180, 0.28),
+    0 0 38px rgba(0, 0, 0, 1);
+}
+/* =========================================================
+   FICHA 2.0 — ABAS ESPALHADAS / DOSSIÊ INTERATIVO LIMPO
+   Aplica nas fichas premium dos jogadores
+========================================================= */
+
+.player-premium-motion .folder-system {
+  position: relative;
+  overflow: visible;
+  min-height: 700px;
+  padding: 26px 132px;
+  display: block;
+}
+
+/* conteúdo central vira o “documento aberto” */
+.player-premium-motion .folder-content {
+  position: relative;
+  min-height: 640px;
+  height: 100%;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background:
+    radial-gradient(circle at top right, rgba(255,255,255,0.055), transparent 32%),
+    linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)),
+    rgba(0, 0, 0, 0.42);
+  box-shadow:
+    inset 0 0 30px rgba(255,255,255,0.025),
+    0 0 28px rgba(0,0,0,0.34);
+  overflow: auto;
+  z-index: 4;
+}
+
+/* o nav deixa de ser uma barra e vira camada de abas flutuantes */
+.player-premium-motion .folder-tabs {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* base das abas espalhadas */
+.player-premium-motion .folder-tab {
+  position: absolute;
+  width: 122px;
+  min-height: 48px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  pointer-events: auto;
+
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.018)),
+    rgba(0, 0, 0, 0.72);
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  color: rgba(235, 235, 235, 0.72);
+
+  font-size: 0.64rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 1.8px;
+  text-align: center;
+
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 16px rgba(0,0,0,0.42),
+    inset 0 0 14px rgba(255,255,255,0.025);
+
+  transform-origin: center;
+}
+
+/* esquerda */
+.player-premium-motion .folder-tab:nth-child(1) {
+  left: 0;
+  top: 34px;
+}
+
+.player-premium-motion .folder-tab:nth-child(2) {
+  left: -12px;
+  top: 120px;
+}
+
+.player-premium-motion .folder-tab:nth-child(3) {
+  left: 0;
+  top: 206px;
+}
+
+.player-premium-motion .folder-tab:nth-child(4) {
+  left: -12px;
+  top: 292px;
+}
+
+/* direita */
+.player-premium-motion .folder-tab:nth-child(5) {
+  right: 0;
+  top: 64px;
+}
+
+.player-premium-motion .folder-tab:nth-child(6) {
+  right: -12px;
+  top: 150px;
+}
+
+.player-premium-motion .folder-tab:nth-child(7) {
+  right: 0;
+  top: 236px;
+}
+
+.player-premium-motion .folder-tab:nth-child(8) {
+  right: -12px;
+  top: 322px;
+}
+
+/* pequenas linhas ligando as abas ao documento */
+.player-premium-motion .folder-tab::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.player-premium-motion .folder-tab:nth-child(-n + 4)::before {
+  right: -28px;
+}
+
+.player-premium-motion .folder-tab:nth-child(n + 5)::before {
+  left: -28px;
+  transform: rotate(180deg);
+}
+
+/* ativo fica mais forte e “preso” no dossiê */
+.player-premium-motion .folder-tab.active {
+  transform: scale(1.08);
+  color: #050505 !important;
+  z-index: 12;
+}
+
+/* hover com mais sensação de peça física */
+.player-premium-motion .folder-tab:hover {
+  transform: scale(1.06) translateY(-2px);
+  z-index: 13;
+}
+
+/* evita que aba ativa pule estranho em algumas personagens */
+.player-premium-motion .folder-tab.active:hover {
+  transform: scale(1.1) translateY(-2px);
+}
+
+/* carimbo sutil no documento aberto */
+.player-premium-motion .folder-content::before {
+  content: "ARQUIVO ABERTO";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  color: rgba(255, 255, 255, 0.055);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* título com mais cara de seção principal */
+.player-premium-motion .folder-title {
+  padding-right: 160px;
+  letter-spacing: 3px;
+}
+
+/* melhora leitura do corpo */
+.player-premium-motion .folder-body {
+  max-width: 920px;
+}
+
+/* =========================================================
+   PERSONALIDADE DAS ABAS POR PERSONAGEM
+========================================================= */
+
+/* MAISIE — abas mais diagonais e tecnológicas */
+.maisie-mode.player-premium-motion .folder-tab {
+  border-color: rgba(255, 74, 190, 0.22);
+}
+
+.maisie-mode.player-premium-motion .folder-tab:nth-child(2),
+.maisie-mode.player-premium-motion .folder-tab:nth-child(4),
+.maisie-mode.player-premium-motion .folder-tab:nth-child(6),
+.maisie-mode.player-premium-motion .folder-tab:nth-child(8) {
+  transform: skewX(-6deg);
+}
+
+.maisie-mode.player-premium-motion .folder-tab:nth-child(2):hover,
+.maisie-mode.player-premium-motion .folder-tab:nth-child(4):hover,
+.maisie-mode.player-premium-motion .folder-tab:nth-child(6):hover,
+.maisie-mode.player-premium-motion .folder-tab:nth-child(8):hover {
+  transform: skewX(-6deg) scale(1.06) translateY(-2px);
+}
+
+.maisie-mode.player-premium-motion .folder-tab.active {
+  background: linear-gradient(135deg, #ff4abe, #00b4ff);
+  box-shadow:
+    0 0 20px rgba(255, 74, 190, 0.34),
+    0 0 34px rgba(0, 180, 255, 0.16),
+    inset 0 0 14px rgba(255,255,255,0.16);
+}
+
+/* ROSELYN — abas elegantes, pretas e douradas */
+.roselyn-mode.player-premium-motion .folder-tab {
+  border-color: rgba(214, 179, 90, 0.24);
+  background:
+    linear-gradient(145deg, rgba(214,179,90,0.075), rgba(255,255,255,0.012)),
+    rgba(0, 0, 0, 0.76);
+}
+
+.roselyn-mode.player-premium-motion .folder-tab.active {
+  background: linear-gradient(135deg, #d6b35a, #fff0b4);
+  box-shadow:
+    0 0 20px rgba(214, 179, 90, 0.30),
+    inset 0 0 14px rgba(255,255,255,0.16);
+}
+
+/* LILIAN — abas pesadas, blocadas */
+.lilian-mode.player-premium-motion .folder-tab {
+  border-radius: 10px;
+  border-color: rgba(160, 120, 255, 0.22);
+}
+
+.lilian-mode.player-premium-motion .folder-tab.active {
+  background: linear-gradient(135deg, #7e24ff, #8b0000);
+  box-shadow:
+    0 0 20px rgba(126, 36, 255, 0.28),
+    0 0 34px rgba(139, 0, 0, 0.14),
+    inset 0 0 14px rgba(255,255,255,0.12);
+}
+
+/* =========================================================
+   CONTEÚDO MAIS LIMPO E ESPAÇADO
+========================================================= */
+
+.player-premium-motion .folder-body .data-cluster {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.player-premium-motion .skill-list,
+.player-premium-motion .ritual-grid {
+  gap: 16px;
+}
+
+.player-premium-motion .skill-item,
+.player-premium-motion .ritual-folder,
+.player-premium-motion .data-chip {
+  border-radius: 18px;
+}
+
+/* =========================================================
+   RESPONSIVO: no celular volta para abas normais no topo
+========================================================= */
+
+@media (max-width: 1100px) {
+  .player-premium-motion .folder-system {
+    padding: 20px;
+    min-height: auto;
+    overflow: hidden;
+  }
+
+  .player-premium-motion .folder-tabs {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    pointer-events: auto;
+  }
+
+  .player-premium-motion .folder-tab {
+    position: relative;
+    inset: auto !important;
+    right: auto !important;
+    left: auto !important;
+    top: auto !important;
+    width: auto;
+    flex: 1 1 calc(50% - 8px);
+    min-height: 44px;
+    transform: none !important;
+  }
+
+  .player-premium-motion .folder-tab::before {
+    display: none;
+  }
+
+  .player-premium-motion .folder-content {
+    min-height: 540px;
+  }
+
+  .player-premium-motion .folder-title {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .player-premium-motion .folder-tab {
+    flex: 1 1 100%;
+  }
+
+  .player-premium-motion .folder-content {
+    min-height: 500px;
+    padding: 20px;
+  }
+}
