@@ -1,4391 +1,735 @@
-let masterAccess = false;
-let currentAgent = null;
+const PUBLIC_AGENTS = ["maisie", "roselyn", "lilian"];
+const FORBIDDEN_AGENTS = ["yuna", "lisa", "blender", "klint", "anny"];
 
-const routes = {
-  "Agentes": "pages/agentes.html",
-  "Locais": "pages/locais.html",
-  "Missões": "pages/missoes.html",
-  "Documentos": "pages/documentos.html",
-  "Ordo Realitas": "pages/ordo-realitas.html",
-
-  "Elementos": "pages/elementos.html",
-  "Klint": "pages/klint.html",
-  "Jogadores": "pages/jogadores.html",
-  "Componentes Ritualísticos": "pages/componentes-ritualisticos.html"
-};
-
-const agentsData = {
-  yuna: {
-    id: "yuna",
-    name: "Yuna",
-    codename: "YUNA",
-    image: "../assets/imagens/agentes/yuna.png",
-    modeClass: "yuna-mode",
-    theme: {
-      main: "#cfc4ff",
-      secondary: "#6d63ff",
-      glow: "rgba(184, 166, 255, 0.28)"
-    },
-    status: "Arquivo liberado — Semi-Líder Ocultista",
-    description: "Ocultista de Morte. Analista de manifestações, artefatos, rituais e pontos de ruptura da Ordo Realitas.",
-    className: "Ocultista",
-    origin: "Desconhecida",
-    nex: "60%",
-    rank: "Semi-Líder Ocultista",
-    banner: {
-      label: "Registro interno — Acesso restrito",
-      title: "Ela sobreviveu. Não voltou inteira.",
-      text: "Arquivo técnico e narrativo consolidado a partir da ficha bruta mecânica e do dossiê narrativo da Ordo."
-    },
-    attributes: { FOR: 1, AGI: 3, INT: 4, PRE: 1, VIG: 1 },
-    derived: {
-      life: "46 / 46",
-      determination: "77 / 77",
-      defense: "13",
-      dodge: "23",
-      ritualDT: "23",
-      peTurn: "12"
-    },
-    folders: {
-      descricao: {
-        title: "Descrição",
-        html: `
-          <p>Yuna possui 24 anos, 1,65m e uma presença silenciosa que costuma ser percebida antes mesmo de ela falar. A primeira impressão pode sugerir fragilidade ou distância, mas essa leitura muda quando seus olhos se fixam em algo paranormal.</p>
-
-          <p>Sua pele negra possui brilho sutil, discreto em ambientes comuns, mas mais perceptível sob luz fraca, telas antigas, velas ou durante manifestações paranormais. Em momentos de tensão, esse brilho acompanha o ritmo das marcas ritualísticas no pescoço e nos pulsos, como se o Outro Lado ainda reconhecesse o corpo dela.</p>
-
-          <p>O cabelo é longo, volumoso e intensamente cacheado, com pontas brancas espalhadas pelos cachos como se a cor tivesse sido drenada aos poucos. Uma franja cacheada cai sobre o lado esquerdo do rosto, escondendo parte da expressão.</p>
-
-          <p>Yuna prefere roupas largas, escuras e confortáveis: hoodies oversized pretos ou cinza-escuros, calças amplas, tecidos discretos e pulseiras simples que escondem parte das marcas nos pulsos. Ela não tenta impor autoridade pela aparência. Tenta desaparecer. O problema é que o paranormal nunca deixa.</p>
-
-          <div class="lore-quote">“Eu sobrevivi, mas isso não significa que eu voltei inteira.”</div>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Idade</span><strong>24 anos</strong></div>
-            <div class="data-chip"><span>Altura</span><strong>1,65m</strong></div>
-            <div class="data-chip"><span>Tempo na Ordem</span><strong>4 anos</strong></div>
-            <div class="data-chip"><span>Tempo na Trindade</span><strong>2 anos</strong></div>
-            <div class="data-chip"><span>Elemento</span><strong>Morte</strong></div>
-            <div class="data-chip"><span>Risco interno</span><strong>Moderado a alto</strong></div>
-          </div>
-        `
-      },
-
-      habilidades: {
-        title: "Habilidades",
-        html: `
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Escolhido pelo Outro Lado</h3>
-              <p>Habilidade base de Ocultista. Permite lançar rituais e representa a abertura de Yuna para forças paranormais que nunca a deixaram completamente.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Especialista em Elemento</h3>
-              <p>Yuna escolhe um elemento e aumenta a DT para resistir aos rituais desse elemento. No caso dela, a especialização reforça sua ligação com Morte.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Identificação Paranormal</h3>
-              <p>Recebe grande vantagem em testes de Ocultismo para identificar criaturas, objetos ou rituais. Essa é uma das razões pelas quais a Ordo a considera insubstituível.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Mestre em Elemento</h3>
-              <p>Reduz o custo para lançar rituais do elemento escolhido. Em termos narrativos, Yuna não conjura Morte como uma técnica decorada; ela reconhece uma cicatriz antiga.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Treinamento em Perícia</h3>
-              <p>Dois registros de treinamento aparecem na ficha, completando seu perfil técnico de análise paranormal, investigação e leitura de manifestações.</p>
-            </article>
-          </div>
-        `
-      },
-
-      trilha: {
-        title: "Trilha",
-        html: `
-          <p>A função de Yuna dentro da Ordo não é liderar pessoas pela presença social, mas pela necessidade. Ela se tornou Semi-Líder Ocultista porque ninguém mais entregava o mesmo nível de precisão em análise paranormal.</p>
-
-          <p>Seu papel é interpretar o que outros agentes não conseguem enxergar: padrões ritualísticos, pontos de ruptura, ecos de manifestações, artefatos amaldiçoados e sinais de que algo está prestes a atravessar a Realidade.</p>
-
-          <p>Klint percebeu que Yuna era valiosa demais para ser tratada como agente comum e instável demais para ser forçada a seguir a estrutura tradicional da Ordem. A promoção ocorreu por necessidade operacional.</p>
-
-          <div class="lore-quote">A liderança de Yuna é técnica e analítica, não social.</div>
-        `
-      },
-
-      rituais: {
-        title: "Rituais",
-        html: `
-          <div class="ritual-grid">
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 3º Círculo</small>
-              <h3>Memória do Último Instante</h3>
-              <p>Força o alvo a ver uma simulação da própria morte. A Ordo trata esse ritual com extremo cuidado pelo impacto psicológico causado pela percepção direta do fim.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 2º Círculo</small>
-              <h3>Refração Temporal</h3>
-              <p>Altera a percepção temporal da própria Yuna. Enquanto sustentado, permite que ela reaja como se estivesse meio segundo fora do fluxo normal.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 1º Círculo</small>
-              <h3>Definhar</h3>
-              <p>Enfraquece o alvo pela ação da Morte, reduzindo vitalidade, estabilidade ou capacidade física conforme a versão usada na mesa.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 1º Círculo</small>
-              <h3>Cicatrização</h3>
-              <p>Fecha ferimentos forçando o corpo a avançar no próprio processo de recuperação. Cura com custo narrativo ligado a Morte e envelhecimento.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 2º Círculo</small>
-              <h3>Decadência</h3>
-              <p>Acelera deterioração, apodrecimento e ruína de um alvo, objeto ou defesa. Yuna usa como contato direto com o fim das coisas.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 2º Círculo</small>
-              <h3>Velocidade Mortal</h3>
-              <p>Acelera os movimentos da usuária por manipulação temporal, permitindo agir como se estivesse um instante à frente.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 1º/2º Círculo</small>
-              <h3>Eco Espiral</h3>
-              <p>Cria repetições, ecos e ciclos de Morte. Usado para prender percepções, distorcer ritmo de ação e fazer eventos retornarem de forma errada.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 1º Círculo</small>
-              <h3>Registro da Ruína</h3>
-              <p>Yuna observa um alvo, objeto ou local e força a Morte a revelar marcas de deterioração invisíveis. Pode auxiliar em Ocultismo, Investigação ou Percepção.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 2º Círculo</small>
-              <h3>Segundo Antes do Fim</h3>
-              <p>Ao ser alvo de ataque ou efeito que permita resistência, Yuna sente o instante antes do perigo. Pode reagir melhor e se mover como parte da reação.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — 3º Círculo</small>
-              <h3>Relógio Fúnebre</h3>
-              <p>Marca um alvo com um ciclo invisível de Morte. Enquanto sustentado, reduz a resistência contra rituais de Morte da Yuna e permite penalidades adicionais.</p>
-            </div>
-
-            <div class="ritual-folder ritual-conhecimento">
-              <small>Conhecimento — 1º Círculo</small>
-              <h3>Terceiro Olho</h3>
-              <p>Permite perceber camadas ocultas da Realidade: rastros paranormais, marcas, presenças, símbolos e detalhes invisíveis a agentes comuns.</p>
-            </div>
-
-            <div class="ritual-folder ritual-conhecimento">
-              <small>Conhecimento — 1º Círculo</small>
-              <h3>Ouvir os Sussurros</h3>
-              <p>Yuna capta ecos, frases e fragmentos de informação presos em objetos, lugares ou manifestações paranormais.</p>
-            </div>
-
-            <div class="ritual-folder ritual-conhecimento">
-              <small>Conhecimento — 1º Círculo</small>
-              <h3>Perturbação</h3>
-              <p>Desestabiliza a mente ou a ação de um alvo por meio de influência paranormal e pressão psicológica.</p>
-            </div>
-
-            <div class="ritual-folder ritual-conhecimento">
-              <small>Conhecimento — 2º Círculo</small>
-              <h3>Memória Residual</h3>
-              <p>Ao tocar objeto, corpo, parede, porta, símbolo ou local marcado pelo paranormal, Yuna acessa fragmentos sensoriais do que aconteceu.</p>
-            </div>
-
-            <div class="ritual-folder ritual-sangue">
-              <small>Sangue</small>
-              <h3>Nenhum ritual registrado</h3>
-              <p>A ficha de Yuna não registra rituais de Sangue.</p>
-            </div>
-
-            <div class="ritual-folder ritual-energia">
-              <small>Energia</small>
-              <h3>Nenhum ritual registrado</h3>
-              <p>A ficha de Yuna não registra rituais de Energia.</p>
-            </div>
-
-            <div class="ritual-folder ritual-medo">
-              <small>Medo</small>
-              <h3>Acesso bloqueado</h3>
-              <p>Dados ligados a Medo não devem ser exibidos em registros comuns.</p>
-            </div>
-          </div>
-        `
-      },
-
-      pericias: {
-        title: "Perícias",
-        html: `
-          <p>Perícias principais registradas na ficha mecânica. A leitura da Ordo indica foco em análise paranormal, percepção, investigação e sobrevivência controlada.</p>
-
-          <table class="pericia-table">
-            <thead>
-              <tr>
-                <th>Perícia</th>
-                <th>Atributo</th>
-                <th>Bônus</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr><td>Ocultismo</td><td>INT</td><td>+15</td></tr>
-              <tr><td>Percepção</td><td>PRE</td><td>+15</td></tr>
-              <tr><td>Investigação</td><td>INT</td><td>+10</td></tr>
-              <tr><td>Reflexos</td><td>AGI</td><td>+10</td></tr>
-              <tr><td>Vontade</td><td>PRE</td><td>+10</td></tr>
-              <tr><td>Furtividade</td><td>AGI</td><td>+10</td></tr>
-              <tr><td>Adestramento</td><td>PRE</td><td>+5</td></tr>
-              <tr><td>Artes</td><td>PRE</td><td>+5</td></tr>
-              <tr><td>Atualidades</td><td>INT</td><td>+5</td></tr>
-              <tr><td>Intuição</td><td>PRE</td><td>+5</td></tr>
-              <tr><td>Sobrevivência</td><td>INT</td><td>+5</td></tr>
-              <tr><td>Tática</td><td>INT</td><td>+5</td></tr>
-            </tbody>
-          </table>
-        `
-      },
-
-      inventario: {
-        title: "Inventário",
-        html: `
-          <p><strong>Inventário registrado:</strong> nenhum item registrado.</p>
-
-          <p>Essa ausência não é descuido. É escolha narrativa. Yuna quase não carrega itens porque ela própria funciona como foco operacional e paranormal.</p>
-
-          <p>Sua forma principal de combate não envolve armas. Ela atua com rituais de Morte e Conhecimento, priorizando controle, análise, enfraquecimento e suporte.</p>
-
-          <div class="lore-quote">Ela carrega o próprio corpo porque não pode deixá-lo para trás.</div>
-        `
-      },
-
-      relacoes: {
-        title: "Relações",
-        html: `
-          <p><strong>Lisa:</strong> Yuna e Lisa mantêm uma relação afetiva há aproximadamente 1 ano. O vínculo não apresentou prejuízo operacional. Pelo contrário: Lisa funciona como âncora emocional para Yuna, enquanto Yuna oferece a Lisa leitura fria e precisa de situações caóticas.</p>
-
-          <p><strong>Blender:</strong> Blender atua como figura fraterna para Yuna e Lisa. Apesar do comportamento impulsivo e grosseiro, demonstra cuidado constante e instinto protetor. Ele trata Yuna como família, não como arma, caso ou aberração.</p>
-
-          <p><strong>Klint:</strong> Klint a promoveu por necessidade operacional e aceitou suas condições: não mentorar agentes diretamente, não atuar como instrutora pública, evitar eventos sociais e trabalhar sozinha sempre que possível.</p>
-
-          <div class="lore-quote">Para Lisa, ela é apenas Yuna. Talvez isso explique por que ela continua aqui.</div>
-        `
-      },
-
-      ordo: {
-        title: "O que a Ordo acha",
-        html: `
-          <p>Yuna não deve ser tratada como agente comum. Sua presença dentro da Ordem é resultado de utilidade operacional extrema, tolerância institucional e confiança direta de Klint.</p>
-
-          <p>Ela funciona melhor com autonomia, pouca exposição social e objetivos claros. Não se recomenda forçar Yuna a atuar como mentora, instrutora pública ou líder de equipe ampla.</p>
-
-          <p>Para alguns agentes, Yuna é uma especialista brilhante. Para outros, uma sobrevivente instável. Para poucos, uma arma que precisa ser usada com cuidado.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Status</span><strong>Ativa</strong></div>
-            <div class="data-chip"><span>Convivência</span><strong>Restrita</strong></div>
-            <div class="data-chip"><span>Mentoria</span><strong>Não recomendada</strong></div>
-            <div class="data-chip"><span>Exposição ao Outro Lado</span><strong>Risco moderado a alto</strong></div>
-          </div>
-
-          <div class="lore-quote">“Dentro da Ordem, ao menos o horror tinha nome, classificação e protocolo.”</div>
-        `
-      }
-    }
-  },
-
-  lisa: {
-    id: "lisa",
-    name: "Lisa",
-    codename: "LISA",
-    image: "../assets/imagens/agentes/lisa.png",
-    modeClass: "",
-    theme: {
-      main: "#8fd694",
-      secondary: "#d6b35a",
-      glow: "rgba(143, 214, 148, 0.22)"
-    },
-    status: "Arquivo liberado — Semi-Líder Especialista",
-    description: "Coordenadora operacional, ex-ginasta e principal elo estratégico da Trindade.",
-    className: "Especialista",
-    origin: "Ginasta",
-    nex: "60%",
-    rank: "Semi-Líder Especialista",
-    attributes: { FOR: 1, AGI: 3, INT: 3, PRE: 2, VIG: 1 },
-    derived: {
-      life: "---",
-      determination: "---",
-      defense: "---",
-      dodge: "---",
-      ritualDT: "---",
-      peTurn: "---"
-    },
-    folders: {
-      descricao: {
-        title: "Descrição",
-        html: `<p>Lisa é comunicativa, carismática e extremamente eficiente quando precisa organizar uma equipe sob pressão.</p>`
-      },
-      habilidades: {
-        title: "Habilidades",
-        html: `
-          <ul>
-            <li><strong>Eclético:</strong> versatilidade em momentos decisivos.</li>
-            <li><strong>Mobilidade Acrobática:</strong> movimentação refinada e controle corporal.</li>
-            <li><strong>Movimentos Ginásticos:</strong> execução física precisa.</li>
-            <li><strong>Perito:</strong> domínio técnico em perícias importantes.</li>
-          </ul>
-        `
-      },
-      trilha: {
-        title: "Trilha",
-        html: `<p><strong>Infiltrador:</strong> Lisa possui atuação voltada a mobilidade, precisão, furtividade e resolução rápida de situações complexas.</p>`
-      },
-      rituais: {
-        title: "Rituais",
-        html: `<div class="ritual-grid"><div class="ritual-folder ritual-conhecimento"><h3>Sem rituais</h3><p>Lisa não possui conhecimento ritualístico registrado.</p></div></div>`
-      },
-      pericias: {
-        title: "Perícias",
-        html: `<p>Perícias serão refinadas na versão individual da Lisa.</p>`
-      },
-      inventario: {
-        title: "Inventário",
-        html: `<p>Lisa quase não carrega itens em missões comuns.</p>`
-      },
-      relacoes: {
-        title: "Relações",
-        html: `<p>Relações serão refinadas na versão individual da Lisa.</p>`
-      },
-      ordo: {
-        title: "O que a Ordo acha",
-        html: `<p>A Ordo reconhece Lisa como uma das principais responsáveis por manter equipes vivas e funcionais.</p>`
-      }
-    }
-  },
-
-  blender: {
-    id: "blender",
-    name: "Blender",
-    codename: "BLENDER",
-    image: "../assets/imagens/agentes/blender.png",
-    modeClass: "",
-    theme: {
-      main: "#ff3b3b",
-      secondary: "#d6b35a",
-      glow: "rgba(255, 59, 59, 0.26)"
-    },
-    status: "Arquivo liberado — Semi-Líder Combatente",
-    description: "Combatente de linha de frente, ex-lutador e força bruta da Trindade da Ordo.",
-    className: "Combatente",
-    origin: "Lutador",
-    nex: "60%",
-    rank: "Semi-Líder Combatente",
-    attributes: { FOR: 4, AGI: 2, INT: 1, PRE: 2, VIG: 3 },
-    derived: {
-      life: "---",
-      determination: "---",
-      defense: "---",
-      dodge: "---",
-      ritualDT: "---",
-      peTurn: "---"
-    },
-    folders: {
-      descricao: {
-        title: "Descrição",
-        html: `<p>Blender é explosivo, grosseiro, impulsivo e extremamente direto. Sua eficiência em campo é inegável.</p>`
-      },
-      habilidades: {
-        title: "Habilidades",
-        html: `<ul><li><strong>Ataque Especial:</strong> força concentrada em golpes decisivos.</li><li><strong>Artista Marcial:</strong> experiência corporal de combate.</li><li><strong>Mão Pesada:</strong> dano bruto e pressão física.</li></ul>`
-      },
-      trilha: {
-        title: "Trilha",
-        html: `<p><strong>Guerreiro:</strong> presença de linha de frente, absorvendo perigo e devolvendo violência de forma ainda maior.</p>`
-      },
-      rituais: {
-        title: "Rituais",
-        html: `<div class="ritual-grid"><div class="ritual-folder ritual-sangue"><h3>Sangue</h3><p>Nenhum ritual registrado.</p></div></div>`
-      },
-      pericias: {
-        title: "Perícias",
-        html: `<p>Perícias serão refinadas na versão individual do Blender.</p>`
-      },
-      inventario: {
-        title: "Inventário",
-        html: `<p>Blender depende principalmente do próprio corpo.</p>`
-      },
-      relacoes: {
-        title: "Relações",
-        html: `<p>Relações serão refinadas na versão individual do Blender.</p>`
-      },
-      ordo: {
-        title: "O que a Ordo acha",
-        html: `<p>A Ordo considera Blender perigoso, barulhento e difícil de controlar, mas extremamente confiável em combate.</p>`
-      }
-    }
-  },
-
+const agents = {
   maisie: {
     id: "maisie",
     name: "Maisie Hundown",
-    codename: "MAISIE",
-    image: "../assets/imagens/agentes/maisie.png",
-    modeClass: "",
-    theme: {
-      main: "#c05cff",
-      secondary: "#ff5bbd",
-      glow: "rgba(192, 92, 255, 0.25)"
-    },
-    status: "Arquivo liberado — Agente em campo",
-    description: "Agente enviada para Santa Luzia durante os primeiros movimentos da investigação.",
+    player: "Caio",
+    mode: "maisie-mode",
+    image: "../assets/imagens/personagens/maisie.png",
+    wheel: "maisie",
+    status: "Arquivo liberado — Recruta / Personagem Jogador",
+    desc: "Ocultista de campo com forte integração tecnológica, foco em Energia e monitoramento discreto recomendado.",
     className: "Ocultista",
     origin: "Agente de Saúde",
     nex: "40%",
     rank: "Recruta",
-    attributes: { FOR: 1, AGI: 2, INT: 3, PRE: 3, VIG: 2 },
-    derived: {
-      life: "---",
-      determination: "---",
-      defense: "---",
-      dodge: "---",
-      ritualDT: "---",
-      peTurn: "---"
+    attrs: { FOR: 1, AGI: 1, INT: 3, PRE: 3, VIG: 2 },
+
+    banner: {
+      label: "Registro público — Ordo Realitas",
+      title: "ENERGIA / TECNOLOGIA PARANORMAL",
+      text: "Recorte autorizado de dossiê institucional. Dados mecânicos completos, custos e regras foram ocultados."
     },
+
+    insights: {
+      FOR: "Força física não é o eixo principal da agente. A ameaça real está na adaptação técnica, no canhão e na integração corpo-máquina.",
+      AGI: "Mobilidade funcional, mas limitada. Maisie compensa deslocamento com leitura rápida, improviso e recursos tecnológicos.",
+      INT: "Principal eixo operacional. Medicina, robótica, tecnologia, ocultismo e análise de sistemas convergem no mesmo perfil.",
+      PRE: "Maisie possui carisma e intensidade social. Consegue interagir, convencer e ocupar espaço quando necessário.",
+      VIG: "Resistência marcada por trauma corporal, reconstrução física e contato prolongado com Energia."
+    },
+
     folders: {
-      descricao: { title: "Descrição", html: `<p>Maisie possui estética vibrante, marcada por roxo, fogo rosa, mecânica improvisada e ocultismo de campo.</p>` },
-      habilidades: { title: "Habilidades", html: `<p>Habilidades específicas serão adicionadas conforme a ficha for refinada.</p>` },
-      trilha: { title: "Trilha", html: `<p>Trilha aguardando organização final.</p>` },
-      rituais: { title: "Rituais", html: `<div class="ritual-grid"><div class="ritual-folder ritual-energia"><h3>Rituais</h3><p>Rituais serão adicionados posteriormente.</p></div></div>` },
-      pericias: { title: "Perícias", html: `<p>Perícias serão refinadas na versão individual da Maisie.</p>` },
-      inventario: { title: "Inventário", html: `<p>Inventário aguardando integração com a ficha bruta.</p>` },
-      relacoes: { title: "Relações", html: `<p>Relações serão refinadas na versão individual da Maisie.</p>` },
-      ordo: { title: "O que a Ordo acha", html: `<p>A Ordo acompanha o desempenho de Maisie como parte da primeira equipe enviada para Santa Luzia.</p>` }
+      descricao: `
+        <p>Maisie Hundown é registrada pela Ordo Realitas como uma agente marcada por sobrevivência, curiosidade e adaptação. Seu contato com o paranormal não gerou apenas medo: gerou uma necessidade ativa de compreender, dominar e redirecionar aquilo que quase a destruiu.</p>
+
+        <p>O braço mecânico, o tanque ritualístico e o interesse por Energia fazem parte de uma reconstrução pessoal. A Ordo não considera esses elementos simples ferramentas, mas extensões de um processo de sobrevivência transformado em método operacional.</p>
+
+        <p>Maisie tende a se aproximar do desconhecido por impulso investigativo, não por ingenuidade. Esse padrão é valioso em campo, mas exige cuidado quando a curiosidade começa a superar a prudência.</p>
+
+        <div class="quote">“Algumas pessoas fogem do caos. Maisie tenta entender o circuito por trás dele.”</div>
+      `,
+
+      habilidades: cards([
+        ["Ocultismo aplicado", "Maisie reconhece o paranormal como ameaça, mas também como sistema que pode ser estudado, adaptado e usado contra aquilo que fere a Realidade."],
+        ["Improviso técnico", "Sob pressão, busca soluções funcionais em vez de apenas escapar. O registro do hospital abandonado reforça sua capacidade de reação em cenários de colapso."],
+        ["Medicina e leitura corporal", "Sua formação prática permite observar ferimentos, resistência física e risco biológico com olhar técnico, especialmente em situações de emergência."],
+        ["Robótica e sistemas", "A agente tende a enxergar corpo, máquina e paranormal como estruturas analisáveis. Isso torna sua leitura de problemas incomum e operacionalmente útil."],
+        ["Proteção por experiência", "Sua motivação não parece baseada em obediência cega à Ordo, mas na recusa em permitir que outras pessoas sofram violências parecidas com as que ela sofreu."]
+      ]),
+
+      trilha: cards([
+        ["Ocultista de campo", "Atua como suporte ofensivo, improvisadora técnica e agente de contenção em ambientes caóticos."],
+        ["Energia como linguagem", "Depois do desastre no hospital abandonado, manifestações de Energia passaram a ser incorporadas à tecnologia pessoal da agente."],
+        ["Autonomia técnica", "Maisie responde melhor a explicações do que a imposições. Controle sem justificativa tende a gerar resistência."],
+        ["Equipamento como identidade", "Seus dispositivos não devem ser tratados como ferramentas descartáveis. A Ordo recomenda respeito à autonomia física e tecnológica da agente."]
+      ]),
+
+      rituais: cards([
+        ["Energia — assinatura predominante", "A integração com Energia se manifesta por instabilidade, interferência, descarga, improviso e tentativa de redirecionar caos em resposta operacional."],
+        ["Barreira anômala", "O evento do hospital abandonado indica que Maisie conseguiu canalizar uma resposta de Energia através do braço mecânico durante uma situação crítica."],
+        ["Corpo, máquina e foco paranormal", "A fronteira entre equipamento, corpo e foco paranormal pode se tornar instável sob exposição prolongada."],
+        ["Uso pragmático do Outro Lado", "Maisie não trata rituais apenas como ameaça ou tabu. Ela os entende como ferramentas perigosas que precisam ser compreendidas antes de serem usadas."]
+      ], "ritual-card"),
+
+      pericias: chips([
+        "Ocultismo prático",
+        "Tecnologia aplicada",
+        "Medicina de campo",
+        "Robótica",
+        "Improviso técnico",
+        "Análise de sistemas",
+        "Percepção de risco",
+        "Resposta sob pressão"
+      ]),
+
+      inventario: cards([
+        ["Braço mecânico esquerdo", "Maisie não o reconhece apenas como substituição física. Para ela, é memória do ataque, resposta ao trauma, instrumento de combate e prova de autonomia."],
+        ["Tanque ritualístico", "Recurso associado à canalização e sustentação de manifestações de Energia. Deve ser observado como parte do conjunto corpo-máquina-paranormal."],
+        ["Walt", "Primeiro grande projeto registrado em sua trajetória. Um pequeno robô companheiro que representa prova emocional de que suas ideias podiam existir fora da crítica dos outros."],
+        ["Projetos pessoais", "A Ordo recomenda não manipular, desmontar ou confiscar dispositivos pessoais sem consentimento ou necessidade operacional real."]
+      ]),
+
+      relacoes: `
+        <p><strong>Walt:</strong> marco emocional e técnico. Não é apenas um robô, mas uma prova de autonomia criativa.</p>
+
+        <p><strong>Professor não identificado:</strong> figura associada ao primeiro resgate após o ataque paranormal que resultou na perda do braço esquerdo.</p>
+
+        <p><strong>Equipe perdida no hospital abandonado:</strong> evento de alta relevância psicológica. Maisie sobreviveu sozinha a um desastre que destruiu o local e matou os demais agentes envolvidos.</p>
+
+        <p><strong>Ordo Realitas:</strong> vínculo funcional, mas não cego. Maisie coopera melhor quando entende o motivo por trás das ordens.</p>
+      `,
+
+      ordo: `
+        <p>A Ordo Realitas avalia Maisie Hundown como agente de alto valor em missões envolvendo Energia, tecnologia, dispositivos anômalos, ambientes instáveis e necessidade de adaptação rápida.</p>
+
+        <p>O principal risco observado é a aproximação indevida de fenômenos desconhecidos antes de avaliação segura. Também há risco de resposta defensiva intensa caso sua autonomia física, seu braço mecânico ou seus projetos sejam questionados de forma invasiva.</p>
+
+        <p>A agente apresenta histórico de sobrevivência solitária após perda de equipe, com possível culpa residual e tendência a agir como se precisasse resolver tudo sozinha.</p>
+
+        <div class="quote">Recomendação: atuação aprovada, com monitoramento técnico e psicológico discreto. Não tratar a agente como peça, ferramenta ou experimento.</div>
+      `
     }
   },
 
   roselyn: {
     id: "roselyn",
     name: "Roselyn Tate",
-    codename: "ROSELYN",
-    image: "../assets/imagens/agentes/roselyn.png",
-    modeClass: "",
-    theme: {
-      main: "#c7c7c7",
-      secondary: "#7e24ff",
-      glow: "rgba(199, 199, 199, 0.18)"
-    },
-    status: "Arquivo liberado — Agente em campo",
-    description: "Especialista associada à operação Corações do Outro Lado.",
+    player: "Erick",
+    mode: "roselyn-mode",
+    image: "../assets/imagens/personagens/roselyn.png",
+    wheel: "roselyn",
+    status: "Arquivo liberado — Recruta / Personagem Jogador",
+    desc: "Atiradora de precisão, reconhecimento e análise tática associada à ocorrência anômala da mansão Tate.",
     className: "Especialista",
     origin: "Militar",
     nex: "40%",
     rank: "Recruta",
-    attributes: { FOR: 2, AGI: 3, INT: 3, PRE: 2, VIG: 1 },
-    derived: {
-      life: "---",
-      determination: "---",
-      defense: "---",
-      dodge: "---",
-      ritualDT: "---",
-      peTurn: "---"
+    attrs: { FOR: 2, AGI: 3, INT: 2, PRE: 1, VIG: 2 },
+
+    banner: {
+      label: "Registro público — Ordo Realitas",
+      title: "METRÔNOMO / MIRA TEMPORAL",
+      text: "Recorte autorizado de dossiê institucional. Dados mecânicos completos, custos e regras foram ocultados."
     },
+
+    insights: {
+      FOR: "Força funcional. Roselyn não vence pela brutalidade, mas por posição, controle de distância e precisão.",
+      AGI: "Atributo central para deslocamento tático, furtividade, mira e reposicionamento sob risco.",
+      INT: "Usado para análise de rota, tecnologia, padrões de movimento e detalhes fora de sincronia.",
+      PRE: "Baixa abertura emocional. Sua presença é mais fria e calculada do que dominante.",
+      VIG: "Resistência suficiente para suportar espera, pressão e situações de campo prolongadas."
+    },
+
     folders: {
-      descricao: { title: "Descrição", html: `<p>Roselyn carrega uma estética elegante e tensa, marcada por prata, precisão, metrônomo e distorções ligadas ao tempo.</p>` },
-      habilidades: { title: "Habilidades", html: `<p>Habilidades serão adicionadas conforme a ficha bruta for integrada.</p>` },
-      trilha: { title: "Trilha", html: `<p>Trilha aguardando organização final.</p>` },
-      rituais: { title: "Rituais", html: `<div class="ritual-grid"><div class="ritual-folder ritual-morte"><h3>Morte</h3><p>Possível associação estética com tempo e desgaste.</p></div></div>` },
-      pericias: { title: "Perícias", html: `<p>Perícias serão refinadas na versão individual da Roselyn.</p>` },
-      inventario: { title: "Inventário", html: `<p>Inventário aguardando integração visual.</p>` },
-      relacoes: { title: "Relações", html: `<p>Relações serão refinadas na versão individual da Roselyn.</p>` },
-      ordo: { title: "O que a Ordo acha", html: `<p>A Ordo registra Roselyn como agente útil em situações que exigem precisão, controle e leitura tática.</p>` }
+      descricao: `
+        <p>Roselyn Tate é uma sobrevivente de contato direto com manifestação associada à Morte e uma das poucas remanescentes conhecidas do incidente ocorrido na antiga residência da família Tate.</p>
+
+        <p>Seu perfil combina disciplina militar, precisão calculada e instabilidade discreta vinculada à memória do evento que apagou sua família. Socialmente, pode parecer extrovertida, provocativa e presente, mas essa abertura não deve ser confundida com vulnerabilidade livre.</p>
+
+        <p>Sob pressão, Roselyn tende a reduzir o ambiente a trajetórias, tempos de resposta e brechas. Ela não organiza o medo como pânico; organiza como procedimento.</p>
+
+        <div class="quote">“Ela mira como alguém que já perdeu tudo e aprendeu a esperar o mundo terminar antes de puxar o gatilho.”</div>
+      `,
+
+      habilidades: cards([
+        ["Precisão balística", "Apta para cobertura de longa distância, controle de linha de tiro e espera pelo momento exato de ação."],
+        ["Reconhecimento avançado", "Perfil adequado para análise de rotas, vigilância, leitura de movimentação inimiga e suporte a equipes em áreas de risco."],
+        ["Leitura tática", "Procura padrões, repetições, brechas e detalhes fora de sincronia com o ambiente."],
+        ["Controle sob pressão", "Não demonstra pânico comum em sobreviventes recentes de evento paranormal. Tende a converter medo em procedimento."],
+        ["Comunicação em equipe", "Pode atuar como observadora, cobertura e voz tática, mas precisa comunicar incertezas antes de agir sobre elas."]
+      ]),
+
+      trilha: cards([
+        ["Disparo como evento", "Roselyn demonstra capacidade de esperar o momento exato e transformar observação em vantagem."],
+        ["Ponte entre vigilância e combate", "Sua familiaridade com tecnologia, observação técnica e raciocínio tático permite conectar infiltração, vigilância e combate coordenado."],
+        ["Autonomia controlada", "Funciona melhor com objetivos claros, espaço de observação e liberdade limitada para decisões táticas."],
+        ["Percepção não infalível", "A Ordo recomenda ouvir suas leituras de campo, mas nunca tratá-las como absolutas."]
+      ]),
+
+      rituais: cards([
+        ["Morte / percepção temporal", "O contato inicial não se manifestou apenas como trauma, mas como reorganização da forma como Roselyn entende movimento, morte e consequência."],
+        ["Metrônomo de prata", "Objeto de origem desconhecida. Atua como âncora psicológica, símbolo de sobrevivência e possível foco de influência paranormal."],
+        ["Tempo espesso", "A agente descreve ou demonstra tendência a perceber ações como eventos suspensos, incompletos ou ainda negociáveis por um intervalo mínimo."],
+        ["Sem conjuração registrada", "O arquivo público não registra Roselyn como conjuradora ritualística. Sua relação paranormal aparece por percepção alterada e vínculo com objetos."]
+      ], "ritual-card"),
+
+      pericias: chips([
+        "Pontaria de precisão",
+        "Reconhecimento",
+        "Furtividade",
+        "Reflexos",
+        "Investigação",
+        "Tecnologia",
+        "Observação técnica",
+        "Análise tática"
+      ]),
+
+      inventario: cards([
+        ["Metrônomo de prata", "Não deve ser removido sem autorização superior e acompanhamento adequado. Remoção brusca pode gerar reação defensiva, desorientação ou ruptura de confiança."],
+        ["Rifle do pai", "Relíquia pessoal e vínculo físico com uma família apagada pelo paranormal. A Ordo não deve tratá-lo como equipamento substituível comum."],
+        ["Lente de prata oxidada", "Montada com fragmentos ligados à mansão Tate. Roselyn literalmente observa ameaças através do que sobrou de sua casa."],
+        ["Caderno pessoal", "Registros próprios indicam organização interna. O conteúdo não deve ser violado sem necessidade operacional clara."]
+      ]),
+
+      relacoes: `
+        <p><strong>Família Tate:</strong> vínculo central de perda, origem e motivação. Investigações envolvendo a mansão, antiguidades da família ou manifestações similares podem afetar sua estabilidade.</p>
+
+        <p><strong>Metrônomo de prata:</strong> continuidade entre o momento anterior à perda e o mundo que restou depois dela.</p>
+
+        <p><strong>Rifle e lente:</strong> luto preservado em forma de ferramenta operacional.</p>
+
+        <p><strong>Ordo Realitas:</strong> relação funcional, desde que a cadeia de comando não deslegitime sua percepção de campo sem motivo claro.</p>
+      `,
+
+      ordo: `
+        <p>A Ordo Realitas avalia Roselyn Tate como recurso operacional promissor, porém psicologicamente marcado por evento de alta intensidade.</p>
+
+        <p>Seu valor em campo é evidente: precisão, sangue-frio, capacidade de observação e familiaridade com situações de risco. Ainda assim, seu vínculo com objetos anômalos e memórias traumáticas exige cuidado constante.</p>
+
+        <p>O principal risco observado é a dependência emocional de objetos associados ao trauma. O metrônomo e o rifle funcionam como pontos de estabilização, mas também podem impedir elaboração real da perda.</p>
+
+        <div class="quote">Recomendação: recrutamento aprovado com ressalvas. Evitar exposição prolongada a manifestações de Morte sem acompanhamento e sem análise prévia do estado do metrônomo.</div>
+      `
     }
   },
 
   lilian: {
     id: "lilian",
     name: "Lilian Rodrigues Moretti",
-    codename: "LILIAN",
-    image: "../assets/imagens/agentes/lilian.png",
-    modeClass: "",
-    theme: {
-      main: "#ffb347",
-      secondary: "#ff3333",
-      glow: "rgba(255, 179, 71, 0.22)"
-    },
-    status: "Arquivo liberado — Agente em campo",
-    description: "Combatente vinculada à investigação inicial do Caso Miyara.",
+    player: "Nathalie",
+    mode: "lilian-mode",
+    image: "../assets/imagens/personagens/lilian.png",
+    wheel: "lilian",
+    status: "Arquivo liberado — Recruta / Personagem Jogador",
+    desc: "Combatente de linha de frente, proteção de aliados e contenção física de ameaça.",
     className: "Combatente",
-    origin: "Não registrada",
+    origin: "Atleta",
     nex: "40%",
     rank: "Recruta",
-    attributes: { FOR: 3, AGI: 2, INT: 1, PRE: 2, VIG: 3 },
-    derived: {
-      life: "---",
-      determination: "---",
-      defense: "---",
-      dodge: "---",
-      ritualDT: "---",
-      peTurn: "---"
-    },
-    folders: {
-      descricao: { title: "Descrição", html: `<p>Lilian ocupa a função de combatente da equipe enviada para Santa Luzia.</p>` },
-      habilidades: { title: "Habilidades", html: `<p>Habilidades aguardando integração com ficha bruta.</p>` },
-      trilha: { title: "Trilha", html: `<p>Trilha aguardando organização final.</p>` },
-      rituais: { title: "Rituais", html: `<div class="ritual-grid"><div class="ritual-folder ritual-sangue"><h3>Sangue</h3><p>Nenhum ritual registrado.</p></div></div>` },
-      pericias: { title: "Perícias", html: `<p>Perícias serão refinadas na versão individual da Lilian.</p>` },
-      inventario: { title: "Inventário", html: `<p>Inventário aguardando integração visual.</p>` },
-      relacoes: { title: "Relações", html: `<p>Relações serão refinadas na versão individual da Lilian.</p>` },
-      ordo: { title: "O que a Ordo acha", html: `<p>A Ordo registra Lilian como parte essencial da composição inicial da equipe.</p>` }
-    }
-  },
-
-  klint: {
-    id: "klint",
-    name: "Klint",
-    codename: "KLINT",
-    image: "../assets/imagens/agentes/klint.png",
-    modeClass: "",
-    theme: {
-      main: "#d6b35a",
-      secondary: "#7b0000",
-      glow: "rgba(214, 179, 90, 0.20)"
-    },
-    status: "Arquivo restrito — Comando da Ordo",
-    description: "Líder da Ordo Realitas. Render temporário usado no lugar da Anny.",
-    className: "Comando",
-    origin: "Classificado",
-    nex: "Classificado",
-    rank: "Líder da Ordo",
-    attributes: { FOR: 3, AGI: 2, INT: 4, PRE: 4, VIG: 3 },
-    derived: {
-      life: "Classificado",
-      determination: "Classificado",
-      defense: "Classificado",
-      dodge: "Classificado",
-      ritualDT: "Classificado",
-      peTurn: "Classificado"
-    },
-    folders: {
-      descricao: { title: "Descrição", html: `<p>Klint é uma figura de comando cansada, respeitada e temida. Sua presença carrega autoridade, culpa e uma sensação constante de peso invisível.</p>` },
-      habilidades: { title: "Habilidades", html: `<p>Dados de comando classificados.</p>` },
-      trilha: { title: "Trilha", html: `<p>Registro de trilha não disponível nesta versão pública.</p>` },
-      rituais: { title: "Rituais", html: `<div class="ritual-grid"><div class="ritual-folder ritual-medo"><h3>Classificado</h3><p>Acesso bloqueado.</p></div></div>` },
-      pericias: { title: "Perícias", html: `<p>Dados de perícia classificados.</p>` },
-      inventario: { title: "Inventário", html: `<p>Inventário de comando não exibido.</p>` },
-      relacoes: { title: "Relações", html: `<p>Relações de comando serão exibidas no arquivo secreto do Klint.</p>` },
-      ordo: { title: "O que a Ordo acha", html: `<p>Klint é o peso da decisão. Para muitos agentes, ele parece frio. Para quem conhece a verdade, ele é alguém tentando carregar sangue demais nas mãos.</p>` }
-    }
-  }
-};
-
-function login() {
-  const codeInput = document.getElementById("agentCode");
-  const passwordInput = document.getElementById("agentPassword");
-
-  const code = codeInput.value.trim().toLowerCase();
-  const password = passwordInput.value.trim();
-
-  if (!code) {
-    alert("Insira um código de agente.");
-    return;
-  }
-
-  if (code === "mestre" && password === "coracoes") {
-    masterAccess = true;
-
-    localStorage.setItem("ordoAccessLevel", "mestre");
-    localStorage.setItem("ordoAccessName", "Mestre");
-
-    document.getElementById("accessName").textContent = "Mestre";
-    unlockSecrets();
-  } else {
-    masterAccess = false;
-
-    localStorage.setItem("ordoAccessLevel", "visitante");
-    localStorage.setItem("ordoAccessName", "Visitante");
-
-    document.getElementById("accessName").textContent = "Visitante";
-    lockSecrets();
-  }
-
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-}
-
-function logout() {
-  masterAccess = false;
-
-  localStorage.removeItem("ordoAccessLevel");
-  localStorage.removeItem("ordoAccessName");
-
-  const codeInput = document.getElementById("agentCode");
-  const passwordInput = document.getElementById("agentPassword");
-
-  if (codeInput) codeInput.value = "";
-  if (passwordInput) passwordInput.value = "";
-
-  const dashboard = document.getElementById("dashboard");
-  const loginScreen = document.getElementById("loginScreen");
-
-  if (dashboard) dashboard.classList.add("hidden");
-  if (loginScreen) loginScreen.classList.remove("hidden");
-
-  lockSecrets();
-}
-
-function unlockSecrets() {
-  const secretCards = document.querySelectorAll(".secret");
-
-  secretCards.forEach((card) => {
-    card.classList.remove("locked");
-
-    const lockLabel = card.querySelector(".lock-label");
-
-    if (lockLabel) {
-      lockLabel.textContent = "Liberado";
-      lockLabel.style.color = "#b889ff";
-    }
-  });
-}
-
-function lockSecrets() {
-  const secretCards = document.querySelectorAll(".secret");
-
-  secretCards.forEach((card) => {
-    card.classList.add("locked");
-
-    const lockLabel = card.querySelector(".lock-label");
-
-    if (lockLabel) {
-      lockLabel.textContent = "Bloqueado";
-      lockLabel.style.color = "#ff5555";
-    }
-  });
-}
-
-function openModule(moduleName) {
-  const page = routes[moduleName];
-
-  if (!page) {
-    alert("Módulo não encontrado: " + moduleName);
-    return;
-  }
-
-  window.location.href = page;
-}
-
-function openSecretModule(moduleName) {
-  const accessLevel = localStorage.getItem("ordoAccessLevel");
-  const isMaster = accessLevel === "mestre";
-
-  if (!isMaster) {
-    alert(
-      "ACESSO NEGADO\n\nO arquivo '" +
-        moduleName +
-        "' exige autorização de mestre."
-    );
-    return;
-  }
-
-  const page = routes[moduleName];
-
-  if (!page) {
-    alert("Arquivo secreto não encontrado: " + moduleName);
-    return;
-  }
-
-  window.location.href = page;
-}
-
-function checkSavedAccess() {
-  const accessLevel = localStorage.getItem("ordoAccessLevel");
-  const accessName = localStorage.getItem("ordoAccessName");
-
-  const accessNameElement = document.getElementById("accessName");
-  const loginScreen = document.getElementById("loginScreen");
-  const dashboard = document.getElementById("dashboard");
-
-  if (!accessNameElement || !loginScreen || !dashboard) {
-    return;
-  }
-
-  if (accessLevel === "mestre") {
-    masterAccess = true;
-
-    accessNameElement.textContent = accessName || "Mestre";
-
-    loginScreen.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-
-    unlockSecrets();
-    return;
-  }
-
-  if (accessLevel === "visitante") {
-    masterAccess = false;
-
-    accessNameElement.textContent = accessName || "Visitante";
-
-    loginScreen.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-
-    lockSecrets();
-  }
-}
-
-function protectSecretPage() {
-  const accessLevel = localStorage.getItem("ordoAccessLevel");
-
-  if (accessLevel !== "mestre") {
-    alert("ACESSO NEGADO\n\nEsta página exige autorização de mestre.");
-    window.location.href = "../index.html";
-  }
-}
-
-function openAgent(agentId) {
-  window.location.href = "agente.html?id=" + agentId;
-}
-
-function goToAgents() {
-  window.location.href = "agentes.html";
-}
-
-function goBack() {
-  window.location.href = "../index.html";
-}
-
-function getCurrentAgentId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("id");
-}
-
-function applyAgentTheme(agent) {
-  const root = document.documentElement;
-
-  root.style.setProperty("--agent-main", agent.theme.main);
-  root.style.setProperty("--agent-secondary", agent.theme.secondary);
-  root.style.setProperty("--agent-glow", agent.theme.glow);
-}
-
-function clearAgentModes() {
-  const page = document.getElementById("agentPage");
-
-  if (!page) return;
-
-  page.classList.remove("yuna-mode");
-}
-
-function applyAgentMode(agent) {
-  const page = document.getElementById("agentPage");
-
-  if (!page) return;
-
-  clearAgentModes();
-
-  if (agent.modeClass) {
-    page.classList.add(agent.modeClass);
-  }
-}
-
-function createYunaParticles(agent) {
-  const layer = document.getElementById("specialFxLayer");
-
-  if (!layer) return;
-
-  layer.innerHTML = "";
-
-  if (agent.id !== "yuna") return;
-
-  for (let i = 0; i < 42; i++) {
-    const particle = document.createElement("span");
-    particle.classList.add("death-particle");
-
-    particle.style.left = Math.random() * 100 + "%";
-    particle.style.animationDuration = 5 + Math.random() * 8 + "s";
-    particle.style.animationDelay = Math.random() * 6 + "s";
-    particle.style.opacity = 0.15 + Math.random() * 0.45;
-
-    layer.appendChild(particle);
-  }
-
-  const echoes = [
-    "ele lembrou de mim",
-    "o instante antes do fim",
-    "registro da ruína",
-    "não voltou inteira",
-    "camada da realidade",
-    "ponto de ruptura"
-  ];
-
-  for (let i = 0; i < 10; i++) {
-    const echo = document.createElement("span");
-    echo.classList.add("yuna-memory-echo");
-
-    echo.textContent = echoes[i % echoes.length];
-    echo.style.top = 8 + Math.random() * 84 + "%";
-    echo.style.animationDuration = 12 + Math.random() * 12 + "s";
-    echo.style.animationDelay = Math.random() * 8 + "s";
-
-    layer.appendChild(echo);
-  }
-}
-
-function renderSpecialBanner(agent) {
-  const banner = document.getElementById("specialDossierBanner");
-
-  if (!banner) return;
-
-  if (!agent.banner) {
-    banner.classList.add("hidden");
-    return;
-  }
-
-  banner.classList.remove("hidden");
-
-  document.getElementById("specialBannerLabel").textContent = agent.banner.label;
-  document.getElementById("specialBannerTitle").textContent = agent.banner.title;
-  document.getElementById("specialBannerText").textContent = agent.banner.text;
-}
-
-function renderDerivedStats(agent) {
-  const derived = agent.derived || {};
-
-  document.getElementById("statLife").textContent = derived.life || "---";
-  document.getElementById("statDetermination").textContent = derived.determination || "---";
-  document.getElementById("statDefense").textContent = derived.defense || "---";
-  document.getElementById("statDodge").textContent = derived.dodge || "---";
-  document.getElementById("statRitualDT").textContent = derived.ritualDT || "---";
-  document.getElementById("statPE").textContent = derived.peTurn || "---";
-}
-
-function renderAgentPage() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage) {
-    return;
-  }
-
-  const agentId = getCurrentAgentId();
-  const agent = agentsData[agentId];
-
-  if (!agent) {
-    document.getElementById("agentName").textContent = "Arquivo não encontrado";
-    document.getElementById("agentName").setAttribute("data-text", "Arquivo não encontrado");
-    document.getElementById("agentStatus").textContent = "Erro — registro inexistente";
-    document.getElementById("agentDescription").textContent =
-      "O identificador solicitado não corresponde a nenhum agente registrado.";
-    return;
-  }
-
-  currentAgent = agent;
-
-  applyAgentTheme(agent);
-  applyAgentMode(agent);
-  createYunaParticles(agent);
-  renderSpecialBanner(agent);
-
-  document.title = agent.name + " — Arquivo Ordo Realitas";
-
-  document.getElementById("agentName").textContent = agent.name;
-  document.getElementById("agentName").setAttribute("data-text", agent.name);
-
-  document.getElementById("agentStatus").textContent = agent.status;
-  document.getElementById("agentDescription").textContent = agent.description;
-
-  document.getElementById("agentClass").textContent = agent.className;
-  document.getElementById("agentOrigin").textContent = agent.origin;
-  document.getElementById("agentNex").textContent = agent.nex;
-  document.getElementById("agentRank").textContent = agent.rank;
-
-  document.getElementById("attrFOR").textContent = agent.attributes.FOR;
-  document.getElementById("attrAGI").textContent = agent.attributes.AGI;
-  document.getElementById("attrINT").textContent = agent.attributes.INT;
-  document.getElementById("attrPRE").textContent = agent.attributes.PRE;
-  document.getElementById("attrVIG").textContent = agent.attributes.VIG;
-
-  renderDerivedStats(agent);
-
-  document.getElementById("agentImage").src = agent.image;
-  document.getElementById("agentImage").alt = "Render de " + agent.name;
-
-  document.getElementById("agentCodename").textContent = agent.codename;
-  document.getElementById("agentAccessStamp").textContent =
-    agent.status.toLowerCase().includes("restrito") ? "RESTRITO" : "LIBERADO";
-
-  changeFolder("descricao");
-}
-
-function changeFolder(folderId) {
-  if (!currentAgent || !currentAgent.folders[folderId]) {
-    return;
-  }
-
-  const folder = currentAgent.folders[folderId];
-
-  document.getElementById("folderTitle").textContent = folder.title;
-  document.getElementById("folderLabel").textContent = "Pasta aberta — " + folder.title;
-  document.getElementById("folderBody").innerHTML = folder.html;
-
-  const tabs = document.querySelectorAll(".folder-tab");
-
-  tabs.forEach((tab) => {
-    tab.classList.remove("active");
-  });
-
-  const clickedTab = Array.from(tabs).find((tab) => {
-    return tab.textContent.trim().toLowerCase() === folder.title.toLowerCase();
-  });
-
-  if (clickedTab) {
-    clickedTab.classList.add("active");
-  }
-}
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    const loginScreen = document.getElementById("loginScreen");
-
-    if (loginScreen && !loginScreen.classList.contains("hidden")) {
-      login();
-    }
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  checkSavedAccess();
-  renderAgentPage();
-});
-function setupYunaAttributeCenterIcon() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !agentPage.classList.contains("yuna-mode")) {
-    return;
-  }
-
-  const coreImage = document.querySelector(".yuna-wheel-core-img");
-  const attributeNodes = document.querySelectorAll(".attribute-node");
-
-  if (!coreImage || attributeNodes.length === 0) {
-    return;
-  }
-
-  const originalCoreSrc = "../assets/imagens/rodas/yuna/Roda-Yuna-Nucleo.png";
-
-  attributeNodes.forEach((node) => {
-    node.addEventListener("click", () => {
-      const icon = node.querySelector(".attribute-icon");
-
-      attributeNodes.forEach((item) => {
-        item.classList.remove("selected-attribute");
-      });
-
-      node.classList.add("selected-attribute");
-
-      if (icon && icon.getAttribute("src")) {
-        coreImage.src = icon.getAttribute("src");
-        coreImage.classList.add("attribute-core-active");
-      }
-    });
-  });
-
-  coreImage.addEventListener("click", () => {
-    coreImage.src = originalCoreSrc;
-    coreImage.classList.remove("attribute-core-active");
-
-    attributeNodes.forEach((item) => {
-      item.classList.remove("selected-attribute");
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupYunaAttributeCenterIcon, 100);
-});
-function setupYunaAttributeInsightPanel() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !agentPage.classList.contains("yuna-mode")) {
-    return;
-  }
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (!insightPanel || !insightName || !insightValue || !insightText) {
-    return;
-  }
-
-  const yunaAttributeInsights = {
-    FOR: {
-      name: "FOR — Força",
-      text: "Força física baixa. Yuna não vence pela brutalidade; ela evita confronto direto e transforma distância, leitura e ritual em sobrevivência."
-    },
-    AGI: {
-      name: "AGI — Agilidade",
-      text: "Boa reação corporal. A agilidade de Yuna não parece explosiva, mas precisa: ela se move como alguém que percebe o perigo um instante antes."
-    },
-    INT: {
-      name: "INT — Intelecto",
-      text: "O centro operacional da Yuna. Análise paranormal, leitura de rituais, identificação de manifestações e interpretação de pontos de ruptura."
-    },
-    PRE: {
-      name: "PRE — Presença",
-      text: "Presença baixa no sentido social, mas inquietante. Yuna não domina uma sala pela fala; ela pesa no ambiente pelo silêncio."
-    },
-    VIG: {
-      name: "VIG — Vigor",
-      text: "Resistência limitada. O corpo de Yuna sobreviveu ao Outro Lado, mas continua sendo um lembrete de que sobreviver não é sair inteiro."
-    }
-  };
-
-  const attributeNodes = document.querySelectorAll(".attribute-node");
-
-  attributeNodes.forEach((node) => {
-    node.addEventListener("click", () => {
-      const label = node.querySelector("span");
-      const value = node.querySelector("strong");
-
-      if (!label || !value) {
-        return;
-      }
-
-      const key = label.textContent.trim().toUpperCase();
-      const data = yunaAttributeInsights[key];
-
-      if (!data) {
-        return;
-      }
-
-      insightName.textContent = data.name;
-      insightValue.textContent = value.textContent.trim();
-      insightText.textContent = data.text;
-
-      insightPanel.classList.remove("active-insight");
-
-      void insightPanel.offsetWidth;
-
-      insightPanel.classList.add("active-insight");
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupYunaAttributeInsightPanel, 150);
-});
-
-/* MAISIE 1.0 PREMIUM — DADOS, RODA E INTERAÇÃO */
-
-if (typeof agentsData !== "undefined" && agentsData.maisie) {
-  agentsData.maisie.modeClass = "maisie-mode";
-
-  agentsData.maisie.description =
-    "Ocultista tecnológica marcada por Energia. Recruta da Ordo, enviada para Santa Luzia na primeira missão oficial.";
-
-  agentsData.maisie.status = "Arquivo liberado — Recruta / Personagem Jogador";
-
-  agentsData.maisie.theme = {
-    main: "#ff4abe",
-    secondary: "#00b4ff",
-    glow: "rgba(255, 74, 190, 0.26)"
-  };
-
-  agentsData.maisie.banner = {
-    label: "Registro de jogador — acesso liberado",
-    title: "Eu transformo o caos em arma.",
-    text: "Ficha pública de personagem jogador. Registro inicial da Ordo após recrutamento para Corações do Outro Lado."
-  };
-
-  agentsData.maisie.className = "Ocultista";
-  agentsData.maisie.origin = "Agente de Saúde";
-  agentsData.maisie.nex = "40%";
-  agentsData.maisie.rank = "Recruta";
-
-  agentsData.maisie.attributes = {
-    FOR: 1,
-    AGI: 1,
-    INT: 3,
-    PRE: 3,
-    VIG: 2
-  };
-
-  agentsData.maisie.derived = {
-    life: "42 / 42",
-    determination: "69 / 69",
-    defense: "11",
-    dodge: "21",
-    ritualDT: "21",
-    peTurn: "8"
-  };
-
-  agentsData.maisie.folders = {
-    descricao: {
-      title: "Descrição",
-      html: `
-        <p>Maisie Hundown é uma recruta da Ordo Realitas em Corações do Outro Lado. Ela chega à primeira missão oficial carregando uma história anterior com o paranormal, mas sem histórico operacional formal dentro da organização.</p>
-
-        <p>Seu conceito central é o de uma ocultista tecnológica marcada por Energia, alguém que transformou perda, sobrevivência e criatividade em ferramenta de combate e suporte.</p>
-
-        <p>Visualmente, Maisie mistura invenção, improviso, caos e controle: roxo neon, metal, circuitos, fogo rosa, tanque ritualístico, braço mecânico e uma energia elétrica quase inquieta ao redor da ficha.</p>
-
-        <div class="lore-quote">“Eu transformo o caos em arma.”</div>
-
-        <div class="data-cluster">
-          <div class="data-chip"><span>Jogador</span><strong>Caio</strong></div>
-          <div class="data-chip"><span>Função</span><strong>Ocultista ofensiva / suporte</strong></div>
-          <div class="data-chip"><span>Elemento visual</span><strong>Energia</strong></div>
-          <div class="data-chip"><span>Status</span><strong>Recruta</strong></div>
-          <div class="data-chip"><span>Vínculo</span><strong>Primeira missão oficial</strong></div>
-          <div class="data-chip"><span>Risco</span><strong>Instabilidade sob pressão</strong></div>
-        </div>
-      `
-    },
-
-    habilidades: {
-      title: "Habilidades",
-      html: `
-        <div class="skill-list">
-          <article class="skill-item">
-            <h3>Escolhido pelo Outro Lado</h3>
-            <p>Maisie foi marcada pelo paranormal e consegue conjurar rituais. No estado atual, possui acesso operacional a rituais de até 2º círculo.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Ritual Predileto</h3>
-            <p>Seu ritual predileto registrado é Cicatrização, reduzindo seu custo e reforçando sua função de suporte emergencial.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Técnica Medicinal</h3>
-            <p>Quando cura alguém, adiciona seu Intelecto no total de PV recuperados. Em Maisie, conhecimento médico e ocultismo se cruzam diretamente.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Treinamento em Perícia</h3>
-            <p>Seu perfil técnico reforça medicina, tecnologia, ocultismo, percepção e reflexos em situações de risco.</p>
-          </article>
-        </div>
-      `
-    },
-
-    trilha: {
-      title: "Trilha",
-      html: `
-        <p><strong>Lâmina Paranormal.</strong> A trilha de Maisie conecta arma, ocultismo, Energia e tecnologia pessoal.</p>
-
-        <div class="skill-list">
-          <article class="skill-item">
-            <h3>NEX 10% — Lâmina Maldita</h3>
-            <p>Maisie aprende Amaldiçoar Arma e pode usar Ocultismo no lugar de Luta ou Pontaria ao atacar com uma arma amaldiçoada.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>NEX 40% — Gladiador Paranormal</h3>
-            <p>Cada impacto em combate se torna combustível paranormal. A agressividade vira recurso, e o corpo da missão vira circuito.</p>
-          </article>
-        </div>
-      `
-    },
-
-    rituais: {
-      title: "Rituais",
-      html: `
-        <div class="ritual-grid">
-          <div class="ritual-folder ritual-energia">
-            <small>Energia — 1º Círculo</small>
-            <h3>Amaldiçoar Arma</h3>
-            <p>Maisie imbui arma ou munição com Energia, conectando combate, tecnologia e ocultismo aplicado.</p>
-          </div>
-
-          <div class="ritual-folder ritual-energia">
-            <small>Energia — 1º Círculo</small>
-            <h3>Embaralhar</h3>
-            <p>Cria cópias ilusórias semelhantes a hologramas, dificultando que inimigos identifiquem a verdadeira Maisie.</p>
-          </div>
-
-          <div class="ritual-folder ritual-energia">
-            <small>Energia — 1º Círculo</small>
-            <h3>Polarização Caótica</h3>
-            <p>Gera uma aura magnética sobrenatural, permitindo atrair, repelir ou manipular objetos e pressão cinética.</p>
-          </div>
-
-          <div class="ritual-folder ritual-energia">
-            <small>Energia — 2º Círculo</small>
-            <h3>Rajada Caótica</h3>
-            <p>Concentra estática paranormal e projeta uma descarga de Energia contra um alvo.</p>
-          </div>
-
-          <div class="ritual-folder ritual-morte">
-            <small>Morte — 1º Círculo</small>
-            <h3>Cicatrização</h3>
-            <p>Ritual predileto de Maisie. Cura ferimentos acelerando o tempo ao redor da carne, com custo narrativo ligado à Morte.</p>
-          </div>
-
-          <div class="ritual-folder ritual-sangue">
-            <small>Sangue</small>
-            <h3>Nenhum ritual registrado</h3>
-            <p>A ficha atual de Maisie não registra rituais de Sangue.</p>
-          </div>
-
-          <div class="ritual-folder ritual-conhecimento">
-            <small>Conhecimento</small>
-            <h3>Nenhum ritual registrado</h3>
-            <p>A ficha atual de Maisie não registra rituais de Conhecimento.</p>
-          </div>
-
-          <div class="ritual-folder ritual-medo">
-            <small>Medo</small>
-            <h3>Acesso bloqueado</h3>
-            <p>Dados ligados a Medo não devem ser exibidos em registros comuns.</p>
-          </div>
-        </div>
-      `
-    },
-
-    pericias: {
-      title: "Perícias",
-      html: `
-        <p>Perícias principais registradas na ficha mecânica de Maisie. O foco evidente está em medicina, ocultismo, tecnologia, percepção e resposta rápida.</p>
-
-        <table class="pericia-table">
-          <thead>
-            <tr>
-              <th>Perícia</th>
-              <th>Atributo</th>
-              <th>Bônus</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr><td>Medicina</td><td>INT</td><td>+10</td></tr>
-            <tr><td>Ocultismo</td><td>INT</td><td>+10</td></tr>
-            <tr><td>Percepção</td><td>PRE</td><td>+10</td></tr>
-            <tr><td>Reflexos</td><td>AGI</td><td>+10</td></tr>
-            <tr><td>Tecnologia</td><td>INT</td><td>+10</td></tr>
-            <tr><td>Vontade</td><td>PRE</td><td>+10</td></tr>
-            <tr><td>Diplomacia</td><td>PRE</td><td>+5</td></tr>
-            <tr><td>Iniciativa</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Intuição</td><td>PRE</td><td>+5</td></tr>
-            <tr><td>Investigação</td><td>INT</td><td>+5</td></tr>
-          </tbody>
-        </table>
-      `
-    },
-
-    inventario: {
-      title: "Inventário",
-      html: `
-        <p><strong>Itens registrados:</strong> balas curtas, cicatrizante, pistola e tanque ritualístico.</p>
-
-        <p>O tanque ritualístico é um acessório roxo conectado ao canhão no braço de Maisie, adaptado para comportar componentes ritualísticos de Energia.</p>
-
-        <p>O braço mecânico, o canhão e o tanque não são só equipamento: funcionam como extensão identitária, ferramenta de combate e símbolo de reconstrução.</p>
-
-        <div class="lore-quote">Não tratem a prótese como arma. Não tratem o interesse por Energia como simples especialização.</div>
-      `
-    },
-
-    relacoes: {
-      title: "Relações",
-      html: `
-        <p><strong>Walt:</strong> primeiro robô criado por Maisie. Mesmo que não esteja presente em operações atuais, representa o momento em que ela passou a se reconhecer como criadora.</p>
-
-        <p><strong>Professor não identificado:</strong> figura relevante no primeiro contato paranormal de Maisie. Ele a salvou e abriu a primeira explicação sobre a existência do paranormal.</p>
-
-        <p><strong>Equipe anterior:</strong> a missão no hospital abandonado terminou com Maisie como única sobrevivente. Esse evento reforçou sua ligação com Energia e sua tendência a transformar trauma em função.</p>
-      `
-    },
-
-    ordo: {
-      title: "O que a Ordo acha",
-      html: `
-        <p>A Ordo Realitas avalia Maisie como agente de alto valor operacional e risco moderado de instabilidade sob gatilhos específicos.</p>
-
-        <p>Sua utilidade em campo é evidente em ocorrências envolvendo tecnologia, Energia e ambientes imprevisíveis. Ainda assim, sua relação com aquilo que manipula é pessoal demais para ser ignorada.</p>
-
-        <div class="data-cluster">
-          <div class="data-chip"><span>Status</span><strong>Recrutamento aceito</strong></div>
-          <div class="data-chip"><span>Atuação</span><strong>Aprovada com ressalvas</strong></div>
-          <div class="data-chip"><span>Monitoramento</span><strong>Técnico e psicológico</strong></div>
-          <div class="data-chip"><span>Equipamento pessoal</span><strong>Não confiscar sem necessidade</strong></div>
-        </div>
-
-        <div class="lore-quote">Alguns agentes correm porque querem vencer. Maisie corre porque, se parar, talvez precise admitir o quanto perdeu.</div>
-      `
-    }
-  };
-}
-
-function applyCharacterWheelAssets() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !currentAgent) {
-    return;
-  }
-
-const wheelConfig = {
-  yuna: {
-    folder: "yuna",
-    prefix: "Yuna"
-  },
-  maisie: {
-    folder: "maisie",
-    prefix: "Maisie"
-  },
-  roselyn: {
-    folder: "roselyn",
-    prefix: "Roselyn"
-  },
-  lilian: {
-    folder: "lilian",
-    prefix: "Lilian"
-  }
-};
-
-  const basePath = `../assets/imagens/rodas/${config.folder}/`;
-
-  const outer = document.querySelector(".yuna-wheel-outer");
-  const inner = document.querySelector(".yuna-wheel-inner");
-  const core = document.querySelector(".yuna-wheel-core-img");
-
-  const nodeImages = document.querySelectorAll(".yuna-node-bg");
-
-  const iconFOR = document.querySelector(".node-for .attribute-icon");
-  const iconAGI = document.querySelector(".node-agi .attribute-icon");
-  const iconINT = document.querySelector(".node-int .attribute-icon");
-  const iconPRE = document.querySelector(".node-pre .attribute-icon");
-  const iconVIG = document.querySelector(".node-vig .attribute-icon");
-
-  if (outer) outer.src = `${basePath}Roda-${config.prefix}-Anel-Externo.png`;
-  if (inner) inner.src = `${basePath}Roda-${config.prefix}-Anel-Interno.png`;
-  if (core) {
-    core.src = `${basePath}Roda-${config.prefix}-Nucleo.png`;
-    core.dataset.originalCore = `${basePath}Roda-${config.prefix}-Nucleo.png`;
-  }
-
-  nodeImages.forEach((img) => {
-    img.src = `${basePath}Roda-${config.prefix}-No.png`;
-  });
-
-  if (iconFOR) iconFOR.src = `${basePath}Icone-${config.prefix}-FOR.png`;
-  if (iconAGI) iconAGI.src = `${basePath}Icone-${config.prefix}-AGI.png`;
-  if (iconINT) iconINT.src = `${basePath}Icone-${config.prefix}-INT.png`;
-  if (iconPRE) iconPRE.src = `${basePath}Icone-${config.prefix}-PRE.png`;
-  if (iconVIG) iconVIG.src = `${basePath}Icone-${config.prefix}-VIG.png`;
-}
-
-function setupCharacterAttributeInteractions() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !currentAgent) {
-    return;
-  }
-
-  const coreImage = document.querySelector(".yuna-wheel-core-img");
-  const attributeNodes = document.querySelectorAll(".attribute-node");
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (!coreImage || attributeNodes.length === 0) {
-    return;
-  }
-
-  const insightByAgent = {
-    yuna: {
-      FOR: {
-        name: "FOR — Força",
-        text: "Força física baixa. Yuna não vence pela brutalidade; ela evita confronto direto e transforma distância, leitura e ritual em sobrevivência."
-      },
-      AGI: {
-        name: "AGI — Agilidade",
-        text: "Boa reação corporal. A agilidade de Yuna não parece explosiva, mas precisa: ela se move como alguém que percebe o perigo um instante antes."
-      },
-      INT: {
-        name: "INT — Intelecto",
-        text: "O centro operacional da Yuna. Análise paranormal, leitura de rituais, identificação de manifestações e interpretação de pontos de ruptura."
-      },
-      PRE: {
-        name: "PRE — Presença",
-        text: "Presença baixa no sentido social, mas inquietante. Yuna não domina uma sala pela fala; ela pesa no ambiente pelo silêncio."
-      },
-      VIG: {
-        name: "VIG — Vigor",
-        text: "Resistência limitada. O corpo de Yuna sobreviveu ao Outro Lado, mas continua sendo um lembrete de que sobreviver não é sair inteiro."
-      }
-    },
-lilian: {
-  FOR: {
-    name: "FOR — Força",
-    text: "O centro físico da Lilian. Força para bater, segurar, bloquear e permanecer de pé quando o resto do corpo já deveria ter pedido pausa."
-  },
-  AGI: {
-    name: "AGI — Agilidade",
-    text: "Mobilidade funcional. Lilian não se move para parecer leve; se move para encurtar distância, reagir ao impacto e entrar na frente na hora certa."
-  },
-  INT: {
-    name: "INT — Intelecto",
-    text: "Baixo foco acadêmico e técnico. Lilian entende o mundo mais pelo corpo, pela prática e pela leitura instintiva de ameaça do que por análise formal."
-  },
-  PRE: {
-    name: "PRE — Presença",
-    text: "Presença social baixa no papel, mas difícil de ignorar em campo. Lilian não precisa falar muito para deixar claro que não vai sair da frente."
-  },
-  VIG: {
-    name: "VIG — Vigor",
-    text: "A outra base da ficha. Resistência, bloqueio, teimosia e a perigosa tendência de aguentar mais do que deveria."
-  }
-},
-    maisie: {
-      FOR: {
-        name: "FOR — Força",
-        text: "Baixa força bruta. A ameaça real de Maisie não está no músculo, mas no canhão, nos rituais, na inteligência e na forma como converte trauma em ferramenta."
-      },
-      AGI: {
-        name: "AGI — Agilidade",
-        text: "Mobilidade e reflexos não são seu ponto principal. Maisie compensa isso com preparação, tecnologia, leitura rápida e improviso sob pressão."
-      },
-      INT: {
-        name: "INT — Intelecto",
-        text: "Um dos centros da ficha. Robótica, medicina, ocultismo, tecnologia e análise técnica se misturam no modo como Maisie entende o paranormal."
-      },
-      PRE: {
-        name: "PRE — Presença",
-        text: "Carisma, intensidade e impacto social fortes. Maisie convence, provoca, improvisa e ocupa espaço mesmo quando tenta agir do próprio jeito."
-      },
-      VIG: {
-        name: "VIG — Vigor",
-        text: "Resistência acima do mínimo. O corpo dela já foi atravessado por perda, reconstrução e Energia, mas ainda continua funcionando."
-      }
-      
-    }
-    
-  };
-
-  const agentInsights = insightByAgent[currentAgent.id] || {};
-
-  attributeNodes.forEach((node) => {
-    node.addEventListener("click", () => {
-      const label = node.querySelector("span");
-      const value = node.querySelector("strong");
-      const icon = node.querySelector(".attribute-icon");
-
-      if (!label || !value) {
-        return;
-      }
-
-      const key = label.textContent.trim().toUpperCase();
-      const data = agentInsights[key];
-
-      attributeNodes.forEach((item) => {
-        item.classList.remove("selected-attribute");
-      });
-
-      node.classList.add("selected-attribute");
-
-      if (icon && icon.getAttribute("src")) {
-        coreImage.src = icon.getAttribute("src");
-        coreImage.classList.add("attribute-core-active");
-      }
-
-      if (data && insightPanel && insightName && insightValue && insightText) {
-        insightName.textContent = data.name;
-        insightValue.textContent = value.textContent.trim();
-        insightText.textContent = data.text;
-
-        insightPanel.classList.remove("active-insight");
-        void insightPanel.offsetWidth;
-        insightPanel.classList.add("active-insight");
-      }
-    });
-  });
-
-  coreImage.addEventListener("click", () => {
-    const originalCore = coreImage.dataset.originalCore;
-
-    if (originalCore) {
-      coreImage.src = originalCore;
-    }
-
-    coreImage.classList.remove("attribute-core-active");
-
-    attributeNodes.forEach((item) => {
-      item.classList.remove("selected-attribute");
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    applyCharacterWheelAssets();
-    setupCharacterAttributeInteractions();
-  }, 250);
-});
-function createMaisiePageWideEffects() {
-  const agentPage = document.getElementById("agentPage");
-  const layer = document.getElementById("specialFxLayer");
-
-  if (!agentPage || !layer || !agentPage.classList.contains("maisie-mode")) {
-    return;
-  }
-
-  for (let i = 0; i < 18; i++) {
-    const spark = document.createElement("span");
-    spark.classList.add("maisie-wide-spark");
-
-    spark.style.left = Math.random() * 100 + "%";
-    spark.style.animationDuration = 4 + Math.random() * 6 + "s";
-    spark.style.animationDelay = Math.random() * 6 + "s";
-
-    layer.appendChild(spark);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(createMaisiePageWideEffects, 450);
-});
-/* ROSELYN 1.0 PREMIUM — DADOS, RODA E INTERAÇÃO */
-
-if (typeof agentsData !== "undefined") {
-  agentsData.roselyn = {
-    ...(agentsData.roselyn || {}),
-
-    id: "roselyn",
-    name: "Roselyn Tate",
-    codename: "ROSELYN TATE",
-    image: "../assets/imagens/agentes/roselyn.png",
-
-    modeClass: "roselyn-mode",
-
-    description:
-      "Especialista militar. Atiradora de precisão marcada por Morte, metrônomo de prata e distorções temporais.",
-
-    status: "Arquivo liberado — Recruta / Personagem Jogador",
-
-    theme: {
-      main: "#d7d1e8",
-      secondary: "#7a5bb8",
-      glow: "rgba(215, 209, 232, 0.20)"
-    },
+    attrs: { FOR: 3, AGI: 2, INT: 1, PRE: 1, VIG: 3 },
 
     banner: {
-      label: "Registro de jogador — acesso liberado",
-      title: "O metrônomo ainda está batendo.",
-      text: "Ficha pública de personagem jogador. Registro consolidado a partir da ficha bruta e do dossiê narrativo da Ordo."
+      label: "Registro público — Ordo Realitas",
+      title: "A CASCA GROSSA / LINHA DE FRENTE",
+      text: "Recorte autorizado de dossiê institucional. Dados mecânicos completos, custos e regras foram ocultados."
     },
 
-    className: "Especialista",
-    origin: "Militar",
-    nex: "40%",
-    rank: "Recruta",
-
-    attributes: {
-      FOR: 2,
-      AGI: 3,
-      INT: 2,
-      PRE: 1,
-      VIG: 2
-    },
-
-    derived: {
-      life: "53 / 53",
-      determination: "44 / 44",
-      defense: "13",
-      dodge: "23",
-      ritualDT: "—",
-      peTurn: "8"
+    insights: {
+      FOR: "Eixo físico da agente. Força aplicada em contenção, impacto, bloqueio e proteção direta.",
+      AGI: "Mobilidade funcional para aproximação, reação curta e reposicionamento em combate corpo a corpo.",
+      INT: "Leitura prática e instintiva, mais corporal do que acadêmica. Aprende pela consequência e pela experiência.",
+      PRE: "Postura fechada e pouco receptiva. Pode parecer hostil, mas essa camada funciona como barreira defensiva.",
+      VIG: "Base de resistência da agente. Lilian tende a suportar dor e pressão além do recomendado."
     },
 
     folders: {
-      descricao: {
-        title: "Descrição",
-        html: `
-          <p>Roselyn Tate é uma especialista militar da Ordo Realitas, recrutada após sobreviver ao incidente paranormal que destruiu a mansão Tate e apagou sua família.</p>
-
-          <p>Seu perfil combina precisão, provocação, leitura tática e uma relação incomum com o tempo. Ela não mira apenas no corpo do alvo: ela observa o intervalo entre ação, consequência e morte.</p>
-
-          <p>Visualmente, Roselyn carrega uma identidade fria e antiga: prata oxidada, preto, roxo escuro, rifle de precisão, metrônomo, memória familiar e elegância tensa.</p>
-
-          <div class="lore-quote">“O metrônomo ainda está batendo.”</div>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Jogador</span><strong>Erick</strong></div>
-            <div class="data-chip"><span>Função</span><strong>Atiradora / reconhecimento</strong></div>
-            <div class="data-chip"><span>Elemento visual</span><strong>Morte / Tempo</strong></div>
-            <div class="data-chip"><span>Status</span><strong>Recruta</strong></div>
-            <div class="data-chip"><span>Arma principal</span><strong>Fuzil de Precisão</strong></div>
-            <div class="data-chip"><span>Objeto central</span><strong>Metrônomo de Prata</strong></div>
-          </div>
-        `
-      },
-
-      habilidades: {
-        title: "Habilidades",
-        html: `
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Eclético</h3>
-              <p>Roselyn consegue adaptar treinamento e instinto para lidar com situações fora do preparo padrão, recebendo benefícios temporários em perícias quando necessário.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Perito</h3>
-              <p>Especialista em transformar perícias treinadas em vantagem real. Em campo, isso reforça investigação, percepção, tecnologia e leitura tática.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Point Blank</h3>
-              <p>Roselyn aprendeu a usar o peso do rifle a seu favor mesmo em alcance curto. O disparo deixa de ser apenas precisão distante e vira impacto físico controlado.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Visão de Ouro</h3>
-              <p>Sua leitura analítica encontra brechas na defesa de alvos e falhas em mecanismos. Quando Roselyn entende o padrão, a equipe inteira passa a enxergar melhor onde atacar.</p>
-            </article>
-          </div>
-        `
-      },
-
-      trilha: {
-        title: "Trilha",
-        html: `
-          <p><strong>Trilha personalizada — Balística Temporal.</strong> Roselyn usa o metrônomo como foco para transformar disparos em eventos parcialmente suspensos no tempo.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>NEX 10% — Balística Residual</h3>
-              <p>Quando está furtiva, Roselyn dispara através de um hiato temporal. O tiro não revela sua posição e o som é substituído pelo tique-taque seco do metrônomo, audível apenas para o alvo.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>NEX 40% — Tiro de Schrödinger</h3>
-              <p>Roselyn pode acertar um tiro e suspender seu efeito no tempo. O dano não acontece imediatamente; fica orbitando o alvo como uma consequência esperando permissão para existir.</p>
-            </article>
-          </div>
-        `
-      },
-
-      rituais: {
-        title: "Rituais",
-        html: `
-          <div class="ritual-grid">
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — Vínculo anômalo</small>
-              <h3>Metrônomo de Prata</h3>
-              <p>Roselyn não possui rituais registrados, mas sua relação com o metrônomo demonstra contato direto com percepção temporal associada à Morte.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Morte — Percepção</small>
-              <h3>Lente de Prata Oxidada</h3>
-              <p>A luneta adaptada ao rifle permite perceber distorções temporais ao redor de seres vivos, transformando memória, mira e morte em uma única linha de visão.</p>
-            </div>
-
-            <div class="ritual-folder ritual-conhecimento">
-              <small>Conhecimento</small>
-              <h3>Nenhum ritual registrado</h3>
-              <p>Roselyn demonstra raciocínio tático e técnico, mas não há ritual formal de Conhecimento registrado.</p>
-            </div>
-
-            <div class="ritual-folder ritual-energia">
-              <small>Energia</small>
-              <h3>Nenhum ritual registrado</h3>
-              <p>A ficha atual não registra rituais de Energia.</p>
-            </div>
-
-            <div class="ritual-folder ritual-sangue">
-              <small>Sangue</small>
-              <h3>Nenhum ritual registrado</h3>
-              <p>A ficha atual não registra rituais de Sangue.</p>
-            </div>
-
-            <div class="ritual-folder ritual-medo">
-              <small>Medo</small>
-              <h3>Acesso bloqueado</h3>
-              <p>Dados ligados a Medo não devem ser exibidos em registros comuns.</p>
-            </div>
-          </div>
-        `
-      },
-
-      pericias: {
-        title: "Perícias",
-        html: `
-          <p>Roselyn tem foco evidente em pontaria, reflexos, furtividade, tática, investigação e observação. A ficha aponta uma agente feita para cobertura, reconhecimento e disparos calculados.</p>
-
-          <table class="pericia-table">
-            <thead>
-              <tr>
-                <th>Perícia</th>
-                <th>Atributo</th>
-                <th>Bônus</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr><td>Pontaria</td><td>AGI</td><td>+10</td></tr>
-              <tr><td>Reflexos</td><td>AGI</td><td>+10</td></tr>
-              <tr><td>Tática</td><td>INT</td><td>+10</td></tr>
-              <tr><td>Furtividade</td><td>AGI</td><td>+10</td></tr>
-              <tr><td>Acrobacia</td><td>AGI</td><td>+5</td></tr>
-              <tr><td>Atletismo</td><td>FOR</td><td>+5</td></tr>
-              <tr><td>Fortitude</td><td>VIG</td><td>+5</td></tr>
-              <tr><td>Iniciativa</td><td>AGI</td><td>+5</td></tr>
-              <tr><td>Intuição</td><td>PRE</td><td>+5</td></tr>
-              <tr><td>Investigação</td><td>INT</td><td>+5</td></tr>
-              <tr><td>Medicina</td><td>INT</td><td>+5</td></tr>
-              <tr><td>Percepção</td><td>PRE</td><td>+5</td></tr>
-              <tr><td>Tecnologia</td><td>INT</td><td>+5</td></tr>
-              <tr><td>Vontade</td><td>PRE</td><td>+5</td></tr>
-            </tbody>
-          </table>
-        `
-      },
-
-      inventario: {
-        title: "Inventário",
-        html: `
-          <p><strong>Equipamentos registrados:</strong> fuzil de precisão, machado, balas longas, bandoleira, binóculos, computador, mochila militar, curativos, caderno e o Metrônomo de Prata.</p>
-
-          <p><strong>Fuzil de Precisão:</strong> arma principal de Roselyn. O rifle carrega a Lente de Prata Oxidada, feita com fragmentos associados à mansão Tate.</p>
-
-          <p><strong>O Metrônomo de Prata:</strong> objeto de categoria II associado à Morte. Enquanto segurado, reforça sua estabilidade mental e sua relação com Vontade.</p>
-
-          <p><strong>Computador:</strong> usado para hackear sistemas e sobrecarregar aparelhos eletrônicos. Roselyn não é só mira; também atua em apoio técnico quando necessário.</p>
-
-          <div class="lore-quote">O rifle não é substituível. A mira não é só mira. O metrônomo não é só objeto.</div>
-        `
-      },
-
-      relacoes: {
-        title: "Relações",
-        html: `
-          <p><strong>Família Tate:</strong> origem emocional, trauma central e motivação. A perda dos pais permanece como eixo silencioso de sua atuação.</p>
-
-          <p><strong>Metrônomo de Prata:</strong> âncora psicológica, símbolo de sobrevivência e possível foco paranormal. Removê-lo sem preparo pode quebrar confiança ou estabilidade.</p>
-
-          <p><strong>Rifle do pai:</strong> último vínculo físico com sua família. Roselyn observa ameaças através de algo que sobrou da própria casa.</p>
-
-          <p><strong>Caderno pessoal:</strong> registros privados. A Ordo recomenda cautela antes de violar esse material, pois ele pode ser parte importante da organização emocional da agente.</p>
-        `
-      },
-
-      ordo: {
-        title: "O que a Ordo acha",
-        html: `
-          <p>A Ordo Realitas avalia Roselyn Tate como uma agente de alto valor estratégico, especialmente em reconhecimento, cobertura, leitura de movimentação inimiga e suporte tático.</p>
-
-          <p>Ela não deve ser tratada como vítima incapaz, mas também não deve ser empurrada para missões que reproduzam diretamente o cenário da perda familiar sem preparo.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Status</span><strong>Recrutamento aprovado</strong></div>
-            <div class="data-chip"><span>Risco</span><strong>Dependência de objetos</strong></div>
-            <div class="data-chip"><span>Potencial</span><strong>Alto valor tático</strong></div>
-            <div class="data-chip"><span>Monitoramento</span><strong>Metrônomo e rifle</strong></div>
-          </div>
-
-          <div class="lore-quote">Roselyn Tate mira como alguém que já perdeu tudo e aprendeu a esperar o mundo terminar antes de puxar o gatilho.</div>
-        `
-      }
-    }
-  };
-}
-
-function applyCharacterWheelAssets() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !currentAgent) {
-    return;
-  }
-
-  const wheelConfig = {
-    yuna: {
-      folder: "yuna",
-      prefix: "Yuna"
-    },
-    maisie: {
-      folder: "maisie",
-      prefix: "Maisie"
-    },
-    roselyn: {
-      folder: "roselyn",
-      prefix: "Roselyn"
-    }
-  };
-
-  const config = wheelConfig[currentAgent.id];
-
-  if (!config) {
-    return;
-  }
-
-  const basePath = `../assets/imagens/rodas/${config.folder}/`;
-
-  const outer = document.querySelector(".yuna-wheel-outer");
-  const inner = document.querySelector(".yuna-wheel-inner");
-  const core = document.querySelector(".yuna-wheel-core-img");
-
-  const nodeImages = document.querySelectorAll(".yuna-node-bg");
-
-  const iconFOR = document.querySelector(".node-for .attribute-icon");
-  const iconAGI = document.querySelector(".node-agi .attribute-icon");
-  const iconINT = document.querySelector(".node-int .attribute-icon");
-  const iconPRE = document.querySelector(".node-pre .attribute-icon");
-  const iconVIG = document.querySelector(".node-vig .attribute-icon");
-
-  if (outer) outer.src = `${basePath}Roda-${config.prefix}-Anel-Externo.png`;
-  if (inner) inner.src = `${basePath}Roda-${config.prefix}-Anel-Interno.png`;
-
-  if (core) {
-    core.src = `${basePath}Roda-${config.prefix}-Nucleo.png`;
-    core.dataset.originalCore = `${basePath}Roda-${config.prefix}-Nucleo.png`;
-  }
-
-  nodeImages.forEach((img) => {
-    img.src = `${basePath}Roda-${config.prefix}-No.png`;
-  });
-
-  if (iconFOR) iconFOR.src = `${basePath}Icone-${config.prefix}-FOR.png`;
-  if (iconAGI) iconAGI.src = `${basePath}Icone-${config.prefix}-AGI.png`;
-  if (iconINT) iconINT.src = `${basePath}Icone-${config.prefix}-INT.png`;
-  if (iconPRE) iconPRE.src = `${basePath}Icone-${config.prefix}-PRE.png`;
-  if (iconVIG) iconVIG.src = `${basePath}Icone-${config.prefix}-VIG.png`;
-}
-
-function setupCharacterAttributeInteractions() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !currentAgent) {
-    return;
-  }
-
-  const coreImage = document.querySelector(".yuna-wheel-core-img");
-  const attributeNodes = document.querySelectorAll(".attribute-node");
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (!coreImage || attributeNodes.length === 0) {
-    return;
-  }
-
-  const insightByAgent = {
-    yuna: {
-      FOR: {
-        name: "FOR — Força",
-        text: "Força física baixa. Yuna não vence pela brutalidade; ela evita confronto direto e transforma distância, leitura e ritual em sobrevivência."
-      },
-      AGI: {
-        name: "AGI — Agilidade",
-        text: "Boa reação corporal. A agilidade de Yuna não parece explosiva, mas precisa: ela se move como alguém que percebe o perigo um instante antes."
-      },
-      INT: {
-        name: "INT — Intelecto",
-        text: "O centro operacional da Yuna. Análise paranormal, leitura de rituais, identificação de manifestações e interpretação de pontos de ruptura."
-      },
-      PRE: {
-        name: "PRE — Presença",
-        text: "Presença baixa no sentido social, mas inquietante. Yuna não domina uma sala pela fala; ela pesa no ambiente pelo silêncio."
-      },
-      VIG: {
-        name: "VIG — Vigor",
-        text: "Resistência limitada. O corpo de Yuna sobreviveu ao Outro Lado, mas continua sendo um lembrete de que sobreviver não é sair inteiro."
-      }
-    },
-
-    maisie: {
-      FOR: {
-        name: "FOR — Força",
-        text: "Baixa força bruta. A ameaça real de Maisie não está no músculo, mas no canhão, nos rituais, na inteligência e na forma como converte trauma em ferramenta."
-      },
-      AGI: {
-        name: "AGI — Agilidade",
-        text: "Mobilidade e reflexos não são seu ponto principal. Maisie compensa isso com preparação, tecnologia, leitura rápida e improviso sob pressão."
-      },
-      INT: {
-        name: "INT — Intelecto",
-        text: "Um dos centros da ficha. Robótica, medicina, ocultismo, tecnologia e análise técnica se misturam no modo como Maisie entende o paranormal."
-      },
-      PRE: {
-        name: "PRE — Presença",
-        text: "Carisma, intensidade e impacto social fortes. Maisie convence, provoca, improvisa e ocupa espaço mesmo quando tenta agir do próprio jeito."
-      },
-      VIG: {
-        name: "VIG — Vigor",
-        text: "Resistência acima do mínimo. O corpo dela já foi atravessado por perda, reconstrução e Energia, mas ainda continua funcionando."
-      }
-    },
-
-    roselyn: {
-      FOR: {
-        name: "FOR — Força",
-        text: "Força funcional, mas não central. Roselyn usa o corpo como base de estabilidade para o rifle, não como principal forma de confronto."
-      },
-      AGI: {
-        name: "AGI — Agilidade",
-        text: "O atributo mais forte em combate. Reflexos, pontaria, furtividade e reposicionamento tornam Roselyn perigosa antes mesmo do alvo notar o disparo."
-      },
-      INT: {
-        name: "INT — Intelecto",
-        text: "Raciocínio tático e leitura de padrões. Roselyn entende cenários como sequências de tempo, linhas de mira e consequências possíveis."
-      },
-      PRE: {
-        name: "PRE — Presença",
-        text: "Presença social baixa, mas não ausência. Roselyn ocupa espaço pela provocação, pelo sotaque, pelo cigarro e pela tensão de quem está sempre calculando."
-      },
-      VIG: {
-        name: "VIG — Vigor",
-        text: "Resistência sólida. O corpo aguenta o campo, mas a verdadeira pressão em Roselyn costuma estar no que ela carrega por dentro."
-      }
-    }
-  };
-
-  const agentInsights = insightByAgent[currentAgent.id] || {};
-
-  attributeNodes.forEach((node) => {
-    node.addEventListener("click", () => {
-      const label = node.querySelector("span");
-      const value = node.querySelector("strong");
-      const icon = node.querySelector(".attribute-icon");
-
-      if (!label || !value) {
-        return;
-      }
-
-      const key = label.textContent.trim().toUpperCase();
-      const data = agentInsights[key];
-
-      attributeNodes.forEach((item) => {
-        item.classList.remove("selected-attribute");
-      });
-
-      node.classList.add("selected-attribute");
-
-      if (icon && icon.getAttribute("src")) {
-        coreImage.src = icon.getAttribute("src");
-        coreImage.classList.add("attribute-core-active");
-      }
-
-      if (data && insightPanel && insightName && insightValue && insightText) {
-        insightName.textContent = data.name;
-        insightValue.textContent = value.textContent.trim();
-        insightText.textContent = data.text;
-
-        insightPanel.classList.remove("active-insight");
-        void insightPanel.offsetWidth;
-        insightPanel.classList.add("active-insight");
-      }
-    });
-  });
-
-  coreImage.addEventListener("click", () => {
-    const originalCore = coreImage.dataset.originalCore;
-
-    if (originalCore) {
-      coreImage.src = originalCore;
-    }
-
-    coreImage.classList.remove("attribute-core-active");
-
-    attributeNodes.forEach((item) => {
-      item.classList.remove("selected-attribute");
-    });
-  });
-}
-
-function createRoselynEffects() {
-  const agentPage = document.getElementById("agentPage");
-  const layer = document.getElementById("specialFxLayer");
-
-  if (!agentPage || !layer || !agentPage.classList.contains("roselyn-mode")) {
-    return;
-  }
-
-  layer.innerHTML = "";
-
-  for (let i = 0; i < 24; i++) {
-    const shard = document.createElement("span");
-    shard.classList.add("roselyn-time-shard");
-
-    shard.style.left = Math.random() * 100 + "%";
-    shard.style.animationDuration = 5 + Math.random() * 7 + "s";
-    shard.style.animationDelay = Math.random() * 6 + "s";
-
-    layer.appendChild(shard);
-  }
-
-  const echoes = [
-    "tique",
-    "intervalo",
-    "mira estável",
-    "tempo espesso",
-    "evento suspenso",
-    "lente oxidada",
-    "consequência"
-  ];
-
-  for (let i = 0; i < 10; i++) {
-    const echo = document.createElement("span");
-    echo.classList.add("roselyn-tick-echo");
-
-    echo.textContent = echoes[i % echoes.length];
-    echo.style.top = 8 + Math.random() * 84 + "%";
-    echo.style.animationDuration = 12 + Math.random() * 12 + "s";
-    echo.style.animationDelay = Math.random() * 7 + "s";
-
-    layer.appendChild(echo);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    applyCharacterWheelAssets();
-    setupCharacterAttributeInteractions();
-    createRoselynEffects();
-  }, 320);
-});
-/* LILIAN 1.0 PREMIUM — DADOS, RODA E EFEITOS */
-
-if (typeof agentsData !== "undefined" && agentsData.lilian) {
-  agentsData.lilian.modeClass = "lilian-mode";
-
-  agentsData.lilian.description =
-    "Combatente de linha de frente. Proteção, contenção física e resistência sob pressão.";
-
-  agentsData.lilian.status = "Arquivo liberado — Recruta / Personagem Jogador";
-
-  agentsData.lilian.theme = {
-    main: "#7e24ff",
-    secondary: "#8b0000",
-    glow: "rgba(126, 36, 255, 0.24)"
-  };
-
-  agentsData.lilian.banner = {
-    label: "Registro de jogador — acesso liberado",
-    title: "A CASCA GROSSA NÃO É FRIEZA. É DEFESA.",
-    text: "Ficha pública de personagem jogador. Registro operacional consolidado para Corações do Outro Lado."
-  };
-
-  agentsData.lilian.className = "Combatente";
-  agentsData.lilian.origin = "Atleta";
-  agentsData.lilian.nex = "40%";
-  agentsData.lilian.rank = "Recruta";
-
-  agentsData.lilian.attributes = {
-    FOR: 3,
-    AGI: 2,
-    INT: 1,
-    PRE: 1,
-    VIG: 3
-  };
-
-  agentsData.lilian.derived = {
-    life: "80 / 80",
-    determination: "35 / 35",
-    defense: "12",
-    dodge: "17",
-    ritualDT: "---",
-    peTurn: "8"
-  };
-
-  agentsData.lilian.folders = {
-    descricao: {
-      title: "Descrição",
-      html: `
-        <p>Lilian Rodrigues Moretti é uma combatente de linha de frente, moldada por solidão, disciplina física e uma necessidade quase instintiva de proteger aquilo que considera seu.</p>
-
-        <p>À primeira vista, parece fechada, emburrada e difícil de alcançar. Mas essa dureza não é vazio emocional: é uma armadura construída por alguém que aprendeu cedo demais que presença vale mais que dinheiro.</p>
-
-        <p>Na Ordo, Lilian funciona como contenção, escudo humano e resposta direta contra ameaças físicas. Ela não tenta parecer invencível. Ela age como se não tivesse outra escolha.</p>
-
-        <div class="lore-quote">“A casca grossa existe por um motivo.”</div>
-
-        <div class="data-cluster">
-          <div class="data-chip"><span>Jogadora</span><strong>Nathalie</strong></div>
-          <div class="data-chip"><span>Função</span><strong>Linha de frente / proteção</strong></div>
-          <div class="data-chip"><span>Codinome</span><strong>A Casca Grossa</strong></div>
-          <div class="data-chip"><span>Status</span><strong>Recruta</strong></div>
-          <div class="data-chip"><span>Estilo</span><strong>Boxe / impacto físico</strong></div>
-          <div class="data-chip"><span>Risco</span><strong>Autossacrifício</strong></div>
-        </div>
-      `
-    },
-
-    habilidades: {
-      title: "Habilidades",
-      html: `
-        <div class="skill-list">
-          <article class="skill-item">
-            <h3>Atleta</h3>
-            <p>Lilian pode gastar energia para melhorar testes ligados a Força ou Agilidade, reforçando seu corpo como principal ferramenta de sobrevivência.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Artista Marcial</h3>
-            <p>Seus golpes desarmados são letais quando necessário. O boxe não é só treino: é linguagem, defesa e identidade.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Ataque Especial</h3>
-            <p>Quando decide avançar, Lilian concentra força, técnica e raiva controlada em um golpe mais preciso ou mais destrutivo.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>Golpe Demolidor</h3>
-            <p>Contra obstáculos, objetos e barreiras físicas, Lilian transforma impacto em solução.</p>
-          </article>
-        </div>
-      `
-    },
-
-    trilha: {
-      title: "Trilha",
-      html: `
-        <p><strong>Tropa de Choque.</strong> A trilha de Lilian define uma combatente feita para aguentar, proteger e chamar o perigo para si.</p>
-
-        <div class="skill-list">
-          <article class="skill-item">
-            <h3>NEX 10% — Casca Grossa</h3>
-            <p>Seu corpo aprendeu a resistir. Lilian aguenta mais dano e bloqueia melhor, sustentando a linha de frente quando outros precisariam recuar.</p>
-          </article>
-
-          <article class="skill-item">
-            <h3>NEX 40% — Cai Dentro</h3>
-            <p>Quando um aliado vira alvo, Lilian força a ameaça a olhar para ela. A proteção dela não é delicada: é presença física entre o perigo e a equipe.</p>
-          </article>
-        </div>
-      `
-    },
-
-    rituais: {
-      title: "Rituais",
-      html: `
-        <div class="ritual-grid">
-          <div class="ritual-folder ritual-sangue">
-            <small>Rituais</small>
-            <h3>Nenhum ritual registrado</h3>
-            <p>Lilian não possui rituais informados. Seu contato com o paranormal aparece mais como trauma, enfrentamento e resistência física do que como conjuração.</p>
-          </div>
-
-          <div class="ritual-folder ritual-morte">
-            <small>Contato paranormal</small>
-            <h3>Solidão e reflexos</h3>
-            <p>Seu primeiro contato conhecido envolveu isolamento, corredores vazios, reflexos e uma manifestação ligada à sensação de não ser vista.</p>
-          </div>
-
-          <div class="ritual-folder ritual-sangue">
-            <small>Marca observada</small>
-            <h3>Sangue em combate clandestino</h3>
-            <p>O segundo evento paranormal envolveu uma luta amadora, alteração física do adversário e símbolo de Sangue encontrado após o confronto.</p>
-          </div>
-        </div>
-      `
-    },
-
-    pericias: {
-      title: "Perícias",
-      html: `
-        <p>Perícias principais registradas. O perfil mecânico de Lilian reforça combate físico, resistência, movimento e resposta rápida.</p>
-
-        <table class="pericia-table">
-          <thead>
-            <tr>
-              <th>Perícia</th>
-              <th>Atributo</th>
-              <th>Bônus</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr><td>Luta</td><td>FOR</td><td>+10</td></tr>
-            <tr><td>Fortitude</td><td>VIG</td><td>+10</td></tr>
-            <tr><td>Atletismo</td><td>FOR</td><td>+5</td></tr>
-            <tr><td>Acrobacia</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Crime</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Iniciativa</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Pilotagem</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Pontaria</td><td>AGI</td><td>+5</td></tr>
-            <tr><td>Reflexos</td><td>AGI</td><td>+5</td></tr>
-          </tbody>
-        </table>
-      `
-    },
-
-    inventario: {
-      title: "Inventário",
-      html: `
-        <p><strong>Arma principal:</strong> manoplas.</p>
-
-        <p>As manoplas aparecem como extensão direta do estilo de combate de Lilian. Elas não substituem sua força: amplificam aquilo que ela já aprendeu a fazer com o próprio corpo.</p>
-
-        <p>Inventário geral registrado como vazio no documento bruto, reforçando uma personagem que entra em campo com pouca coisa além do próprio corpo, treino e teimosia.</p>
-
-        <div class="lore-quote">Quando Lilian levanta a guarda, a mensagem é simples: se alguém vai apanhar, começa por ela.</div>
-      `
-    },
-
-    relacoes: {
-      title: "Relações",
-      html: `
-        <p><strong>Lucas Moretti:</strong> irmão mais novo e vínculo afetivo mais importante. É uma das poucas pessoas que acessa o lado mais leve e vulnerável de Lilian.</p>
-
-        <p><strong>Seu Jonas:</strong> antigo caseiro e ex-boxeador. Foi quem apresentou Lilian ao boxe e ofereceu a ela uma presença adulta concreta quando a família falhou.</p>
-
-        <p><strong>Henrique e Helena Moretti:</strong> pais distantes, ligados ao conforto material e à ausência emocional que moldou grande parte da dureza de Lilian.</p>
-      `
-    },
-
-    ordo: {
-      title: "O que a Ordo acha",
-      html: `
-        <p>A Ordo avalia Lilian como agente de valor operacional elevado em combate direto, proteção de equipe e resistência sob pressão.</p>
-
-        <p>Ela não deve ser tratada apenas como músculo. Sua força nasce de abandono, disciplina e proteção seletiva. Usar essa força sem reconhecer a pessoa por trás dela seria um erro operacional e humano.</p>
-
-        <div class="data-cluster">
-          <div class="data-chip"><span>Status</span><strong>Atuação aprovada</strong></div>
-          <div class="data-chip"><span>Função</span><strong>Contenção / defesa de aliados</strong></div>
-          <div class="data-chip"><span>Monitoramento</span><strong>Comportamental discreto</strong></div>
-          <div class="data-chip"><span>Alerta</span><strong>Não abandonar na linha de frente</strong></div>
-        </div>
-
-        <div class="lore-quote">Ela parece o tipo de agente que entra na frente de uma ameaça antes de admitir que está com medo.</div>
+      descricao: `
+        <p>Lilian Rodrigues Moretti apresenta perfil de sobrevivente combativa moldada por ausência afetiva, solidão prolongada e disciplina física.</p>
+
+        <p>A postura fechada, frequentemente confundida com hostilidade, funciona como barreira defensiva contra aproximações indevidas e contra tentativas de reduzi-la a fragilidade.</p>
+
+        <p>A expressão “Casca Grossa” não deve ser interpretada apenas como temperamento difícil. Trata-se de uma estrutura de proteção construída ao longo de anos. Lilian aprendeu a transformar abandono em dureza, raiva em técnica e solidão em prontidão física.</p>
+
+        <div class="quote">“A casca grossa existe por um motivo. Não tentem arrancá-la à força.”</div>
+      `,
+
+      habilidades: cards([
+        ["Linha de frente", "Lilian possui alto potencial para proteção de equipe, contenção de ameaça e resposta rápida em contato direto."],
+        ["Leitura de impacto", "Demonstra leitura instintiva de distância, resistência, intenção hostil e momento de confronto."],
+        ["Proteção de aliados", "Tende a ocupar naturalmente o espaço entre a ameaça e os demais integrantes do grupo."],
+        ["Resistência física", "É capaz de permanecer funcional em situações de alto risco, mas pode mascarar danos até o ponto de ruptura."],
+        ["Resposta imediata", "Sob pressão, prefere ação direta. Não procura conflito por prazer, mas aceita o confronto quando acredita que ele é inevitável."]
+      ]),
+
+      trilha: cards([
+        ["A Casca Grossa", "A dureza da agente deve ser lida como mecanismo de proteção, não apenas como personalidade difícil."],
+        ["Corpo como barreira", "Seu corpo é instrumento de sobrevivência e defesa. Quando coordenado, esse comportamento oferece tempo e espaço para aliados agirem."],
+        ["Boxe como estrutura", "O treino funciona como eixo organizador: regras claras, consequência imediata e lugar onde sua intensidade vira foco."],
+        ["Comando objetivo", "Responde melhor a superiores claros, presentes e coerentes. Autoridade vazia ou controle por status tende a gerar resistência."]
+      ]),
+
+      rituais: cards([
+        ["Primeiro contato", "Aos dezesseis anos, após treino noturno, Lilian relatou corredores alterados, sensação de isolamento e figura feminina sem rosto associada à invisibilidade emocional."],
+        ["Sombras e reflexos", "Nas semanas seguintes, percebeu sombras, reflexos anômalos e sonhos recorrentes envolvendo isolamento."],
+        ["Marca de Sangue", "Durante luta clandestina, enfrentou adversário sob influência anômala ligada a Sangue. A descoberta posterior de um símbolo consolidou sua certeza sobre o Outro Lado."],
+        ["Sem conjuração registrada", "O arquivo público não registra Lilian como conjuradora. Sua relação com o paranormal aparece por confronto, resistência e sobrevivência."]
+      ], "ritual-card"),
+
+      pericias: chips([
+        "Luta corporal",
+        "Fortitude",
+        "Atletismo",
+        "Reflexos de combate",
+        "Pilotagem",
+        "Pontaria básica",
+        "Mobilidade curta",
+        "Resposta física imediata"
+      ]),
+
+      inventario: cards([
+        ["Manoplas", "Equipamento associado diretamente ao estilo de combate de Lilian. Não substitui sua força; amplifica o que ela já aprendeu a fazer com o corpo."],
+        ["Corpo como ferramenta", "Ao contrário de agentes que dependem de grande volume de equipamento, Lilian opera principalmente por treino, resistência e presença física."],
+        ["Boxe", "Mais do que prática física, representa ordem, limite, presença e linguagem emocional."],
+        ["Marcas e cicatrizes", "Pequenas cicatrizes pelo corpo compõem o registro físico de uma história marcada por confronto, treino e resistência."]
+      ]),
+
+      relacoes: `
+        <p><strong>Lucas Moretti:</strong> irmão mais novo e único vínculo afetivo familiar positivo registrado. Lilian o protege desde o nascimento.</p>
+
+        <p><strong>Seu Jonas:</strong> antigo caseiro e ex-boxeador. Figura formativa que apresentou o boxe como estrutura, consequência e foco.</p>
+
+        <p><strong>Henrique Moretti:</strong> pai distante, empresário, interessado em moldá-la como herdeira e contrário ao envolvimento dela com o boxe.</p>
+
+        <p><strong>Helena Moretti:</strong> mãe socialmente elegante, porém emocionalmente ausente. Reforçou em Lilian a sensação de ser difícil de amar.</p>
+      `,
+
+      ordo: `
+        <p>A Ordo Realitas avalia Lilian Rodrigues Moretti como agente de alto valor em combate direto, proteção e contenção física.</p>
+
+        <p>Ela não deve ser tratada apenas como músculo. Sua utilidade não se limita à força: Lilian demonstra leitura corporal, reação a intenção hostil e senso protetivo que pode estabilizar aliados sob risco.</p>
+
+        <p>Os principais riscos observados envolvem tendência ao confronto direto mesmo quando recuo seria mais seguro, dificuldade em confiar em figuras de autoridade, reações intensas diante de rejeição ou invisibilidade e impulso protetivo concentrado em vínculos específicos.</p>
+
+        <p>A Ordo deve observar situações que envolvam solidão, corredores vazios, reflexos, ambientes subterrâneos e manifestações que explorem abandono.</p>
+
+        <div class="quote">Recomendação: atuação aprovada em campo, com acompanhamento comportamental e suporte de equipe. Não abandonar Lilian na linha de frente como se aguentar fosse a única função dela.</div>
       `
     }
-  };
-}
-
-function createLilianEffects() {
-  const agentPage = document.getElementById("agentPage");
-  const layer = document.getElementById("specialFxLayer");
-
-  if (!agentPage || !layer || !agentPage.classList.contains("lilian-mode")) {
-    return;
   }
+};
 
-  for (let i = 0; i < 24; i++) {
-    const spark = document.createElement("span");
-    spark.classList.add("lilian-impact-spark");
-
-    spark.style.left = Math.random() * 100 + "%";
-    spark.style.animationDuration = 4 + Math.random() * 7 + "s";
-    spark.style.animationDelay = Math.random() * 6 + "s";
-
-    layer.appendChild(spark);
-  }
+function cards(items, className = "info-card") {
+  return `<div class="card-list">${items.map(([t, p]) => `<article class="${className}"><h3>${t}</h3><p>${p}</p></article>`).join("")}</div>`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(createLilianEffects, 450);
-});
-/* MODO PÚBLICO — ESCONDER CONTA MESTRE E BLOQUEAR ARQUIVOS PROIBIDOS */
-
-const PUBLIC_ALLOWED_AGENTS = ["maisie", "roselyn", "lilian"];
-
-const PUBLIC_FORBIDDEN_AGENT_IDS = [
-  "yuna",
-  "lisa",
-  "blender",
-  "klint",
-  "anny"
-];
-
-const PUBLIC_FORBIDDEN_KEYWORDS = [
-  "elementos",
-  "elemento",
-  "klint",
-  "jogadores",
-  "componentes",
-  "ritualisticos",
-  "ritualísticos",
-  "coração amaldiçoado",
-  "coracao amaldicoado",
-  "mestre",
-  "secreto",
-  "yuna",
-  "lisa",
-  "blender",
-  "anny"
-];
-
-const PUBLIC_FORBIDDEN_PAGES = [
-  "elementos.html",
-  "klint.html",
-  "jogadores.html",
-  "componentes-ritualisticos.html",
-  "componentes-ritualísticos.html"
-];
-
-function normalizePublicText(value) {
-  return String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+function chips(items) {
+  return `<div class="chip-grid">${items.map(i => `<article><span>Área</span><strong>${i}</strong></article>`).join("")}</div>`;
 }
 
-function getCurrentAgentIdFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return normalizePublicText(params.get("id"));
+function cleanText(v) {
+  return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-function isForbiddenAgentId(agentId) {
-  const cleanId = normalizePublicText(agentId);
-  return PUBLIC_FORBIDDEN_AGENT_IDS.includes(cleanId);
+function getAgentId() {
+  return cleanText(new URLSearchParams(location.search).get("id"));
 }
 
-function isCurrentPublicPageForbidden() {
-  const pathname = normalizePublicText(window.location.pathname);
-  const pageName = pathname.split("/").pop();
-
-  const forbiddenPage = PUBLIC_FORBIDDEN_PAGES.some((page) => {
-    return pageName === normalizePublicText(page);
-  });
-
-  if (forbiddenPage) {
-    return true;
-  }
-
-  const currentAgentId = getCurrentAgentIdFromUrl();
-
-  if (pageName === "agente.html" && isForbiddenAgentId(currentAgentId)) {
-    return true;
-  }
-
-  return false;
-}
-
-function renderForbiddenFileScreen() {
+function renderForbidden() {
   document.body.innerHTML = `
-    <main class="forbidden-file-screen">
-      <section class="forbidden-file-card">
-        <p class="forbidden-file-status">Arquivo corrompido</p>
-        <h1 class="forbidden-file-title">Acesso negado</h1>
-
-        <p class="forbidden-file-text">
-          O arquivo solicitado existe nos registros da Ordo Realitas, mas seu conteúdo não está disponível para este nível de acesso.
-          A tentativa de abertura causou corrupção temporária da interface.
-        </p>
-
-        <code class="forbidden-file-code">
-          ERRO: CREDENCIAL_INSUFICIENTE // FRAGMENTO BLOQUEADO // LEITURA INTERROMPIDA
-        </code>
-
-        <button class="forbidden-file-button" onclick="window.location.href='../index.html'">
-          Retornar ao Arquivo Público
-        </button>
+    <main class="forbidden">
+      <section>
+        <p class="tag">Arquivo corrompido / leitura negada</p>
+        <h1>Acesso<br>Interrompido</h1>
+        <p>O registro solicitado existe, mas a leitura pública foi interrompida antes da reconstrução completa.</p>
+        <code>ERRO: CREDENCIAL_INSUFICIENTE // FRAGMENTO_BLOQUEADO // MEMÓRIA_CORROMPIDA</code>
+        <a class="main-button" href="../index.html">Interromper Leitura</a>
       </section>
     </main>
   `;
 }
 
-function showCorruptionPopup(label = "Arquivo proibido") {
-  const oldPopup = document.querySelector(".corruption-popup");
+function bootAgentsPage() {
+  const grid = document.getElementById("agentsGrid");
+  if (!grid) return;
 
-  if (oldPopup) {
-    oldPopup.remove();
-  }
-
-  const popup = document.createElement("div");
-  popup.className = "corruption-popup";
-
-  popup.innerHTML = `
-    <section class="corruption-popup-card">
-      <span>Falha de leitura</span>
-      <strong>Arquivo corrompido</strong>
-      <p>
-        ${label} não pode ser aberto a partir do Arquivo Público.
-        O fragmento foi isolado antes que a leitura fosse concluída.
-      </p>
-      <button type="button">Fechar registro</button>
-    </section>
-  `;
-
-  popup.querySelector("button").addEventListener("click", () => {
-    popup.remove();
-  });
-
-  popup.addEventListener("click", (event) => {
-    if (event.target === popup) {
-      popup.remove();
-    }
-  });
-
-  document.body.appendChild(popup);
-}
-
-function isElementForbiddenPublic(element) {
-  if (!element) {
-    return false;
-  }
-
-  const href = element.getAttribute("href") || "";
-  const onclick = element.getAttribute("onclick") || "";
-  const dataId =
-    element.dataset.agentId ||
-    element.dataset.id ||
-    element.dataset.page ||
-    "";
-  const text = element.textContent || "";
-
-  const signature = normalizePublicText(`${href} ${onclick} ${dataId} ${text}`);
-
-  if (!signature.trim()) {
-    return false;
-  }
-
-  if (PUBLIC_FORBIDDEN_AGENT_IDS.some((id) => signature.includes(id))) {
-    return true;
-  }
-
-  if (PUBLIC_FORBIDDEN_KEYWORDS.some((keyword) => {
-    return signature.includes(normalizePublicText(keyword));
-  })) {
-    return true;
-  }
-
-  if (PUBLIC_FORBIDDEN_PAGES.some((page) => {
-    return signature.includes(normalizePublicText(page));
-  })) {
-    return true;
-  }
-
-  return false;
-}
-
-function markForbiddenPublicCards() {
-  const possibleCards = document.querySelectorAll(
-    "a, button, .module-card, .profile-card, .info-block, .clickable-card, [onclick], [data-agent-id], [data-id], [data-page]"
-  );
-
-  possibleCards.forEach((element) => {
-    if (isElementForbiddenPublic(element)) {
-      element.classList.add("public-corrupted-file");
-
-      if (element.tagName === "A") {
-        element.setAttribute("href", "#");
-      }
-
-      element.setAttribute("data-public-forbidden", "true");
-    }
-  });
-}
-
-function interceptForbiddenPublicClicks() {
-  document.addEventListener(
-    "click",
-    (event) => {
-      const target = event.target.closest(
-        "a, button, .module-card, .profile-card, .info-block, .clickable-card, [onclick], [data-agent-id], [data-id], [data-page]"
-      );
-
-      if (!target) {
-        return;
-      }
-
-      if (
-        target.dataset.publicForbidden === "true" ||
-        isElementForbiddenPublic(target)
-      ) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-
-        const label =
-          target.querySelector(".card-title")?.textContent ||
-          target.textContent ||
-          "Arquivo proibido";
-
-        showCorruptionPopup(label.trim());
-      }
-    },
-    true
-  );
-}
-
-function hideMasterLoginTraces() {
-  const bodyTextTargets = document.querySelectorAll("p, span, small, label, strong, h1, h2, h3");
-
-  bodyTextTargets.forEach((element) => {
-    const cleanText = normalizePublicText(element.textContent);
-
-    if (
-      cleanText.includes("senha do mestre") ||
-      cleanText.includes("conta mestre") ||
-      cleanText.includes("login mestre") ||
-      cleanText.includes("acesso mestre")
-    ) {
-      element.textContent = "Arquivo público da campanha. Algumas áreas permanecem corrompidas ou indisponíveis.";
-    }
-  });
-
-  const inputs = document.querySelectorAll("input");
-
-  inputs.forEach((input) => {
-    const placeholder = normalizePublicText(input.placeholder);
-    const name = normalizePublicText(input.name);
-    const id = normalizePublicText(input.id);
-
-    if (
-      placeholder.includes("mestre") ||
-      name.includes("mestre") ||
-      id.includes("mestre")
-    ) {
-      input.value = "";
-      input.placeholder = "Acesso público";
-    }
-  });
-}
-
-function forcePublicAccessMode() {
-  try {
-    localStorage.setItem("ordoAccessLevel", "public");
-    localStorage.setItem("ordoRole", "public");
-    localStorage.setItem("arquivoOrdoRole", "public");
-    localStorage.removeItem("master");
-    localStorage.removeItem("mestre");
-    localStorage.removeItem("masterPassword");
-    localStorage.removeItem("mestrePassword");
-  } catch (error) {
-    console.warn("Não foi possível ajustar o modo público.", error);
-  }
-}
-
-function setupPublicArchiveMode() {
-  forcePublicAccessMode();
-
-  if (isCurrentPublicPageForbidden()) {
-    renderForbiddenFileScreen();
-    return;
-  }
-
-  hideMasterLoginTraces();
-  markForbiddenPublicCards();
-  interceptForbiddenPublicClicks();
-}
-
-/* Sobrescreve login público, caso exista função de login antiga */
-function publicArchiveLogin() {
-  forcePublicAccessMode();
-
-  const possiblePages = [
-    "pages/agentes.html",
-    "./pages/agentes.html",
-    "agentes.html"
+  const allCards = [
+    ...PUBLIC_AGENTS.map(id => ({ id, public: true })),
+    ...FORBIDDEN_AGENTS.map(id => ({ id, public: false }))
   ];
 
-  window.location.href = possiblePages[0];
-}
-
-window.publicArchiveLogin = publicArchiveLogin;
-
-/* Se seu botão antigo chamar login(), isso impede login mestre no site público */
-window.login = publicArchiveLogin;
-window.handleLogin = publicArchiveLogin;
-window.checkLogin = publicArchiveLogin;
-
-document.addEventListener("DOMContentLoaded", () => {
-  setupPublicArchiveMode();
-
-  setTimeout(() => {
-    markForbiddenPublicCards();
-  }, 300);
-
-  setTimeout(() => {
-    markForbiddenPublicCards();
-  }, 900);
-});''
-/* AGENTES — PARTÍCULAS ÚNICAS POR CARD */
-
-function createAgentCardBurst(card, type) {
-  if (!card) return;
-
-  const amountByType = {
-    yuna: 10,
-    lisa: 8,
-    blender: 12,
-    maisie: 14,
-    roselyn: 12,
-    lilian: 10,
-    klint: 9
+  const customPages = {
+    maisie: "maisie.html",
+    roselyn: "agente.html?id=roselyn",
+    lilian: "agente.html?id=lilian"
   };
 
-  const amount = amountByType[type] || 8;
+  grid.innerHTML = allCards.map(({ id, public: isPublic }) => {
+    const a = agents[id];
+    const name = a?.name || id[0].toUpperCase() + id.slice(1);
+    const href = isPublic ? customPages[id] : "#";
 
-  for (let i = 0; i < amount; i++) {
-    const particle = document.createElement("span");
-    particle.className = `agent-card-particle particle-${type}`;
+    return `
+      <a class="agent-card ${id}-card ${isPublic ? "" : "corrupted-card"}" href="${href}" data-agent="${id}">
+        <span class="stamp">${isPublic ? "Liberado" : "Corrompido"}</span>
+        <p class="tag">${isPublic ? "Dossiê público" : "Fragmento bloqueado"}</p>
+        <h2>${name}</h2>
+        <p>${isPublic ? "Registro autorizado para consulta." : "Leitura interrompida pela interface."}</p>
+        <i></i>
+      </a>
+    `;
+  }).join("");
 
-    const x = 40 + Math.random() * 20;
-    const y = 50 + Math.random() * 28;
-
-    particle.style.left = `${x}%`;
-    particle.style.top = `${y}%`;
-
-    particle.style.setProperty("--px", `${(Math.random() - 0.5) * 140}px`);
-    particle.style.setProperty("--py", `${(Math.random() - 0.8) * 120}px`);
-    particle.style.animationDuration = `${0.55 + Math.random() * 0.45}s`;
-
-    card.appendChild(particle);
-
-    setTimeout(() => {
-      particle.remove();
-    }, 1200);
-  }
-}
-
-function detectAgentTypeFromCard(card) {
-  if (!card) return null;
-
-  const signature = normalizePublicText(
-    `${card.textContent || ""} ${card.innerHTML || ""} ${card.getAttribute("onclick") || ""}`
-  );
-
-  if (signature.includes("yuna")) return "yuna";
-  if (signature.includes("lisa")) return "lisa";
-  if (signature.includes("blender")) return "blender";
-  if (signature.includes("maisie")) return "maisie";
-  if (signature.includes("roselyn")) return "roselyn";
-  if (signature.includes("lilian")) return "lilian";
-  if (signature.includes("klint")) return "klint";
-
-  return null;
-}
-
-function setupAgentCardUniqueBursts() {
-  const cards = document.querySelectorAll(".profile-card, .module-card, .clickable-card");
-
-  cards.forEach((card) => {
-    const type = detectAgentTypeFromCard(card);
-
-    if (!type) return;
-
-    let hoverCooldown = false;
-
-    card.addEventListener("mouseenter", () => {
-      if (hoverCooldown) return;
-
-      hoverCooldown = true;
-      createAgentCardBurst(card, type);
-
-      setTimeout(() => {
-        hoverCooldown = false;
-      }, 900);
-    });
-
-    card.addEventListener("click", () => {
-      createAgentCardBurst(card, type);
+  grid.querySelectorAll(".corrupted-card").forEach(card => {
+    card.addEventListener("click", e => {
+      e.preventDefault();
+      showPopup("Arquivo corrompido", "Este fragmento não pode ser aberto pelo Arquivo Público.");
     });
   });
+
+  createOpening("Sincronizando", "Dossiês");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupAgentCardUniqueBursts, 500);
-});
-/* FICHAS DOS JOGADORES — INTERAÇÃO PREMIUM GERAL */
+function bootAgentPage() {
+  const page = document.getElementById("agentPage");
+  if (!page) return;
 
-function isPlayerPremiumAgentPage() {
-  const agentPage = document.getElementById("agentPage");
+  const id = getAgentId();
 
-  if (!agentPage) {
-    return false;
-  }
-
-  return (
-    agentPage.classList.contains("maisie-mode") ||
-    agentPage.classList.contains("roselyn-mode") ||
-    agentPage.classList.contains("lilian-mode")
-  );
-}
-
-function setupPlayerPremiumMouseLight() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !isPlayerPremiumAgentPage()) {
+  if (!PUBLIC_AGENTS.includes(id)) {
+    renderForbidden();
     return;
   }
 
-  agentPage.classList.add("player-premium-motion");
+  const a = agents[id];
+  page.classList.add(a.mode, "player-premium");
 
-  window.addEventListener("mousemove", (event) => {
-    const x = (event.clientX / window.innerWidth) * 100;
-    const y = (event.clientY / window.innerHeight) * 100;
+  setText("agentStatus", a.status);
+  setText("agentName", a.name);
+  setText("agentDesc", a.desc);
+  setText("agentCodename", a.name);
+  setText("agentClass", a.className);
+  setText("agentOrigin", a.origin);
+  setText("agentNex", a.nex);
+  setText("agentRank", a.rank);
 
-    agentPage.style.setProperty("--mouse-x", `${x}%`);
-    agentPage.style.setProperty("--mouse-y", `${y}%`);
-  });
+  setText("bannerLabel", a.banner.label);
+  setText("bannerTitle", a.banner.title);
+  setText("bannerText", a.banner.text);
+
+  const img = document.getElementById("agentImage");
+  if (img) {
+    img.src = a.image;
+    img.loading = "lazy";
+    img.decoding = "async";
+  }
+
+  setupWheel(a);
+  setupFolders(a);
+  setupInteractions(a);
 }
 
-function setupPlayerPremiumParallax() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !isPlayerPremiumAgentPage()) {
-    return;
-  }
-
-  const characterStage = document.querySelector(".character-stage");
-  const wheelPanel = document.querySelector(".attribute-wheel-panel");
-
-  if (characterStage) {
-    characterStage.addEventListener("mousemove", (event) => {
-      const rect = characterStage.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-      characterStage.style.transform = `
-        perspective(1000px)
-        rotateX(${y * -4}deg)
-        rotateY(${x * 5}deg)
-      `;
-
-      characterStage.style.setProperty("--render-shift-x", `${x * 12}px`);
-      characterStage.style.setProperty("--render-shift-y", `${y * 8}px`);
-    });
-
-    characterStage.addEventListener("mouseleave", () => {
-      characterStage.style.transform = "";
-      characterStage.style.setProperty("--render-shift-x", "0px");
-      characterStage.style.setProperty("--render-shift-y", "0px");
-    });
-  }
-
-  if (wheelPanel) {
-    wheelPanel.addEventListener("mousemove", (event) => {
-      const rect = wheelPanel.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-      wheelPanel.style.transform = `
-        perspective(1000px)
-        rotateX(${y * -3}deg)
-        rotateY(${x * 4}deg)
-      `;
-
-      wheelPanel.style.setProperty("--wheel-shift-x", `${x * 9}px`);
-      wheelPanel.style.setProperty("--wheel-shift-y", `${y * 7}px`);
-    });
-
-    wheelPanel.addEventListener("mouseleave", () => {
-      wheelPanel.style.transform = "";
-      wheelPanel.style.setProperty("--wheel-shift-x", "0px");
-      wheelPanel.style.setProperty("--wheel-shift-y", "0px");
-    });
-  }
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
 }
 
-function setupPlayerPremiumCardTilt() {
-  const agentPage = document.getElementById("agentPage");
+function setupWheel(a) {
+  const base = `../assets/imagens/rodas/${a.wheel}/`;
+  const prefix = a.name.split(" ")[0];
 
-  if (!agentPage || !isPlayerPremiumAgentPage()) {
-    return;
-  }
+  const outer = document.querySelector(".wheel-outer");
+  const inner = document.querySelector(".wheel-inner");
+  const core = document.querySelector(".wheel-core");
 
-  const items = document.querySelectorAll(
-    ".skill-item, .ritual-folder, .data-chip, .mini-info-grid article, .derived-grid article, .attribute-insight-panel"
-  );
+  if (!outer || !inner || !core) return;
 
-  items.forEach((item) => {
-    item.addEventListener("mousemove", (event) => {
-      const rect = item.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
+  outer.src = `${base}Roda-${prefix}-Anel-Externo.png`;
+  inner.src = `${base}Roda-${prefix}-Anel-Interno.png`;
+  core.src = `${base}Roda-${prefix}-Nucleo.png`;
+  core.dataset.original = `${base}Roda-${prefix}-Nucleo.png`;
 
-      item.style.setProperty("--tilt-x", `${x * 7}deg`);
-      item.style.setProperty("--tilt-y", `${y * -7}deg`);
-    });
+  document.querySelectorAll(".attr-node").forEach(btn => {
+    const key = btn.dataset.attr;
+    const icon = btn.querySelector("img");
 
-    item.addEventListener("mouseleave", () => {
-      item.style.setProperty("--tilt-x", "0deg");
-      item.style.setProperty("--tilt-y", "0deg");
-    });
-  });
-}
+    if (!icon) return;
 
-function createPremiumRipple(target, event) {
-  if (!target) {
-    return;
-  }
+    icon.src = `${base}Icone-${prefix}-${key}.png`;
+    icon.alt = `${key} — ${attrName(key)}`;
 
-  const rect = target.getBoundingClientRect();
-  const ripple = document.createElement("span");
-
-  ripple.className = "interaction-ripple";
-  ripple.style.left = `${event.clientX - rect.left}px`;
-  ripple.style.top = `${event.clientY - rect.top}px`;
-
-  target.appendChild(ripple);
-
-  setTimeout(() => {
-    ripple.remove();
-  }, 650);
-}
-
-function setupPlayerPremiumRipples() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !isPlayerPremiumAgentPage()) {
-    return;
-  }
-
-  const clickableItems = document.querySelectorAll(
-    ".folder-tab, .attribute-node, .skill-item, .ritual-folder, .data-chip, .mini-info-grid article, .derived-grid article, .logout-button"
-  );
-
-  clickableItems.forEach((item) => {
-    item.style.position = item.style.position || "relative";
-    item.style.overflow = item.style.overflow || "hidden";
-
-    item.addEventListener("click", (event) => {
-      createPremiumRipple(item, event);
-    });
-  });
-}
-
-function setupPlayerPremiumFolderAnimation() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !isPlayerPremiumAgentPage()) {
-    return;
-  }
-
-  const folderContent = document.querySelector(".folder-content");
-  const folderTabs = document.querySelectorAll(".folder-tab");
-
-  if (!folderContent || folderTabs.length === 0) {
-    return;
-  }
-
-  folderTabs.forEach((tab) => {
-    tab.addEventListener("mousemove", (event) => {
-      const rect = tab.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-      tab.style.setProperty("--tab-x", `${x}%`);
-      tab.style.setProperty("--tab-y", `${y}%`);
-    });
-
-    tab.addEventListener("click", () => {
-      folderContent.classList.remove("folder-switching");
-      void folderContent.offsetWidth;
-      folderContent.classList.add("folder-switching");
-    });
-  });
-}
-
-function createPlayerPageParticles() {
-  const agentPage = document.getElementById("agentPage");
-  const layer = document.getElementById("specialFxLayer");
-
-  if (!agentPage || !layer || !isPlayerPremiumAgentPage()) {
-    return;
-  }
-
-  const particleCount = agentPage.classList.contains("maisie-mode")
-    ? 34
-    : agentPage.classList.contains("roselyn-mode")
-      ? 24
-      : 26;
-
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement("span");
-
-    particle.className = "player-page-particle";
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${6 + Math.random() * 9}s`;
-    particle.style.animationDelay = `${Math.random() * 8}s`;
-    particle.style.setProperty("--drift", `${(Math.random() - 0.5) * 120}px`);
-
-    layer.appendChild(particle);
-  }
-}
-
-function setupPlayerPremiumInteractions() {
-  setupPlayerPremiumMouseLight();
-  setupPlayerPremiumParallax();
-  setupPlayerPremiumCardTilt();
-  setupPlayerPremiumRipples();
-  setupPlayerPremiumFolderAnimation();
-  createPlayerPageParticles();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupPlayerPremiumInteractions, 650);
-});
-/* FICHAS DOS JOGADORES — HABILIDADES INTERATIVAS EXCLUSIVAS */
-
-function removeTemporaryClass(element, className, delay = 1200) {
-  if (!element) return;
-
-  element.classList.add(className);
-
-  setTimeout(() => {
-    element.classList.remove(className);
-  }, delay);
-}
-
-function triggerMaisieOvercharge(event) {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !agentPage.classList.contains("maisie-mode")) {
-    return;
-  }
-
-  removeTemporaryClass(agentPage, "player-overcharge", 2200);
-
-  for (let i = 0; i < 12; i++) {
-    const bolt = document.createElement("span");
-    bolt.className = "maisie-overcharge-bolt";
-
-    bolt.style.left = `${Math.random() * 100}%`;
-    bolt.style.top = `${-20 - Math.random() * 30}%`;
-    bolt.style.animationDelay = `${Math.random() * 0.45}s`;
-    bolt.style.animationDuration = `${0.55 + Math.random() * 0.55}s`;
-
-    document.body.appendChild(bolt);
-
-    setTimeout(() => {
-      bolt.remove();
-    }, 1400);
-  }
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (insightPanel && insightName && insightValue && insightText) {
-    insightName.textContent = "SOBRECARGA — Energia";
-    insightValue.textContent = "!";
-    insightText.textContent =
-      "O sistema da Maisie entra em sobrecarga: faíscas rosa e azul atravessam a interface enquanto o caos vira ferramenta.";
-    
-    insightPanel.classList.remove("active-insight");
-    void insightPanel.offsetWidth;
-    insightPanel.classList.add("active-insight");
-  }
-}
-
-function triggerRoselynTemporalHiatus() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !agentPage.classList.contains("roselyn-mode")) {
-    return;
-  }
-
-  if (agentPage.classList.contains("temporal-hiatus")) {
-    return;
-  }
-
-  agentPage.classList.add("temporal-hiatus");
-
-  const overlay = document.createElement("div");
-  overlay.className = "temporal-hiatus-overlay";
-
-  const tickText = document.createElement("div");
-  tickText.className = "temporal-tick-text";
-  tickText.textContent = "TIC — TAC";
-
-  document.body.appendChild(overlay);
-  document.body.appendChild(tickText);
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (insightPanel && insightName && insightValue && insightText) {
-    insightName.textContent = "HIATO — Tempo Suspenso";
-    insightValue.textContent = "∞";
-    insightText.textContent =
-      "O metrônomo prende o desfecho por um instante. A ficha desacelera como se a realidade ainda não tivesse decidido o próximo segundo.";
-
-    insightPanel.classList.remove("active-insight");
-    void insightPanel.offsetWidth;
-    insightPanel.classList.add("active-insight");
-  }
-
-  setTimeout(() => {
-    agentPage.classList.remove("temporal-hiatus");
-    overlay.remove();
-    tickText.remove();
-  }, 2200);
-}
-
-function triggerLilianImpact(event) {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !agentPage.classList.contains("lilian-mode")) {
-    return;
-  }
-
-  removeTemporaryClass(agentPage, "impact-mode", 1100);
-
-  const wave = document.createElement("span");
-  wave.className = "lilian-impact-wave";
-
-  const x = event?.clientX || window.innerWidth / 2;
-  const y = event?.clientY || window.innerHeight / 2;
-
-  wave.style.setProperty("--impact-x", `${x}px`);
-  wave.style.setProperty("--impact-y", `${y}px`);
-
-  document.body.appendChild(wave);
-
-  setTimeout(() => {
-    wave.remove();
-  }, 900);
-
-  const insightPanel = document.getElementById("attributeInsightPanel");
-  const insightName = document.getElementById("attributeInsightName");
-  const insightValue = document.getElementById("attributeInsightValue");
-  const insightText = document.getElementById("attributeInsightText");
-
-  if (insightPanel && insightName && insightValue && insightText) {
-    insightName.textContent = "IMPACTO — Guarda Fechada";
-    insightValue.textContent = "!";
-    insightText.textContent =
-      "Lilian fecha a guarda e transforma presença em barreira. A interface treme como se a própria ficha tivesse recebido o impacto.";
-
-    insightPanel.classList.remove("active-insight");
-    void insightPanel.offsetWidth;
-    insightPanel.classList.add("active-insight");
-  }
-}
-
-function setupExclusivePlayerSheetActions() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage) {
-    return;
-  }
-
-  const core = document.querySelector(".yuna-wheel-core-img");
-  const wheel = document.querySelector(".attribute-wheel");
-  const characterStage = document.querySelector(".character-stage");
-
-  if (agentPage.classList.contains("maisie-mode")) {
-    if (core) {
-      core.title = "Ativar Sobrecarga";
-      core.addEventListener("dblclick", triggerMaisieOvercharge);
+    const valueElement = btn.querySelector("strong");
+    if (valueElement) {
+      valueElement.textContent = a.attrs[key] ?? 0;
     }
 
-    if (wheel) {
-      wheel.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        triggerMaisieOvercharge(event);
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".attr-node").forEach(n => {
+        n.classList.remove("selected");
       });
-    }
-  }
 
-  if (agentPage.classList.contains("roselyn-mode")) {
-    if (core) {
-      core.title = "Ativar Hiato Temporal";
-      core.addEventListener("dblclick", triggerRoselynTemporalHiatus);
-    }
+      btn.classList.add("selected");
 
-    if (wheel) {
-      wheel.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        triggerRoselynTemporalHiatus();
-      });
-    }
-  }
+      setText("insightName", `${key} — ${attrName(key)}`);
+      setText("insightValue", `${a.attrs[key] ?? 0} ponto${(a.attrs[key] ?? 0) === 1 ? "" : "s"}`);
+      setText("insightText", "Leitura de atributo registrada no dossiê público.");
 
-  if (agentPage.classList.contains("lilian-mode")) {
-    if (core) {
-      core.title = "Ativar Impacto";
-      core.addEventListener("dblclick", triggerLilianImpact);
-    }
-
-    if (characterStage) {
-      characterStage.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        triggerLilianImpact(event);
-      });
-    }
-
-    const strongNodes = document.querySelectorAll(".node-for, .node-vig");
-
-    strongNodes.forEach((node) => {
-      node.addEventListener("dblclick", (event) => {
-        event.stopPropagation();
-        triggerLilianImpact(event);
-      });
+      pulse(document.getElementById("attributeInsight"));
     });
-  }
-}
+  });
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupExclusivePlayerSheetActions, 850);
-});
-/* =========================================================
-   FICHAS DOS JOGADORES — INTERAÇÕES POR ABA / OBJETO
-========================================================= */
+  core.addEventListener("click", () => {
+    core.src = core.dataset.original;
+    core.classList.remove("active-core");
 
-function getPlayerSheetKind() {
-  const agentPage = document.getElementById("agentPage");
+    document.querySelectorAll(".attr-node").forEach(n => {
+      n.classList.remove("selected");
+    });
 
-  if (!agentPage) return null;
-
-  if (agentPage.classList.contains("maisie-mode")) return "maisie";
-  if (agentPage.classList.contains("roselyn-mode")) return "roselyn";
-  if (agentPage.classList.contains("lilian-mode")) return "lilian";
-
-  return null;
-}
-
-function getFolderKindFromButton(button) {
-  if (!button) return "";
-
-  const text = normalizePublicText(button.textContent || "");
-
-  if (text.includes("descricao")) return "descricao";
-  if (text.includes("habilidades")) return "habilidades";
-  if (text.includes("trilha")) return "trilha";
-  if (text.includes("rituais")) return "rituais";
-  if (text.includes("pericias")) return "pericias";
-  if (text.includes("inventario")) return "inventario";
-  if (text.includes("relacoes")) return "relacoes";
-  if (text.includes("ordo")) return "ordo";
-
-  return text;
-}
-
-function setupFolderTabKinds() {
-  const tabs = document.querySelectorAll(".folder-tab");
-
-  tabs.forEach((tab) => {
-    const kind = getFolderKindFromButton(tab);
-    tab.dataset.folderKind = kind;
+    setText("insightName", "Atributo selecionado");
+    setText("insightValue", "--");
+    setText("insightText", "Clique em um atributo para abrir a leitura operacional.");
   });
 }
 
-function createFolderActionOverlay(kind, folderKind) {
-  const sheetKind = getPlayerSheetKind();
+function attrName(k) {
+  return {
+    FOR: "Força",
+    AGI: "Agilidade",
+    INT: "Intelecto",
+    PRE: "Presença",
+    VIG: "Vigor"
+  }[k] || k;
+}
 
-  if (!sheetKind) return;
+function setupFolders(a) {
+  const buttons = document.querySelectorAll(".folder-tabs button");
 
-  const overlay = document.createElement("div");
-  overlay.className = `folder-action-effect ${sheetKind}-folder-effect`;
+  function open(folder) {
+    buttons.forEach(b => b.classList.toggle("active", b.dataset.folder === folder));
 
-  const text = document.createElement("div");
-  text.className = `folder-action-text ${sheetKind}-folder-text`;
+    setText("folderTitle", {
+      descricao: "Dossiê",
+      habilidades: "Competências",
+      trilha: "Atuação",
+      rituais: "Paranormal",
+      pericias: "Áreas",
+      inventario: "Equipamentos",
+      relacoes: "Vínculos",
+      ordo: "Avaliação"
+    }[folder] || folder);
 
+    const body = document.getElementById("folderBody");
+
+    if (body) {
+      body.innerHTML = a.folders[folder] || "<p>Arquivo sem dados.</p>";
+    }
+
+    pulse(document.querySelector(".folder-content"));
+    showAction(a.id, folder);
+  }
+
+  buttons.forEach(b => b.addEventListener("click", () => open(b.dataset.folder)));
+  open("descricao");
+}
+
+function setupInteractions(a) {
+  const character = document.querySelector(".character-panel");
+  const core = document.querySelector(".wheel-core");
+
+  if (character) {
+    character.addEventListener("click", e => {
+      burst(e.clientX, e.clientY, a.id, 18);
+      pulse(character);
+      setText("insightName", `${a.name}`);
+      setText("insightValue", "!");
+      setText("insightText", characterText(a.id));
+      pulse(document.getElementById("attributeInsight"));
+    });
+  }
+
+  if (core) {
+    core.addEventListener("dblclick", e => {
+      if (a.id === "maisie") specialMaisie();
+      if (a.id === "roselyn") specialRoselyn();
+      if (a.id === "lilian") specialLilian(e);
+    });
+  }
+
+  document.addEventListener("click", e => {
+    const item = e.target.closest(".info-card,.ritual-card,.chip-grid article,.quote");
+    if (item) burst(e.clientX, e.clientY, a.id, 8);
+  });
+}
+
+function characterText(id) {
+  return {
+    maisie: "A prótese, o tanque e a Energia respondem como partes do mesmo circuito.",
+    roselyn: "O metrônomo pulsa em silêncio. A mira espera o mundo terminar antes do disparo.",
+    lilian: "Quando Lilian entra na frente, a ameaça precisa passar por ela primeiro."
+  }[id];
+}
+
+function showAction(id, folder) {
   const labels = {
     maisie: {
       inventario: "TANQUE ATIVO",
       habilidades: "SISTEMA ARMADO",
-      trilha: "LÂMINA ONLINE",
-      rituais: "ENERGIA INSTÁVEL",
-      pericias: "SCANNER TÉCNICO",
-      relacoes: "REGISTROS PESSOAIS",
-      ordo: "ANÁLISE DA ORDO",
-      descricao: "DOSSIÊ CARREGADO"
+      rituais: "ENERGIA INSTÁVEL"
     },
     roselyn: {
       inventario: "METRÔNOMO EM SINCRONIA",
       habilidades: "TIRO SUSPENSO",
-      trilha: "BALÍSTICA RESIDUAL",
-      rituais: "SEM CONJURAÇÃO",
-      pericias: "CÁLCULO DE TRAJETÓRIA",
-      relacoes: "MEMÓRIA TATE",
-      ordo: "RELATÓRIO INTERNO",
-      descricao: "TEMPO ESPESSO"
+      rituais: "TEMPO ESPESSO"
     },
     lilian: {
       inventario: "MANOPLAS PRONTAS",
       habilidades: "GUARDA FECHADA",
-      trilha: "TROPA DE CHOQUE",
-      rituais: "SEM RITUAL",
-      pericias: "CORPO EM ALERTA",
-      relacoes: "VÍNCULOS PROTEGIDOS",
-      ordo: "AVALIAÇÃO DE CAMPO",
-      descricao: "CASCA GROSSA"
+      rituais: "SEM RITUAL"
     }
   };
 
-  text.textContent =
-    labels[sheetKind]?.[folderKind] ||
-    labels[sheetKind]?.descricao ||
-    "ARQUIVO ABERTO";
+  const text = labels[id]?.[folder];
+  if (!text) return;
 
-  document.body.appendChild(overlay);
-  document.body.appendChild(text);
+  const el = document.createElement("div");
+  el.className = `action-text ${id}-text`;
+  el.textContent = text;
+  document.body.appendChild(el);
 
-  setTimeout(() => {
-    overlay.remove();
-    text.remove();
-  }, 1300);
+  setTimeout(() => el.remove(), 1000);
 }
 
-function createFolderActionParticles(event, amount = 18) {
-  const sheetKind = getPlayerSheetKind();
+function pulse(el) {
+  if (!el) return;
 
-  if (!sheetKind) return;
+  el.classList.remove("pulse");
+  void el.offsetWidth;
+  el.classList.add("pulse");
+}
 
-  const x = event?.clientX || window.innerWidth / 2;
-  const y = event?.clientY || window.innerHeight / 2;
+function burst(x, y, type, amount = 10) {
+  if (document.documentElement.classList.contains("performance-mode")) return;
 
   for (let i = 0; i < amount; i++) {
-    const particle = document.createElement("span");
+    const p = document.createElement("span");
 
-    particle.className = `folder-action-particle ${sheetKind}-action-particle`;
-    particle.style.left = `${x}px`;
-    particle.style.top = `${y}px`;
-    particle.style.setProperty("--fx-x", `${(Math.random() - 0.5) * 180}px`);
-    particle.style.setProperty("--fx-y", `${(Math.random() - 0.8) * 160}px`);
-    particle.style.animationDuration = `${0.55 + Math.random() * 0.55}s`;
+    p.className = `particle particle-${type}`;
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    p.style.setProperty("--x", `${(Math.random() - 0.5) * 160}px`);
+    p.style.setProperty("--y", `${(Math.random() - 0.8) * 140}px`);
 
-    document.body.appendChild(particle);
+    document.body.appendChild(p);
 
-    setTimeout(() => {
-      particle.remove();
-    }, 1100);
+    setTimeout(() => p.remove(), 900);
   }
 }
 
-function applyFolderBodySpecialClass(folderKind) {
-  const folderBody = document.getElementById("folderBody");
+function specialMaisie() {
+  document.body.classList.add("overcharge");
+  showPopup("SOBRECARGA", "A Energia atravessa a interface em pulsos rosa, roxos e azuis.");
 
-  if (!folderBody) return;
-
-  folderBody.classList.remove(
-    "folder-body-special-flash",
-    "inventory-focus",
-    "skills-focus",
-    "ritual-focus",
-    "pericias-focus",
-    "relacoes-focus",
-    "ordo-focus"
-  );
-
-  void folderBody.offsetWidth;
-
-  folderBody.classList.add("folder-body-special-flash");
-
-  if (folderKind === "inventario") {
-    folderBody.classList.add("inventory-focus");
-  }
-
-  if (folderKind === "habilidades" || folderKind === "trilha") {
-    folderBody.classList.add("skills-focus");
-  }
-
-  if (folderKind === "rituais") {
-    folderBody.classList.add("ritual-focus");
-  }
-
-  if (folderKind === "pericias") {
-    folderBody.classList.add("pericias-focus");
-  }
-
-  if (folderKind === "relacoes") {
-    folderBody.classList.add("relacoes-focus");
-  }
-
-  if (folderKind === "ordo") {
-    folderBody.classList.add("ordo-focus");
-  }
+  setTimeout(() => document.body.classList.remove("overcharge"), 1600);
 }
 
-function setupFolderSpecificInteractions() {
-  const agentPage = document.getElementById("agentPage");
+function specialRoselyn() {
+  document.body.classList.add("hiatus");
+  showPopup("HIATO TEMPORAL", "O metrônomo suspende a leitura por um instante.");
 
-  if (!agentPage || !getPlayerSheetKind()) return;
-
-  setupFolderTabKinds();
-
-  const tabs = document.querySelectorAll(".folder-tab");
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", (event) => {
-      const folderKind = tab.dataset.folderKind || getFolderKindFromButton(tab);
-
-      tab.classList.remove("folder-tab-activated");
-      void tab.offsetWidth;
-      tab.classList.add("folder-tab-activated");
-
-      createFolderActionOverlay(getPlayerSheetKind(), folderKind);
-      createFolderActionParticles(event, folderKind === "rituais" ? 26 : 18);
-
-      setTimeout(() => {
-        applyFolderBodySpecialClass(folderKind);
-      }, 60);
-    });
-  });
+  setTimeout(() => document.body.classList.remove("hiatus"), 1800);
 }
 
-function setupCharacterIconInteractions() {
-  const agentPage = document.getElementById("agentPage");
-  const characterStage = document.querySelector(".character-stage");
-  const render = document.querySelector(".agent-render");
+function specialLilian(e) {
+  document.body.classList.add("impact");
+  burst(e.clientX, e.clientY, "lilian", 24);
+  showPopup("IMPACTO", "A guarda fecha. A interface sente o peso da linha de frente.");
 
-  if (!agentPage || !characterStage || !render || !getPlayerSheetKind()) {
-    return;
-  }
-
-  characterStage.addEventListener("click", (event) => {
-    characterStage.classList.remove("character-focus-pulse");
-    render.classList.remove("character-clicked");
-
-    void characterStage.offsetWidth;
-
-    characterStage.classList.add("character-focus-pulse");
-    render.classList.add("character-clicked");
-
-    createFolderActionParticles(event, 22);
-
-    const sheetKind = getPlayerSheetKind();
-
-    if (sheetKind === "maisie") {
-      const insightName = document.getElementById("attributeInsightName");
-      const insightValue = document.getElementById("attributeInsightValue");
-      const insightText = document.getElementById("attributeInsightText");
-      const insightPanel = document.getElementById("attributeInsightPanel");
-
-      if (insightName && insightValue && insightText && insightPanel) {
-        insightName.textContent = "MAISIE — Sistema pessoal";
-        insightValue.textContent = "⚡";
-        insightText.textContent =
-          "A prótese, o tanque e a energia instável respondem como partes de um mesmo circuito.";
-
-        insightPanel.classList.remove("active-insight");
-        void insightPanel.offsetWidth;
-        insightPanel.classList.add("active-insight");
-      }
-    }
-
-    if (sheetKind === "roselyn") {
-      const insightName = document.getElementById("attributeInsightName");
-      const insightValue = document.getElementById("attributeInsightValue");
-      const insightText = document.getElementById("attributeInsightText");
-      const insightPanel = document.getElementById("attributeInsightPanel");
-
-      if (insightName && insightValue && insightText && insightPanel) {
-        insightName.textContent = "ROSELYN — Mira temporal";
-        insightValue.textContent = "⌁";
-        insightText.textContent =
-          "O metrônomo pulsa em silêncio. A mira dela parece esperar o mundo terminar antes do disparo.";
-
-        insightPanel.classList.remove("active-insight");
-        void insightPanel.offsetWidth;
-        insightPanel.classList.add("active-insight");
-      }
-    }
-
-    if (sheetKind === "lilian") {
-      const insightName = document.getElementById("attributeInsightName");
-      const insightValue = document.getElementById("attributeInsightValue");
-      const insightText = document.getElementById("attributeInsightText");
-      const insightPanel = document.getElementById("attributeInsightPanel");
-
-      if (insightName && insightValue && insightText && insightPanel) {
-        insightName.textContent = "LILIAN — Linha de frente";
-        insightValue.textContent = "!";
-        insightText.textContent =
-          "A presença dela fecha espaço. Quando Lilian entra na frente, a ameaça precisa passar por ela primeiro.";
-
-        insightPanel.classList.remove("active-insight");
-        void insightPanel.offsetWidth;
-        insightPanel.classList.add("active-insight");
-      }
-    }
-
-    setTimeout(() => {
-      characterStage.classList.remove("character-focus-pulse");
-      render.classList.remove("character-clicked");
-    }, 900);
-  });
+  setTimeout(() => document.body.classList.remove("impact"), 900);
 }
 
-function setupInteractiveFolderItems() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage || !getPlayerSheetKind()) return;
-
-  document.addEventListener("click", (event) => {
-    const item = event.target.closest(
-      ".skill-item, .ritual-folder, .data-chip, .pericia-table tr, .lore-quote"
-    );
-
-    if (!item || !agentPage.contains(item)) return;
-
-    createFolderActionParticles(event, 10);
-
-    item.classList.remove("folder-tab-activated");
-    void item.offsetWidth;
-    item.classList.add("folder-tab-activated");
-  });
-}
-
-function setupFullPlayerSheetMicroInteractions() {
-  setupFolderSpecificInteractions();
-  setupCharacterIconInteractions();
-  setupInteractiveFolderItems();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupFullPlayerSheetMicroInteractions, 900);
-});
-/* =========================================================
-   FICHAS PÚBLICAS — VERSÃO DOSSIÊ ORDO
-   Remove linguagem mecânica e mantém informação que a Ordo saberia
-========================================================= */
-
-function applyPublicOrdoDossierFolders() {
-  if (typeof agentsData === "undefined") {
-    return;
-  }
-
-  if (agentsData.maisie) {
-    agentsData.maisie.status = "Arquivo liberado — Recruta / Personagem Jogador";
-    agentsData.maisie.description =
-      "Ocultista de campo com integração tecnológica e forte ligação com Energia. Perfil útil em cenários instáveis, mas exige acompanhamento discreto.";
-
-    agentsData.maisie.banner = {
-      label: "Registro de jogador — acesso liberado",
-      title: "TECNOLOGIA PARANORMAL / ENERGIA",
-      text: "Recorte público de dossiê da Ordo Realitas. Informações mecânicas completas foram ocultadas do arquivo visual."
-    };
-
-    agentsData.maisie.folders = {
-      descricao: {
-        title: "Descrição",
-        html: `
-          <p>Maisie Hundown é registrada pela Ordo Realitas como uma agente marcada por sobrevivência, curiosidade e adaptação. Seu contato com o paranormal não gerou apenas medo: gerou uma necessidade ativa de compreender, dominar e redirecionar aquilo que quase a destruiu.</p>
-
-          <p>Para a Ordo, Maisie representa um perfil valioso e delicado. Ela combina raciocínio técnico, improviso de campo, medicina prática e ocultismo aplicado, mas carrega traumas diretamente ligados ao corpo, à perda e à impotência diante de mortes que presenciou.</p>
-
-          <p>O braço mecânico, o tanque ritualístico e seu interesse por Energia não devem ser tratados como simples equipamento. Eles fazem parte de uma reconstrução pessoal: uma mutilação transformada em ferramenta, uma tragédia convertida em linguagem operacional.</p>
-
-          <div class="lore-quote">“Algumas pessoas fogem do caos. Maisie tenta entender o circuito por trás dele.”</div>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Jogador</span><strong>Caio</strong></div>
-            <div class="data-chip"><span>Função observada</span><strong>Ocultista tecnológica</strong></div>
-            <div class="data-chip"><span>Foco paranormal</span><strong>Energia</strong></div>
-            <div class="data-chip"><span>Status</span><strong>Ativa em campo</strong></div>
-            <div class="data-chip"><span>Classificação</span><strong>Alto valor / risco moderado</strong></div>
-            <div class="data-chip"><span>Conduta recomendada</span><strong>Monitoramento discreto</strong></div>
-          </div>
-        `
-      },
-
-      habilidades: {
-        title: "Competências Observadas",
-        html: `
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Ocultismo aplicado</h3>
-              <p>Maisie não trata o paranormal como superstição ou força intocável. Ela tenta entendê-lo como sistema, ferramenta e ameaça ao mesmo tempo.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Improviso técnico</h3>
-              <p>Em situações instáveis, tende a buscar soluções funcionais com os recursos disponíveis, mesmo quando o cenário já parece perdido.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Conhecimento médico</h3>
-              <p>Sua passagem pela área medicinal aparece como parte importante da atuação em campo, especialmente em suporte emergencial e leitura de dano físico.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Integração corpo-máquina</h3>
-              <p>O braço mecânico é parte da identidade operacional da agente. Interferências externas nele devem ser evitadas sem justificativa clara.</p>
-            </article>
-          </div>
-        `
-      },
-
-      trilha: {
-        title: "Perfil de Atuação",
-        html: `
-          <p><strong>Classificação de campo:</strong> ocultista de suporte ofensivo, improviso tecnológico e contenção em ambientes caóticos.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Uso de arma e ritual</h3>
-              <p>A Ordo identifica em Maisie uma tendência a unir armamento, tecnologia pessoal e Energia paranormal em uma mesma lógica de combate.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Resposta sob pressão</h3>
-              <p>Quando ameaçada, Maisie não costuma apenas recuar. Ela tenta transformar o próprio risco em uma solução técnica ou paranormal.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Autonomia operacional</h3>
-              <p>Responde melhor a explicações do que a imposições. Comando rígido sem justificativa tende a gerar resistência.</p>
-            </article>
-          </div>
-        `
-      },
-
-      rituais: {
-        title: "Manifestações Paranormais",
-        html: `
-          <div class="ritual-grid">
-            <div class="ritual-folder ritual-energia">
-              <small>Energia</small>
-              <h3>Assinatura predominante</h3>
-              <p>A relação de Maisie com Energia se manifesta por instabilidade, magnetismo, hologramas, descarga, interferência e adaptação tecnológica.</p>
-            </div>
-
-            <div class="ritual-folder ritual-energia">
-              <small>Aplicação observada</small>
-              <h3>Arma como circuito</h3>
-              <p>Seus métodos indicam tentativa de transformar armamento e componentes pessoais em extensões de uma mesma rede paranormal.</p>
-            </div>
-
-            <div class="ritual-folder ritual-energia">
-              <small>Risco</small>
-              <h3>Controle ilusório</h3>
-              <p>A Ordo recomenda cautela: estudar Energia não significa dominá-la. Exposição prolongada pode tornar a fronteira entre corpo, equipamento e foco paranormal instável.</p>
-            </div>
-          </div>
-        `
-      },
-
-      pericias: {
-        title: "Áreas de Competência",
-        html: `
-          <p>Registro convertido para linguagem operacional. Bônus, treino e valores numéricos foram ocultados neste arquivo público.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Área</span><strong>Medicina de campo</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Tecnologia aplicada</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Ocultismo prático</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Percepção de risco</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Reflexos sob pressão</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Vontade / resistência mental</strong></div>
-          </div>
-        `
-      },
-
-      inventario: {
-        title: "Equipamentos Relevantes",
-        html: `
-          <p>O arquivo público não lista carga, categoria, espaços, munição ou valores mecânicos. A Ordo registra apenas itens com relevância narrativa ou operacional.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Braço mecânico</h3>
-              <p>Extensão corporal, ferramenta de combate e símbolo de autonomia. Não deve ser removido, desmontado ou tratado como peça descartável sem necessidade extrema.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Tanque ritualístico</h3>
-              <p>Recurso pessoal associado à canalização de Energia. Deve ser observado como parte do conjunto corpo-máquina-paranormal da agente.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Walt</h3>
-              <p>Primeiro robô criado por Maisie. Mesmo fora de operação, representa marco emocional: o momento em que suas ideias deixaram de ser apenas julgadas e passaram a existir.</p>
-            </article>
-          </div>
-        `
-      },
-
-      relacoes: {
-        title: "Relações Relevantes",
-        html: `
-          <p><strong>Walt:</strong> marco simbólico de sua identidade como criadora. Não é apenas projeto técnico; é prova de autonomia e expressão pessoal.</p>
-
-          <p><strong>Professor não identificado:</strong> figura ligada ao primeiro contato paranormal e à entrada de Maisie no conhecimento oculto. Relevância histórica confirmada, vínculo atual não plenamente documentado.</p>
-
-          <p><strong>Equipe perdida no hospital abandonado:</strong> evento crítico. A sobrevivência solitária de Maisie pode gerar culpa residual e tendência a agir como se precisasse resolver tudo sozinha.</p>
-        `
-      },
-
-      ordo: {
-        title: "Avaliação da Ordo",
-        html: `
-          <p>A Ordo Realitas avalia Maisie Hundown como agente de alto valor operacional, especialmente em ocorrências envolvendo tecnologia, Energia e ambientes imprevisíveis.</p>
-
-          <p>O principal risco não é insubordinação direta, mas excesso de curiosidade, apego intenso aos próprios equipamentos e a crença perigosa de que todo trauma pode ser convertido em ferramenta.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Atuação</span><strong>Aprovada com ressalvas</strong></div>
-            <div class="data-chip"><span>Monitoramento</span><strong>Técnico e psicológico</strong></div>
-            <div class="data-chip"><span>Alerta</span><strong>Não operar isolada por longos períodos</strong></div>
-            <div class="data-chip"><span>Restrição</span><strong>Não confiscar prótese/equipamentos sem necessidade</strong></div>
-          </div>
-
-          <div class="lore-quote">Pessoas que acreditam poder converter trauma em ferramenta precisam ser lembradas, periodicamente, de que ainda são pessoas.</div>
-        `
-      }
-    };
-  }
-
-  if (agentsData.roselyn) {
-    agentsData.roselyn.status = "Arquivo liberado — Recruta / Personagem Jogador";
-    agentsData.roselyn.description =
-      "Especialista de precisão, reconhecimento e análise tática. Sobrevivente de ocorrência anômala ligada à Morte e ao metrônomo de prata.";
-
-    agentsData.roselyn.banner = {
-      label: "Registro de jogador — acesso liberado",
-      title: "METRÔNOMO / MIRA TEMPORAL",
-      text: "Recorte público de dossiê da Ordo Realitas. Informações mecânicas completas foram ocultadas do arquivo visual."
-    };
-
-    agentsData.roselyn.folders = {
-      descricao: {
-        title: "Descrição",
-        html: `
-          <p>Roselyn Tate é registrada pela Ordo Realitas como sobrevivente de contato direto com manifestação associada à Morte e uma das poucas remanescentes conhecidas do incidente ocorrido na antiga residência da família Tate.</p>
-
-          <p>Seu perfil combina disciplina militar, precisão calculada e instabilidade discreta vinculada à memória do evento que apagou sua família. Socialmente, pode parecer extrovertida, provocativa e presente, mas essa abertura não deve ser confundida com vulnerabilidade livre.</p>
-
-          <p>Sob pressão, Roselyn tende a reduzir o ambiente a trajetórias, tempos de resposta e brechas. Ela não organiza o medo como pânico; organiza como procedimento.</p>
-
-          <div class="lore-quote">“Ela mira como alguém que já perdeu tudo e aprendeu a esperar o mundo terminar antes de puxar o gatilho.”</div>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Jogador</span><strong>Erick</strong></div>
-            <div class="data-chip"><span>Função observada</span><strong>Precisão / reconhecimento</strong></div>
-            <div class="data-chip"><span>Foco paranormal</span><strong>Morte / tempo</strong></div>
-            <div class="data-chip"><span>Status</span><strong>Apta com acompanhamento</strong></div>
-            <div class="data-chip"><span>Classificação</span><strong>Alto valor estratégico</strong></div>
-            <div class="data-chip"><span>Conduta recomendada</span><strong>Objetivos claros e liberdade tática</strong></div>
-          </div>
-        `
-      },
-
-      habilidades: {
-        title: "Competências Observadas",
-        html: `
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Precisão balística</h3>
-              <p>Roselyn demonstra aptidão para cobertura de longa distância, controle de linhas de tiro e espera pelo momento exato de ação.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Leitura tática</h3>
-              <p>Em campo, tende a procurar brechas, rotas, padrões de movimentação e detalhes fora de sincronia com o ambiente.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Percepção temporal</h3>
-              <p>Seu contato com o Outro Lado parece ter reorganizado a forma como entende movimento, consequência e intervalo entre causa e efeito.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Controle sob pressão</h3>
-              <p>A agente aparenta manter sangue-frio em cenários onde outros sobreviventes entrariam em colapso imediato.</p>
-            </article>
-          </div>
-        `
-      },
-
-      trilha: {
-        title: "Perfil de Atuação",
-        html: `
-          <p><strong>Classificação de campo:</strong> atiradora de precisão, reconhecimento avançado, suporte investigativo e análise de ameaça.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Disparo como evento</h3>
-              <p>Relatórios internos descrevem o método de Roselyn como algo menos impulsivo e mais calculado: ela trata cada disparo como consequência aguardando o momento certo para existir.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Observadora de campo</h3>
-              <p>Pode atuar como cobertura e voz tática, mas precisa aprender a comunicar incertezas antes de agir sobre elas.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Autonomia controlada</h3>
-              <p>Funciona melhor quando recebe objetivos claros, espaço para observação e liberdade limitada para decisões táticas.</p>
-            </article>
-          </div>
-        `
-      },
-
-      rituais: {
-        title: "Manifestações Paranormais",
-        html: `
-          <div class="ritual-grid">
-            <div class="ritual-folder ritual-morte">
-              <small>Morte / Tempo</small>
-              <h3>Metrônomo de prata</h3>
-              <p>Objeto de origem desconhecida. Atua como âncora psicológica, foco simbólico e possível ponto de influência paranormal.</p>
-            </div>
-
-            <div class="ritual-folder ritual-morte">
-              <small>Percepção anômala</small>
-              <h3>Tempo espesso</h3>
-              <p>Roselyn descreve alterações temporais como se os eventos pudessem ficar suspensos, incompletos ou negociáveis por um intervalo mínimo.</p>
-            </div>
-
-            <div class="ritual-folder ritual-medo">
-              <small>Observação</small>
-              <h3>Sem conjuração registrada</h3>
-              <p>O arquivo público não registra Roselyn como conjuradora ritualística. Sua relação paranormal aparece mais como percepção alterada e vínculo com objetos específicos.</p>
-            </div>
-          </div>
-        `
-      },
-
-      pericias: {
-        title: "Áreas de Competência",
-        html: `
-          <p>Registro convertido para linguagem operacional. Bônus, treino e valores numéricos foram ocultados neste arquivo público.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Área</span><strong>Pontaria de precisão</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Furtividade</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Reflexos</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Tática</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Investigação</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Tecnologia e observação</strong></div>
-          </div>
-        `
-      },
-
-      inventario: {
-        title: "Equipamentos Relevantes",
-        html: `
-          <p>O arquivo público não lista dano, munição, categorias ou regras de item. A Ordo registra apenas objetos com relevância narrativa ou operacional.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Rifle do pai</h3>
-              <p>Mais do que armamento, é vínculo material com a família Tate e com o último fragmento de uma vida interrompida.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Lente de prata oxidada</h3>
-              <p>Adaptação feita com fragmentos ligados à mansão Tate. A Ordo considera simbolicamente perigoso o fato de Roselyn observar ameaças através do que sobrou de sua casa.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Metrônomo de prata</h3>
-              <p>Objeto estabilizador e foco de atenção institucional. Não deve ser removido sem autorização superior e acompanhamento adequado.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Caderno pessoal</h3>
-              <p>Registros pessoais indicados em arquivo. Não devem ser violados sem necessidade operacional clara.</p>
-            </article>
-          </div>
-        `
-      },
-
-      relacoes: {
-        title: "Relações Relevantes",
-        html: `
-          <p><strong>Família Tate:</strong> vínculo central de perda, origem e motivação. Qualquer investigação envolvendo a mansão, antiguidades da família ou manifestações similares pode afetar sua estabilidade.</p>
-
-          <p><strong>Metrônomo de prata:</strong> objeto de continuidade entre o momento anterior à perda e o mundo que restou depois dela.</p>
-
-          <p><strong>Rifle e lente de prata:</strong> relíquia pessoal, luto preservado em forma de ferramenta e identidade operacional.</p>
-
-          <p><strong>Caderno pessoal:</strong> possível forma de organização interna. A Ordo recomenda não violar sem justificativa real.</p>
-        `
-      },
-
-      ordo: {
-        title: "Avaliação da Ordo",
-        html: `
-          <p>A Ordo Realitas avalia Roselyn Tate como recurso operacional promissor, porém psicologicamente marcado por evento de alta intensidade.</p>
-
-          <p>Seu valor em campo é evidente: precisão, sangue-frio, capacidade de observação e familiaridade com situações de risco. Ainda assim, seu vínculo com objetos anômalos e memórias traumáticas exige cuidado constante.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Atuação</span><strong>Aprovada com ressalvas</strong></div>
-            <div class="data-chip"><span>Monitoramento</span><strong>Discreto e contínuo</strong></div>
-            <div class="data-chip"><span>Alerta</span><strong>Evitar reprodução direta do trauma</strong></div>
-            <div class="data-chip"><span>Restrição</span><strong>Não remover metrônomo sem autorização</strong></div>
-          </div>
-
-          <div class="lore-quote">O metrônomo ainda está batendo. A questão é se ele acompanha o coração dela ou se está ensinando esse coração a obedecer outro ritmo.</div>
-        `
-      }
-    };
-  }
-
-  if (agentsData.lilian) {
-    agentsData.lilian.status = "Arquivo liberado — Recruta / Personagem Jogador";
-    agentsData.lilian.description =
-      "Combatente de linha de frente, proteção e contenção física. Perfil resistente, protetivo e marcado por isolamento emocional.";
-
-    agentsData.lilian.banner = {
-      label: "Registro de jogador — acesso liberado",
-      title: "LINHA DE FRENTE / CASCA GROSSA",
-      text: "Recorte público de dossiê da Ordo Realitas. Informações mecânicas completas foram ocultadas do arquivo visual."
-    };
-
-    agentsData.lilian.folders = {
-      descricao: {
-        title: "Descrição",
-        html: `
-          <p>Lilian Rodrigues Moretti é registrada pela Ordo Realitas como combatente de linha de frente, proteção de equipe e contenção física de ameaça.</p>
-
-          <p>Em primeiro contato, tende a parecer fechada, emburrada e pouco receptiva. Essa camada externa pode ser confundida com agressividade, mas o histórico indica que ela esconde um vínculo emocional seletivo e uma capacidade real de afeto com pessoas em quem confia.</p>
-
-          <p>Sua força não nasce apenas de treinamento. Nasce de abandono emocional, disciplina física e da necessidade de se tornar presença onde antes só havia ausência.</p>
-
-          <div class="lore-quote">“A casca grossa existe por um motivo. Não tentem arrancá-la à força.”</div>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Jogadora</span><strong>Nathalie</strong></div>
-            <div class="data-chip"><span>Função observada</span><strong>Proteção / contenção</strong></div>
-            <div class="data-chip"><span>Estilo</span><strong>Boxe / impacto físico</strong></div>
-            <div class="data-chip"><span>Status</span><strong>Apta em campo</strong></div>
-            <div class="data-chip"><span>Classificação</span><strong>Alto valor em combate direto</strong></div>
-            <div class="data-chip"><span>Conduta recomendada</span><strong>Comando claro e sem condescendência</strong></div>
-          </div>
-        `
-      },
-
-      habilidades: {
-        title: "Competências Observadas",
-        html: `
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Contenção física</h3>
-              <p>Lilian demonstra capacidade de ocupar espaço entre ameaça e equipe, forçando o perigo a passar por ela primeiro.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Resistência sob pressão</h3>
-              <p>Tende a aguentar mais do que deveria, o que pode salvar aliados, mas também mascarar ferimentos até o ponto de ruptura.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Leitura de impacto</h3>
-              <p>Sua experiência com luta permite leitura instintiva de distância, intenção hostil e oportunidade de reação física.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Proteção seletiva</h3>
-              <p>Quando passa a considerar alguém como parte do seu círculo, sua resposta protetiva pode se tornar intensa e pouco negociável.</p>
-            </article>
-          </div>
-        `
-      },
-
-      trilha: {
-        title: "Perfil de Atuação",
-        html: `
-          <p><strong>Classificação de campo:</strong> combatente de linha de frente, defesa de aliados e resposta imediata a contato direto.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Muralha operacional</h3>
-              <p>Lilian tende a assumir naturalmente o ponto de maior risco físico, criando espaço para que aliados menos resistentes possam agir.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Confronto direto</h3>
-              <p>Não procura conflito por prazer, mas aceita o confronto com facilidade quando acredita que ele é inevitável.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Autonomia defensiva</h3>
-              <p>Responde melhor a superiores claros, presentes e coerentes. Autoridade vazia ou controle por status tende a gerar resistência.</p>
-            </article>
-          </div>
-        `
-      },
-
-      rituais: {
-        title: "Contato Paranormal",
-        html: `
-          <div class="ritual-grid">
-            <div class="ritual-folder ritual-medo">
-              <small>Primeiro contato</small>
-              <h3>Solidão / reflexos</h3>
-              <p>O primeiro evento registrado envolveu corredores vazios, espelhos, isolamento e uma figura sem rosto associada à sensação de não ser vista.</p>
-            </div>
-
-            <div class="ritual-folder ritual-sangue">
-              <small>Confirmação posterior</small>
-              <h3>Marca de Sangue</h3>
-              <p>Durante luta clandestina, Lilian enfrentou um adversário sob influência anômala ligada a Sangue. A descoberta de um símbolo consolidou sua certeza sobre o Outro Lado.</p>
-            </div>
-
-            <div class="ritual-folder ritual-sangue">
-              <small>Observação</small>
-              <h3>Sem conjuração registrada</h3>
-              <p>O arquivo público não registra Lilian como conjuradora. Sua relação com o paranormal aparece por confronto, resistência e sobrevivência.</p>
-            </div>
-          </div>
-        `
-      },
-
-      pericias: {
-        title: "Áreas de Competência",
-        html: `
-          <p>Registro convertido para linguagem operacional. Bônus, treino e valores numéricos foram ocultados neste arquivo público.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Área</span><strong>Luta corporal</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Fortitude</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Atletismo</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Reflexos de combate</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Pilotagem / mobilidade</strong></div>
-            <div class="data-chip"><span>Área</span><strong>Resposta física imediata</strong></div>
-          </div>
-        `
-      },
-
-      inventario: {
-        title: "Equipamentos Relevantes",
-        html: `
-          <p>O arquivo público não lista dano, categoria, espaços ou regras de arma. A Ordo registra apenas itens com relevância narrativa ou operacional.</p>
-
-          <div class="skill-list">
-            <article class="skill-item">
-              <h3>Manoplas</h3>
-              <p>Equipamento associado diretamente ao estilo de combate de Lilian. Não substitui sua força: amplifica aquilo que ela já aprendeu a fazer com o corpo.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Corpo como ferramenta</h3>
-              <p>Ao contrário de agentes que dependem de grande volume de equipamento, Lilian opera principalmente através de treino, resistência e presença física.</p>
-            </article>
-
-            <article class="skill-item">
-              <h3>Boxe como eixo</h3>
-              <p>Para Lilian, o treino representa ordem, limite, presença e linguagem emocional. Deve ser tratado como elemento identitário, não apenas habilidade.</p>
-            </article>
-          </div>
-        `
-      },
-
-      relacoes: {
-        title: "Relações Relevantes",
-        html: `
-          <p><strong>Lucas Moretti:</strong> irmão mais novo e vínculo afetivo mais importante. Representa fator de estabilização emocional e ponto sensível de proteção.</p>
-
-          <p><strong>Seu Jonas:</strong> antigo caseiro e ex-boxeador. Figura formativa que ofereceu presença adulta concreta e ensinou Lilian a transformar raiva em técnica.</p>
-
-          <p><strong>Henrique e Helena Moretti:</strong> pais distantes, associados ao abandono emocional, controle financeiro e origem da rigidez defensiva da agente.</p>
-
-          <p><strong>Boxe:</strong> não é só prática física. É estrutura, presença e o primeiro lugar onde sua dureza foi entendida como foco.</p>
-        `
-      },
-
-      ordo: {
-        title: "Avaliação da Ordo",
-        html: `
-          <p>A Ordo Realitas avalia Lilian Rodrigues Moretti como agente de valor operacional elevado em combate direto, proteção e resistência.</p>
-
-          <p>Ela não deve ser tratada apenas como músculo. Essa leitura seria limitada e possivelmente danosa. Lilian possui inteligência emocional defensiva, leitura social seletiva e senso de proteção que pode se tornar uma das bases morais do grupo.</p>
-
-          <div class="data-cluster">
-            <div class="data-chip"><span>Atuação</span><strong>Aprovada em campo</strong></div>
-            <div class="data-chip"><span>Monitoramento</span><strong>Comportamental discreto</strong></div>
-            <div class="data-chip"><span>Alerta</span><strong>Não abandonar na linha de frente</strong></div>
-            <div class="data-chip"><span>Restrição</span><strong>Evitar isolamento prolongado</strong></div>
-          </div>
-
-          <div class="lore-quote">Ela parece o tipo de agente que entra na frente de uma ameaça antes de admitir que está com medo. Isso pode salvar vidas. Também pode matá-la.</div>
-        `
-      }
-    };
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    applyPublicOrdoDossierFolders();
-
-    if (typeof renderAgentPage === "function") {
-      renderAgentPage();
-    }
-
-    if (typeof changeFolder === "function") {
-      changeFolder("descricao");
-    }
-  }, 80);
-});
-/* =========================================================
-   ABAS — NOMES DE DOSSIÊ DA ORDO
-   Mantém a lógica antiga, muda só o texto visual
-========================================================= */
-
-function applyOrdoFolderTabLabels() {
-  const agentPage = document.getElementById("agentPage");
-
-  if (!agentPage) {
-    return;
-  }
-
-  const tabLabels = {
-    descricao: "Dossiê",
-    habilidades: "Competências",
-    trilha: "Atuação",
-    rituais: "Paranormal",
-    pericias: "Áreas",
-    inventario: "Equipamentos",
-    relacoes: "Vínculos",
-    ordo: "Avaliação"
-  };
-
-  const tabs = document.querySelectorAll(".folder-tab");
-
-  tabs.forEach((tab) => {
-    const onclick = tab.getAttribute("onclick") || "";
-
-    Object.keys(tabLabels).forEach((key) => {
-      if (onclick.includes(`'${key}'`) || onclick.includes(`"${key}"`)) {
-        tab.textContent = tabLabels[key];
-        tab.dataset.folderKind = key;
-      }
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(applyOrdoFolderTabLabels, 120);
-  setTimeout(applyOrdoFolderTabLabels, 600);
-});
-/* =========================================================
-   TELA INICIAL E ARQUIVO CORROMPIDO — EFEITOS CINEMATOGRÁFICOS
-========================================================= */
-
-function createEntryScreenParticles() {
-  const entryScreen = document.querySelector(".public-entry-screen");
-
-  if (!entryScreen) {
-    return;
-  }
-
-  for (let i = 0; i < 34; i++) {
-    const particle = document.createElement("span");
-
-    particle.className = "player-page-particle";
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${7 + Math.random() * 10}s`;
-    particle.style.animationDelay = `${Math.random() * 8}s`;
-    particle.style.setProperty("--drift", `${(Math.random() - 0.5) * 140}px`);
-
-    if (i % 3 === 0) {
-      particle.style.width = "4px";
-      particle.style.height = "4px";
-      particle.style.borderRadius = "999px";
-      particle.style.background = "#d6b35a";
-      particle.style.boxShadow = "0 0 12px rgba(214, 179, 90, 0.75)";
-    } else if (i % 3 === 1) {
-      particle.style.width = "3px";
-      particle.style.height = "24px";
-      particle.style.borderRadius = "999px";
-      particle.style.background = "linear-gradient(to bottom, transparent, rgba(255, 60, 60, 0.85), transparent)";
-      particle.style.boxShadow = "0 0 12px rgba(255, 0, 0, 0.45)";
-    } else {
-      particle.style.width = "5px";
-      particle.style.height = "5px";
-      particle.style.borderRadius = "999px";
-      particle.style.background = "#8b5cff";
-      particle.style.boxShadow = "0 0 12px rgba(126, 36, 255, 0.65)";
-    }
-
-    document.body.appendChild(particle);
-  }
-}
-
-function enhanceForbiddenScreenFragments() {
-  const forbiddenScreen = document.querySelector(".forbidden-file-screen");
-
-  if (!forbiddenScreen) {
-    return;
-  }
-
-  const fragments = [
-    "CREDENCIAL_INSUFICIENTE",
-    "LEITURA_INTERROMPIDA",
-    "FRAGMENTO_ISOLADO",
-    "ARQUIVO_CORROMPIDO",
-    "ACESSO_NEGADO",
-    "MEMÓRIA_INCOMPLETA",
-    "ERRO_DE_REALIDADE",
-    "REGISTRO_BLOQUEADO"
-  ];
-
-  for (let i = 0; i < 16; i++) {
-    const fragment = document.createElement("span");
-
-    fragment.className = "forbidden-fragment";
-    fragment.textContent = fragments[i % fragments.length];
-    fragment.style.top = `${8 + Math.random() * 84}%`;
-    fragment.style.animationDuration = `${7 + Math.random() * 8}s`;
-    fragment.style.animationDelay = `${Math.random() * 5}s`;
-
-    document.body.appendChild(fragment);
-  }
-}
-
-/* sobrescreve a tela de arquivo proibido com versão mais cinematográfica */
-function renderForbiddenFileScreen() {
-  document.body.innerHTML = `
-    <main class="forbidden-file-screen">
-      <section class="forbidden-file-card">
-        <p class="forbidden-file-status">Arquivo corrompido / leitura negada</p>
-
-        <h1 class="forbidden-file-title">
-          Acesso<br />
-          Interrompido
-        </h1>
-
-        <p class="forbidden-file-text">
-          O registro solicitado existe nos arquivos da Ordo Realitas, mas a leitura pública foi interrompida
-          antes da reconstrução completa do conteúdo. Fragmentos instáveis foram isolados para evitar vazamento
-          de informação classificada.
-        </p>
-
-        <code class="forbidden-file-code">
-          ERRO: CREDENCIAL_INSUFICIENTE // FRAGMENTO_BLOQUEADO // MEMÓRIA_CORROMPIDA // LEITURA_CANCELADA
-        </code>
-
-        <button class="forbidden-file-button" onclick="window.location.href='../index.html'">
-          Interromper Leitura e Retornar
-        </button>
-      </section>
-    </main>
-  `;
-
-  setTimeout(enhanceForbiddenScreenFragments, 60);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(createEntryScreenParticles, 120);
-  setTimeout(enhanceForbiddenScreenFragments, 120);
-});
-/* =========================================================
-   PÁGINA DE AGENTES 2.0 — ABERTURA E INTERAÇÃO PREMIUM
-========================================================= */
-
-function isAgentsPage() {
-  const path = normalizePublicText(window.location.pathname);
-  const title = normalizePublicText(document.title);
-  const bodyText = normalizePublicText(document.body?.textContent || "");
-
-  return (
-    path.includes("agentes") ||
-    title.includes("agentes") ||
-    bodyText.includes("agentes liberados") ||
-    bodyText.includes("registro de agentes")
-  );
-}
-
-function createAgentsOpeningAnimation() {
-  if (!isAgentsPage()) {
-    return;
-  }
-
-  if (sessionStorage.getItem("agentsOpeningPlayed") === "true") {
-    return;
-  }
-
-  sessionStorage.setItem("agentsOpeningPlayed", "true");
-
-  const overlay = document.createElement("div");
-  overlay.className = "agents-opening-overlay";
-
-  overlay.innerHTML = `
-    <section class="agents-opening-card">
-      <p class="agents-opening-status">Ordo Realitas // Arquivo Público</p>
-
-      <h1 class="agents-opening-title">
-        Sincronizando<br />
-        Dossiês
-      </h1>
-
-      <p class="agents-opening-text">
-        Reconstruindo registros liberados, isolando fragmentos corrompidos
-        e verificando permissões de leitura pública.
-      </p>
-
-      <div class="agents-opening-loader">
-        <div class="agents-opening-line"><span></span></div>
-        <div class="agents-opening-line"><span></span></div>
-        <div class="agents-opening-line"><span></span></div>
-      </div>
+function showPopup(title, text) {
+  const old = document.querySelector(".popup");
+  if (old) old.remove();
+
+  const pop = document.createElement("div");
+  pop.className = "popup";
+
+  pop.innerHTML = `
+    <section>
+      <strong>${title}</strong>
+      <p>${text}</p>
+      <button>Fechar</button>
     </section>
   `;
 
-  document.body.appendChild(overlay);
+  pop.querySelector("button").onclick = () => pop.remove();
 
-  setTimeout(() => {
-    overlay.remove();
-  }, 4200);
+  pop.onclick = e => {
+    if (e.target === pop) pop.remove();
+  };
+
+  document.body.appendChild(pop);
 }
 
-function enhanceAgentsPageLayout() {
-  if (!isAgentsPage()) {
-    return;
-  }
+function createOpening(a, b) {
+  if (sessionStorage.getItem("openingPlayed")) return;
 
-  const main =
-    document.querySelector(".internal-page") ||
-    document.querySelector(".dashboard") ||
-    document.querySelector("main");
+  sessionStorage.setItem("openingPlayed", "1");
 
-  if (!main) {
-    return;
-  }
+  const o = document.createElement("div");
+  o.className = "opening";
 
-  main.classList.add("agents-page-enhanced");
+  o.innerHTML = `
+    <section>
+      <p class="tag">ORDO REALITAS</p>
+      <h1>${a}<br>${b}</h1>
+      <i></i>
+      <i></i>
+      <i></i>
+    </section>
+  `;
 
-  const alreadyHasPanel = document.querySelector(".agents-control-panel");
+  document.body.appendChild(o);
 
-  if (!alreadyHasPanel) {
-    const panel = document.createElement("section");
-    panel.className = "agents-control-panel";
-
-    panel.innerHTML = `
-      <article class="agents-control-main">
-        <span>Arquivo público</span>
-        <strong>Dossiês de campo liberados</strong>
-        <p>Registros visuais disponíveis para consulta dos jogadores. Fragmentos instáveis foram isolados antes da leitura.</p>
-      </article>
-
-      <article class="agents-control-chip">
-        <span>Agentes</span>
-        <strong>3 liberados</strong>
-      </article>
-
-      <article class="agents-control-chip">
-        <span>Status</span>
-        <strong>Parcial</strong>
-      </article>
-
-      <article class="agents-control-chip">
-        <span>Bloqueios</span>
-        <strong>Ativos</strong>
-      </article>
-    `;
-
-    const grid = document.querySelector(".page-grid");
-
-    if (grid && grid.parentNode) {
-      grid.parentNode.insertBefore(panel, grid);
-    } else {
-      main.appendChild(panel);
-    }
-  }
+  setTimeout(() => o.remove(), 2500);
 }
 
-function decorateAgentCards() {
-  if (!isAgentsPage()) {
-    return;
+function bootPerformance() {
+  const low =
+    innerWidth < 760 ||
+    (navigator.hardwareConcurrency || 4) <= 4 ||
+    (navigator.deviceMemory || 4) <= 4;
+
+  if (low) {
+    document.documentElement.classList.add("performance-mode");
   }
 
-  const cards = document.querySelectorAll(".profile-card, .module-card, .clickable-card");
+  const oldButton = document.querySelector(".performance-toggle");
+  if (oldButton) oldButton.remove();
 
-  cards.forEach((card) => {
-    if (!card.querySelector(".agents-file-stamp")) {
-      const stamp = document.createElement("span");
-      stamp.className = "agents-file-stamp";
+  const btn = document.createElement("button");
+  btn.className = "performance-toggle";
+  btn.textContent = document.documentElement.classList.contains("performance-mode") ? "Modo leve" : "Modo full";
 
-      const isForbidden =
-        card.classList.contains("public-corrupted-file") ||
-        card.dataset.publicForbidden === "true" ||
-        isElementForbiddenPublic(card);
+  btn.onclick = () => {
+    document.documentElement.classList.toggle("performance-mode");
+    btn.textContent = document.documentElement.classList.contains("performance-mode") ? "Modo leve" : "Modo full";
+  };
 
-      stamp.textContent = isForbidden ? "Corrompido" : "Liberado";
-
-      card.appendChild(stamp);
-    }
-
-    if (!card.querySelector(".agents-card-progress")) {
-      const progress = document.createElement("span");
-      progress.className = "agents-card-progress";
-      progress.innerHTML = "<span></span>";
-      card.appendChild(progress);
-    }
-  });
-}
-
-function setupAgentsCardTilt() {
-  if (!isAgentsPage()) {
-    return;
-  }
-
-  const cards = document.querySelectorAll(".profile-card, .module-card, .clickable-card");
-
-  cards.forEach((card) => {
-    card.addEventListener("mousemove", (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-      card.style.setProperty("--agent-card-tilt-x", `${x * 5}deg`);
-      card.style.setProperty("--agent-card-tilt-y", `${y * -5}deg`);
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.setProperty("--agent-card-tilt-x", "0deg");
-      card.style.setProperty("--agent-card-tilt-y", "0deg");
-    });
-  });
-}
-
-function createAgentsPageParticles() {
-  if (!isAgentsPage()) {
-    return;
-  }
-
-  const existing = document.querySelector(".agents-page-particle");
-
-  if (existing) {
-    return;
-  }
-
-  const types = ["gold", "red", "purple"];
-
-  for (let i = 0; i < 38; i++) {
-    const particle = document.createElement("span");
-    const type = types[i % types.length];
-
-    particle.className = `agents-page-particle ${type}`;
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${7 + Math.random() * 11}s`;
-    particle.style.animationDelay = `${Math.random() * 8}s`;
-    particle.style.setProperty("--drift", `${(Math.random() - 0.5) * 140}px`);
-
-    document.body.appendChild(particle);
-  }
-}
-
-function runAgentsPageEnhancements() {
-  createAgentsOpeningAnimation();
-  enhanceAgentsPageLayout();
-
-  setTimeout(() => {
-    markForbiddenPublicCards();
-    decorateAgentCards();
-    setupAgentsCardTilt();
-    setupAgentCardUniqueBursts();
-    createAgentsPageParticles();
-  }, 200);
-
-  setTimeout(() => {
-    markForbiddenPublicCards();
-    decorateAgentCards();
-  }, 900);
+  document.body.appendChild(btn);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(runAgentsPageEnhancements, 180);
+  bootPerformance();
+  bootAgentsPage();
+  bootAgentPage();
 });
+function homeTriggerCorruption() {
+  const popup = document.getElementById("homeCorruptionPopup");
+
+  if (!popup) return;
+
+  popup.classList.add("active");
+  burst(window.innerWidth / 2, window.innerHeight / 2, "lilian", 18);
+}
+
+function homeCloseCorruption() {
+  const popup = document.getElementById("homeCorruptionPopup");
+
+  if (!popup) return;
+
+  popup.classList.remove("active");
+}

@@ -10,68 +10,104 @@
 </head>
 
 <body>
-  <main class="public-entry-screen">
-    <div class="entry-noise-layer"></div>
-    <div class="entry-scanline"></div>
+  <main class="home-cinematic">
+    <div class="home-noise"></div>
+    <div class="home-scan"></div>
+    <div class="home-orb home-orb-a"></div>
+    <div class="home-orb home-orb-b"></div>
+    <div class="home-orb home-orb-c"></div>
 
-    <section class="entry-main-card">
-      <div class="entry-classification">
+    <section class="home-hero">
+      <div class="home-classification">
         <span>ORDO REALITAS</span>
         <strong>ARQUIVO PÚBLICO</strong>
       </div>
 
-      <div class="entry-title-block">
-        <p class="entry-case-label">CORAÇÕES DO OUTRO LADO</p>
+      <p class="home-case">CORAÇÕES DO OUTRO LADO</p>
 
-        <h1 class="entry-title glitch-text" data-text="REGISTROS LIBERADOS">
-          REGISTROS LIBERADOS
-        </h1>
+      <h1 class="home-title">
+        REGISTROS<br />
+        LIBERADOS
+      </h1>
 
-        <p class="entry-description">
-          Acesso público aos arquivos visuais autorizados da campanha. Alguns registros apresentam corrupção,
-          fragmentação ou bloqueio de leitura por inconsistência de credencial.
-        </p>
+      <p class="home-description">
+        Interface pública de consulta aos dossiês visuais autorizados da campanha.
+        Alguns registros permanecem corrompidos, bloqueados ou fragmentados por
+        inconsistência de credencial.
+      </p>
+
+      <div class="home-actions">
+        <a class="home-main-button" href="pages/agentes.html">
+          Acessar Arquivos
+        </a>
+
+        <button class="home-secondary-button" type="button" onclick="homeTriggerCorruption()">
+          Testar Registro Corrompido
+        </button>
       </div>
 
-      <section class="entry-access-panel">
-        <div class="entry-access-row">
+      <section class="home-status-grid">
+        <article>
           <span>Status</span>
           <strong>Leitura parcial autorizada</strong>
-        </div>
+        </article>
 
-        <div class="entry-access-row">
+        <article>
           <span>Agentes liberados</span>
           <strong>Maisie / Roselyn / Lilian</strong>
-        </div>
+        </article>
 
-        <div class="entry-access-row">
-          <span>Fragmentos instáveis</span>
-          <strong>Arquivos corrompidos detectados</strong>
-        </div>
+        <article>
+          <span>Bloqueios ativos</span>
+          <strong>Registros restritos isolados</strong>
+        </article>
       </section>
-
-      <button class="entry-button" onclick="publicArchiveLogin()">
-        Acessar Arquivos Liberados
-      </button>
-
-      <p class="entry-warning">
-        Nenhuma credencial adicional é necessária. Caso um registro apresente erro de leitura, interrompa o acesso imediatamente.
-      </p>
     </section>
 
-    <aside class="entry-side-terminal">
-      <p>// inicializando leitura pública...</p>
-      <p>// verificando dossiês liberados...</p>
-      <p>// Maisie_Hundown: <span>OK</span></p>
-      <p>// Roselyn_Tate: <span>OK</span></p>
-      <p>// Lilian_Moretti: <span>OK</span></p>
-      <p>// registros restritos: <strong>corrompidos</strong></p>
-      <p>// status: aguardando entrada</p>
+    <aside class="home-right-panel">
+      <section class="home-terminal">
+        <p>// inicializando arquivo público...</p>
+        <p>// verificando permissões de leitura...</p>
+        <p>// Maisie_Hundown: <span>LIBERADO</span></p>
+        <p>// Roselyn_Tate: <span>LIBERADO</span></p>
+        <p>// Lilian_Moretti: <span>LIBERADO</span></p>
+        <p>// Yuna: <b>CORROMPIDO</b></p>
+        <p>// Lisa: <b>CORROMPIDO</b></p>
+        <p>// Blender: <b>CORROMPIDO</b></p>
+        <p>// status: aguardando entrada...</p>
+      </section>
+
+      <section class="home-agent-preview">
+        <a class="home-agent-card home-agent-maisie" href="pages/maisie.html">
+          <span>Arquivo liberado</span>
+          <strong>Maisie Hundown</strong>
+          <p>Energia / tecnologia paranormal</p>
+        </a>
+
+        <a class="home-agent-card home-agent-roselyn" href="pages/agente.html?id=roselyn">
+          <span>Arquivo liberado</span>
+          <strong>Roselyn Tate</strong>
+          <p>Metrônomo / mira temporal</p>
+        </a>
+
+        <a class="home-agent-card home-agent-lilian" href="pages/agente.html?id=lilian">
+          <span>Arquivo liberado</span>
+          <strong>Lilian Moretti</strong>
+          <p>Linha de frente / casca grossa</p>
+        </a>
+      </section>
     </aside>
 
-    <div class="entry-orb orb-one"></div>
-    <div class="entry-orb orb-two"></div>
-    <div class="entry-orb orb-three"></div>
+    <section id="homeCorruptionPopup" class="home-corruption-popup">
+      <div>
+        <p>ERRO DE CREDENCIAL</p>
+        <h2>Arquivo<br />Corrompido</h2>
+        <span>
+          A leitura pública foi interrompida antes da reconstrução completa do registro.
+        </span>
+        <button type="button" onclick="homeCloseCorruption()">Interromper Leitura</button>
+      </div>
+    </section>
   </main>
 
   <script src="script.js"></script>

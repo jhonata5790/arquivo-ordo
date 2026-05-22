@@ -4,85 +4,142 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Agentes — Arquivo Ordo Realitas</title>
+  <title>Agentes — Arquivo Público</title>
 
   <link rel="stylesheet" href="../style.css" />
 </head>
 
 <body>
-  <main class="app internal-page">
-    <header class="page-header">
+  <main class="agents-hub-page">
+    <div class="agents-hub-noise"></div>
+    <div class="agents-hub-scan"></div>
+
+    <header class="agents-hub-header">
       <div>
-        <p class="system-status">Arquivo liberado — registros operacionais</p>
-
-        <h1 class="dashboard-title glitch-text" data-text="Agentes">
-          Agentes
-        </h1>
-
-        <p class="page-description">
-          Dossiês visuais e registros de agentes envolvidos direta ou indiretamente na operação em Santa Luzia.
+        <p class="tag">ORDO REALITAS // ARQUIVO PÚBLICO</p>
+        <h1>AGENTES</h1>
+        <p>
+          Dossiês visuais liberados para consulta pública da campanha.
+          Registros restritos foram isolados por corrupção de leitura, ausência de credencial
+          ou classificação operacional superior.
         </p>
       </div>
 
-      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
+      <a class="back-link" href="../index.html">Voltar ao Arquivo Público</a>
     </header>
 
-    <section class="terminal-message">
-      <strong>Status:</strong> Selecione um agente para acessar a ficha visual interativa registrada no sistema da Ordo.
+    <section class="agents-hub-dashboard">
+      <article class="agents-hub-main-status">
+        <span>Central de leitura</span>
+        <strong>Dossiês de campo</strong>
+        <p>
+          Selecione um registro liberado para abrir a ficha interativa. Arquivos corrompidos
+          permanecem visíveis apenas como fragmentos bloqueados.
+        </p>
+      </article>
+
+      <article>
+        <span>Liberados</span>
+        <strong>3</strong>
+      </article>
+
+      <article>
+        <span>Corrompidos</span>
+        <strong>5</strong>
+      </article>
+
+      <article>
+        <span>Status</span>
+        <strong>Parcial</strong>
+      </article>
     </section>
 
-    <section class="page-grid">
-      <article class="profile-card clickable-card" onclick="openAgent('yuna')">
-        <p class="card-status">Semi-Líder Ocultista</p>
-        <h2 class="card-title">Yuna</h2>
-        <p class="card-text">Ocultista reservada, analista de manifestações e integrante da Trindade da Ordo.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
+    <section class="agents-hub-controls">
+      <button class="active" data-filter="all">Todos</button>
+      <button data-filter="public">Liberados</button>
+      <button data-filter="corrupted">Corrompidos</button>
+    </section>
 
-      <article class="profile-card clickable-card" onclick="openAgent('lisa')">
-        <p class="card-status">Semi-Líder Especialista</p>
-        <h2 class="card-title">Lisa</h2>
-        <p class="card-text">Coordenadora operacional, ex-ginasta e principal elo estratégico da Trindade.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
+    <section class="agents-hub-layout">
+      <section class="agents-hub-grid-area">
+        <div id="agentsGrid" class="agents-grid"></div>
+      </section>
 
-      <article class="profile-card clickable-card" onclick="openAgent('blender')">
-        <p class="card-status">Semi-Líder Combatente</p>
-        <h2 class="card-title">Blender</h2>
-        <p class="card-text">Combatente de linha de frente, ex-lutador e força bruta da Trindade da Ordo.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
+      <aside class="agents-hub-terminal">
+        <p>// sincronizando registros...</p>
+        <p>// Maisie_Hundown: <span>LIBERADO</span></p>
+        <p>// Roselyn_Tate: <span>LIBERADO</span></p>
+        <p>// Lilian_Moretti: <span>LIBERADO</span></p>
+        <p>// Yuna: <b>CORROMPIDO</b></p>
+        <p>// Lisa: <b>CORROMPIDO</b></p>
+        <p>// Blender: <b>CORROMPIDO</b></p>
+        <p>// Klint: <b>RESTRITO</b></p>
+        <p>// Anny: <b>INCOMPLETO</b></p>
 
-      <article class="profile-card clickable-card" onclick="openAgent('maisie')">
-        <p class="card-status">Agente em campo</p>
-        <h2 class="card-title">Maisie Hundown</h2>
-        <p class="card-text">Agente enviada para Santa Luzia durante os primeiros movimentos da investigação.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
-
-      <article class="profile-card clickable-card" onclick="openAgent('roselyn')">
-        <p class="card-status">Agente em campo</p>
-        <h2 class="card-title">Roselyn Tate</h2>
-        <p class="card-text">Especialista associada à operação Corações do Outro Lado.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
-
-      <article class="profile-card clickable-card" onclick="openAgent('lilian')">
-        <p class="card-status">Agente em campo</p>
-        <h2 class="card-title">Lilian Rodrigues Moretti</h2>
-        <p class="card-text">Combatente vinculada à investigação inicial do Caso Miyara.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
-
-      <article class="profile-card clickable-card secret-profile" onclick="openAgent('klint')">
-        <p class="card-status">Comando / Temporário</p>
-        <h2 class="card-title">Klint</h2>
-        <p class="card-text">Render temporário no lugar da Anny. Registro de comando utilizado para testes visuais.</p>
-        <span class="card-action">Abrir ficha interativa</span>
-      </article>
+        <div class="agents-terminal-warning">
+          <strong>AVISO</strong>
+          <p>
+            Registros corrompidos podem conter fragmentos visuais, nomes parciais
+            ou leituras interrompidas pela interface.
+          </p>
+        </div>
+      </aside>
     </section>
   </main>
 
   <script src="../script.js"></script>
+
+  <script>
+    function setupAgentsHubFilters() {
+      const buttons = document.querySelectorAll(".agents-hub-controls button");
+      const cards = document.querySelectorAll(".agent-card");
+
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+
+          buttons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          cards.forEach(card => {
+            const isCorrupted = card.classList.contains("corrupted-card");
+
+            if (filter === "all") {
+              card.classList.remove("agents-hidden-card");
+              return;
+            }
+
+            if (filter === "public") {
+              card.classList.toggle("agents-hidden-card", isCorrupted);
+              return;
+            }
+
+            if (filter === "corrupted") {
+              card.classList.toggle("agents-hidden-card", !isCorrupted);
+            }
+          });
+        });
+      });
+    }
+
+    function decorateAgentsHubCards() {
+      document.querySelectorAll(".agent-card").forEach(card => {
+        if (!card.querySelector(".agents-card-code")) {
+          const agent = card.dataset.agent || "registro";
+          const code = document.createElement("span");
+          code.className = "agents-card-code";
+          code.textContent = `ARQ-${agent.slice(0, 3).toUpperCase()}`;
+          card.appendChild(code);
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        setupAgentsHubFilters();
+        decorateAgentsHubCards();
+      }, 120);
+    });
+  </script>
 </body>
 </html>
