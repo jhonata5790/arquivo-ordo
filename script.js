@@ -352,8 +352,8 @@ function bootAgentsPage() {
 
   const customPages = {
     maisie: "maisie.html",
-    roselyn: "agente.html?id=roselyn",
-    lilian: "agente.html?id=lilian"
+    roselyn: "roselyn.html",
+    lilian: "lilian.html",
   };
 
   grid.innerHTML = allCards.map(({ id, public: isPublic }) => {

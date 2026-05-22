@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lilian Rodrigues Moretti — Arquivo Público</title>
+
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <main class="lilian-exclusive-page">
+    <div id="lilianBootScreen" class="lilian-boot-screen">
+      <section class="lilian-boot-card">
+        <p class="tag">ORDO REALITAS // INICIALIZAÇÃO DE DOSSIÊ</p>
+
+        <h1>
+          LILIAN<br />
+          MORETTI
+        </h1>
+
+        <div class="lilian-boot-terminal">
+          <p>// analisando resistência física...</p>
+          <p>// calibrando resposta de impacto...</p>
+          <p>// verificando histórico de combate...</p>
+          <p>// guarda_defensiva: <span>ativa</span></p>
+          <p>// status: <b>linha de frente detectada</b></p>
+        </div>
+
+        <div class="lilian-boot-bars">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </section>
+    </div>
+
+    <div class="lilian-bg-cracks"></div>
+    <div class="lilian-bg-dust"></div>
+
+    <button id="lilianGuardAssistant" class="lilian-guard-assistant" aria-label="Ativar guarda">
+      <span></span>
+      <i></i>
+    </button>
+
+    <header class="lilian-hero-header">
+      <div>
+        <p class="tag">ORDO REALITAS // DOSSIÊ DE CAMPO LIBERADO</p>
+        <h1>LILIAN MORETTI</h1>
+        <p>
+          Combatente de linha de frente, proteção de aliados e contenção física de ameaça.
+          Registro público associado à Casca Grossa.
+        </p>
+      </div>
+
+      <a class="back-link" href="agentes.html">Voltar aos Agentes</a>
+    </header>
+
+    <section class="lilian-command-strip">
+      <article>
+        <span>Status</span>
+        <strong>Arquivo liberado</strong>
+      </article>
+
+      <article>
+        <span>Jogadora</span>
+        <strong>Nathalie</strong>
+      </article>
+
+      <article>
+        <span>Classe</span>
+        <strong>Combatente</strong>
+      </article>
+
+      <article>
+        <span>Assinatura</span>
+        <strong>Impacto / proteção</strong>
+      </article>
+    </section>
+
+    <section class="lilian-layout">
+      <section class="lilian-character-zone">
+        <div class="lilian-impact-rings">
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="lilian-character-aura"></div>
+
+        <img
+          class="lilian-render"
+          src="../assets/imagens/personagens/lilian.png"
+          alt="Lilian Rodrigues Moretti"
+        />
+
+        <div class="lilian-hotspots">
+          <button class="lilian-hotspot hotspot-guard" data-hotspot="guarda" aria-label="Inspecionar guarda"></button>
+          <button class="lilian-hotspot hotspot-hands" data-hotspot="maos" aria-label="Inspecionar mãos"></button>
+          <button class="lilian-hotspot hotspot-posture" data-hotspot="postura" aria-label="Inspecionar postura"></button>
+          <button class="lilian-hotspot hotspot-scars" data-hotspot="cicatrizes" aria-label="Inspecionar cicatrizes"></button>
+          <button class="lilian-hotspot hotspot-face" data-hotspot="olhar" aria-label="Inspecionar olhar"></button>
+        </div>
+
+        <div class="lilian-nameplate">
+          <span>REGISTRO INTERNO — ACESSO PARCIAL</span>
+          <strong>A CASCA GROSSA / LINHA DE FRENTE</strong>
+        </div>
+
+        <button id="lilianImpactButton" class="lilian-impact-button">
+          Ativar Impacto
+        </button>
+      </section>
+
+      <aside class="lilian-system-panel">
+        <div class="lilian-terminal">
+          <p>// leitura corporal...</p>
+          <p>// guarda: <span>fechada</span></p>
+          <p>// resistência: <span>elevada</span></p>
+          <p>// impulso_protetivo: <b>ativo</b></p>
+          <p>// recomendação: não abandonar na linha de frente</p>
+        </div>
+
+        <section class="lilian-attribute-module">
+          <p class="tag">Matriz de Atributos</p>
+
+          <div class="lilian-wheel">
+            <img
+              class="lilian-wheel-layer lilian-wheel-outer"
+              src="../assets/imagens/rodas/lilian/Roda-Lilian-Anel-Externo.png"
+              alt=""
+            />
+
+            <img
+              class="lilian-wheel-layer lilian-wheel-inner"
+              src="../assets/imagens/rodas/lilian/Roda-Lilian-Anel-Interno.png"
+              alt=""
+            />
+
+            <img
+              id="lilianWheelCore"
+              class="lilian-wheel-layer lilian-wheel-core"
+              src="../assets/imagens/rodas/lilian/Roda-Lilian-Nucleo.png"
+              alt="Núcleo da roda"
+            />
+
+            <button class="lilian-attr-node lilian-node-for" data-attr="FOR" data-value="3">
+              <img src="../assets/imagens/rodas/lilian/Icone-Lilian-FOR.png" alt="Força" />
+            </button>
+
+            <button class="lilian-attr-node lilian-node-agi" data-attr="AGI" data-value="2">
+              <img src="../assets/imagens/rodas/lilian/Icone-Lilian-AGI.png" alt="Agilidade" />
+            </button>
+
+            <button class="lilian-attr-node lilian-node-int" data-attr="INT" data-value="1">
+              <img src="../assets/imagens/rodas/lilian/Icone-Lilian-INT.png" alt="Intelecto" />
+            </button>
+
+            <button class="lilian-attr-node lilian-node-pre" data-attr="PRE" data-value="1">
+              <img src="../assets/imagens/rodas/lilian/Icone-Lilian-PRE.png" alt="Presença" />
+            </button>
+
+            <button class="lilian-attr-node lilian-node-vig" data-attr="VIG" data-value="3">
+              <img src="../assets/imagens/rodas/lilian/Icone-Lilian-VIG.png" alt="Vigor" />
+            </button>
+          </div>
+
+          <article id="lilianAttributeReadout" class="lilian-readout">
+            <span>Atributo selecionado</span>
+            <strong>--</strong>
+          </article>
+        </section>
+
+        <section class="lilian-mini-info">
+          <article>
+            <span>Origem</span>
+            <strong>Atleta</strong>
+          </article>
+
+          <article>
+            <span>NEX</span>
+            <strong>40%</strong>
+          </article>
+
+          <article>
+            <span>Patente</span>
+            <strong>Recruta</strong>
+          </article>
+
+          <article>
+            <span>Risco</span>
+            <strong>Suportar demais</strong>
+          </article>
+        </section>
+      </aside>
+
+      <section class="lilian-dossier-zone">
+        <nav class="lilian-tabs">
+          <button class="active" data-tab="dossie">Dossiê</button>
+          <button data-tab="competencias">Competências</button>
+          <button data-tab="atuacao">Atuação</button>
+          <button data-tab="paranormal">Paranormal</button>
+          <button data-tab="areas">Áreas</button>
+          <button data-tab="equipamentos">Equipamentos</button>
+          <button data-tab="vinculos">Vínculos</button>
+          <button data-tab="avaliacao">Avaliação</button>
+        </nav>
+
+        <article class="lilian-file">
+          <p class="tag">Arquivo aberto</p>
+          <h2 id="lilianTabTitle">Dossiê</h2>
+
+          <div id="lilianTabContent" class="lilian-file-body">
+            <p>
+              Lilian Rodrigues Moretti apresenta perfil de sobrevivente combativa moldada por
+              ausência afetiva, solidão prolongada e disciplina física.
+            </p>
+
+            <p>
+              A postura fechada, frequentemente confundida com hostilidade, funciona como
+              barreira defensiva contra aproximações indevidas e tentativas de reduzi-la a fragilidade.
+            </p>
+
+            <div class="lilian-quote">
+              “A casca grossa existe por um motivo. Não tentem arrancá-la à força.”
+            </div>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const lilianTabs = {
+      dossie: {
+        title: "Dossiê",
+        html: `
+          <p>Lilian Rodrigues Moretti apresenta perfil de sobrevivente combativa moldada por ausência afetiva, solidão prolongada e disciplina física.</p>
+
+          <p>A postura fechada, frequentemente confundida com hostilidade, funciona como barreira defensiva contra aproximações indevidas e contra tentativas de reduzi-la a fragilidade.</p>
+
+          <p>A expressão “Casca Grossa” não deve ser interpretada apenas como temperamento difícil. Trata-se de uma estrutura de proteção construída ao longo de anos. Lilian aprendeu a transformar abandono em dureza, raiva em técnica e solidão em prontidão física.</p>
+
+          <div class="lilian-quote">“A casca grossa existe por um motivo. Não tentem arrancá-la à força.”</div>
+        `
+      },
+
+      competencias: {
+        title: "Competências",
+        html: `
+          <div class="lilian-card-grid">
+            <article><h3>Linha de frente</h3><p>Lilian possui alto potencial para proteção de equipe, contenção de ameaça e resposta rápida em contato direto.</p></article>
+            <article><h3>Leitura de impacto</h3><p>Demonstra leitura instintiva de distância, resistência, intenção hostil e momento de confronto.</p></article>
+            <article><h3>Proteção de aliados</h3><p>Tende a ocupar naturalmente o espaço entre a ameaça e os demais integrantes do grupo.</p></article>
+            <article><h3>Resistência física</h3><p>É capaz de permanecer funcional em situações de alto risco, mas pode mascarar danos até o ponto de ruptura.</p></article>
+          </div>
+        `
+      },
+
+      atuacao: {
+        title: "Atuação",
+        html: `
+          <div class="lilian-card-grid">
+            <article><h3>A Casca Grossa</h3><p>A dureza da agente deve ser lida como mecanismo de proteção, não apenas como personalidade difícil.</p></article>
+            <article><h3>Corpo como barreira</h3><p>Seu corpo é instrumento de sobrevivência e defesa. Quando coordenado, oferece tempo e espaço para aliados agirem.</p></article>
+            <article><h3>Boxe como estrutura</h3><p>O treino funciona como eixo organizador: regras claras, consequência imediata e lugar onde sua intensidade vira foco.</p></article>
+            <article><h3>Comando objetivo</h3><p>Responde melhor a superiores claros, presentes e coerentes. Autoridade vazia tende a gerar resistência.</p></article>
+          </div>
+        `
+      },
+
+      paranormal: {
+        title: "Paranormal",
+        html: `
+          <div class="lilian-impact-simulator">
+            <section class="lilian-impact-core">
+              <div class="lilian-impact-orb">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+
+              <p class="tag">Simulação de Impacto</p>
+              <h3 id="lilianImpactStateTitle">Guarda Fechada</h3>
+              <p id="lilianImpactStateText">
+                A agente mantém postura defensiva funcional. A ameaça é contida antes de alcançar a equipe.
+              </p>
+            </section>
+
+            <section class="lilian-impact-controls">
+              <button class="active" data-impact-state="guard">Guarda</button>
+              <button data-impact-state="pressure">Pressão</button>
+              <button data-impact-state="break">Quebra</button>
+            </section>
+
+            <section class="lilian-impact-report">
+              <article>
+                <span>Estado</span>
+                <strong id="lilianImpactStatus">Defensivo</strong>
+              </article>
+
+              <article>
+                <span>Risco</span>
+                <strong id="lilianImpactRisk">Moderado</strong>
+              </article>
+
+              <article>
+                <span>Recomendação</span>
+                <strong id="lilianImpactAdvice">Manter suporte</strong>
+              </article>
+            </section>
+
+            <div class="lilian-card-grid">
+              <article>
+                <h3>Primeiro contato</h3>
+                <p>Após treino noturno, Lilian relatou corredores alterados, sensação de isolamento e figura feminina sem rosto associada à invisibilidade emocional.</p>
+              </article>
+
+              <article>
+                <h3>Marca de Sangue</h3>
+                <p>Durante luta clandestina, enfrentou adversário sob influência anômala ligada a Sangue. O evento consolidou sua certeza sobre o Outro Lado.</p>
+              </article>
+            </div>
+          </div>
+        `
+      },
+
+      areas: {
+        title: "Áreas",
+        html: `
+          <div class="lilian-chip-grid">
+            <article>Luta corporal</article>
+            <article>Fortitude</article>
+            <article>Atletismo</article>
+            <article>Reflexos de combate</article>
+            <article>Pilotagem</article>
+            <article>Pontaria básica</article>
+            <article>Mobilidade curta</article>
+            <article>Resposta física imediata</article>
+          </div>
+        `
+      },
+
+      equipamentos: {
+        title: "Equipamentos",
+        html: `
+          <div class="lilian-inventory-layout">
+            <section class="lilian-inventory-grid">
+              <button class="lilian-item-card" data-item="manoplas">
+                <span>Equipamento de combate</span>
+                <strong>Manoplas</strong>
+              </button>
+
+              <button class="lilian-item-card" data-item="corpo">
+                <span>Ferramenta operacional</span>
+                <strong>Corpo como barreira</strong>
+              </button>
+
+              <button class="lilian-item-card" data-item="boxe">
+                <span>Estrutura emocional</span>
+                <strong>Boxe</strong>
+              </button>
+
+              <button class="lilian-item-card" data-item="marcas">
+                <span>Registro físico</span>
+                <strong>Marcas e cicatrizes</strong>
+              </button>
+            </section>
+
+            <aside id="lilianItemInspector" class="lilian-item-inspector">
+              <span>Inspeção de inventário</span>
+              <strong>Selecione um item</strong>
+              <p>Clique em um equipamento para abrir a leitura operacional da Ordo Realitas.</p>
+            </aside>
+          </div>
+        `
+      },
+
+      vinculos: {
+        title: "Vínculos",
+        html: `
+          <p><strong>Lucas Moretti:</strong> irmão mais novo e único vínculo afetivo familiar positivo registrado. Lilian o protege desde o nascimento.</p>
+          <p><strong>Seu Jonas:</strong> antigo caseiro e ex-boxeador. Figura formativa que apresentou o boxe como estrutura, consequência e foco.</p>
+          <p><strong>Henrique Moretti:</strong> pai distante, empresário, interessado em moldá-la como herdeira e contrário ao envolvimento dela com o boxe.</p>
+          <p><strong>Helena Moretti:</strong> mãe socialmente elegante, porém emocionalmente ausente. Reforçou em Lilian a sensação de ser difícil de amar.</p>
+        `
+      },
+
+      avaliacao: {
+        title: "Avaliação da Ordo",
+        html: `
+          <p>A Ordo Realitas avalia Lilian Rodrigues Moretti como agente de alto valor em combate direto, proteção e contenção física.</p>
+
+          <p>Ela não deve ser tratada apenas como músculo. Sua utilidade não se limita à força: Lilian demonstra leitura corporal, reação a intenção hostil e senso protetivo que pode estabilizar aliados sob risco.</p>
+
+          <p>Os principais riscos observados envolvem tendência ao confronto direto mesmo quando recuo seria mais seguro, dificuldade em confiar em figuras de autoridade, reações intensas diante de rejeição ou invisibilidade e impulso protetivo concentrado em vínculos específicos.</p>
+
+          <div class="lilian-quote">Recomendação: atuação aprovada em campo, com acompanhamento comportamental e suporte de equipe. Não abandonar Lilian na linha de frente como se aguentar fosse a única função dela.</div>
+        `
+      }
+    };
+
+    const attrNames = {
+      FOR: "Força",
+      AGI: "Agilidade",
+      INT: "Intelecto",
+      PRE: "Presença",
+      VIG: "Vigor"
+    };
+
+    const attrValues = {
+      FOR: 3,
+      AGI: 2,
+      INT: 1,
+      PRE: 1,
+      VIG: 3
+    };
+
+    const lilianInventoryItems = {
+      manoplas: {
+        name: "Manoplas",
+        type: "Equipamento associado ao estilo de combate",
+        text: "As manoplas amplificam aquilo que Lilian já aprendeu a fazer com o corpo. Não substituem sua força; apenas tornam visível o impacto que ela já carrega."
+      },
+
+      corpo: {
+        name: "Corpo como Barreira",
+        type: "Ferramenta operacional",
+        text: "Ao contrário de agentes que dependem de grande volume de equipamento, Lilian opera principalmente por treino, resistência e presença física."
+      },
+
+      boxe: {
+        name: "Boxe",
+        type: "Estrutura emocional e física",
+        text: "Mais do que prática física, representa ordem, limite, presença e linguagem emocional."
+      },
+
+      marcas: {
+        name: "Marcas e Cicatrizes",
+        type: "Registro físico",
+        text: "Pequenas cicatrizes pelo corpo compõem o registro físico de uma história marcada por confronto, treino e resistência."
+      }
+    };
+
+    const lilianHotspotData = {
+      guarda: {
+        title: "Guarda Fechada",
+        tag: "Defesa ativa",
+        text: "A postura de Lilian não é apenas técnica. É uma forma de impedir que o mundo alcance aquilo que ela decidiu proteger.",
+        effect: "lilian-guard-react"
+      },
+
+      maos: {
+        title: "Mãos de Impacto",
+        tag: "Contenção física",
+        text: "As mãos da agente operam como limite. Quando Lilian decide segurar uma ameaça, ela vira a linha que não deve ser ultrapassada.",
+        effect: "lilian-impact-react"
+      },
+
+      postura: {
+        title: "Postura de Linha de Frente",
+        tag: "Proteção de equipe",
+        text: "Lilian tende a se posicionar entre a ameaça e os demais. Isso salva aliados, mas pode levá-la a suportar mais do que deveria.",
+        effect: "lilian-guard-react"
+      },
+
+      cicatrizes: {
+        title: "Marcas Corporais",
+        tag: "Histórico de resistência",
+        text: "A Ordo interpreta as marcas como registro físico de treino, confronto e sobrevivência. Não devem ser tratadas como fraqueza.",
+        effect: "lilian-pressure-react"
+      },
+
+      olhar: {
+        title: "Olhar Fechado",
+        tag: "Leitura comportamental",
+        text: "A agente costuma parecer hostil quando, na verdade, está medindo distância, risco e intenção antes de permitir aproximação.",
+        effect: "lilian-pressure-react"
+      }
+    };
+
+    const lilianImpactStates = {
+      guard: {
+        title: "Guarda Fechada",
+        text: "A agente mantém postura defensiva funcional. A ameaça é contida antes de alcançar a equipe.",
+        status: "Defensivo",
+        risk: "Moderado",
+        advice: "Manter suporte",
+        className: "lilian-impact-guard"
+      },
+
+      pressure: {
+        title: "Pressão Elevada",
+        text: "Lilian começa a absorver impacto além do recomendado. A tendência a permanecer de pé pode mascarar dano acumulado.",
+        status: "Sob pressão",
+        risk: "Alto",
+        advice: "Revezar linha de frente",
+        className: "lilian-impact-pressure"
+      },
+
+      break: {
+        title: "Quebra de Limite",
+        text: "A agente ultrapassa parâmetros seguros. A resistência ainda existe, mas o custo emocional e físico se torna crítico.",
+        status: "Crítico",
+        risk: "Crítico",
+        advice: "Retirar da linha",
+        className: "lilian-impact-break"
+      }
+    };
+
+    const guardMessages = [
+      "Guarda fechada. A linha segura.",
+      "A Ordo recomenda suporte imediato à agente.",
+      "Resistência elevada não significa invulnerabilidade.",
+      "Impacto absorvido. Integridade sob observação.",
+      "Não abandonar Lilian na linha de frente.",
+      "Casca Grossa detectada. Não tentar arrancar à força."
+    ];
+
+    function openLilianTab(tab) {
+      const data = lilianTabs[tab];
+
+      if (!data) return;
+
+      document.querySelectorAll(".lilian-tabs button").forEach(button => {
+        button.classList.toggle("active", button.dataset.tab === tab);
+      });
+
+      const title = document.getElementById("lilianTabTitle");
+      const content = document.getElementById("lilianTabContent");
+
+      title.textContent = data.title;
+      content.innerHTML = data.html;
+
+      content.classList.remove("lilian-content-pulse");
+      void content.offsetWidth;
+      content.classList.add("lilian-content-pulse");
+
+      createLilianBurst(window.innerWidth / 2, window.innerHeight * 0.18, 12);
+
+      if (tab === "equipamentos") {
+        setTimeout(setupLilianInventory, 60);
+      }
+
+      if (tab === "paranormal") {
+        setTimeout(setupLilianImpactSimulator, 60);
+      }
+    }
+
+    function setupLilianInventory() {
+      const inspector = document.getElementById("lilianItemInspector");
+
+      if (!inspector) return;
+
+      document.querySelectorAll(".lilian-item-card").forEach(card => {
+        card.onclick = event => {
+          const item = lilianInventoryItems[card.dataset.item];
+
+          if (!item) return;
+
+          document.querySelectorAll(".lilian-item-card").forEach(button => {
+            button.classList.remove("active");
+          });
+
+          card.classList.add("active");
+
+          inspector.innerHTML = `
+            <span>${item.type}</span>
+            <strong>${item.name}</strong>
+            <p>${item.text}</p>
+          `;
+
+          inspector.classList.remove("lilian-content-pulse");
+          void inspector.offsetWidth;
+          inspector.classList.add("lilian-content-pulse");
+
+          createLilianBurst(event.clientX, event.clientY, 12);
+
+          if (card.dataset.item === "manoplas" || card.dataset.item === "corpo") {
+            triggerLilianImpact();
+          }
+        };
+      });
+    }
+
+    function setupLilianImpactSimulator() {
+      const simulator = document.querySelector(".lilian-impact-simulator");
+
+      if (!simulator) return;
+
+      const buttons = simulator.querySelectorAll("[data-impact-state]");
+
+      buttons.forEach(button => {
+        button.onclick = event => {
+          const stateKey = button.dataset.impactState;
+          const state = lilianImpactStates[stateKey];
+
+          if (!state) return;
+
+          buttons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          document.body.classList.remove(
+            "lilian-impact-guard",
+            "lilian-impact-pressure",
+            "lilian-impact-break"
+          );
+
+          document.body.classList.add(state.className);
+
+          document.getElementById("lilianImpactStateTitle").textContent = state.title;
+          document.getElementById("lilianImpactStateText").textContent = state.text;
+          document.getElementById("lilianImpactStatus").textContent = state.status;
+          document.getElementById("lilianImpactRisk").textContent = state.risk;
+          document.getElementById("lilianImpactAdvice").textContent = state.advice;
+
+          simulator.classList.remove("lilian-content-pulse");
+          void simulator.offsetWidth;
+          simulator.classList.add("lilian-content-pulse");
+
+          createLilianBurst(event.clientX, event.clientY, stateKey === "break" ? 26 : 12);
+
+          if (stateKey === "break") {
+            triggerLilianImpact();
+          }
+        };
+      });
+    }
+
+    function setupLilianHotspots() {
+      const inspector = document.getElementById("lilianAttributeReadout");
+
+      document.querySelectorAll(".lilian-hotspot").forEach(button => {
+        button.onclick = event => {
+          const data = lilianHotspotData[button.dataset.hotspot];
+
+          if (!data) return;
+
+          document.querySelectorAll(".lilian-hotspot").forEach(hotspot => {
+            hotspot.classList.remove("active");
+          });
+
+          button.classList.add("active");
+
+          if (inspector) {
+            inspector.innerHTML = `
+              <span>${data.tag}</span>
+              <strong>${data.title}</strong>
+            `;
+          }
+
+          document.body.classList.add(data.effect);
+          setTimeout(() => document.body.classList.remove(data.effect), 1000);
+
+          createLilianBurst(event.clientX, event.clientY, 12);
+
+          const popup = document.createElement("div");
+          popup.className = "lilian-hotspot-popup";
+          popup.innerHTML = `
+            <section>
+              <span>${data.tag}</span>
+              <strong>${data.title}</strong>
+              <p>${data.text}</p>
+              <button>Fechar leitura</button>
+            </section>
+          `;
+
+          popup.querySelector("button").onclick = () => popup.remove();
+
+          popup.onclick = e => {
+            if (e.target === popup) popup.remove();
+          };
+
+          document.body.appendChild(popup);
+        };
+      });
+    }
+
+    function setupLilianAttributes() {
+      document.querySelectorAll(".lilian-attr-node").forEach(button => {
+        button.onclick = event => {
+          const attr = button.dataset.attr;
+          const value = attrValues[attr];
+
+          document.querySelectorAll(".lilian-attr-node").forEach(node => {
+            node.classList.remove("active");
+          });
+
+          button.classList.add("active");
+
+          const readout = document.getElementById("lilianAttributeReadout");
+
+          if (readout) {
+            readout.innerHTML = `
+              <span>${attr} — ${attrNames[attr]}</span>
+              <strong>${value} ponto${value === 1 ? "" : "s"}</strong>
+            `;
+
+            readout.classList.remove("lilian-content-pulse");
+            void readout.offsetWidth;
+            readout.classList.add("lilian-content-pulse");
+          }
+
+          createLilianBurst(event.clientX, event.clientY, 10);
+        };
+      });
+    }
+
+    function setupLilianGuardAssistant() {
+      const guard = document.getElementById("lilianGuardAssistant");
+
+      if (!guard) return;
+
+      guard.onclick = event => {
+        const message = guardMessages[Math.floor(Math.random() * guardMessages.length)];
+
+        createLilianBurst(event.clientX, event.clientY, 12);
+
+        const oldBubble = document.querySelector(".lilian-guard-bubble");
+
+        if (oldBubble) {
+          oldBubble.remove();
+        }
+
+        const bubble = document.createElement("div");
+        bubble.className = "lilian-guard-bubble";
+        bubble.innerHTML = `
+          <span>GUARDA // LINHA DE FRENTE</span>
+          <p>${message}</p>
+        `;
+
+        document.body.appendChild(bubble);
+
+        guard.classList.remove("guard-hit");
+        void guard.offsetWidth;
+        guard.classList.add("guard-hit");
+
+        setTimeout(() => bubble.remove(), 3600);
+      };
+    }
+
+    function triggerLilianImpact() {
+      document.body.classList.add("lilian-impact-active");
+
+      const oldLabel = document.querySelector(".lilian-impact-label");
+
+      if (oldLabel) {
+        oldLabel.remove();
+      }
+
+      const label = document.createElement("div");
+      label.className = "lilian-impact-label";
+      label.textContent = "IMPACTO — LINHA DE FRENTE ATIVA";
+      document.body.appendChild(label);
+
+      createLilianBurst(window.innerWidth / 2, window.innerHeight / 2, 28);
+
+      setTimeout(() => {
+        document.body.classList.remove("lilian-impact-active");
+        label.remove();
+      }, 1300);
+    }
+
+    function createLilianBurst(x, y, amount = 10) {
+      if (document.documentElement.classList.contains("performance-mode")) return;
+
+      for (let i = 0; i < amount; i++) {
+        const particle = document.createElement("span");
+        particle.className = "lilian-page-particle";
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
+        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 190}px`);
+        particle.style.setProperty("--y", `${(Math.random() - 0.9) * 160}px`);
+        document.body.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 900);
+      }
+    }
+
+    function setupLilianBootAnimation() {
+      const boot = document.getElementById("lilianBootScreen");
+
+      if (!boot) return;
+
+      const alreadyPlayed = sessionStorage.getItem("lilianBootPlayed");
+
+      if (alreadyPlayed === "true") {
+        boot.remove();
+        return;
+      }
+
+      sessionStorage.setItem("lilianBootPlayed", "true");
+
+      setTimeout(() => {
+        boot.classList.add("lilian-boot-finished");
+      }, 3100);
+
+      setTimeout(() => {
+        boot.remove();
+      }, 3900);
+    }
+
+    function setupLilianPerformanceMode() {
+      const lowDevice =
+        window.innerWidth < 760 ||
+        (navigator.hardwareConcurrency || 4) <= 4 ||
+        (navigator.deviceMemory || 4) <= 4;
+
+      if (lowDevice) {
+        document.documentElement.classList.add("performance-mode");
+      }
+    }
+
+    function setupLilianPage() {
+      setupLilianBootAnimation();
+      setupLilianPerformanceMode();
+      setupLilianAttributes();
+      setupLilianHotspots();
+      setupLilianGuardAssistant();
+
+      document.querySelectorAll(".lilian-tabs button").forEach(button => {
+        button.onclick = () => openLilianTab(button.dataset.tab);
+      });
+
+      const impactButton = document.getElementById("lilianImpactButton");
+
+      if (impactButton) {
+        impactButton.onclick = triggerLilianImpact;
+      }
+
+      const wheelCore = document.getElementById("lilianWheelCore");
+
+      if (wheelCore) {
+        wheelCore.ondblclick = triggerLilianImpact;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", setupLilianPage);
+  </script>
+  <script src="player-polish.js"></script>
+</body>
+</html>
