@@ -4,855 +4,820 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Roselyn Tate — Arquivo Público</title>
+  <title>Roselyn Tate — Registro Cronotático</title>
 
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=10" />
+  <link rel="stylesheet" href="../css/roselyn.css?v=1" />
 </head>
 
 <body>
-  <main class="roselyn-exclusive-page">
-    <div id="roselynBootScreen" class="roselyn-boot-screen">
-      <section class="roselyn-boot-card">
-        <p class="tag">ORDO REALITAS // INICIALIZAÇÃO DE DOSSIÊ</p>
+  <main class="roselyn-page" data-roselyn-page>
+    <section class="roselyn-loader" data-roselyn-loader>
+      <div class="loader-panel">
+        <p>ORDO REALITAS // ARQUIVO RESTRITO // CASO TATE</p>
 
-        <h1>
-          ROSELYN<br />
-          TATE
+        <h1>REGISTRO CRONOTÁTICO</h1>
+
+        <div class="loader-name" data-text="ROSELYN TATE">
+          ROSELYN TATE
+        </div>
+
+        <div class="loader-metronome" aria-hidden="true">
+          <span></span>
+        </div>
+
+        <div class="loader-lines">
+          <span>&gt; sincronizando metrônomo...</span>
+          <span>&gt; fluxo temporal irregular...</span>
+          <span>&gt; registro Tate recuperado...</span>
+          <span>&gt; atiradora de precisão em atividade.</span>
+          <span>&gt; Morte residual detectada.</span>
+        </div>
+
+        <div class="loader-bar">
+          <span></span>
+        </div>
+
+        <button type="button" data-skip-loader>
+          Acessar registro
+        </button>
+      </div>
+    </section>
+
+    <div class="roselyn-bg-image" aria-hidden="true"></div>
+    <div class="roselyn-bg-vignette" aria-hidden="true"></div>
+    <div class="roselyn-bg-grid" aria-hidden="true"></div>
+    <div class="roselyn-bg-dust" aria-hidden="true"></div>
+    <div class="roselyn-bg-scope" aria-hidden="true"></div>
+    <div class="roselyn-time-field" aria-hidden="true"></div>
+
+    <header class="roselyn-hero">
+      <div class="hero-copy">
+        <p class="kicker">ORDO REALITAS // REGISTRO RESTRITO // AG-02</p>
+
+        <div class="player-notice">
+          <strong>PERSONAGEM JOGADORA</strong>
+          <span>
+            Dados mecânicos e avaliação institucional da Ordo. A interpretação emocional,
+            as escolhas e a evolução pertencem ao jogador.
+          </span>
+        </div>
+
+        <h1 data-text="ROSELYN TATE">
+          Roselyn<br />
+          Tate
         </h1>
 
-        <div class="roselyn-boot-terminal">
-          <p>// sincronizando metrônomo...</p>
-          <p>// calibrando linha de tiro...</p>
-          <p>// analisando variação temporal...</p>
-          <p>// lente_de_prata: <span>ativa</span></p>
-          <p>// status: <b>tempo espesso detectado</b></p>
-        </div>
-
-        <div class="roselyn-boot-bars">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </section>
-    </div>
-
-    <div class="roselyn-bg-clock"></div>
-    <div class="roselyn-bg-dust"></div>
-
-    <button id="roselynMetronomeAssistant" class="roselyn-metronome-assistant" aria-label="Ativar metrônomo">
-      <span></span>
-      <i></i>
-    </button>
-
-    <header class="roselyn-hero-header">
-      <div>
-        <p class="tag">ORDO REALITAS // DOSSIÊ DE CAMPO LIBERADO</p>
-        <h1>ROSELYN TATE</h1>
         <p>
-          Atiradora de precisão, reconhecimento e análise tática associada à ocorrência
-          anômala da antiga residência da família Tate.
+          Especialista de campo com origem militar, foco em precisão, reconhecimento,
+          análise tática e suporte investigativo. Registro público parcial da campanha
+          Corações do Outro Lado.
         </p>
+
+        <blockquote>
+          “O tiro não acontece quando ela puxa o gatilho. Acontece quando o tempo aceita.”
+        </blockquote>
+
+        <div class="hero-tags">
+          <span data-seal="confirmado">Classe: Especialista</span>
+          <span data-seal="confirmado">Origem: Militar</span>
+          <span data-seal="confirmado">NEX: 40%</span>
+          <span data-seal="confirmado">Patente: Recruta</span>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" data-jump-tab="atributos">Ficha mecânica</button>
+          <button type="button" data-jump-tab="comportamento">Leitura da Ordo</button>
+          <button type="button" data-jump-tab="metronomo">Metrônomo de Prata</button>
+        </div>
       </div>
 
-      <a class="back-link" href="agentes.html">Voltar aos Agentes</a>
+      <a class="back-link" href="./agentes.html">Voltar aos Agentes</a>
     </header>
 
-    <section class="roselyn-command-strip">
-      <article>
-        <span>Status</span>
-        <strong>Arquivo liberado</strong>
-      </article>
-
+    <section class="status-strip" aria-label="Status do registro">
       <article>
         <span>Jogador</span>
         <strong>Erick</strong>
       </article>
 
       <article>
-        <span>Classe</span>
-        <strong>Especialista</strong>
+        <span>Afiliação</span>
+        <strong>Ordo Realitas</strong>
       </article>
 
       <article>
-        <span>Assinatura</span>
-        <strong>Morte / tempo</strong>
+        <span>Função observada</span>
+        <strong>Atiradora / Reconhecimento</strong>
+      </article>
+
+      <article>
+        <span>Acesso</span>
+        <strong>Restrito Parcial</strong>
       </article>
     </section>
 
-    <section class="roselyn-layout">
-      <section class="roselyn-character-zone">
-        <div class="roselyn-crosshair">
-          <span></span>
-          <span></span>
-        </div>
-
-        <div class="roselyn-character-aura"></div>
-
-        <img
-          class="roselyn-render"
-          src="../assets/imagens/personagens/roselyn.png"
-          alt="Roselyn Tate"
-        />
-
-        <div class="roselyn-hotspots">
-          <button class="roselyn-hotspot hotspot-rifle" data-hotspot="rifle" aria-label="Inspecionar rifle"></button>
-          <button class="roselyn-hotspot hotspot-lens" data-hotspot="lente" aria-label="Inspecionar lente"></button>
-          <button class="roselyn-hotspot hotspot-head" data-hotspot="olhar" aria-label="Inspecionar olhar"></button>
-          <button class="roselyn-hotspot hotspot-hands" data-hotspot="maos" aria-label="Inspecionar mãos"></button>
-          <button class="roselyn-hotspot hotspot-posture" data-hotspot="postura" aria-label="Inspecionar postura"></button>
-        </div>
-
-        <div class="roselyn-nameplate">
-          <span>REGISTRO INTERNO — ACESSO PARCIAL</span>
-          <strong>METRÔNOMO / MIRA TEMPORAL</strong>
-        </div>
-
-        <button id="roselynHiatusButton" class="roselyn-hiatus-button">
-          Ativar Hiato Temporal
-        </button>
-      </section>
-
-      <aside class="roselyn-system-panel">
-        <div class="roselyn-terminal">
-          <p>// leitura de trajetória...</p>
-          <p>// metrônomo: <span>sincronizado</span></p>
-          <p>// lente_de_prata: <span>foco estável</span></p>
-          <p>// percepção_temporal: <b>alterada</b></p>
-          <p>// recomendação: acompanhamento discreto</p>
-        </div>
-
-        <section class="roselyn-attribute-module">
-          <p class="tag">Matriz de Atributos</p>
-
-          <div class="roselyn-wheel">
-            <img
-              class="roselyn-wheel-layer roselyn-wheel-outer"
-              src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Anel-Externo.png"
-              alt=""
-            />
-
-            <img
-              class="roselyn-wheel-layer roselyn-wheel-inner"
-              src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Anel-Interno.png"
-              alt=""
-            />
-
-            <img
-              id="roselynWheelCore"
-              class="roselyn-wheel-layer roselyn-wheel-core"
-              src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Nucleo.png"
-              alt="Núcleo da roda"
-            />
-
-            <button class="roselyn-attr-node roselyn-node-for" data-attr="FOR" data-value="2">
-              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-FOR.png" alt="Força" />
-            </button>
-
-            <button class="roselyn-attr-node roselyn-node-agi" data-attr="AGI" data-value="3">
-              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-AGI.png" alt="Agilidade" />
-            </button>
-
-            <button class="roselyn-attr-node roselyn-node-int" data-attr="INT" data-value="2">
-              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-INT.png" alt="Intelecto" />
-            </button>
-
-            <button class="roselyn-attr-node roselyn-node-pre" data-attr="PRE" data-value="1">
-              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-PRE.png" alt="Presença" />
-            </button>
-
-            <button class="roselyn-attr-node roselyn-node-vig" data-attr="VIG" data-value="2">
-              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-VIG.png" alt="Vigor" />
-            </button>
+    <section class="main-dashboard">
+      <aside class="left-column">
+        <section class="terminal-card">
+          <div class="terminal-head">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>registro_cronotatico.roselyn</strong>
           </div>
 
-          <article id="roselynAttributeReadout" class="roselyn-readout">
-            <span>Atributo selecionado</span>
-            <strong>--</strong>
-          </article>
+          <div class="terminal-body" data-terminal>
+            <p>&gt; tic-tac irregular detectado.</p>
+            <p>&gt; trajetória calculada.</p>
+            <p>&gt; lente de prata em foco.</p>
+            <p>&gt; metrônomo sincronizado.</p>
+          </div>
         </section>
 
-        <section class="roselyn-mini-info">
-          <article>
-            <span>Origem</span>
-            <strong>Militar</strong>
-          </article>
+        <section class="identity-card">
+          <span class="panel-label">identificação geral</span>
 
-          <article>
-            <span>NEX</span>
-            <strong>40%</strong>
-          </article>
+          <div class="identity-row">
+            <span>Nome</span>
+            <strong>Roselyn Tate</strong>
+          </div>
 
-          <article>
-            <span>Patente</span>
-            <strong>Recruta</strong>
-          </article>
+          <div class="identity-row">
+            <span>Status operacional</span>
+            <strong>Apta com acompanhamento</strong>
+          </div>
 
-          <article>
-            <span>Risco</span>
-            <strong>Dependência simbólica</strong>
-          </article>
+          <div class="identity-row">
+            <span>Situação com a Ordo</span>
+            <strong>Recrutamento aceito</strong>
+          </div>
+
+          <div class="identity-row">
+            <span>Ocorrência de origem</span>
+            <strong>Mansão Tate</strong>
+          </div>
         </section>
+
+        <nav class="roselyn-tabs" aria-label="Navegação da ficha">
+          <button class="tab-button active" type="button" data-tab="resumo">Resumo</button>
+          <button class="tab-button" type="button" data-tab="identificacao">Identificação</button>
+          <button class="tab-button" type="button" data-tab="funcao">Função em Campo</button>
+          <button class="tab-button" type="button" data-tab="atributos">Atributos</button>
+          <button class="tab-button" type="button" data-tab="pericias">Perícias</button>
+          <button class="tab-button" type="button" data-tab="habilidades">Habilidades</button>
+          <button class="tab-button" type="button" data-tab="inventario">Inventário</button>
+          <button class="tab-button" type="button" data-tab="rifle">Rifle / Lente</button>
+          <button class="tab-button" type="button" data-tab="metronomo">Metrônomo</button>
+          <button class="tab-button" type="button" data-tab="mansao">Mansão Tate</button>
+          <button class="tab-button" type="button" data-tab="comportamento">Leitura da Ordo</button>
+          <button class="tab-button" type="button" data-tab="alertas">Riscos Observados</button>
+          <button class="tab-button" type="button" data-tab="registro">Registro Vivo</button>
+          <button class="tab-button locked-tab" type="button" data-tab="bloqueados">Arquivos Bloqueados</button>
+        </nav>
       </aside>
 
-      <section class="roselyn-dossier-zone">
-        <nav class="roselyn-tabs">
-          <button class="active" data-tab="dossie">Dossiê</button>
-          <button data-tab="competencias">Competências</button>
-          <button data-tab="atuacao">Atuação</button>
-          <button data-tab="paranormal">Paranormal</button>
-          <button data-tab="areas">Áreas</button>
-          <button data-tab="equipamentos">Equipamentos</button>
-          <button data-tab="vinculos">Vínculos</button>
-          <button data-tab="avaliacao">Avaliação</button>
-        </nav>
+      <section class="character-column">
+        <div class="character-card">
+          <div class="scope-orbit" aria-hidden="true"></div>
+          <div class="clock-orbit" aria-hidden="true"></div>
+          <div class="silver-glow" aria-hidden="true"></div>
+          <div class="trajectory-line one" aria-hidden="true"></div>
+          <div class="trajectory-line two" aria-hidden="true"></div>
 
-        <article class="roselyn-file">
-          <p class="tag">Arquivo aberto</p>
-          <h2 id="roselynTabTitle">Dossiê</h2>
-
-          <div id="roselynTabContent" class="roselyn-file-body">
-            <p>
-              Roselyn Tate é uma sobrevivente de contato direto com manifestação associada à
-              Morte e uma das poucas remanescentes conhecidas do incidente ocorrido na antiga
-              residência da família Tate.
-            </p>
-
-            <p>
-              Sob pressão, Roselyn tende a reduzir o ambiente a trajetórias, tempos de resposta
-              e brechas. Ela não organiza o medo como pânico; organiza como procedimento.
-            </p>
-
-            <div class="roselyn-quote">
-              “Ela mira como alguém que já perdeu tudo e aprendeu a esperar o mundo terminar antes de puxar o gatilho.”
-            </div>
+          <div class="metronome-status">
+            <span>Metrônomo de Prata</span>
+            <strong>Estado: Sincronizado / Monitorado</strong>
+            <div class="metronome-meter"><span></span></div>
           </div>
-        </article>
+
+          <img
+            class="character-image"
+            src="../assets/imagens/personagens/roselyn.png"
+            alt="Roselyn Tate"
+          />
+
+          <button class="hotspot hotspot-rifle" type="button" data-hotspot="rifle">
+            Rifle do pai
+          </button>
+
+          <button class="hotspot hotspot-lens" type="button" data-hotspot="lens">
+            Lente de prata oxidada
+          </button>
+
+          <button class="hotspot hotspot-metronome" type="button" data-hotspot="metronome">
+            Metrônomo de prata
+          </button>
+
+          <div class="nameplate">
+            <span>AG-02 // ESPECIALISTA // MORTE</span>
+            <strong>Roselyn Tate</strong>
+            <p>
+              Registro técnico da Ordo. Fragmentos sensíveis da ocorrência Tate permanecem restritos.
+            </p>
+          </div>
+        </div>
       </section>
+
+      <aside class="right-column">
+        <section class="wheel-card">
+          <span class="panel-label">mira cronotática</span>
+
+          <div class="attribute-wheel" data-wheel>
+            <img class="wheel-layer wheel-outer" src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Anel-Externo.png" alt="" />
+            <img class="wheel-layer wheel-inner" src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Anel-Interno.png" alt="" />
+            <img class="wheel-layer wheel-core" src="../assets/imagens/rodas/roselyn/Roda-Roselyn-Nucleo.png" alt="" />
+            <img class="wheel-layer wheel-node" src="../assets/imagens/rodas/roselyn/Roda-Roselyn-No.png" alt="" />
+
+            <div class="scope-crosshair" aria-hidden="true"></div>
+            <div class="metronome-hand" aria-hidden="true"></div>
+
+            <button class="attr-button attr-for" type="button" data-attr="FOR">
+              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-FOR.png" alt="" />
+              <span>FOR</span>
+              <strong>2</strong>
+            </button>
+
+            <button class="attr-button attr-agi" type="button" data-attr="AGI">
+              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-AGI.png" alt="" />
+              <span>AGI</span>
+              <strong>3</strong>
+            </button>
+
+            <button class="attr-button attr-int" type="button" data-attr="INT">
+              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-INT.png" alt="" />
+              <span>INT</span>
+              <strong>2</strong>
+            </button>
+
+            <button class="attr-button attr-pre" type="button" data-attr="PRE">
+              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-PRE.png" alt="" />
+              <span>PRE</span>
+              <strong>1</strong>
+            </button>
+
+            <button class="attr-button attr-vig" type="button" data-attr="VIG">
+              <img src="../assets/imagens/rodas/roselyn/Icone-Roselyn-VIG.png" alt="" />
+              <span>VIG</span>
+              <strong>2</strong>
+            </button>
+          </div>
+
+          <div class="attr-reading" data-attr-reading>
+            Selecione um atributo para abrir uma leitura cronotática.
+          </div>
+        </section>
+
+        <section class="core-stats-card">
+          <span class="panel-label">dados mecânicos</span>
+
+          <div class="core-grid">
+            <article>
+              <span>Vida</span>
+              <strong>53 / 53</strong>
+            </article>
+
+            <article>
+              <span>Determinação</span>
+              <strong>44 / 44</strong>
+            </article>
+
+            <article>
+              <span>Defesa</span>
+              <strong>13</strong>
+            </article>
+
+            <article>
+              <span>Esquiva</span>
+              <strong>23</strong>
+            </article>
+
+            <article>
+              <span>Bloqueio</span>
+              <strong>5</strong>
+            </article>
+
+            <article>
+              <span>PE / Turno</span>
+              <strong>8</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="handling-protocol">
+          <span class="panel-label">protocolo de manuseio</span>
+
+          <strong>Objeto estabilizador</strong>
+
+          <p>
+            Não remover metrônomo, rifle, lente de prata ou registros pessoais sem
+            autorização superior e preparo psicológico adequado.
+          </p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="reader-section">
+      <article class="reader-panel active" data-panel="resumo">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+          <span class="seal seal-confirmed">Dados confirmados</span>
+        </div>
+
+        <span>resumo da ordo</span>
+        <h2>Precisão, luto e tempo suspenso</h2>
+
+        <p>
+          A Ordo registra Roselyn Tate como sobrevivente de uma ocorrência associada
+          à Morte na antiga residência da família Tate. Sua atuação em campo combina
+          disciplina militar, precisão calculada, leitura tática e percepção incomum
+          de intervalos, trajetórias e consequência.
+        </p>
+
+        <p>
+          O metrônomo de prata, o rifle do pai e a lente de prata oxidada não são
+          tratados apenas como equipamentos. Para a Ordo, eles funcionam como vínculos
+          materiais com a ocorrência que destruiu sua família e como possíveis pontos
+          de estabilização simbólica.
+        </p>
+
+        <div class="ordo-note">
+          Esta página é uma leitura operacional e atualizável. Ela não substitui
+          decisões, interpretação emocional ou desenvolvimento definido pelo jogador.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="identificacao">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+        </div>
+
+        <span>identificação</span>
+        <h2>Ficha pública parcial</h2>
+
+        <div class="identity-grid-large">
+          <article><span>Nome</span><strong>Roselyn Tate</strong></article>
+          <article><span>Jogador</span><strong>Erick</strong></article>
+          <article><span>Classe</span><strong>Especialista</strong></article>
+          <article><span>Origem</span><strong>Militar</strong></article>
+          <article><span>NEX</span><strong>40%</strong></article>
+          <article><span>Patente</span><strong>Recruta</strong></article>
+          <article><span>Afiliação</span><strong>Ordo Realitas</strong></article>
+          <article><span>Função observada</span><strong>Atiradora / Reconhecimento / Análise tática</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="funcao">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+        </div>
+
+        <span>função em campo</span>
+        <h2>Cobertura, reconhecimento e leitura de trajetórias</h2>
+
+        <p>
+          A Ordo avalia Roselyn como agente adequada para reconhecimento avançado,
+          cobertura de longa distância, leitura de movimentação inimiga, análise de
+          rotas e suporte tático em áreas de risco.
+        </p>
+
+        <div class="field-role-grid">
+          <article><strong>Atiradora de precisão</strong><p>Foco em disparos calculados, alcance longo e escolha do momento exato.</p></article>
+          <article><strong>Reconhecimento</strong><p>Observação de terreno, distância, cobertura e movimentação inimiga.</p></article>
+          <article><strong>Análise tática</strong><p>Leitura de rotas, padrões, brechas e riscos em campo.</p></article>
+          <article><strong>Furtividade</strong><p>Capacidade de operar em silêncio e reduzir exposição após disparos.</p></article>
+          <article><strong>Suporte investigativo</strong><p>Busca de padrões, detalhes fora de sincronia e evidências relevantes.</p></article>
+          <article><strong>Controle de tempo</strong><p>Percepção anômala de intervalos, hiatos e consequências suspensas.</p></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="atributos">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Leitura cronotática</span>
+        </div>
+
+        <span>atributos</span>
+        <h2>Mira, corpo e cálculo</h2>
+
+        <div class="stat-grid">
+          <article>
+            <span>FOR</span>
+            <strong>2</strong>
+            <p>Corpo funcional, treinado e militar, sem depender de brutalidade como foco principal.</p>
+          </article>
+
+          <article>
+            <span>AGI</span>
+            <strong>3</strong>
+            <p>Precisão corporal, mira, reflexos, movimentação e leitura rápida de abertura.</p>
+          </article>
+
+          <article>
+            <span>INT</span>
+            <strong>2</strong>
+            <p>Análise tática, tecnologia, investigação e leitura estratégica de campo.</p>
+          </article>
+
+          <article>
+            <span>PRE</span>
+            <strong>1</strong>
+            <p>Presença mais contida; não ausente, mas menos baseada em domínio social direto.</p>
+          </article>
+
+          <article>
+            <span>VIG</span>
+            <strong>2</strong>
+            <p>Resistência funcional e estabilidade física em campo, sem perfil brutamontes.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="pericias">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Leitura de campo</span>
+        </div>
+
+        <span>matriz de reconhecimento</span>
+        <h2>Sistema de mira operacional</h2>
+
+        <div class="skill-locks">
+          <button class="active" type="button" data-skill="pontaria">Pontaria</button>
+          <button type="button" data-skill="reflexos">Reflexos</button>
+          <button type="button" data-skill="tatica">Tática</button>
+          <button type="button" data-skill="furtividade">Furtividade</button>
+          <button type="button" data-skill="investigacao">Investigação</button>
+          <button type="button" data-skill="tecnologia">Tecnologia</button>
+          <button type="button" data-skill="percepcao">Percepção</button>
+          <button type="button" data-skill="vontade">Vontade</button>
+        </div>
+
+        <div class="skill-display" data-skill-display>
+          <span>Pontaria +10</span>
+          <h3>Alvo travado</h3>
+          <p>
+            Perícia central da ficha. Representa precisão com armas de fogo,
+            leitura de alcance, controle do disparo e escolha do momento exato.
+          </p>
+        </div>
+
+        <div class="skill-grid">
+          <article class="major-skill"><span>Pontaria</span><strong>+10</strong></article>
+          <article class="major-skill"><span>Reflexos</span><strong>+10</strong></article>
+          <article class="major-skill"><span>Tática</span><strong>+10</strong></article>
+          <article class="major-skill"><span>Furtividade</span><strong>+10</strong></article>
+          <article><span>Acrobacia</span><strong>+5</strong></article>
+          <article><span>Atletismo</span><strong>+5</strong></article>
+          <article><span>Fortitude</span><strong>+5</strong></article>
+          <article><span>Iniciativa</span><strong>+5</strong></article>
+          <article><span>Intuição</span><strong>+5</strong></article>
+          <article><span>Investigação</span><strong>+5</strong></article>
+          <article><span>Medicina</span><strong>+5</strong></article>
+          <article><span>Percepção</span><strong>+5</strong></article>
+          <article><span>Tecnologia</span><strong>+5</strong></article>
+          <article><span>Vontade</span><strong>+5</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="habilidades">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-time">Eventos temporais</span>
+        </div>
+
+        <span>habilidades registradas</span>
+        <h2>Eventos suspensos e balística anômala</h2>
+
+        <div class="ability-grid">
+          <button type="button" data-ability="ecletico">
+            <span>Especialista</span>
+            <strong>Eclético</strong>
+            <p>Pode gastar PE para receber benefícios de ser treinada em uma perícia.</p>
+          </button>
+
+          <button type="button" data-ability="balistica">
+            <span>NEX 10%</span>
+            <strong>Balística Residual</strong>
+            <p>Disparos furtivos com armas de longo alcance não revelam sua posição.</p>
+          </button>
+
+          <button type="button" data-ability="schrodinger">
+            <span>NEX 40%</span>
+            <strong>Tiro de Schrödinger</strong>
+            <p>O tiro pode ficar suspenso no tempo e colapsar depois.</p>
+          </button>
+
+          <button type="button" data-ability="perito">
+            <span>Especialista</span>
+            <strong>Perito</strong>
+            <p>Reforça perícias treinadas com dado bônus mediante gasto de PE.</p>
+          </button>
+
+          <button type="button" data-ability="pointblank">
+            <span>Poder</span>
+            <strong>Point Blank</strong>
+            <p>Permite usar o peso do rifle em curta distância sem penalidade.</p>
+          </button>
+
+          <button type="button" data-ability="visaodeouro">
+            <span>Poder</span>
+            <strong>Visão de Ouro</strong>
+            <p>Analisa brechas e concede vantagem contra o alvo observado.</p>
+          </button>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="inventario">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Mesa de relíquias</span>
+        </div>
+
+        <span>inventário confirmado</span>
+        <h2>Equipamento militar e objetos sensíveis</h2>
+
+        <div class="inventory-groups">
+          <section>
+            <h3>Equipamento Militar</h3>
+
+            <div class="inventory-grid">
+              <article><span>Munição</span><strong>Balas Longas A</strong><p>Pacote de munição para fuzis e armas longas.</p></article>
+              <article><span>Munição</span><strong>Balas Longas B</strong><p>Segundo pacote de munição longa confirmado.</p></article>
+              <article><span>Operacional</span><strong>Bandoleira</strong><p>Permite sacar ou guardar item como ação livre uma vez por rodada.</p></article>
+              <article><span>Observação</span><strong>Binóculos</strong><p>Fornecem suporte para observar alvos distantes.</p></article>
+              <article><span>Carga</span><strong>Mochila Militar</strong><p>Contém dois curativos e um caderno.</p></article>
+            </div>
+          </section>
+
+          <section>
+            <h3>Ferramentas de Apoio</h3>
+
+            <div class="inventory-grid">
+              <article><span>Acessório</span><strong>Computador</strong><p>Usado para hackear sistemas e sobrecarregar aparelhos eletrônicos.</p></article>
+              <article><span>Registro</span><strong>Caderno</strong><p>Objeto pessoal mencionado como parte dos registros da agente.</p></article>
+              <article><span>Suporte</span><strong>Curativos</strong><p>Itens carregados na mochila militar.</p></article>
+              <article><span>Ferramenta</span><strong>Machado</strong><p>Arma/ferramenta de corte registrada na ficha.</p></article>
+            </div>
+          </section>
+
+          <section>
+            <h3>Relíquias / Objetos Sensíveis</h3>
+
+            <div class="inventory-grid relic-grid">
+              <article class="relic-item" data-relic="metronome">
+                <span>Elemento: Morte</span>
+                <strong>Metrônomo de Prata</strong>
+                <p>Objeto estabilizador e possível foco paranormal. Enquanto segurado, fornece +2 em Vontade.</p>
+              </article>
+
+              <article class="relic-item" data-relic="lens">
+                <span>Item imbuído</span>
+                <strong>Lente de Prata Oxidada</strong>
+                <p>Montada com fragmentos de vidro da mansão Tate, permite perceber distorções temporais.</p>
+              </article>
+
+              <article class="relic-item" data-relic="rifle">
+                <span>Arma / Vínculo</span>
+                <strong>Fuzil de Precisão</strong>
+                <p>Rifle do pai de Roselyn, transformado em último vínculo físico com sua família.</p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="rifle">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Equipamento confirmado</span>
+          <span class="seal seal-ordo">Vínculo material</span>
+        </div>
+
+        <span>rifle / lente de prata</span>
+        <h2>O que restou da casa dela mira junto</h2>
+
+        <p>
+          O fuzil de precisão é tratado pela Ordo como equipamento e vínculo material.
+          A lente de prata oxidada foi montada com fragmentos de vidro da mansão Tate,
+          permitindo que Roselyn observe distorções temporais ao redor dos seres vivos.
+        </p>
+
+        <div class="rifle-display">
+          <div class="rifle-line" aria-hidden="true"></div>
+          <div class="scope-lens" aria-hidden="true"></div>
+
+          <article>
+            <span>Fuzil de Precisão</span>
+            <strong>2d10 // 19/x3 // Alcance Longo</strong>
+            <p>Arma de fogo militar projetada para disparos longos e precisos.</p>
+          </article>
+
+          <article>
+            <span>Lente de Prata Oxidada</span>
+            <strong>Fluxo temporal visível</strong>
+            <p>Recebe +2 em Pontaria contra alvos que já agiram na rodada.</p>
+          </article>
+
+          <article>
+            <span>Criaturas de Morte</span>
+            <strong>Margem crítica ampliada</strong>
+            <p>Contra criaturas de Morte, aumenta a margem de crítico em +1.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="metronomo">
+        <div class="seal-row">
+          <span class="seal seal-sensitive">Objeto sensível</span>
+          <span class="seal seal-time">Foco paranormal em observação</span>
+        </div>
+
+        <span>metrônomo de prata</span>
+        <h2>O ritmo que sobrou depois da perda</h2>
+
+        <p>
+          O metrônomo de prata aparenta funcionar como âncora psicológica e possível
+          foco paranormal. Para Roselyn, o objeto representa continuidade entre o
+          momento anterior à perda e o mundo que restou depois dela.
+        </p>
+
+        <div class="metronome-panel">
+          <div class="metronome-object" aria-hidden="true">
+            <span></span>
+          </div>
+
+          <div class="metronome-data">
+            <article><span>Classificação</span><strong>Objeto sensível</strong></article>
+            <article><span>Elemento associado</span><strong>Morte</strong></article>
+            <article><span>Função observada</span><strong>Âncora psicológica</strong></article>
+            <article><span>Protocolo</span><strong>Não remover sem autorização</strong></article>
+          </div>
+        </div>
+
+        <div class="ordo-warning">
+          Remover o metrônomo sem preparo pode gerar reação defensiva, desorientação
+          ou ruptura de confiança com a Ordo.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="mansao">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Histórico conhecido</span>
+          <span class="seal seal-locked">Fragmentos restritos</span>
+        </div>
+
+        <span>mansão tate</span>
+        <h2>Planta investigativa da ocorrência</h2>
+
+        <div class="mansion-map">
+          <button type="button" data-mansion="familia">
+            <span>01</span>
+            Família Tate
+          </button>
+
+          <button type="button" data-mansion="musica">
+            <span>02</span>
+            Sala de música
+          </button>
+
+          <button type="button" data-mansion="metronomo">
+            <span>03</span>
+            Ativação do metrônomo
+          </button>
+
+          <button type="button" data-mansion="manifestacao">
+            <span>04</span>
+            Manifestação de Morte
+          </button>
+
+          <button type="button" data-mansion="ordem">
+            <span>05</span>
+            Chegada da Ordo
+          </button>
+
+          <button type="button" data-mansion="rifle">
+            <span>06</span>
+            Rifle do pai
+          </button>
+        </div>
+
+        <div class="mansion-display" data-mansion-display>
+          <span>Ponto 01</span>
+          <h3>Família Tate</h3>
+          <p>
+            Roselyn é filha de um restaurador de antiguidades e de uma pianista erudita.
+            A mansão era marcada por objetos antigos, instrumentos e memórias preservadas.
+          </p>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="comportamento">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+        </div>
+
+        <span>leitura comportamental da ordo</span>
+        <h2>Extroversão controlada, precisão e luto operacional</h2>
+
+        <div class="report-block">
+          <h3>Resumo de avaliação</h3>
+          <p>
+            Roselyn apresenta comportamento extrovertido em situações sociais controladas,
+            mas essa extroversão não deve ser confundida com abertura emocional completa.
+            Ela fala, provoca, reage e ocupa espaço, mas evita expor vulnerabilidade de forma direta.
+          </p>
+        </div>
+
+        <div class="report-block">
+          <h3>Sob pressão</h3>
+          <p>
+            A agente tende a reduzir o ambiente a trajetórias, tempos de resposta e brechas.
+            O medo é reorganizado em procedimento, o que aumenta sua eficiência, mas dificulta
+            a identificação de colapsos emocionais.
+          </p>
+        </div>
+
+        <div class="report-block">
+          <h3>Recomendações</h3>
+          <p>
+            Roselyn funciona melhor quando recebe objetivos claros, espaço para observação
+            e liberdade controlada para decisões táticas.
+          </p>
+        </div>
+
+        <div class="ordo-note">
+          Esta leitura não define a personagem de forma absoluta. Ela serve como avaliação
+          institucional e pode ser atualizada conforme decisões do jogador.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="alertas">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+          <span class="seal seal-open">Pode mudar em mesa</span>
+        </div>
+
+        <span>riscos observados</span>
+        <h2>Objetos, tempo e excesso de confiança</h2>
+
+        <div class="risk-grid">
+          <article><strong>Dependência de objetos</strong><p>Metrônomo, rifle e lente funcionam como pontos de estabilização e risco simbólico.</p></article>
+          <article><strong>Irritabilidade controlada</strong><p>O cigarro aparece como ritual pessoal de descarga quando irritada.</p></article>
+          <article><strong>Percepção temporal anômala</strong><p>Pode gerar excesso de confiança na própria leitura de campo.</p></article>
+          <article><strong>Vínculo com a mansão Tate</strong><p>Missões com antiguidades, Morte ou memória familiar podem afetar sua estabilidade.</p></article>
+          <article><strong>Objetos não substituíveis</strong><p>Rifle, metrônomo e lente não devem ser tratados como equipamento comum.</p></article>
+        </div>
+
+        <div class="ordo-warning">
+          Os riscos são avaliações internas da Ordo, não verdades absolutas sobre a personagem.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="registro">
+        <div class="seal-row">
+          <span class="seal seal-live">Registro vivo</span>
+        </div>
+
+        <span>registro vivo</span>
+        <h2>Área atualizável pelo jogador</h2>
+
+        <p>
+          Espaço reservado para atualizações futuras conforme decisões do Erick e eventos da mesa.
+        </p>
+
+        <div class="living-grid">
+          <article><span>Estado atual na campanha</span><strong>A atualizar</strong></article>
+          <article><span>Anotações do jogador</span><strong>Aguardando Erick</strong></article>
+          <article><span>Mudanças no rifle</span><strong>A atualizar</strong></article>
+          <article><span>Estado do metrônomo</span><strong>Monitorado</strong></article>
+          <article><span>Relação com a equipe</span><strong>A atualizar</strong></article>
+          <article><span>Último disparo importante</span><strong>Aguardando sessão</strong></article>
+          <article><span>Novas leituras temporais</span><strong>A atualizar</strong></article>
+          <article><span>Eventos envolvendo Morte</span><strong>A atualizar</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="bloqueados">
+        <div class="seal-row">
+          <span class="seal seal-locked">Acesso restrito ao mestre</span>
+        </div>
+
+        <span>arquivos bloqueados</span>
+        <h2>Fragmentos ainda lacrados</h2>
+
+        <div class="locked-grid">
+          <article><strong>Laudo completo da Mansão Tate</strong><p>Conteúdo liberado após evento narrativo.</p></article>
+          <article><strong>Origem do Metrônomo de Prata</strong><p>Registro sob sigilo operacional.</p></article>
+          <article><strong>Fragmentos recuperados da residência</strong><p>Inventário restrito da Ordo.</p></article>
+          <article><strong>Análise da Lente de Prata Oxidada</strong><p>Arquivo lacrado por risco de contaminação simbólica.</p></article>
+          <article><strong>Registro de manifestação associada à Morte</strong><p>Ocorrência temporal não catalogada.</p></article>
+          <article><strong>Áudio residual: sala de música</strong><p>Arquivo bloqueado.</p></article>
+        </div>
+      </article>
     </section>
   </main>
-
-  <script>
-    const roselynTabs = {
-      dossie: {
-        title: "Dossiê",
-        html: `
-          <p>Roselyn Tate é uma sobrevivente de contato direto com manifestação associada à Morte e uma das poucas remanescentes conhecidas do incidente ocorrido na antiga residência da família Tate.</p>
-
-          <p>Seu perfil combina disciplina militar, precisão calculada e instabilidade discreta vinculada à memória do evento que apagou sua família. Socialmente, pode parecer extrovertida, provocativa e presente, mas essa abertura não deve ser confundida com vulnerabilidade livre.</p>
-
-          <p>Sob pressão, Roselyn tende a reduzir o ambiente a trajetórias, tempos de resposta e brechas. Ela não organiza o medo como pânico; organiza como procedimento.</p>
-
-          <div class="roselyn-quote">“Ela mira como alguém que já perdeu tudo e aprendeu a esperar o mundo terminar antes de puxar o gatilho.”</div>
-        `
-      },
-
-      competencias: {
-        title: "Competências",
-        html: `
-          <div class="roselyn-card-grid">
-            <article><h3>Precisão balística</h3><p>Apta para cobertura de longa distância, controle de linha de tiro e espera pelo momento exato de ação.</p></article>
-            <article><h3>Reconhecimento avançado</h3><p>Perfil adequado para análise de rotas, vigilância, leitura de movimentação inimiga e suporte a equipes em áreas de risco.</p></article>
-            <article><h3>Leitura tática</h3><p>Procura padrões, repetições, brechas e detalhes fora de sincronia com o ambiente.</p></article>
-            <article><h3>Controle sob pressão</h3><p>Tende a converter medo em procedimento, evitando pânico em situações de alto risco.</p></article>
-          </div>
-        `
-      },
-
-      atuacao: {
-        title: "Atuação",
-        html: `
-          <div class="roselyn-card-grid">
-            <article><h3>Disparo como evento</h3><p>Roselyn demonstra capacidade de esperar o momento exato e transformar observação em vantagem.</p></article>
-            <article><h3>Ponte entre vigilância e combate</h3><p>Conecta infiltração, vigilância e combate coordenado através de observação técnica.</p></article>
-            <article><h3>Autonomia controlada</h3><p>Funciona melhor com objetivos claros, espaço de observação e liberdade limitada para decisões táticas.</p></article>
-            <article><h3>Percepção não infalível</h3><p>A Ordo recomenda ouvir suas leituras de campo, mas nunca tratá-las como absolutas.</p></article>
-          </div>
-        `
-      },
-
-      paranormal: {
-        title: "Paranormal",
-        html: `
-          <div class="roselyn-time-simulator">
-            <section class="roselyn-time-core">
-              <div class="roselyn-time-orb">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-
-              <p class="tag">Simulação Temporal</p>
-              <h3 id="roselynTimeStateTitle">Tempo Normal</h3>
-              <p id="roselynTimeStateText">
-                A percepção da agente permanece funcional. O metrônomo atua como âncora psicológica e o ambiente segue legível.
-              </p>
-            </section>
-
-            <section class="roselyn-time-controls">
-              <button class="active" data-time-state="normal">Normal</button>
-              <button data-time-state="thick">Tempo Espesso</button>
-              <button data-time-state="hiatus">Hiato</button>
-            </section>
-
-            <section class="roselyn-time-report">
-              <article>
-                <span>Percepção</span>
-                <strong id="roselynTimePerception">Funcional</strong>
-              </article>
-
-              <article>
-                <span>Risco</span>
-                <strong id="roselynTimeRisk">Moderado</strong>
-              </article>
-
-              <article>
-                <span>Recomendação</span>
-                <strong id="roselynTimeAdvice">Não remover metrônomo</strong>
-              </article>
-            </section>
-
-            <div class="roselyn-card-grid">
-              <article>
-                <h3>Morte / percepção temporal</h3>
-                <p>O contato inicial reorganizou a forma como Roselyn entende movimento, morte e consequência.</p>
-              </article>
-
-              <article>
-                <h3>Metrônomo de prata</h3>
-                <p>Objeto de origem desconhecida. Atua como âncora psicológica, símbolo de sobrevivência e possível foco de influência paranormal.</p>
-              </article>
-            </div>
-          </div>
-        `
-      },
-
-      areas: {
-        title: "Áreas",
-        html: `
-          <div class="roselyn-chip-grid">
-            <article>Pontaria de precisão</article>
-            <article>Reconhecimento</article>
-            <article>Furtividade</article>
-            <article>Reflexos</article>
-            <article>Investigação</article>
-            <article>Tecnologia</article>
-            <article>Observação técnica</article>
-            <article>Análise tática</article>
-          </div>
-        `
-      },
-
-      equipamentos: {
-        title: "Equipamentos",
-        html: `
-          <div class="roselyn-inventory-layout">
-            <section class="roselyn-inventory-grid">
-              <button class="roselyn-item-card" data-item="metronomo">
-                <span>Objeto anômalo</span>
-                <strong>Metrônomo de Prata</strong>
-              </button>
-
-              <button class="roselyn-item-card" data-item="rifle">
-                <span>Relíquia familiar</span>
-                <strong>Rifle do Pai</strong>
-              </button>
-
-              <button class="roselyn-item-card" data-item="lente">
-                <span>Fragmento Tate</span>
-                <strong>Lente de Prata Oxidada</strong>
-              </button>
-
-              <button class="roselyn-item-card" data-item="caderno">
-                <span>Registro pessoal</span>
-                <strong>Caderno</strong>
-              </button>
-            </section>
-
-            <aside id="roselynItemInspector" class="roselyn-item-inspector">
-              <span>Inspeção de inventário</span>
-              <strong>Selecione um item</strong>
-              <p>Clique em um equipamento para abrir a leitura operacional da Ordo Realitas.</p>
-            </aside>
-          </div>
-        `
-      },
-
-      vinculos: {
-        title: "Vínculos",
-        html: `
-          <p><strong>Família Tate:</strong> vínculo central de perda, origem e motivação. Investigações envolvendo a mansão, antiguidades da família ou manifestações similares podem afetar sua estabilidade.</p>
-          <p><strong>Metrônomo de prata:</strong> continuidade entre o momento anterior à perda e o mundo que restou depois dela.</p>
-          <p><strong>Rifle e lente:</strong> luto preservado em forma de ferramenta operacional.</p>
-          <p><strong>Ordo Realitas:</strong> relação funcional, desde que a cadeia de comando não deslegitime sua percepção de campo sem motivo claro.</p>
-        `
-      },
-
-      avaliacao: {
-        title: "Avaliação da Ordo",
-        html: `
-          <p>A Ordo Realitas avalia Roselyn Tate como recurso operacional promissor, porém psicologicamente marcado por evento de alta intensidade.</p>
-
-          <p>Seu valor em campo é evidente: precisão, sangue-frio, capacidade de observação e familiaridade com situações de risco. Ainda assim, seu vínculo com objetos anômalos e memórias traumáticas exige cuidado constante.</p>
-
-          <p>O principal risco observado é a dependência emocional de objetos associados ao trauma. O metrônomo e o rifle funcionam como pontos de estabilização, mas também podem impedir elaboração real da perda.</p>
-
-          <div class="roselyn-quote">Recomendação: recrutamento aprovado com ressalvas. Evitar exposição prolongada a manifestações de Morte sem acompanhamento e sem análise prévia do estado do metrônomo.</div>
-        `
-      }
-    };
-
-    const attrNames = {
-      FOR: "Força",
-      AGI: "Agilidade",
-      INT: "Intelecto",
-      PRE: "Presença",
-      VIG: "Vigor"
-    };
-
-    const attrValues = {
-      FOR: 2,
-      AGI: 3,
-      INT: 2,
-      PRE: 1,
-      VIG: 2
-    };
-
-    const roselynInventoryItems = {
-      metronomo: {
-        name: "Metrônomo de Prata",
-        type: "Objeto anômalo / âncora psicológica",
-        text: "Não deve ser removido sem autorização superior e acompanhamento adequado. Remoção brusca pode gerar reação defensiva, desorientação ou ruptura de confiança."
-      },
-
-      rifle: {
-        name: "Rifle do Pai",
-        type: "Relíquia familiar / arma de precisão",
-        text: "Vínculo físico com uma família apagada pelo paranormal. A Ordo não deve tratá-lo como equipamento substituível comum."
-      },
-
-      lente: {
-        name: "Lente de Prata Oxidada",
-        type: "Fragmento da mansão Tate",
-        text: "Montada com fragmentos ligados à mansão Tate. Roselyn literalmente observa ameaças através do que sobrou de sua casa."
-      },
-
-      caderno: {
-        name: "Caderno Pessoal",
-        type: "Registro privado",
-        text: "Registros próprios indicam organização interna. O conteúdo não deve ser violado sem necessidade operacional clara."
-      }
-    };
-
-    const roselynHotspotData = {
-      rifle: {
-        title: "Rifle do Pai",
-        tag: "Relíquia familiar",
-        text: "O rifle não é apenas arma. É o luto preservado em forma de ferramenta operacional.",
-        effect: "roselyn-aim-react"
-      },
-
-      lente: {
-        title: "Lente de Prata",
-        tag: "Observação técnica",
-        text: "Roselyn observa ameaças através de fragmentos do que restou da própria casa.",
-        effect: "roselyn-focus-react"
-      },
-
-      olhar: {
-        title: "Olhar de Mira",
-        tag: "Leitura comportamental",
-        text: "Sob pressão, Roselyn reduz o ambiente a trajetória, tempo, brecha e consequência.",
-        effect: "roselyn-focus-react"
-      },
-
-      maos: {
-        title: "Controle de Disparo",
-        tag: "Precisão balística",
-        text: "Suas mãos esperam o instante certo. A ação só existe quando o disparo já virou consequência.",
-        effect: "roselyn-aim-react"
-      },
-
-      postura: {
-        title: "Postura de Observação",
-        tag: "Reconhecimento",
-        text: "Roselyn tende a se posicionar como cobertura e leitura tática antes do confronto direto.",
-        effect: "roselyn-time-react"
-      }
-    };
-
-    const roselynTimeStates = {
-      normal: {
-        title: "Tempo Normal",
-        text: "A percepção da agente permanece funcional. O metrônomo atua como âncora psicológica e o ambiente segue legível.",
-        perception: "Funcional",
-        risk: "Moderado",
-        advice: "Não remover metrônomo",
-        className: "roselyn-time-normal"
-      },
-
-      thick: {
-        title: "Tempo Espesso",
-        text: "A agente começa a perceber movimentos como eventos alongados. O intervalo entre ação e consequência parece maior do que deveria.",
-        perception: "Dilatada",
-        risk: "Alto",
-        advice: "Manter comunicação",
-        className: "roselyn-time-thick"
-      },
-
-      hiatus: {
-        title: "Hiato Temporal",
-        text: "A leitura entra em suspensão. O arquivo registra atraso visual, silêncio operacional e sensação de disparo antes do som.",
-        perception: "Suspensa",
-        risk: "Crítico",
-        advice: "Interromper leitura",
-        className: "roselyn-time-hiatus"
-      }
-    };
-
-    const metronomeMessages = [
-      "TIC... TAC... registro sincronizado.",
-      "O metrônomo ainda está batendo.",
-      "A Ordo recomenda não remover este objeto sem acompanhamento.",
-      "Variação temporal mínima detectada.",
-      "Linha de tiro aguardando o próximo segundo.",
-      "Fragmentos da mansão Tate permanecem ativos na leitura."
-    ];
-
-    function openRoselynTab(tab) {
-      const data = roselynTabs[tab];
-
-      if (!data) return;
-
-      document.querySelectorAll(".roselyn-tabs button").forEach(button => {
-        button.classList.toggle("active", button.dataset.tab === tab);
-      });
-
-      const title = document.getElementById("roselynTabTitle");
-      const content = document.getElementById("roselynTabContent");
-
-      title.textContent = data.title;
-      content.innerHTML = data.html;
-
-      content.classList.remove("roselyn-content-pulse");
-      void content.offsetWidth;
-      content.classList.add("roselyn-content-pulse");
-
-      createRoselynBurst(window.innerWidth / 2, window.innerHeight * 0.18, 12);
-
-      if (tab === "equipamentos") {
-        setTimeout(setupRoselynInventory, 60);
-      }
-
-      if (tab === "paranormal") {
-        setTimeout(setupRoselynTimeSimulator, 60);
-      }
-    }
-
-    function setupRoselynInventory() {
-      const inspector = document.getElementById("roselynItemInspector");
-
-      if (!inspector) return;
-
-      document.querySelectorAll(".roselyn-item-card").forEach(card => {
-        card.onclick = event => {
-          const item = roselynInventoryItems[card.dataset.item];
-
-          if (!item) return;
-
-          document.querySelectorAll(".roselyn-item-card").forEach(button => {
-            button.classList.remove("active");
-          });
-
-          card.classList.add("active");
-
-          inspector.innerHTML = `
-            <span>${item.type}</span>
-            <strong>${item.name}</strong>
-            <p>${item.text}</p>
-          `;
-
-          inspector.classList.remove("roselyn-content-pulse");
-          void inspector.offsetWidth;
-          inspector.classList.add("roselyn-content-pulse");
-
-          createRoselynBurst(event.clientX, event.clientY, 10);
-
-          if (card.dataset.item === "metronomo") {
-            triggerRoselynMetronome();
-          }
-
-          if (card.dataset.item === "rifle" || card.dataset.item === "lente") {
-            document.body.classList.add("roselyn-aim-react");
-            setTimeout(() => document.body.classList.remove("roselyn-aim-react"), 900);
-          }
-        };
-      });
-    }
-
-    function setupRoselynTimeSimulator() {
-      const simulator = document.querySelector(".roselyn-time-simulator");
-
-      if (!simulator) return;
-
-      const buttons = simulator.querySelectorAll("[data-time-state]");
-
-      buttons.forEach(button => {
-        button.onclick = event => {
-          const stateKey = button.dataset.timeState;
-          const state = roselynTimeStates[stateKey];
-
-          if (!state) return;
-
-          buttons.forEach(btn => btn.classList.remove("active"));
-          button.classList.add("active");
-
-          document.body.classList.remove(
-            "roselyn-time-normal",
-            "roselyn-time-thick",
-            "roselyn-time-hiatus"
-          );
-
-          document.body.classList.add(state.className);
-
-          document.getElementById("roselynTimeStateTitle").textContent = state.title;
-          document.getElementById("roselynTimeStateText").textContent = state.text;
-          document.getElementById("roselynTimePerception").textContent = state.perception;
-          document.getElementById("roselynTimeRisk").textContent = state.risk;
-          document.getElementById("roselynTimeAdvice").textContent = state.advice;
-
-          simulator.classList.remove("roselyn-content-pulse");
-          void simulator.offsetWidth;
-          simulator.classList.add("roselyn-content-pulse");
-
-          createRoselynBurst(event.clientX, event.clientY, stateKey === "hiatus" ? 24 : 12);
-
-          if (stateKey === "hiatus") {
-            triggerRoselynHiatus();
-          }
-        };
-      });
-    }
-
-    function setupRoselynHotspots() {
-      const inspector = document.getElementById("roselynAttributeReadout");
-
-      document.querySelectorAll(".roselyn-hotspot").forEach(button => {
-        button.onclick = event => {
-          const data = roselynHotspotData[button.dataset.hotspot];
-
-          if (!data) return;
-
-          document.querySelectorAll(".roselyn-hotspot").forEach(hotspot => {
-            hotspot.classList.remove("active");
-          });
-
-          button.classList.add("active");
-
-          if (inspector) {
-            inspector.innerHTML = `
-              <span>${data.tag}</span>
-              <strong>${data.title}</strong>
-            `;
-          }
-
-          document.body.classList.add(data.effect);
-          setTimeout(() => document.body.classList.remove(data.effect), 1000);
-
-          createRoselynBurst(event.clientX, event.clientY, 12);
-
-          const popup = document.createElement("div");
-          popup.className = "roselyn-hotspot-popup";
-          popup.innerHTML = `
-            <section>
-              <span>${data.tag}</span>
-              <strong>${data.title}</strong>
-              <p>${data.text}</p>
-              <button>Fechar leitura</button>
-            </section>
-          `;
-
-          popup.querySelector("button").onclick = () => popup.remove();
-
-          popup.onclick = e => {
-            if (e.target === popup) popup.remove();
-          };
-
-          document.body.appendChild(popup);
-        };
-      });
-    }
-
-    function setupRoselynAttributes() {
-      document.querySelectorAll(".roselyn-attr-node").forEach(button => {
-        button.onclick = event => {
-          const attr = button.dataset.attr;
-          const value = attrValues[attr];
-
-          document.querySelectorAll(".roselyn-attr-node").forEach(node => {
-            node.classList.remove("active");
-          });
-
-          button.classList.add("active");
-
-          const readout = document.getElementById("roselynAttributeReadout");
-
-          if (readout) {
-            readout.innerHTML = `
-              <span>${attr} — ${attrNames[attr]}</span>
-              <strong>${value} ponto${value === 1 ? "" : "s"}</strong>
-            `;
-
-            readout.classList.remove("roselyn-content-pulse");
-            void readout.offsetWidth;
-            readout.classList.add("roselyn-content-pulse");
-          }
-
-          createRoselynBurst(event.clientX, event.clientY, 10);
-        };
-      });
-    }
-
-    function setupRoselynMetronomeAssistant() {
-      const metronome = document.getElementById("roselynMetronomeAssistant");
-
-      if (!metronome) return;
-
-      metronome.onclick = event => {
-        const message = metronomeMessages[Math.floor(Math.random() * metronomeMessages.length)];
-
-        createRoselynBurst(event.clientX, event.clientY, 10);
-
-        const oldBubble = document.querySelector(".roselyn-metronome-bubble");
-
-        if (oldBubble) {
-          oldBubble.remove();
-        }
-
-        const bubble = document.createElement("div");
-        bubble.className = "roselyn-metronome-bubble";
-        bubble.innerHTML = `
-          <span>METRÔNOMO // SINCRONIA</span>
-          <p>${message}</p>
-        `;
-
-        document.body.appendChild(bubble);
-
-        metronome.classList.remove("metronome-swing");
-        void metronome.offsetWidth;
-        metronome.classList.add("metronome-swing");
-
-        setTimeout(() => bubble.remove(), 3600);
-      };
-    }
-
-    function triggerRoselynMetronome() {
-      const metronome = document.getElementById("roselynMetronomeAssistant");
-
-      if (!metronome) return;
-
-      metronome.classList.remove("metronome-swing");
-      void metronome.offsetWidth;
-      metronome.classList.add("metronome-swing");
-    }
-
-    function triggerRoselynHiatus() {
-      document.body.classList.add("roselyn-hiatus-active");
-
-      const oldLabel = document.querySelector(".roselyn-hiatus-label");
-
-      if (oldLabel) {
-        oldLabel.remove();
-      }
-
-      const label = document.createElement("div");
-      label.className = "roselyn-hiatus-label";
-      label.textContent = "HIATO TEMPORAL — LEITURA SUSPENSA";
-      document.body.appendChild(label);
-
-      createRoselynBurst(window.innerWidth / 2, window.innerHeight / 2, 26);
-
-      setTimeout(() => {
-        document.body.classList.remove("roselyn-hiatus-active");
-        label.remove();
-      }, 1700);
-    }
-
-    function createRoselynBurst(x, y, amount = 10) {
-      if (document.documentElement.classList.contains("performance-mode")) return;
-
-      for (let i = 0; i < amount; i++) {
-        const particle = document.createElement("span");
-        particle.className = "roselyn-page-particle";
-        particle.style.left = x + "px";
-        particle.style.top = y + "px";
-        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 190}px`);
-        particle.style.setProperty("--y", `${(Math.random() - 0.9) * 160}px`);
-        document.body.appendChild(particle);
-
-        setTimeout(() => particle.remove(), 900);
-      }
-    }
-
-    function setupRoselynBootAnimation() {
-      const boot = document.getElementById("roselynBootScreen");
-
-      if (!boot) return;
-
-      const alreadyPlayed = sessionStorage.getItem("roselynBootPlayed");
-
-      if (alreadyPlayed === "true") {
-        boot.remove();
-        return;
-      }
-
-      sessionStorage.setItem("roselynBootPlayed", "true");
-
-      setTimeout(() => {
-        boot.classList.add("roselyn-boot-finished");
-      }, 3100);
-
-      setTimeout(() => {
-        boot.remove();
-      }, 3900);
-    }
-
-    function setupRoselynPerformanceMode() {
-      const lowDevice =
-        window.innerWidth < 760 ||
-        (navigator.hardwareConcurrency || 4) <= 4 ||
-        (navigator.deviceMemory || 4) <= 4;
-
-      if (lowDevice) {
-        document.documentElement.classList.add("performance-mode");
-      }
-    }
-
-    function setupRoselynPage() {
-      setupRoselynBootAnimation();
-      setupRoselynPerformanceMode();
-      setupRoselynAttributes();
-      setupRoselynHotspots();
-      setupRoselynMetronomeAssistant();
-
-      document.querySelectorAll(".roselyn-tabs button").forEach(button => {
-        button.onclick = () => openRoselynTab(button.dataset.tab);
-      });
-
-      const hiatusButton = document.getElementById("roselynHiatusButton");
-
-      if (hiatusButton) {
-        hiatusButton.onclick = triggerRoselynHiatus;
-      }
-
-      const wheelCore = document.getElementById("roselynWheelCore");
-
-      if (wheelCore) {
-        wheelCore.ondblclick = triggerRoselynHiatus;
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", setupRoselynPage);
-  </script>
-  <script src="player-polish.js"></script>
+  
+<link rel="stylesheet" href="../css/roselyn.css?v=1" />
+<script src="./roselyn.js?v=1"></script>
 </body>
 </html>

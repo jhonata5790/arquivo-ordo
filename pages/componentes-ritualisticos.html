@@ -3,67 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Componentes Ritualísticos — Arquivo Secreto</title>
-
+  <title>Componentes Ritualísticos — Arquivo da Campanha</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
-
-<body onload="protectSecretPage()">
-  <main class="app internal-page">
-    <header class="page-header">
-      <div>
-        <p class="system-status">Arquivo secreto — objetos paranormais</p>
-
-        <h1 class="dashboard-title glitch-text" data-text="Componentes Ritualísticos">
-          Componentes Ritualísticos
-        </h1>
-
-        <p class="page-description">
-          Registro de objetos paranormais, núcleos contaminados, relíquias, componentes físicos e itens ligados ao Outro Lado.
-        </p>
-      </div>
-
-      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
-    </header>
-
-    <section class="terminal-message">
-      <strong>Importante:</strong> Esta seção não é sobre os elementos em si. Ela registra objetos paranormais e componentes físicos, como o Coração Amaldiçoado.
-    </section>
-
+<body>
+  <main class="internal-page">
+    <div class="archive-home-noise"></div><div class="archive-home-scan"></div>
+    <header class="page-header"><div><p class="tag">ARTEFATOS // OBJETOS PARANORMAIS</p><h1>Componentes Ritualísticos</h1><p>Objetos, núcleos e componentes que carregam influência elemental direta.</p></div><a class="back-link" href="../inicio.html">Voltar ao Arquivo</a></header>
     <section class="page-grid">
-      <article class="profile-card">
-        <p class="card-status">Componente ativo</p>
-        <h2 class="card-title">Coração Amaldiçoado</h2>
-        <p class="card-text">Objeto paranormal ligado ao Sangue. Funciona como núcleo central da ameaça envolvendo o Amastaff.</p>
-      </article>
-
-      <article class="profile-card">
-        <p class="card-status">Estrutura orgânica</p>
-        <h2 class="card-title">Casulo do Amastaff</h2>
-        <p class="card-text">Estrutura ligada ao desenvolvimento/manifestação do Amastaff abaixo da Árvore Mãe.</p>
-      </article>
-
-      <article class="profile-card disabled-card">
-        <p class="card-status">Possível relíquia</p>
-        <h2 class="card-title">Fragmentos da Árvore Mãe</h2>
-        <p class="card-text">Registro futuro para possíveis materiais contaminados associados à árvore central da cidade.</p>
-      </article>
-
-      <article class="profile-card disabled-card">
-        <p class="card-status">Registro futuro</p>
-        <h2 class="card-title">Artefatos de Culto</h2>
-        <p class="card-text">Área reservada para itens ritualísticos encontrados durante a investigação.</p>
-      </article>
-
-      <article class="profile-card disabled-card">
-        <p class="card-status">Registro futuro</p>
-        <h2 class="card-title">Objetos Instáveis</h2>
-        <p class="card-text">Itens paranormais cujo funcionamento, risco ou origem ainda não foram compreendidos.</p>
-      </article>
+      <button class="document-card document-blood" type="button" data-popup-title="Coração Amaldiçoado" data-popup-text="Representação ritualística concentrada do Sangue."><span>CMP-001</span><strong>Coração Amaldiçoado</strong><p>Representação ritualística concentrada do Sangue.</p><i>INSTÁVEL</i></button><button class="document-card document-locked" type="button" data-popup-title="Casulo do Amastaff" data-popup-text="Camada secreta abaixo da Árvore Mãe."><span>CMP-002</span><strong>Casulo do Amastaff</strong><p>Camada secreta abaixo da Árvore Mãe.</p><i>MESTRE</i></button><button class="document-card " type="button" data-popup-title="Fragmentos Resgatados" data-popup-text="Peças menores para pistas e documentos futuros."><span>CMP-003</span><strong>Fragmentos Resgatados</strong><p>Peças menores para pistas e documentos futuros.</p><i>EM CONSTRUÇÃO</i></button>
     </section>
   </main>
-
   <script src="../script.js"></script>
+  <script src="effects-loader.js"></script>
 </body>
 </html>

@@ -3,61 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Missões — Arquivo Ordo Realitas</title>
-
+  <title>Missões — Arquivo da Campanha</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
-
 <body>
-  <main class="app internal-page">
-    <header class="page-header">
-      <div>
-        <p class="system-status">Arquivo liberado — operações ativas</p>
-
-        <h1 class="dashboard-title glitch-text" data-text="Missões">
-          Missões
-        </h1>
-
-        <p class="page-description">
-          Registro das investigações, casos ativos, relatórios de campo e operações relacionadas à campanha Corações do Outro Lado.
-        </p>
-      </div>
-
-      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
-    </header>
-
-    <section class="terminal-message">
-      <strong>Operação atual:</strong> Corações do Outro Lado. A primeira equipe enviada para Santa Luzia será responsável pela investigação inicial do Caso Miyara.
-    </section>
-
+  <main class="internal-page">
+    <div class="archive-home-noise"></div><div class="archive-home-scan"></div>
+    <header class="page-header"><div><p class="tag">OPERAÇÕES // CORAÇÕES DO OUTRO LADO</p><h1>Missões</h1><p>Área para organizar capítulos, pistas e avanço da investigação.</p></div><a class="back-link" href="../inicio.html">Voltar ao Arquivo</a></header>
     <section class="page-grid">
-      <article class="profile-card">
-        <p class="card-status">Campanha ativa</p>
-        <h2 class="card-title">Corações do Outro Lado</h2>
-        <p class="card-text">Investigação principal em Santa Luzia envolvendo o desaparecimento/alteração de Miyara e a influência crescente do Sangue.</p>
-      </article>
-
-      <article class="profile-card">
-        <p class="card-status">Caso inicial</p>
-        <h2 class="card-title">Caso Miyara</h2>
-        <p class="card-text">Primeiro caso documentado pela Ordo na região. Informações iniciais são limitadas e dependem da equipe em campo.</p>
-      </article>
-
-      <article class="profile-card disabled-card">
-        <p class="card-status">Registro futuro</p>
-        <h2 class="card-title">Relatórios de Sessão</h2>
-        <p class="card-text">Área reservada para registrar eventos importantes conforme a campanha avançar.</p>
-      </article>
-
-      <article class="profile-card disabled-card">
-        <p class="card-status">Registro futuro</p>
-        <h2 class="card-title">Eventos Críticos</h2>
-        <p class="card-text">Futuros marcos narrativos, mortes, revelações e mudanças no estado da cidade.</p>
-      </article>
+      <button class="document-card " type="button" data-popup-title="Chegada a Santa Luzia" data-popup-text="Primeiro contato dos jogadores com a cidade e suas tensões."><span>MIS-001</span><strong>Chegada a Santa Luzia</strong><p>Primeiro contato dos jogadores com a cidade e suas tensões.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Caso Miyara" data-popup-text="Investigação inicial sobre a primeira vítima da missão."><span>MIS-002</span><strong>Caso Miyara</strong><p>Investigação inicial sobre a primeira vítima da missão.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Camadas da Cidade" data-popup-text="Exploração dos pontos importantes e padrões estranhos."><span>MIS-003</span><strong>Camadas da Cidade</strong><p>Exploração dos pontos importantes e padrões estranhos.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card document-blood" type="button" data-popup-title="Coração Amaldiçoado" data-popup-text="Revelação ligada ao núcleo da campanha."><span>MIS-???</span><strong>Coração Amaldiçoado</strong><p>Revelação ligada ao núcleo da campanha.</p><i>OCULTO</i></button>
     </section>
   </main>
-
   <script src="../script.js"></script>
+  <script src="effects-loader.js"></script>
 </body>
 </html>

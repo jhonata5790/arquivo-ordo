@@ -4,854 +4,875 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Maisie Hundown — Arquivo Público</title>
+  <title>Maisie Hundown — Registro Operacional</title>
 
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=9" />
+  <link rel="stylesheet" href="../css/maisie.css?v=2" />
 </head>
 
 <body>
-  <main class="maisie-exclusive-page">
-    <div id="maisieBootScreen" class="maisie-boot-screen">
-      <section class="maisie-boot-card">
-        <p class="tag">ORDO REALITAS // INICIALIZAÇÃO DE DOSSIÊ</p>
+  <main class="maisie-page" data-maisie-page>
+    <section class="maisie-loader" data-maisie-loader>
+      <div class="loader-panel">
+        <p>ORDO REALITAS // SISTEMA INTERNO</p>
 
-        <h1>
-          MAISIE<br />
-          HUNDOWN
+        <h1>ABRINDO REGISTRO OPERACIONAL</h1>
+
+        <div class="loader-scan-name" data-text="MAISIE HUNDOWN">
+          MAISIE HUNDOWN
+        </div>
+
+        <div class="loader-lines">
+          <span>AGENTE: MAISIE HUNDOWN</span>
+          <span>STATUS: EM ATIVIDADE</span>
+          <span>REGISTRO ATIVO — RECRUTA</span>
+          <span>FOCO OBSERVADO: ENERGIA / TECNOLOGIA / OCULTISMO</span>
+        </div>
+
+        <div class="loader-bar">
+          <span></span>
+        </div>
+
+        <button type="button" data-skip-loader>
+          Acessar ficha
+        </button>
+      </div>
+    </section>
+
+    <div class="maisie-bg-image" aria-hidden="true"></div>
+    <div class="maisie-bg-grid" aria-hidden="true"></div>
+    <div class="maisie-bg-scan" aria-hidden="true"></div>
+    <div class="maisie-bg-noise" aria-hidden="true"></div>
+    <div class="maisie-energy-field" aria-hidden="true"></div>
+
+    <header class="maisie-hero">
+      <div class="hero-copy">
+        <p class="kicker">ORDO REALITAS // REGISTRO OPERACIONAL // AG-01</p>
+
+        <div class="player-notice">
+          <strong>PERSONAGEM JOGADORA</strong>
+          <span>Dados mecânicos e observações da Ordo. Interpretação emocional e decisões pertencem ao jogador.</span>
+        </div>
+
+        <h1 data-text="MAISIE HUNDOWN">
+          Maisie<br />
+          Hundown
         </h1>
 
-        <div class="maisie-boot-terminal">
-          <p>// sincronizando núcleo energético...</p>
-          <p>// calibrando canhão ritualístico...</p>
-          <p>// verificando drone auxiliar...</p>
-          <p>// walt: <span>online</span></p>
-          <p>// status: <b>sobrecarga controlada</b></p>
-        </div>
-
-        <div class="maisie-boot-bars">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </section>
-    </div>
-
-    <div class="maisie-bg-circuits"></div>
-    <div class="maisie-bg-energy"></div>
-
-    <button id="maisieWaltAssistant" class="maisie-walt-assistant" aria-label="Ativar Walt">
-      <span></span>
-      <i></i>
-    </button>
-
-    <header class="maisie-hero-header">
-      <div>
-        <p class="tag">ORDO REALITAS // DOSSIÊ DE CAMPO LIBERADO</p>
-        <h1>MAISIE HUNDOWN</h1>
         <p>
-          Ocultista de campo com perfil técnico, improvisação agressiva e afinidade com Energia.
-          Registro público associado a tecnologia ritualística, caos controlado e sobrevivência criativa.
+          Ocultista de campo com forte integração tecnológica e foco em Energia.
+          Arquivo público parcial para consulta da campanha Corações do Outro Lado.
         </p>
+
+        <div class="hero-tags">
+          <span data-seal="confirmado">Classe: Ocultista</span>
+          <span data-seal="confirmado">Origem: Agente de Saúde</span>
+          <span data-seal="confirmado">NEX: 40%</span>
+          <span data-seal="confirmado">Patente: Recruta</span>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" data-jump-tab="atributos">Ficha mecânica</button>
+          <button type="button" data-jump-tab="comportamento">Leitura da Ordo</button>
+          <button type="button" data-jump-tab="inventario">Inventário</button>
+        </div>
       </div>
 
-      <a class="back-link" href="agentes.html">Voltar aos Agentes</a>
+      <a class="back-link" href="./agentes.html">Voltar aos Agentes</a>
     </header>
 
-    <section class="maisie-command-strip">
-      <article>
-        <span>Status</span>
-        <strong>Arquivo liberado</strong>
-      </article>
-
+    <section class="status-strip" aria-label="Status do registro">
       <article>
         <span>Jogador</span>
         <strong>Caio</strong>
       </article>
 
       <article>
-        <span>Classe</span>
-        <strong>Ocultista</strong>
+        <span>Afiliação</span>
+        <strong>Ordo Realitas</strong>
       </article>
 
       <article>
-        <span>Assinatura</span>
-        <strong>Energia / tecnologia</strong>
+        <span>Função observada</span>
+        <strong>Ocultista tecnológica</strong>
+      </article>
+
+      <article>
+        <span>Acesso</span>
+        <strong>Parcial</strong>
       </article>
     </section>
 
-    <section class="maisie-layout">
-      <section class="maisie-character-zone">
-        <div class="maisie-scan-rings">
-          <span></span>
-          <span></span>
-        </div>
-
-        <div class="maisie-character-aura"></div>
-
-        <img
-          class="maisie-render"
-          src="../assets/imagens/personagens/maisie.png"
-          alt="Maisie Hundown"
-        />
-
-        <div class="maisie-hotspots">
-          <button class="maisie-hotspot hotspot-cannon" data-hotspot="canhao" aria-label="Inspecionar canhão"></button>
-          <button class="maisie-hotspot hotspot-core" data-hotspot="nucleo" aria-label="Inspecionar núcleo"></button>
-          <button class="maisie-hotspot hotspot-posture" data-hotspot="postura" aria-label="Inspecionar postura"></button>
-          <button class="maisie-hotspot hotspot-tech" data-hotspot="engenharia" aria-label="Inspecionar engenharia"></button>
-          <button class="maisie-hotspot hotspot-look" data-hotspot="olhar" aria-label="Inspecionar olhar"></button>
-        </div>
-
-        <div class="maisie-nameplate">
-          <span>REGISTRO INTERNO — ACESSO PARCIAL</span>
-          <strong>ENERGIA / SOBRECARGA CONTROLADA</strong>
-        </div>
-
-        <button id="maisieOverloadButton" class="maisie-overload-button">
-          Ativar Sobrecarga
-        </button>
-      </section>
-
-      <aside class="maisie-system-panel">
-        <div class="maisie-terminal">
-          <p>// leitura de energia...</p>
-          <p>// canhão: <span>carregado</span></p>
-          <p>// walt: <span>estável</span></p>
-          <p>// instabilidade: <b>contida</b></p>
-          <p>// recomendação: permitir improviso supervisionado</p>
-        </div>
-
-        <section class="maisie-attribute-module">
-          <p class="tag">Matriz de Atributos</p>
-
-          <div class="maisie-wheel">
-            <img
-              class="maisie-wheel-layer maisie-wheel-outer"
-              src="../assets/imagens/rodas/maisie/Roda-Maisie-Anel-Externo.png"
-              alt=""
-            />
-
-            <img
-              class="maisie-wheel-layer maisie-wheel-inner"
-              src="../assets/imagens/rodas/maisie/Roda-Maisie-Anel-Interno.png"
-              alt=""
-            />
-
-            <img
-              id="maisieWheelCore"
-              class="maisie-wheel-layer maisie-wheel-core"
-              src="../assets/imagens/rodas/maisie/Roda-Maisie-Nucleo.png"
-              alt="Núcleo da roda"
-            />
-
-            <button class="maisie-attr-node maisie-node-for" data-attr="FOR" data-value="1">
-              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-FOR.png" alt="Força" />
-            </button>
-
-            <button class="maisie-attr-node maisie-node-agi" data-attr="AGI" data-value="2">
-              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-AGI.png" alt="Agilidade" />
-            </button>
-
-            <button class="maisie-attr-node maisie-node-int" data-attr="INT" data-value="3">
-              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-INT.png" alt="Intelecto" />
-            </button>
-
-            <button class="maisie-attr-node maisie-node-pre" data-attr="PRE" data-value="2">
-              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-PRE.png" alt="Presença" />
-            </button>
-
-            <button class="maisie-attr-node maisie-node-vig" data-attr="VIG" data-value="2">
-              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-VIG.png" alt="Vigor" />
-            </button>
+    <section class="main-dashboard">
+      <aside class="left-column">
+        <section class="terminal-card">
+          <div class="terminal-head">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>terminal_ordo.maisie</strong>
           </div>
 
-          <article id="maisieAttributeReadout" class="maisie-readout">
-            <span>Atributo selecionado</span>
-            <strong>--</strong>
-          </article>
+          <div class="terminal-body" data-terminal>
+            <p>&gt; abrindo ficha operacional...</p>
+            <p>&gt; agente: Maisie Hundown.</p>
+            <p>&gt; integração tecnológica detectada.</p>
+            <p>&gt; alerta discreto: Energia.</p>
+          </div>
         </section>
 
-        <section class="maisie-mini-info">
-          <article>
-            <span>Origem</span>
-            <strong>Agente de Saúde</strong>
-          </article>
+        <section class="identity-card">
+          <span class="panel-label">identificação geral</span>
 
-          <article>
-            <span>NEX</span>
-            <strong>40%</strong>
-          </article>
+          <div class="identity-row">
+            <span>Nome</span>
+            <strong>Maisie Hundown</strong>
+          </div>
 
-          <article>
-            <span>Patente</span>
-            <strong>Recruta</strong>
-          </article>
+          <div class="identity-row">
+            <span>Idade</span>
+            <strong>27 anos</strong>
+          </div>
 
-          <article>
-            <span>Risco</span>
-            <strong>Instabilidade energética</strong>
-          </article>
+          <div class="identity-row">
+            <span>Status operacional</span>
+            <strong>Agente em atividade</strong>
+          </div>
+
+          <div class="identity-row">
+            <span>Situação com a Ordo</span>
+            <strong>Recrutamento aceito</strong>
+          </div>
         </section>
+
+        <nav class="maisie-tabs" aria-label="Navegação da ficha">
+          <button class="tab-button active" type="button" data-tab="resumo">Resumo</button>
+          <button class="tab-button" type="button" data-tab="identificacao">Identificação</button>
+          <button class="tab-button" type="button" data-tab="funcao">Função em Campo</button>
+          <button class="tab-button" type="button" data-tab="atributos">Atributos</button>
+          <button class="tab-button" type="button" data-tab="pericias">Perícias</button>
+          <button class="tab-button" type="button" data-tab="habilidades">Habilidades</button>
+          <button class="tab-button" type="button" data-tab="rituais">Rituais</button>
+          <button class="tab-button" type="button" data-tab="inventario">Inventário</button>
+          <button class="tab-button" type="button" data-tab="protese">Prótese / Canhão</button>
+          <button class="tab-button" type="button" data-tab="historico">Histórico</button>
+          <button class="tab-button" type="button" data-tab="relacoes">Walt / Relações</button>
+          <button class="tab-button" type="button" data-tab="comportamento">Leitura da Ordo</button>
+          <button class="tab-button" type="button" data-tab="alertas">Alertas Operacionais</button>
+          <button class="tab-button" type="button" data-tab="registro">Registro Vivo</button>
+          <button class="tab-button locked-tab" type="button" data-tab="bloqueados">Arquivos Bloqueados</button>
+        </nav>
       </aside>
 
-      <section class="maisie-dossier-zone">
-        <nav class="maisie-tabs">
-          <button class="active" data-tab="dossie">Dossiê</button>
-          <button data-tab="competencias">Competências</button>
-          <button data-tab="atuacao">Atuação</button>
-          <button data-tab="paranormal">Paranormal</button>
-          <button data-tab="areas">Áreas</button>
-          <button data-tab="equipamentos">Equipamentos</button>
-          <button data-tab="vinculos">Vínculos</button>
-          <button data-tab="avaliacao">Avaliação</button>
-        </nav>
+      <section class="character-column">
+        <div class="character-card">
+          <div class="character-orbit" aria-hidden="true"></div>
+          <div class="character-glow" aria-hidden="true"></div>
+          <div class="character-cable one" aria-hidden="true"></div>
+          <div class="character-cable two" aria-hidden="true"></div>
 
-        <article class="maisie-file">
-          <p class="tag">Arquivo aberto</p>
-          <h2 id="maisieTabTitle">Dossiê</h2>
-
-          <div id="maisieTabContent" class="maisie-file-body">
-            <p>
-              Maisie Hundown apresenta perfil técnico, inventivo e pouco ortodoxo.
-              Seu comportamento operacional tende à improvisação funcional, com forte afinidade
-              por soluções montadas em campo e adaptação rápida diante de falhas.
-            </p>
-
-            <p>
-              A agente demonstra relação ativa com Energia, tratando instabilidade como recurso
-              operacional desde que consiga mantê-la dentro de algum limite de controle.
-            </p>
-
-            <div class="maisie-quote">
-              “Se tá instável mas ainda tá funcionando, então ainda dá pra usar.”
-            </div>
+          <div class="equipment-status">
+            <span>Tanque Ritualístico</span>
+            <strong>Estado: Estável / Monitorado</strong>
+            <div class="equipment-meter"><span></span></div>
           </div>
-        </article>
+
+          <img
+            class="character-image"
+            src="../assets/imagens/personagens/maisie.png"
+            alt="Maisie Hundown"
+          />
+
+          <button class="hotspot hotspot-arm" type="button" data-hotspot="arm">
+            Equipamento pessoal sensível
+          </button>
+
+          <button class="hotspot hotspot-tank" type="button" data-hotspot="tank">
+            Tanque ritualístico
+          </button>
+
+          <div class="nameplate">
+            <span>AG-01 // OCULTISTA // ENERGIA</span>
+            <strong>Maisie Hundown</strong>
+            <p>
+              Registro técnico da Ordo. Dados públicos preservados; conteúdo sensível ocultado.
+            </p>
+          </div>
+        </div>
       </section>
+
+      <aside class="right-column">
+        <section class="wheel-card">
+          <span class="panel-label">roda de atributos</span>
+
+          <div class="attribute-wheel" data-wheel>
+            <img class="wheel-layer wheel-outer" src="../assets/imagens/rodas/maisie/Roda-Maisie-Anel-Externo.png" alt="" />
+            <img class="wheel-layer wheel-inner" src="../assets/imagens/rodas/maisie/Roda-Maisie-Anel-Interno.png" alt="" />
+            <img class="wheel-layer wheel-core" src="../assets/imagens/rodas/maisie/Roda-Maisie-Nucleo.png" alt="" />
+            <img class="wheel-layer wheel-node" src="../assets/imagens/rodas/maisie/Roda-Maisie-No.png" alt="" />
+
+            <button class="attr-button attr-for" type="button" data-attr="FOR">
+              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-FOR.png" alt="" />
+              <span>FOR</span>
+              <strong>1</strong>
+            </button>
+
+            <button class="attr-button attr-agi" type="button" data-attr="AGI">
+              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-AGI.png" alt="" />
+              <span>AGI</span>
+              <strong>1</strong>
+            </button>
+
+            <button class="attr-button attr-int" type="button" data-attr="INT">
+              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-INT.png" alt="" />
+              <span>INT</span>
+              <strong>3</strong>
+            </button>
+
+            <button class="attr-button attr-pre" type="button" data-attr="PRE">
+              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-PRE.png" alt="" />
+              <span>PRE</span>
+              <strong>3</strong>
+            </button>
+
+            <button class="attr-button attr-vig" type="button" data-attr="VIG">
+              <img src="../assets/imagens/rodas/maisie/Icone-Maisie-VIG.png" alt="" />
+              <span>VIG</span>
+              <strong>2</strong>
+            </button>
+          </div>
+
+          <div class="attr-reading" data-attr-reading>
+            Selecione um atributo para abrir uma leitura operacional.
+          </div>
+        </section>
+
+        <section class="core-stats-card">
+          <span class="panel-label">dados mecânicos</span>
+
+          <div class="core-grid">
+            <article>
+              <span>Vida</span>
+              <strong>42 / 42</strong>
+            </article>
+
+            <article>
+              <span>Determinação</span>
+              <strong>69 / 69</strong>
+            </article>
+
+            <article>
+              <span>Defesa</span>
+              <strong>11</strong>
+            </article>
+
+            <article>
+              <span>Esquiva</span>
+              <strong>21</strong>
+            </article>
+
+            <article>
+              <span>DT Rituais</span>
+              <strong>21</strong>
+            </article>
+
+            <article>
+              <span>PE / Turno</span>
+              <strong>8</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="handling-protocol">
+          <span class="panel-label">protocolo de manuseio</span>
+
+          <strong>Equipamento pessoal</strong>
+
+          <p>
+            Não remover, desmontar ou confiscar braço mecânico, tanque ritualístico
+            ou adaptações pessoais sem necessidade extrema.
+          </p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="reader-section">
+      <article class="reader-panel active" data-panel="resumo">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+          <span class="seal seal-confirmed">Dados confirmados</span>
+        </div>
+
+        <span>resumo da ordo</span>
+        <h2>Arquivo técnico contaminado por Energia</h2>
+
+        <p>
+          A Ordo registra Maisie Hundown como uma agente marcada por sobrevivência,
+          curiosidade e adaptação. Seu contato com o paranormal não resultou apenas
+          em recusa ou medo: gerou uma necessidade ativa de compreender, dominar e
+          redirecionar aquilo que quase a destruiu.
+        </p>
+
+        <p>
+          Para a Ordo Realitas, Maisie representa um perfil valioso e delicado:
+          une raciocínio técnico, improviso de campo e ocultismo aplicado, mas
+          carrega impactos diretamente ligados ao corpo, à perda e à impotência
+          diante de mortes que presenciou.
+        </p>
+
+        <div class="ordo-note">
+          Esta página é uma leitura operacional e atualizável. Ela não substitui
+          decisões, interpretação emocional ou desenvolvimento definido pelo jogador.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="identificacao">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+        </div>
+
+        <span>identificação</span>
+        <h2>Ficha pública parcial</h2>
+
+        <div class="identity-grid-large">
+          <article><span>Nome</span><strong>Maisie Hundown</strong></article>
+          <article><span>Jogador</span><strong>Caio</strong></article>
+          <article><span>Classe</span><strong>Ocultista</strong></article>
+          <article><span>Origem</span><strong>Agente de Saúde</strong></article>
+          <article><span>NEX</span><strong>40%</strong></article>
+          <article><span>Patente</span><strong>Recruta</strong></article>
+          <article><span>Afiliação</span><strong>Ordo Realitas</strong></article>
+          <article><span>Função observada</span><strong>Energia / Tecnologia / Ocultismo</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="funcao">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+        </div>
+
+        <span>função em campo</span>
+        <h2>Suporte ocultista e adaptação técnica</h2>
+
+        <p>
+          A função de Maisie em campo é lida pela Ordo como suporte ocultista,
+          resposta técnica e adaptação rápida em cenários instáveis. Essa leitura
+          descreve potencial operacional, não limita as escolhas do jogador.
+        </p>
+
+        <div class="field-role-grid">
+          <article><strong>Suporte ocultista</strong><p>Uso de rituais para sustentar, proteger ou responder a ameaças.</p></article>
+          <article><strong>Energia</strong><p>Foco visual e operacional em caos, distorção, magnetismo e instabilidade.</p></article>
+          <article><strong>Tecnologia</strong><p>Integração de robótica, equipamentos e leitura de sistemas.</p></article>
+          <article><strong>Medicina</strong><p>Base de suporte físico, cura e cuidado emergencial.</p></article>
+          <article><strong>Improviso</strong><p>Capacidade de transformar recursos limitados em resposta funcional.</p></article>
+          <article><strong>Sobrevivência</strong><p>Registro de permanência em campo mesmo após perdas severas.</p></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="atributos">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Leitura operacional</span>
+        </div>
+
+        <span>atributos</span>
+        <h2>Roda mecânica interpretativa</h2>
+
+        <div class="stat-grid">
+          <article>
+            <span>FOR</span>
+            <strong>1</strong>
+            <p>A ficha sugere baixo foco em brutalidade física como resposta principal.</p>
+          </article>
+
+          <article>
+            <span>AGI</span>
+            <strong>1</strong>
+            <p>A ficha sugere mobilidade básica; leitura e recursos compensam a velocidade natural.</p>
+          </article>
+
+          <article>
+            <span>INT</span>
+            <strong>3</strong>
+            <p>Medicina, ocultismo, tecnologia e análise de campo se cruzam neste ponto.</p>
+          </article>
+
+          <article>
+            <span>PRE</span>
+            <strong>3</strong>
+            <p>Presença operacional elevada, compatível com carisma e vontade sob pressão.</p>
+          </article>
+
+          <article>
+            <span>VIG</span>
+            <strong>2</strong>
+            <p>Resistência funcional intermediária; corpo marcado, mas operacional.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="pericias">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Função em jogo</span>
+        </div>
+
+        <span>painel de competência</span>
+        <h2>Áreas de destaque</h2>
+
+        <div class="skill-chips">
+          <button class="active" type="button" data-skill="medicina">Medicina</button>
+          <button type="button" data-skill="ocultismo">Ocultismo</button>
+          <button type="button" data-skill="tecnologia">Tecnologia</button>
+          <button type="button" data-skill="percepcao">Percepção</button>
+          <button type="button" data-skill="reflexos">Reflexos</button>
+          <button type="button" data-skill="vontade">Vontade</button>
+          <button type="button" data-skill="diplomacia">Diplomacia</button>
+          <button type="button" data-skill="investigacao">Investigação</button>
+        </div>
+
+        <div class="skill-display" data-skill-display>
+          <span>Medicina +10</span>
+          <h3>Suporte e origem médica</h3>
+          <p>
+            Conecta a origem Agente de Saúde com suporte em campo, recuperação
+            e leitura prática de condição física.
+          </p>
+        </div>
+
+        <div class="skill-grid">
+          <article><span>Medicina</span><strong>+10</strong></article>
+          <article><span>Ocultismo</span><strong>+10</strong></article>
+          <article><span>Percepção</span><strong>+10</strong></article>
+          <article><span>Reflexos</span><strong>+10</strong></article>
+          <article><span>Tecnologia</span><strong>+10</strong></article>
+          <article><span>Vontade</span><strong>+10</strong></article>
+          <article><span>Diplomacia</span><strong>+5</strong></article>
+          <article><span>Iniciativa</span><strong>+5</strong></article>
+          <article><span>Intuição</span><strong>+5</strong></article>
+          <article><span>Investigação</span><strong>+5</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="habilidades">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+        </div>
+
+        <span>módulos desbloqueados</span>
+        <h2>Habilidades registradas</h2>
+
+        <div class="module-grid">
+          <button type="button" data-module>
+            <span>Classe</span>
+            <strong>Escolhido pelo Outro Lado</strong>
+            <p>Marca paranormal que permite acesso e uso de rituais.</p>
+          </button>
+
+          <button type="button" data-module>
+            <span>Trilha</span>
+            <strong>Lâmina Maldita</strong>
+            <p>Recurso que integra ritual, arma e Ocultismo em combate.</p>
+          </button>
+
+          <button type="button" data-module>
+            <span>Trilha</span>
+            <strong>Gladiador Paranormal</strong>
+            <p>Favorece interação entre acerto corpo a corpo e recuperação temporária de PE.</p>
+          </button>
+
+          <button type="button" data-module>
+            <span>Poder</span>
+            <strong>Ritual Predileto</strong>
+            <p>Cicatrização possui redução de custo registrada.</p>
+          </button>
+
+          <button type="button" data-module>
+            <span>Origem</span>
+            <strong>Técnica Medicinal</strong>
+            <p>Maisie adiciona Intelecto ao total de PV curados.</p>
+          </button>
+
+          <button type="button" data-module>
+            <span>Poder</span>
+            <strong>Treinamento em Perícia</strong>
+            <p>Expande competências práticas e técnicas da ficha.</p>
+          </button>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="rituais">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Biblioteca elemental</span>
+        </div>
+
+        <span>biblioteca elemental</span>
+        <h2>Rituais conhecidos</h2>
+
+        <div class="ritual-filters">
+          <button class="active" type="button" data-ritual-filter="todos">Todos</button>
+          <button type="button" data-ritual-filter="energia">Energia</button>
+          <button type="button" data-ritual-filter="morte">Morte</button>
+          <button type="button" data-ritual-filter="sangue">Sangue</button>
+          <button type="button" data-ritual-filter="varia">Varia</button>
+        </div>
+
+        <div class="ritual-library">
+          <article class="ritual-card ritual-varia" data-ritual="varia">
+            <span>Varia</span>
+            <strong>Amaldiçoar Arma</strong>
+            <p>Imbui arma ou munição com energia elemental escolhida.</p>
+          </article>
+
+          <article class="ritual-card ritual-energy hologram" data-ritual="energia">
+            <span>Energia</span>
+            <strong>Embaralhar</strong>
+            <p>Cópias ilusórias como hologramas realistas ao redor da agente.</p>
+          </article>
+
+          <article class="ritual-card ritual-energy magnet" data-ritual="energia">
+            <span>Energia</span>
+            <strong>Polarização Caótica</strong>
+            <p>Aura magnética sobrenatural para atrair ou repelir objetos.</p>
+          </article>
+
+          <article class="ritual-card ritual-energy lightning" data-ritual="energia">
+            <span>Energia</span>
+            <strong>Rajada Caótica</strong>
+            <p>Descarga de Energia projetada contra um alvo.</p>
+          </article>
+
+          <article class="ritual-card ritual-death favorite" data-ritual="morte">
+            <div class="favorite-stamp">RITUAL PREDILETO REGISTRADO</div>
+            <span>Morte</span>
+            <strong>Cicatrização</strong>
+            <p>Ritual predileto registrado. Cura acelerando o tempo ao redor das feridas.</p>
+          </article>
+
+          <article class="ritual-card ritual-death" data-ritual="morte">
+            <span>Morte</span>
+            <strong>Espirais da Perdição</strong>
+            <p>Espirais de Morte tornam os movimentos do alvo lentos.</p>
+          </article>
+
+          <article class="ritual-card ritual-death" data-ritual="morte">
+            <span>Morte</span>
+            <strong>Velocidade Mortal</strong>
+            <p>Distorce a passagem do tempo para conceder ação adicional.</p>
+          </article>
+
+          <article class="ritual-card ritual-blood" data-ritual="sangue">
+            <span>Sangue</span>
+            <strong>Aprimorar Físico</strong>
+            <p>Reforço corporal por meio de energia orgânica estilizada.</p>
+          </article>
+
+          <article class="ritual-card ritual-blood" data-ritual="sangue">
+            <span>Sangue</span>
+            <strong>Descarnar</strong>
+            <p>Ritual ofensivo de Sangue registrado em ficha mecânica.</p>
+          </article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="inventario">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+        </div>
+
+        <span>bancada operacional</span>
+        <h2>Inventário confirmado</h2>
+
+        <div class="inventory-bench">
+          <article>
+            <div class="item-icon ammo-icon"></div>
+            <span>Munição</span>
+            <strong>Balas Curtas</strong>
+            <p>Pacote com 12 balas. Recurso básico para pistolas e armas leves.</p>
+          </article>
+
+          <article>
+            <div class="item-icon med-icon"></div>
+            <span>Suporte</span>
+            <strong>Cicatrizante</strong>
+            <p>Spray medicinal potente usado para recuperação em campo.</p>
+          </article>
+
+          <article>
+            <div class="item-icon pistol-icon"></div>
+            <span>Arma</span>
+            <strong>Pistola</strong>
+            <p>Arma simples de alcance curto, associada a munição balística.</p>
+          </article>
+
+          <article class="tank-item">
+            <div class="item-icon tank-icon"></div>
+            <span>Acessório</span>
+            <strong>Tanque Ritualístico</strong>
+            <p>
+              Tanque roxo cilíndrico que comporta componentes ritualísticos de Energia,
+              conectado ao canhão no braço de Maisie.
+            </p>
+            <div class="tank-meter"><span></span></div>
+          </article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="protese">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Dado confirmado</span>
+          <span class="seal seal-ordo">Equipamento sensível</span>
+        </div>
+
+        <span>prótese / canhão ritualístico</span>
+        <h2>Equipamento pessoal sensível</h2>
+
+        <p>
+          O braço esquerdo foi perdido no primeiro contato paranormal conhecido da agente.
+          Maisie posteriormente construiu uma substituição robótica e modificou a mão para
+          um mini canhão ligado ao tanque ritualístico.
+        </p>
+
+        <div class="prosthetic-diagram">
+          <article>
+            <span>01</span>
+            <strong>Prótese</strong>
+            <p>Braço robótico como extensão corporal e operacional.</p>
+          </article>
+
+          <article>
+            <span>02</span>
+            <strong>Canalização</strong>
+            <p>Mão substituída por mini canhão para função ritualística.</p>
+          </article>
+
+          <article>
+            <span>03</span>
+            <strong>Energia</strong>
+            <p>Tanque roxo conectado ao canhão e aos componentes ritualísticos.</p>
+          </article>
+        </div>
+
+        <div class="prosthetic-grid">
+          <button type="button" data-prosthetic>
+            <strong>Mão substituída por mini canhão</strong>
+            <p>Adaptação funcional para canalização e uso de recursos em campo.</p>
+          </button>
+
+          <button type="button" data-prosthetic>
+            <strong>Conexão com tanque ritualístico</strong>
+            <p>O tanque roxo comporta componentes ligados a manifestações de Energia.</p>
+          </button>
+
+          <button type="button" data-prosthetic>
+            <strong>Canalização de Energia</strong>
+            <p>Representada visualmente por circuitos, faíscas e pulsos violetas.</p>
+          </button>
+
+          <button type="button" data-prosthetic>
+            <strong>Aviso da Ordo</strong>
+            <p>Interferência sem consentimento pode comprometer a confiança da agente.</p>
+          </button>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="historico">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Histórico conhecido</span>
+        </div>
+
+        <span>histórico conhecido</span>
+        <h2>Linha do tempo documentada</h2>
+
+        <div class="timeline">
+          <button type="button" data-timeline>
+            <span>Rio de Janeiro</span>
+            <strong>Infância e juventude</strong>
+            <p>Maisie nasceu e cresceu no Rio de Janeiro.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Escola</span>
+            <strong>Isolamento criativo</strong>
+            <p>Preferia trabalhar sozinha e proteger suas criações de julgamentos externos.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Robótica</span>
+            <strong>Walt — primeiro projeto</strong>
+            <p>Pequeno robô companheiro, descrito como amigável e funcional.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Faculdade</span>
+            <strong>Primeiro contato paranormal</strong>
+            <p>Encontrou um colega desaparecido transformado por manifestação paranormal.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Trauma corporal</span>
+            <strong>Perda do braço esquerdo</strong>
+            <p>O ataque resultou na perda do braço antes da intervenção de um professor.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Ordo</span>
+            <strong>Recrutamento</strong>
+            <p>Aceitou lutar contra o paranormal para evitar que outros passassem pelo mesmo.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Hospital abandonado</span>
+            <strong>Sobrevivente única</strong>
+            <p>Sobreviveu a um desastre envolvendo entidade de aura roxa e caótica.</p>
+          </button>
+
+          <button type="button" data-timeline>
+            <span>Energia</span>
+            <strong>Estudo aprofundado</strong>
+            <p>Após a missão, passou a estudar Energia e adaptar o braço/canhão.</p>
+          </button>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="relacoes">
+        <div class="seal-row">
+          <span class="seal seal-confirmed">Relações documentadas</span>
+          <span class="seal seal-ordo">Marco simbólico</span>
+        </div>
+
+        <span>walt / relações documentadas</span>
+        <h2>Conexões registradas sem especulação</h2>
+
+        <div class="walt-card">
+          <div class="walt-icon">◖◉◗</div>
+
+          <div>
+            <span>WALT — PRIMEIRO PROJETO REGISTRADO</span>
+            <strong>Marco de criação pessoal</strong>
+            <p>
+              Primeiro grande projeto registrado de Maisie: um pequeno robô companheiro,
+              descrito como amigável e funcional. A Ordo interpreta Walt como um marco
+              simbólico de criação e reconhecimento pessoal.
+            </p>
+          </div>
+        </div>
+
+        <div class="relation-grid">
+          <article><strong>Professor</strong><p>Figura ligada à sobrevivência inicial e introdução ao conhecimento paranormal.</p></article>
+          <article><strong>Braço mecânico</strong><p>Extensão identitária e operacional registrada no dossiê.</p></article>
+          <article><strong>Tanque ritualístico</strong><p>Recurso ligado à Energia e ao funcionamento do canhão.</p></article>
+          <article><strong>Ordo Realitas</strong><p>Afiliação atual e estrutura de atuação em campo.</p></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="comportamento">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+        </div>
+
+        <span>leitura comportamental da ordo</span>
+        <h2>Avaliação operacional atualizável</h2>
+
+        <div class="report-block">
+          <h3>Resumo de avaliação</h3>
+          <p>
+            A Ordo avalia Maisie como carismática, curiosa e intelectualmente inquieta.
+            Sob pressão, demonstra forte capacidade de reação e improviso, especialmente
+            quando enxerga uma possibilidade técnica de vitória.
+          </p>
+        </div>
+
+        <div class="report-block">
+          <h3>Potencial operacional</h3>
+          <p>
+            Alto valor em cenários caóticos envolvendo tecnologia, Energia, suporte
+            ocultista e adaptação rápida.
+          </p>
+        </div>
+
+        <div class="report-block">
+          <h3>Recomendações</h3>
+          <p>
+            Responde melhor a explicações do que imposições. Recomenda-se comunicação
+            clara, especialmente em assuntos ligados a seus equipamentos pessoais.
+          </p>
+        </div>
+
+        <div class="ordo-note">
+          Esta leitura não define a personagem de forma absoluta. Ela serve como avaliação
+          institucional e pode ser atualizada conforme decisões do jogador e eventos da campanha.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="alertas">
+        <div class="seal-row">
+          <span class="seal seal-ordo">Avaliação da Ordo</span>
+          <span class="seal seal-open">Pode mudar em mesa</span>
+        </div>
+
+        <span>alertas operacionais</span>
+        <h2>Riscos observados</h2>
+
+        <div class="risk-grid">
+          <article><strong>Curiosidade diante do desconhecido</strong><p>Risco de aproximação antes de avaliação segura.</p></article>
+          <article><strong>Trauma corporal</strong><p>Impactos ligados à perda do braço esquerdo e autonomia física.</p></article>
+          <article><strong>Sobrevivência solitária</strong><p>Histórico de perda de equipe e possível tendência a resolver tudo sozinha.</p></article>
+          <article><strong>Apego aos equipamentos</strong><p>Braço mecânico e tanque são extensões identitárias e operacionais.</p></article>
+          <article><strong>Energia instável</strong><p>Risco de confundir estudo do paranormal com controle real sobre ele.</p></article>
+        </div>
+
+        <div class="ordo-warning">
+          Estes riscos são avaliações internas da Ordo, não verdades absolutas sobre a personagem.
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="registro">
+        <div class="seal-row">
+          <span class="seal seal-live">Registro vivo</span>
+        </div>
+
+        <span>registro vivo</span>
+        <h2>Área atualizável pelo jogador</h2>
+
+        <p>
+          Espaço reservado para atualizações futuras conforme decisões do Caio e eventos da mesa.
+        </p>
+
+        <div class="living-grid">
+          <article><span>Estado atual na campanha</span><strong>A atualizar</strong></article>
+          <article><span>Última atualização em sessão</span><strong>Aguardando sessão</strong></article>
+          <article><span>Relação com a equipe</span><strong>A atualizar</strong></article>
+          <article><span>Mudanças no equipamento</span><strong>A atualizar</strong></article>
+          <article><span>Rituais recém-aprendidos</span><strong>A atualizar</strong></article>
+          <article><span>Anotações do jogador</span><strong>Aguardando Caio</strong></article>
+          <article><span>Opinião sobre Santa Luzia</span><strong>A atualizar</strong></article>
+          <article><span>Opinião sobre Miyara</span><strong>A atualizar</strong></article>
+          <article><span>Eventos que alteraram a visão da Ordo</span><strong>A atualizar</strong></article>
+        </div>
+      </article>
+
+      <article class="reader-panel" data-panel="bloqueados">
+        <div class="seal-row">
+          <span class="seal seal-locked">Acesso restrito ao mestre</span>
+        </div>
+
+        <span>arquivos bloqueados do mestre</span>
+        <h2>Conteúdo liberado após evento narrativo</h2>
+
+        <div class="locked-grid">
+          <article><strong>Relatório pós-Santa Luzia</strong><p>Conteúdo pendente de eventos da campanha.</p></article>
+          <article><strong>Evolução do tanque ritualístico</strong><p>Dependente de decisão do jogador e progressão narrativa.</p></article>
+          <article><strong>Análise de exposição prolongada à Energia</strong><p>Investigação em andamento.</p></article>
+          <article><strong>Registro psicológico avançado</strong><p>Acesso restrito ao mestre.</p></article>
+          <article><strong>Atualização pendente pelo mestre</strong><p>Arquivo liberado após evento narrativo.</p></article>
+        </div>
+      </article>
     </section>
   </main>
 
-  <script>
-    const maisieTabs = {
-      dossie: {
-        title: "Dossiê",
-        html: `
-          <p>Maisie Hundown apresenta perfil técnico, inventivo e pouco ortodoxo. Seu comportamento operacional tende à improvisação funcional, com forte afinidade por soluções montadas em campo e adaptação rápida diante de falhas.</p>
-
-          <p>A agente demonstra relação ativa com Energia, tratando instabilidade como recurso operacional desde que consiga mantê-la dentro de algum limite de controle. Em vez de recuar diante do caos, Maisie frequentemente procura como utilizá-lo.</p>
-
-          <p>Seu valor operacional cresce em cenários onde criatividade, leitura técnica rápida e coragem prática são mais úteis do que execução rígida de protocolo.</p>
-
-          <div class="maisie-quote">“Se tá instável mas ainda tá funcionando, então ainda dá pra usar.”</div>
-        `
-      },
-
-      competencias: {
-        title: "Competências",
-        html: `
-          <div class="maisie-card-grid">
-            <article><h3>Improvisação técnica</h3><p>Consegue adaptar equipamentos, montar soluções emergenciais e transformar sucata, ferramenta e componente em resposta funcional.</p></article>
-            <article><h3>Manipulação energética</h3><p>Opera melhor quando precisa lidar com Energia, fluxo caótico, disparos instáveis e sistemas ritualísticos fora do padrão.</p></article>
-            <article><h3>Leitura prática</h3><p>Analisa problemas de forma objetiva e funcional, buscando o que ainda pode ser usado, reaproveitado ou redirecionado.</p></article>
-            <article><h3>Autonomia criativa</h3><p>Seu desempenho cresce quando recebe margem para experimentar, testar e reagir rapidamente em campo.</p></article>
-          </div>
-        `
-      },
-
-      atuacao: {
-        title: "Atuação",
-        html: `
-          <div class="maisie-card-grid">
-            <article><h3>Caos controlado</h3><p>A atuação da agente é mais eficaz quando o ambiente permite adaptação e criação sob pressão.</p></article>
-            <article><h3>Tecnologia ritualística</h3><p>Maisie aproxima equipamento e paranormal de um mesmo campo de experimentação funcional.</p></article>
-            <article><h3>Suporte ofensivo</h3><p>Seu papel não é apenas técnico. O canhão ritualístico transforma preparo em poder de resposta direta.</p></article>
-            <article><h3>Risco calculado</h3><p>A Ordo recomenda supervisão mínima, mas não excesso de contenção. O potencial da agente depende da liberdade de improviso.</p></article>
-          </div>
-        `
-      },
-
-      paranormal: {
-        title: "Paranormal",
-        html: `
-          <div class="maisie-energy-simulator">
-            <section class="maisie-energy-core">
-              <div class="maisie-energy-orb">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-
-              <p class="tag">Simulação Energética</p>
-              <h3 id="maisieEnergyStateTitle">Estável</h3>
-              <p id="maisieEnergyStateText">
-                O fluxo energético permanece funcional. O canhão responde bem e Walt opera sem ruído crítico.
-              </p>
-            </section>
-
-            <section class="maisie-energy-controls">
-              <button class="active" data-energy-state="stable">Estável</button>
-              <button data-energy-state="unstable">Instável</button>
-              <button data-energy-state="overload">Sobrecarga</button>
-            </section>
-
-            <section class="maisie-energy-report">
-              <article>
-                <span>Estado</span>
-                <strong id="maisieEnergyStatus">Controlado</strong>
-              </article>
-
-              <article>
-                <span>Risco</span>
-                <strong id="maisieEnergyRisk">Moderado</strong>
-              </article>
-
-              <article>
-                <span>Recomendação</span>
-                <strong id="maisieEnergyAdvice">Manter supervisão leve</strong>
-              </article>
-            </section>
-
-            <div class="maisie-card-grid">
-              <article>
-                <h3>Energia como linguagem</h3>
-                <p>Maisie lida com Energia não apenas como ameaça, mas como sistema vivo, mutável e explorável.</p>
-              </article>
-
-              <article>
-                <h3>Sobrecarga funcional</h3>
-                <p>O principal risco não é a presença de Energia em si, mas o ponto em que improviso e excesso passam a se confundir.</p>
-              </article>
-            </div>
-          </div>
-        `
-      },
-
-      areas: {
-        title: "Áreas",
-        html: `
-          <div class="maisie-chip-grid">
-            <article>Tecnologia</article>
-            <article>Ocultismo aplicado</article>
-            <article>Improvisação de campo</article>
-            <article>Análise prática</article>
-            <article>Disparo energético</article>
-            <article>Adaptação rápida</article>
-            <article>Engenharia improvisada</article>
-            <article>Suporte técnico ofensivo</article>
-          </div>
-        `
-      },
-
-      equipamentos: {
-        title: "Equipamentos",
-        html: `
-          <div class="maisie-inventory-layout">
-            <section class="maisie-inventory-grid">
-              <button class="maisie-item-card" data-item="canhao">
-                <span>Arma principal</span>
-                <strong>Canhão Ritualístico</strong>
-              </button>
-
-              <button class="maisie-item-card" data-item="walt">
-                <span>Unidade auxiliar</span>
-                <strong>Walt</strong>
-              </button>
-
-              <button class="maisie-item-card" data-item="tanque">
-                <span>Fonte energética</span>
-                <strong>Tanque de Energia</strong>
-              </button>
-
-              <button class="maisie-item-card" data-item="kit">
-                <span>Suporte técnico</span>
-                <strong>Kit de Engenharia</strong>
-              </button>
-            </section>
-
-            <aside id="maisieItemInspector" class="maisie-item-inspector">
-              <span>Inspeção de inventário</span>
-              <strong>Selecione um item</strong>
-              <p>Clique em um equipamento para abrir a leitura operacional da Ordo Realitas.</p>
-            </aside>
-          </div>
-        `
-      },
-
-      vinculos: {
-        title: "Vínculos",
-        html: `
-          <p><strong>Walt:</strong> principal elo funcional e emocional entre estabilidade técnica e presença de campo. O vínculo com a unidade auxiliar deve ser tratado com seriedade.</p>
-          <p><strong>Canhão ritualístico:</strong> extensão prática da forma como Maisie converte Energia em ação concreta.</p>
-          <p><strong>Improviso:</strong> parte relevante de sua identidade operacional. Retirar completamente sua margem criativa pode reduzir performance.</p>
-          <p><strong>Ordo Realitas:</strong> relação produtiva desde que o ambiente permita autonomia técnica e não trate inventividade como indisciplina por padrão.</p>
-        `
-      },
-
-      avaliacao: {
-        title: "Avaliação da Ordo",
-        html: `
-          <p>A Ordo Realitas avalia Maisie Hundown como agente de alto potencial em cenários que exijam adaptação técnica, leitura energética e resposta criativa em campo.</p>
-
-          <p>Seu valor não está apenas em conhecimento, mas na capacidade de transformar conhecimento em ação imediata, mesmo quando o ambiente já saiu do controle esperado.</p>
-
-          <p>Os principais riscos observados envolvem excesso de confiança em soluções improvisadas, normalização de instabilidade e tendência a trabalhar no limite funcional de sistemas energéticos.</p>
-
-          <div class="maisie-quote">Recomendação: atuação aprovada. Supervisão recomendada, mas sem sufocar autonomia técnica. Maisie rende melhor quando pode pensar, montar e testar em movimento.</div>
-        `
-      }
-    };
-
-    const attrNames = {
-      FOR: "Força",
-      AGI: "Agilidade",
-      INT: "Intelecto",
-      PRE: "Presença",
-      VIG: "Vigor"
-    };
-
-    const attrValues = {
-      FOR: 1,
-      AGI: 2,
-      INT: 3,
-      PRE: 2,
-      VIG: 2
-    };
-
-    const maisieInventoryItems = {
-      canhao: {
-        name: "Canhão Ritualístico",
-        type: "Arma principal / foco energético",
-        text: "Principal instrumento ofensivo da agente. Representa a convergência entre improviso técnico, Energia ritualística e resposta direta em campo."
-      },
-
-      walt: {
-        name: "Walt",
-        type: "Unidade auxiliar / parceiro operacional",
-        text: "Drone ou robô de suporte associado à rotina de campo de Maisie. Sua presença funciona como apoio técnico, extensão de leitura e eixo de estabilidade prática."
-      },
-
-      tanque: {
-        name: "Tanque de Energia",
-        type: "Fonte energética",
-        text: "Reservatório funcional ligado à lógica de sobrecarga, fluxo e alimentação dos sistemas que Maisie utiliza durante operação."
-      },
-
-      kit: {
-        name: "Kit de Engenharia",
-        type: "Suporte técnico",
-        text: "Ferramentas, peças e componentes usados para manutenção, adaptação e improvisação de campo. Essencial para o estilo operacional da agente."
-      }
-    };
-
-    const maisieHotspotData = {
-      canhao: {
-        title: "Canhão Ritualístico",
-        tag: "Resposta ofensiva",
-        text: "O canhão concentra a forma como Maisie traduz caos em disparo, improviso em poder e instabilidade em função prática.",
-        effect: "maisie-cannon-react"
-      },
-
-      nucleo: {
-        title: "Núcleo Energético",
-        tag: "Fluxo ritualístico",
-        text: "O centro energético da presença de campo da agente. Quando a Energia se organiza, Maisie funciona quase como uma engenheira do impossível.",
-        effect: "maisie-core-react"
-      },
-
-      postura: {
-        title: "Postura de Campo",
-        tag: "Improviso operacional",
-        text: "Maisie se move como alguém pronta para ajustar o plano no meio da execução, sem esperar que o cenário seja ideal.",
-        effect: "maisie-tech-react"
-      },
-
-      engenharia: {
-        title: "Engenharia Improvisada",
-        tag: "Leitura técnica",
-        text: "A agente tende a observar objetos e problemas pelo prisma do que ainda pode ser modificado, salvo ou reaproveitado.",
-        effect: "maisie-tech-react"
-      },
-
-      olhar: {
-        title: "Olhar de Solução",
-        tag: "Criatividade sob pressão",
-        text: "Sua leitura do caos não é passiva. Maisie tende a encarar falhas como pontos de partida para uma nova solução.",
-        effect: "maisie-core-react"
-      }
-    };
-
-    const maisieEnergyStates = {
-      stable: {
-        title: "Estável",
-        text: "O fluxo energético permanece funcional. O canhão responde bem e Walt opera sem ruído crítico.",
-        status: "Controlado",
-        risk: "Moderado",
-        advice: "Manter supervisão leve",
-        className: "maisie-energy-stable"
-      },
-
-      unstable: {
-        title: "Instável",
-        text: "Oscilações começam a surgir. A operação continua possível, mas o sistema já exige atenção constante.",
-        status: "Oscilando",
-        risk: "Alto",
-        advice: "Reduzir margem de erro",
-        className: "maisie-energy-unstable"
-      },
-
-      overload: {
-        title: "Sobrecarga",
-        text: "A energia ultrapassa o conforto operacional. O potencial cresce, mas o custo e o risco também.",
-        status: "Crítico",
-        risk: "Crítico",
-        advice: "Interromper ou conter",
-        className: "maisie-energy-overload"
-      }
-    };
-
-    const waltMessages = [
-      "Walt online. Sistema estável por enquanto.",
-      "Leitura energética confirmada.",
-      "Sobrecarga ainda sob controle.",
-      "Maisie tende a improvisar antes de pedir licença.",
-      "Canhão ritualístico pronto para uso.",
-      "O caos é inevitável. O controle é opcional."
-    ];
-
-    function openMaisieTab(tab) {
-      const data = maisieTabs[tab];
-
-      if (!data) return;
-
-      document.querySelectorAll(".maisie-tabs button").forEach(button => {
-        button.classList.toggle("active", button.dataset.tab === tab);
-      });
-
-      const title = document.getElementById("maisieTabTitle");
-      const content = document.getElementById("maisieTabContent");
-
-      title.textContent = data.title;
-      content.innerHTML = data.html;
-
-      content.classList.remove("maisie-content-pulse");
-      void content.offsetWidth;
-      content.classList.add("maisie-content-pulse");
-
-      createMaisieBurst(window.innerWidth / 2, window.innerHeight * 0.18, 12);
-
-      if (tab === "equipamentos") {
-        setTimeout(setupMaisieInventory, 60);
-      }
-
-      if (tab === "paranormal") {
-        setTimeout(setupMaisieEnergySimulator, 60);
-      }
-    }
-
-    function setupMaisieInventory() {
-      const inspector = document.getElementById("maisieItemInspector");
-
-      if (!inspector) return;
-
-      document.querySelectorAll(".maisie-item-card").forEach(card => {
-        card.onclick = event => {
-          const item = maisieInventoryItems[card.dataset.item];
-
-          if (!item) return;
-
-          document.querySelectorAll(".maisie-item-card").forEach(button => {
-            button.classList.remove("active");
-          });
-
-          card.classList.add("active");
-
-          inspector.innerHTML = `
-            <span>${item.type}</span>
-            <strong>${item.name}</strong>
-            <p>${item.text}</p>
-          `;
-
-          inspector.classList.remove("maisie-content-pulse");
-          void inspector.offsetWidth;
-          inspector.classList.add("maisie-content-pulse");
-
-          createMaisieBurst(event.clientX, event.clientY, 12);
-
-          if (card.dataset.item === "canhao" || card.dataset.item === "tanque") {
-            triggerMaisieOverload();
-          }
-
-          if (card.dataset.item === "walt") {
-            triggerMaisieWalt();
-          }
-        };
-      });
-    }
-
-    function setupMaisieEnergySimulator() {
-      const simulator = document.querySelector(".maisie-energy-simulator");
-
-      if (!simulator) return;
-
-      const buttons = simulator.querySelectorAll("[data-energy-state]");
-
-      buttons.forEach(button => {
-        button.onclick = event => {
-          const stateKey = button.dataset.energyState;
-          const state = maisieEnergyStates[stateKey];
-
-          if (!state) return;
-
-          buttons.forEach(btn => btn.classList.remove("active"));
-          button.classList.add("active");
-
-          document.body.classList.remove(
-            "maisie-energy-stable",
-            "maisie-energy-unstable",
-            "maisie-energy-overload"
-          );
-
-          document.body.classList.add(state.className);
-
-          document.getElementById("maisieEnergyStateTitle").textContent = state.title;
-          document.getElementById("maisieEnergyStateText").textContent = state.text;
-          document.getElementById("maisieEnergyStatus").textContent = state.status;
-          document.getElementById("maisieEnergyRisk").textContent = state.risk;
-          document.getElementById("maisieEnergyAdvice").textContent = state.advice;
-
-          simulator.classList.remove("maisie-content-pulse");
-          void simulator.offsetWidth;
-          simulator.classList.add("maisie-content-pulse");
-
-          createMaisieBurst(event.clientX, event.clientY, stateKey === "overload" ? 26 : 12);
-
-          if (stateKey === "overload") {
-            triggerMaisieOverload();
-          }
-        };
-      });
-    }
-
-    function setupMaisieHotspots() {
-      const inspector = document.getElementById("maisieAttributeReadout");
-
-      document.querySelectorAll(".maisie-hotspot").forEach(button => {
-        button.onclick = event => {
-          const data = maisieHotspotData[button.dataset.hotspot];
-
-          if (!data) return;
-
-          document.querySelectorAll(".maisie-hotspot").forEach(hotspot => {
-            hotspot.classList.remove("active");
-          });
-
-          button.classList.add("active");
-
-          if (inspector) {
-            inspector.innerHTML = `
-              <span>${data.tag}</span>
-              <strong>${data.title}</strong>
-            `;
-          }
-
-          document.body.classList.add(data.effect);
-          setTimeout(() => document.body.classList.remove(data.effect), 1000);
-
-          createMaisieBurst(event.clientX, event.clientY, 12);
-
-          const popup = document.createElement("div");
-          popup.className = "maisie-hotspot-popup";
-          popup.innerHTML = `
-            <section>
-              <span>${data.tag}</span>
-              <strong>${data.title}</strong>
-              <p>${data.text}</p>
-              <button>Fechar leitura</button>
-            </section>
-          `;
-
-          popup.querySelector("button").onclick = () => popup.remove();
-
-          popup.onclick = e => {
-            if (e.target === popup) popup.remove();
-          };
-
-          document.body.appendChild(popup);
-        };
-      });
-    }
-
-    function setupMaisieAttributes() {
-      document.querySelectorAll(".maisie-attr-node").forEach(button => {
-        button.onclick = event => {
-          const attr = button.dataset.attr;
-          const value = attrValues[attr];
-
-          document.querySelectorAll(".maisie-attr-node").forEach(node => {
-            node.classList.remove("active");
-          });
-
-          button.classList.add("active");
-
-          const readout = document.getElementById("maisieAttributeReadout");
-
-          if (readout) {
-            readout.innerHTML = `
-              <span>${attr} — ${attrNames[attr]}</span>
-              <strong>${value} ponto${value === 1 ? "" : "s"}</strong>
-            `;
-
-            readout.classList.remove("maisie-content-pulse");
-            void readout.offsetWidth;
-            readout.classList.add("maisie-content-pulse");
-          }
-
-          createMaisieBurst(event.clientX, event.clientY, 10);
-        };
-      });
-    }
-
-    function setupMaisieWaltAssistant() {
-      const walt = document.getElementById("maisieWaltAssistant");
-
-      if (!walt) return;
-
-      walt.onclick = event => {
-        const message = waltMessages[Math.floor(Math.random() * waltMessages.length)];
-
-        createMaisieBurst(event.clientX, event.clientY, 12);
-
-        const oldBubble = document.querySelector(".maisie-walt-bubble");
-
-        if (oldBubble) {
-          oldBubble.remove();
-        }
-
-        const bubble = document.createElement("div");
-        bubble.className = "maisie-walt-bubble";
-        bubble.innerHTML = `
-          <span>WALT // SUPORTE DE CAMPO</span>
-          <p>${message}</p>
-        `;
-
-        document.body.appendChild(bubble);
-
-        walt.classList.remove("walt-hover");
-        void walt.offsetWidth;
-        walt.classList.add("walt-hover");
-
-        setTimeout(() => bubble.remove(), 3600);
-      };
-    }
-
-    function triggerMaisieWalt() {
-      const walt = document.getElementById("maisieWaltAssistant");
-
-      if (!walt) return;
-
-      walt.classList.remove("walt-hover");
-      void walt.offsetWidth;
-      walt.classList.add("walt-hover");
-    }
-
-    function triggerMaisieOverload() {
-      document.body.classList.add("maisie-overload-active");
-
-      const oldLabel = document.querySelector(".maisie-overload-label");
-
-      if (oldLabel) {
-        oldLabel.remove();
-      }
-
-      const label = document.createElement("div");
-      label.className = "maisie-overload-label";
-      label.textContent = "SOBRECARGA — FLUXO ENERGÉTICO ELEVADO";
-      document.body.appendChild(label);
-
-      createMaisieBurst(window.innerWidth / 2, window.innerHeight / 2, 30);
-
-      setTimeout(() => {
-        document.body.classList.remove("maisie-overload-active");
-        label.remove();
-      }, 1500);
-    }
-
-    function createMaisieBurst(x, y, amount = 10) {
-      if (document.documentElement.classList.contains("performance-mode")) return;
-
-      for (let i = 0; i < amount; i++) {
-        const particle = document.createElement("span");
-        particle.className = "maisie-page-particle";
-        particle.style.left = x + "px";
-        particle.style.top = y + "px";
-        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 220}px`);
-        particle.style.setProperty("--y", `${(Math.random() - 0.9) * 180}px`);
-        document.body.appendChild(particle);
-
-        setTimeout(() => particle.remove(), 900);
-      }
-    }
-
-    function setupMaisieBootAnimation() {
-      const boot = document.getElementById("maisieBootScreen");
-
-      if (!boot) return;
-
-      const alreadyPlayed = sessionStorage.getItem("maisieBootPlayed");
-
-      if (alreadyPlayed === "true") {
-        boot.remove();
-        return;
-      }
-
-      sessionStorage.setItem("maisieBootPlayed", "true");
-
-      setTimeout(() => {
-        boot.classList.add("maisie-boot-finished");
-      }, 3100);
-
-      setTimeout(() => {
-        boot.remove();
-      }, 3900);
-    }
-
-    function setupMaisiePerformanceMode() {
-      const lowDevice =
-        window.innerWidth < 760 ||
-        (navigator.hardwareConcurrency || 4) <= 4 ||
-        (navigator.deviceMemory || 4) <= 4;
-
-      if (lowDevice) {
-        document.documentElement.classList.add("performance-mode");
-      }
-    }
-
-    function setupMaisiePage() {
-      setupMaisieBootAnimation();
-      setupMaisiePerformanceMode();
-      setupMaisieAttributes();
-      setupMaisieHotspots();
-      setupMaisieWaltAssistant();
-
-      document.querySelectorAll(".maisie-tabs button").forEach(button => {
-        button.onclick = () => openMaisieTab(button.dataset.tab);
-      });
-
-      const overloadButton = document.getElementById("maisieOverloadButton");
-
-      if (overloadButton) {
-        overloadButton.onclick = triggerMaisieOverload;
-      }
-
-      const wheelCore = document.getElementById("maisieWheelCore");
-
-      if (wheelCore) {
-        wheelCore.ondblclick = triggerMaisieOverload;
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", setupMaisiePage);
-  </script>
-  <script src="player-polish.js"></script>
+  <script src="./maisie.js?v=6"></script>
 </body>
 </html>

@@ -4,66 +4,185 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Elementos — Arquivo Secreto</title>
+  <title>Elementos — Arquivo da Campanha</title>
 
   <link rel="stylesheet" href="../style.css" />
 </head>
 
-<body onload="protectSecretPage()">
-  <main class="app internal-page">
-    <header class="page-header">
-      <div>
-        <p class="system-status">Arquivo secreto — conhecimento sensível</p>
+<body>
+  <main class="elements-hub-page" data-page="elementos">
+    <div class="elements-bg-grid" aria-hidden="true"></div>
+    <div class="elements-bg-orbit" aria-hidden="true"></div>
+    <div class="elements-bg-noise" aria-hidden="true"></div>
+    <div class="elements-bg-corruption" aria-hidden="true"></div>
 
-        <h1 class="dashboard-title glitch-text" data-text="Elementos">
-          Elementos
-        </h1>
+    <section class="elements-hero">
+      <div class="elements-hero-copy">
+        <p class="elements-kicker">ARQUIVO DA CAMPANHA // ORDO REALITAS</p>
 
-        <p class="page-description">
-          Registros restritos sobre manifestações elementais do Outro Lado e seus impactos narrativos na campanha.
+        <h1 data-text="ELEMENTOS">Elementos</h1>
+
+        <p>
+          Esta área reúne registros corrompidos dos cinco elementos paranormais.
+          Cada arquivo responde de uma forma diferente, como se a própria interface
+          tentasse traduzir algo que não deveria caber em linguagem humana.
         </p>
+
+        <div class="elements-warning-line">
+          <span>acesso parcial</span>
+          <span>integridade corrompida</span>
+          <span>risco alto</span>
+        </div>
       </div>
 
-      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
-    </header>
-
-    <section class="terminal-message">
-      <strong>Aviso:</strong> Esta página contém informações que podem afetar mistérios, revelações e progressão narrativa.
+      <a class="elements-back-link" href="../inicio.html">Voltar ao Arquivo</a>
     </section>
 
-    <section class="page-grid">
-      <article class="profile-card">
-        <p class="card-status">Elemento ativo</p>
-        <h2 class="card-title">Sangue</h2>
-        <p class="card-text">Elemento predominante da campanha Corações do Outro Lado. Associado ao Amastaff, ao Coração Amaldiçoado e ao Caso Miyara.</p>
+    <section class="elements-status-panel" aria-label="Status dos arquivos elementais">
+      <article>
+        <span>Camadas</span>
+        <strong>5 Elementos</strong>
       </article>
 
-      <article class="profile-card">
-        <p class="card-status">Elemento conhecido</p>
-        <h2 class="card-title">Morte</h2>
-        <p class="card-text">Elemento ligado ao tempo, decadência, desgaste e consequências inevitáveis.</p>
+      <article>
+        <span>Integridade</span>
+        <strong data-elements-integrity>Corrompida</strong>
       </article>
 
-      <article class="profile-card">
-        <p class="card-status">Elemento conhecido</p>
-        <h2 class="card-title">Conhecimento</h2>
-        <p class="card-text">Elemento relacionado a símbolos, verdade, informação, percepção e segredos.</p>
+      <article>
+        <span>Acesso</span>
+        <strong>Parcial</strong>
       </article>
 
-      <article class="profile-card">
-        <p class="card-status">Elemento conhecido</p>
-        <h2 class="card-title">Energia</h2>
-        <p class="card-text">Elemento associado ao caos, eletricidade, instabilidade e transformação imprevisível.</p>
+      <article>
+        <span>Risco</span>
+        <strong data-elements-risk>Alto</strong>
       </article>
+    </section>
 
-      <article class="profile-card">
-        <p class="card-status">Elemento superior</p>
-        <h2 class="card-title">Medo</h2>
-        <p class="card-text">Força fundamental do Outro Lado. Acesso e compreensão extremamente restritos.</p>
-      </article>
+    <section class="elements-main-layout">
+      <aside class="elements-terminal">
+        <div class="terminal-header">
+          <span></span>
+          <span></span>
+          <span></span>
+          <strong>terminal_ordo.elementos</strong>
+        </div>
+
+        <div class="terminal-lines" data-elements-terminal>
+          <p>&gt; inicializando leitura elemental...</p>
+          <p>&gt; cinco assinaturas detectadas.</p>
+          <p>&gt; aviso: corrupção não uniforme.</p>
+          <p>&gt; operadores devem evitar interação prolongada.</p>
+        </div>
+      </aside>
+
+      <section class="elements-map" aria-label="Mapa dos elementos">
+        <div class="elements-core" aria-hidden="true">
+          <span class="core-ring ring-one"></span>
+          <span class="core-ring ring-two"></span>
+          <span class="core-ring ring-three"></span>
+          <span class="core-eye"></span>
+        </div>
+
+        <div class="elements-card-grid">
+          <a class="element-card element-card-blood" data-element="sangue" href="./sangue.html">
+            <span class="element-index">01</span>
+            <div class="element-card-orb"></div>
+
+            <div class="element-card-copy">
+              <p>Sangue</p>
+              <h2>Impulso Vivo</h2>
+              <span>
+                Batimento, carne, fome, veias, desejo e instinto.
+              </span>
+            </div>
+
+            <strong>abrir arquivo</strong>
+          </a>
+
+          <a class="element-card element-card-knowledge" data-element="conhecimento" href="./conhecimento.html">
+            <span class="element-index">02</span>
+            <div class="element-card-orb"></div>
+
+            <div class="element-card-copy">
+              <p>Conhecimento</p>
+              <h2>Excesso de Saber</h2>
+              <span>
+                Símbolos, olhos, camadas, interpretação e perda.
+              </span>
+            </div>
+
+            <strong>abrir arquivo</strong>
+          </a>
+
+          <a class="element-card element-card-energy" data-element="energia" href="./energia.html">
+            <span class="element-index">03</span>
+            <div class="element-card-orb"></div>
+
+            <div class="element-card-copy">
+              <p>Energia</p>
+              <h2>Caos Instável</h2>
+              <span>
+                Glitch, faísca, erro, velocidade e reconfiguração.
+              </span>
+            </div>
+
+            <strong>abrir arquivo</strong>
+          </a>
+
+          <a class="element-card element-card-death" data-element="morte" href="./morte.html">
+            <span class="element-index">04</span>
+            <div class="element-card-orb"></div>
+
+            <div class="element-card-copy">
+              <p>Morte</p>
+              <h2>Tempo em Ruína</h2>
+              <span>
+                Poeira, ciclo, atraso, relógio, fim e decadência.
+              </span>
+            </div>
+
+            <strong>abrir arquivo</strong>
+          </a>
+
+          <a class="element-card element-card-fear" data-element="medo" href="./medo.html">
+            <span class="element-index">05</span>
+            <div class="element-card-orb"></div>
+
+            <div class="element-card-copy">
+              <p>Medo</p>
+              <h2>Ausência Infinita</h2>
+              <span>
+                Vazio, silêncio, olho, presença e trechos apagados.
+              </span>
+            </div>
+
+            <strong>abrir arquivo</strong>
+          </a>
+        </div>
+      </section>
+
+      <aside class="elements-reading-panel">
+        <span>leitura atual</span>
+        <h2 data-elements-reading-title>Nenhum arquivo selecionado</h2>
+
+        <p data-elements-reading-text>
+          Passe o cursor sobre um elemento para observar a assinatura paranormal
+          correspondente. A interface pode reagir antes da abertura do arquivo.
+        </p>
+
+        <div class="elements-reading-signature" data-elements-signature>
+          assinatura: neutra
+        </div>
+
+        <button class="elements-random-button" type="button" data-elements-random>
+          Forçar leitura aleatória
+        </button>
+      </aside>
     </section>
   </main>
 
-  <script src="../script.js"></script>
+  <script src="./elementos-corrompidos.js?v=1"></script>
 </body>
 </html>

@@ -1,0 +1,1855 @@
+/* =========================================================
+   ROSELYN TATE — REGISTRO CRONOTÁTICO
+   Ordo Realitas + Mansão Tate + Morte + Mira + Metrônomo
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #030303;
+}
+
+.roselyn-page {
+  --ivory: #e8e1d3;
+  --silver: #b9c0c5;
+  --old-silver: #8c9aa8;
+  --wine: #8b1a2d;
+  --deep-wine: #3b0711;
+  --black: #050505;
+  --panel: rgba(7, 7, 8, .84);
+  --text: #f0ebe2;
+  --muted: rgba(240, 235, 226, .68);
+  --gold-dim: #b59a5c;
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 52% 12%, rgba(232, 225, 211, .10), transparent 34rem),
+    radial-gradient(circle at 18% 78%, rgba(139, 26, 45, .16), transparent 30rem),
+    radial-gradient(circle at 88% 70%, rgba(117, 138, 155, .13), transparent 32rem),
+    linear-gradient(135deg, #030303 0%, #0b0909 52%, #020202 100%);
+  isolation: isolate;
+}
+
+/* =========================================================
+   FUNDOS
+========================================================= */
+
+.roselyn-bg-image,
+.roselyn-bg-vignette,
+.roselyn-bg-grid,
+.roselyn-bg-dust,
+.roselyn-bg-scope,
+.roselyn-time-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.roselyn-bg-image {
+  z-index: -50;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.54), rgba(0,0,0,.88)),
+    url("../assets/imagens/fundos/Fundo-Roselyn.png") center / cover no-repeat;
+  opacity: .74;
+  filter: grayscale(.16) sepia(.08) contrast(1.08) saturate(.86);
+}
+
+.roselyn-bg-vignette {
+  z-index: -45;
+  background:
+    radial-gradient(circle at center, transparent 0 46%, rgba(0,0,0,.78) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.30), transparent 35%, rgba(0,0,0,.55));
+}
+
+.roselyn-bg-grid {
+  z-index: -40;
+  opacity: .64;
+  background:
+    linear-gradient(90deg, rgba(232,225,211,.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(232,225,211,.025) 1px, transparent 1px),
+    repeating-linear-gradient(115deg, transparent 0 52px, rgba(139,26,45,.07) 53px 54px, transparent 55px 120px);
+  background-size: 62px 62px, 62px 62px, auto;
+  mask-image: radial-gradient(circle at center, black 0 70%, transparent 100%);
+  animation: roselynGridMove 18s linear infinite;
+}
+
+.roselyn-bg-dust {
+  z-index: -35;
+  opacity: .22;
+  background-image:
+    radial-gradient(circle at 12% 20%, rgba(232,225,211,.40) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 55% 48%, rgba(232,225,211,.30) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 83% 72%, rgba(232,225,211,.28) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 25% 80%, rgba(139,26,45,.30) 0 1px, transparent 1.5px);
+  background-size: 180px 180px, 240px 240px, 210px 210px, 260px 260px;
+  animation: roselynDustDrift 16s linear infinite;
+}
+
+.roselyn-bg-scope {
+  z-index: -30;
+  opacity: .26;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 12rem, rgba(232,225,211,.08) 12.05rem 12.15rem, transparent 12.2rem),
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(232,225,211,.16) 50%, transparent calc(50% + 1px)),
+    linear-gradient(180deg, transparent calc(50% - 1px), rgba(232,225,211,.16) 50%, transparent calc(50% + 1px));
+  transform:
+    translate(calc(var(--mx, 0) * 20px), calc(var(--my, 0) * 20px));
+}
+
+.roselyn-time-field {
+  z-index: -25;
+  background:
+    radial-gradient(circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(232,225,211,.13), transparent 12rem),
+    radial-gradient(circle at calc(50% + var(--mx, 0) * 140px) calc(50% + var(--my, 0) * 140px), rgba(139,26,45,.12), transparent 24rem),
+    radial-gradient(circle at center, transparent 0 54%, rgba(0,0,0,.76) 100%);
+  mix-blend-mode: screen;
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.roselyn-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 32%, rgba(232,225,211,.10), transparent 34rem),
+    radial-gradient(circle at 50% 70%, rgba(139,26,45,.13), transparent 30rem),
+    linear-gradient(135deg, #030303, #0b0808, #020202);
+  transition: opacity .65s ease, filter .65s ease, visibility .65s ease;
+}
+
+.roselyn-loader.loader-hidden {
+  opacity: 0;
+  filter: blur(10px);
+  visibility: hidden;
+}
+
+.loader-panel {
+  position: relative;
+  width: min(780px, calc(100% - 2rem));
+  overflow: hidden;
+  border: 1px solid rgba(232,225,211,.24);
+  border-radius: 32px;
+  padding: clamp(1.4rem, 4vw, 2.4rem);
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.07), rgba(139,26,45,.08)),
+    rgba(0,0,0,.70);
+  box-shadow:
+    inset 0 0 46px rgba(232,225,211,.04),
+    0 0 90px rgba(139,26,45,.18);
+}
+
+.loader-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .38;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 8px, rgba(255,255,255,.035) 9px 10px);
+}
+
+.loader-panel p {
+  position: relative;
+  margin: 0 0 1rem;
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .72rem;
+}
+
+.loader-panel h1 {
+  position: relative;
+  margin: 0 0 .8rem;
+  color: #fff;
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  line-height: .92;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+}
+
+.loader-name {
+  position: relative;
+  width: fit-content;
+  margin-bottom: 1rem;
+  color: #f5efe4;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .92rem;
+  text-shadow: 0 0 18px rgba(232,225,211,.36);
+  overflow: hidden;
+}
+
+.loader-name::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  background: linear-gradient(90deg, transparent, rgba(232,225,211,.52), transparent);
+  transform: translateX(-120%);
+  animation: roselynLoaderScan 2s ease-in-out infinite;
+}
+
+.loader-metronome {
+  position: relative;
+  width: 72px;
+  height: 88px;
+  margin: .4rem 0 1rem;
+  border: 1px solid rgba(232,225,211,.24);
+  border-radius: 18px;
+  background: rgba(0,0,0,.32);
+  box-shadow:
+    inset 0 0 20px rgba(232,225,211,.04),
+    0 0 20px rgba(139,26,45,.12);
+}
+
+.loader-metronome::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  width: 44px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(232,225,211,.35);
+  transform: translateX(-50%);
+}
+
+.loader-metronome span {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 2px;
+  height: 54px;
+  background: linear-gradient(180deg, var(--ivory), rgba(139,26,45,.7));
+  transform-origin: bottom center;
+  animation: roselynMetronomeSwing 1.2s ease-in-out infinite;
+  box-shadow: 0 0 14px rgba(232,225,211,.42);
+}
+
+.loader-lines {
+  position: relative;
+  display: grid;
+  gap: .55rem;
+  margin: 1.1rem 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.loader-lines span {
+  padding: .7rem;
+  border-left: 2px solid rgba(232,225,211,.36);
+  border-radius: 0 14px 14px 0;
+  background: rgba(0,0,0,.34);
+  color: rgba(240,235,226,.74);
+}
+
+.loader-bar {
+  position: relative;
+  height: 10px;
+  border: 1px solid rgba(232,225,211,.22);
+  border-radius: 999px;
+  padding: 2px;
+  overflow: hidden;
+  background: rgba(0,0,0,.38);
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--silver), var(--ivory), var(--wine));
+  box-shadow: 0 0 22px rgba(232,225,211,.36);
+  animation: roselynLoaderBar 3.4s ease forwards;
+}
+
+.loader-panel button {
+  position: relative;
+  margin-top: 1rem;
+  border: 1px solid rgba(232,225,211,.30);
+  border-radius: 999px;
+  padding: .82rem 1rem;
+  background: rgba(0,0,0,.34);
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  cursor: pointer;
+  transition: .22s ease;
+}
+
+.loader-panel button:hover {
+  transform: translateY(-3px);
+  border-color: rgba(232,225,211,.72);
+  box-shadow: 0 0 26px rgba(232,225,211,.14);
+}
+
+/* =========================================================
+   LAYOUT GLOBAL
+========================================================= */
+
+.roselyn-hero,
+.status-strip,
+.main-dashboard,
+.reader-section {
+  width: min(1320px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.roselyn-hero {
+  padding: 4.4rem 0 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.kicker,
+.panel-label,
+.reader-panel > span {
+  display: block;
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .68rem;
+}
+
+.kicker {
+  margin: 0 0 .75rem;
+}
+
+.player-notice {
+  max-width: 780px;
+  margin: 0 0 1rem;
+  border: 1px solid rgba(232,225,211,.22);
+  border-radius: 18px;
+  padding: .85rem;
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.06), rgba(139,26,45,.06)),
+    rgba(0,0,0,.34);
+}
+
+.player-notice strong {
+  display: block;
+  color: var(--ivory);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  margin-bottom: .35rem;
+}
+
+.player-notice span {
+  color: rgba(240,235,226,.72);
+  line-height: 1.5;
+  font-size: .88rem;
+}
+
+.hero-copy h1 {
+  position: relative;
+  margin: 0 0 .95rem;
+  color: #fff8ec;
+  font-size: clamp(3.4rem, 8vw, 7.4rem);
+  line-height: .86;
+  letter-spacing: -.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 24px rgba(232,225,211,.30),
+    0 0 62px rgba(139,26,45,.18);
+  animation: roselynTitleBreath 4.6s ease-in-out infinite;
+}
+
+.hero-copy h1::before,
+.hero-copy h1::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  pointer-events: none;
+}
+
+.hero-copy h1::before {
+  color: var(--ivory);
+  clip-path: inset(0 0 54% 0);
+  animation: roselynTitleOffset 4.2s steps(2) infinite;
+}
+
+.hero-copy h1::after {
+  color: var(--wine);
+  clip-path: inset(54% 0 0 0);
+  animation: roselynTitleOffset 4.7s steps(2) infinite reverse;
+}
+
+.hero-copy > p {
+  max-width: 820px;
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 1.04rem;
+}
+
+.hero-copy blockquote {
+  max-width: 720px;
+  margin: 1rem 0;
+  padding: 1rem 1.1rem;
+  border-left: 2px solid rgba(232,225,211,.42);
+  border-radius: 0 18px 18px 0;
+  color: rgba(255,248,236,.88);
+  background: rgba(0,0,0,.30);
+  box-shadow: inset 0 0 24px rgba(232,225,211,.04);
+}
+
+.hero-tags,
+.hero-actions,
+.skill-locks,
+.seal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-top: 1rem;
+}
+
+.hero-tags span,
+.back-link,
+.hero-actions button,
+.skill-locks button,
+.seal {
+  border: 1px solid rgba(232,225,211,.28);
+  border-radius: 999px;
+  padding: .72rem .9rem;
+  background: rgba(0,0,0,.34);
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-size: .68rem;
+  text-decoration: none;
+  box-shadow: inset 0 0 18px rgba(232,225,211,.035);
+}
+
+.hero-actions button,
+.skill-locks button {
+  cursor: pointer;
+  transition: .22s ease;
+  transform:
+    perspective(800px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+}
+
+.hero-actions button:hover,
+.skill-locks button:hover,
+.skill-locks button.active,
+.back-link:hover {
+  transform:
+    perspective(800px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    translateY(-3px);
+  border-color: rgba(232,225,211,.72);
+  box-shadow: 0 0 28px rgba(232,225,211,.10);
+}
+
+.back-link {
+  white-space: nowrap;
+  transition: .25s ease;
+}
+
+.seal-row {
+  margin: 0 0 1rem;
+}
+
+.seal {
+  padding: .55rem .75rem;
+  font-size: .58rem;
+}
+
+.seal-confirmed {
+  border-color: rgba(232,225,211,.46);
+}
+
+.seal-ordo {
+  border-color: rgba(139,26,45,.50);
+  color: #ffdfe5;
+}
+
+.seal-time {
+  border-color: rgba(117,138,155,.48);
+  color: #dce5eb;
+}
+
+.seal-sensitive {
+  border-color: rgba(139,26,45,.55);
+  color: #ffd8df;
+}
+
+.seal-live {
+  border-color: rgba(232,225,211,.38);
+  color: #fff8ec;
+}
+
+.seal-open {
+  border-color: rgba(181,154,92,.40);
+  color: #f4dfb4;
+}
+
+.seal-locked {
+  border-color: rgba(139,26,45,.62);
+  color: #ffccd5;
+}
+
+/* =========================================================
+   PAINÉIS
+========================================================= */
+
+.status-strip {
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .8rem;
+}
+
+.status-strip article,
+.terminal-card,
+.identity-card,
+.roselyn-tabs,
+.character-card,
+.wheel-card,
+.core-stats-card,
+.reader-section,
+.handling-protocol {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(232,225,211,.20);
+  border-radius: 28px;
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.055), rgba(139,26,45,.055)),
+    var(--panel);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 0 44px rgba(232,225,211,.035),
+    0 20px 70px rgba(0,0,0,.46);
+}
+
+.status-strip article::after,
+.terminal-card::after,
+.identity-card::after,
+.roselyn-tabs::after,
+.character-card::after,
+.wheel-card::after,
+.core-stats-card::after,
+.reader-section::after,
+.handling-protocol::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, transparent 0 36%, rgba(232,225,211,.08) 48%, rgba(139,26,45,.08) 50%, transparent 64%);
+  transform: translateX(-130%);
+  opacity: 0;
+  animation: roselynPanelScan 8.5s ease-in-out infinite;
+}
+
+.status-strip article {
+  border-radius: 22px;
+  padding: 1rem;
+  animation: roselynStatusPulse 5s ease-in-out infinite;
+}
+
+.status-strip span,
+.identity-row span,
+.identity-grid-large span,
+.core-grid span,
+.stat-grid span,
+.skill-grid span,
+.inventory-grid span,
+.living-grid span,
+.rifle-display span,
+.metronome-data span,
+.mansion-display span {
+  display: block;
+  color: rgba(240,235,226,.50);
+  text-transform: uppercase;
+  letter-spacing: .17em;
+  font-size: .66rem;
+  margin-bottom: .38rem;
+}
+
+.status-strip strong,
+.identity-row strong,
+.identity-grid-large strong,
+.core-grid strong,
+.stat-grid strong,
+.skill-grid strong,
+.inventory-grid strong,
+.living-grid strong,
+.rifle-display strong,
+.metronome-data strong,
+.mansion-display strong {
+  color: #fff8ec;
+}
+
+.main-dashboard {
+  display: grid;
+  grid-template-columns: minmax(250px, .82fr) minmax(440px, 1.35fr) minmax(320px, .95fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.left-column,
+.right-column {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.terminal-card,
+.identity-card,
+.roselyn-tabs,
+.wheel-card,
+.core-stats-card,
+.handling-protocol {
+  padding: 1rem;
+}
+
+.terminal-head {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .7rem;
+  border-radius: 18px;
+  background: rgba(0,0,0,.38);
+  border: 1px solid rgba(232,225,211,.16);
+  margin-bottom: .9rem;
+}
+
+.terminal-head span {
+  width: .58rem;
+  height: .58rem;
+  border-radius: 50%;
+  background: var(--wine);
+  box-shadow: 0 0 12px rgba(139,26,45,.65);
+}
+
+.terminal-head span:nth-child(2) {
+  background: var(--silver);
+  box-shadow: 0 0 12px rgba(232,225,211,.42);
+}
+
+.terminal-head span:nth-child(3) {
+  background: var(--gold-dim);
+  box-shadow: 0 0 12px rgba(181,154,92,.40);
+}
+
+.terminal-head strong {
+  margin-left: .35rem;
+  color: rgba(240,235,226,.72);
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+
+.terminal-body {
+  display: grid;
+  gap: .65rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.terminal-body p {
+  margin: 0;
+  padding: .66rem;
+  color: rgba(240,235,226,.68);
+  border-left: 2px solid rgba(232,225,211,.30);
+  background: rgba(0,0,0,.22);
+  border-radius: 0 14px 14px 0;
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+.terminal-new {
+  animation: roselynTerminalNew .45s ease both;
+}
+
+.identity-card,
+.roselyn-tabs {
+  display: grid;
+  gap: .65rem;
+}
+
+.identity-row,
+.core-grid article,
+.identity-grid-large article,
+.field-role-grid article,
+.stat-grid article,
+.skill-grid article,
+.inventory-grid article,
+.risk-grid article,
+.living-grid article,
+.locked-grid article,
+.rifle-display article,
+.metronome-data article,
+.report-block,
+.mansion-display,
+.handling-protocol,
+.ability-grid button,
+.mansion-map button {
+  border: 1px solid rgba(232,225,211,.18);
+  border-radius: 20px;
+  padding: .9rem;
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.045), rgba(0,0,0,.28)),
+    rgba(0,0,0,.26);
+  transition: .22s ease;
+  transform:
+    perspective(800px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+}
+
+.identity-row:hover,
+.core-grid article:hover,
+.identity-grid-large article:hover,
+.field-role-grid article:hover,
+.stat-grid article:hover,
+.skill-grid article:hover,
+.inventory-grid article:hover,
+.risk-grid article:hover,
+.living-grid article:hover,
+.locked-grid article:hover,
+.rifle-display article:hover,
+.metronome-data article:hover,
+.report-block:hover,
+.mansion-display:hover,
+.handling-protocol:hover,
+.ability-grid button:hover,
+.mansion-map button:hover,
+.ability-grid button.clicked,
+.mansion-map button.active {
+  transform:
+    perspective(800px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    translateY(-4px);
+  border-color: rgba(232,225,211,.58);
+  box-shadow:
+    inset 0 0 24px rgba(232,225,211,.055),
+    0 0 30px rgba(139,26,45,.12);
+}
+
+.tab-button {
+  border: 1px solid rgba(232,225,211,.20);
+  border-radius: 18px;
+  padding: .85rem;
+  color: rgba(240,235,226,.70);
+  background: rgba(0,0,0,.26);
+  text-align: left;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .72rem;
+  transition: .22s ease;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  color: #fff8ec;
+  border-color: rgba(232,225,211,.66);
+  box-shadow:
+    inset 0 0 20px rgba(232,225,211,.06),
+    0 0 24px rgba(139,26,45,.12);
+  transform: translateX(4px);
+}
+
+.locked-tab {
+  border-color: rgba(139,26,45,.36);
+  color: #ffd8df;
+}
+
+/* =========================================================
+   PERSONAGEM / MIRA / METRÔNOMO
+========================================================= */
+
+.character-card {
+  min-height: 760px;
+  height: 100%;
+  display: grid;
+  place-items: end center;
+  padding: 1rem 1rem 0;
+}
+
+.scope-orbit,
+.clock-orbit {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.scope-orbit {
+  width: 500px;
+  bottom: 7.2rem;
+  border: 1px solid rgba(232,225,211,.24);
+  animation: roselynOrbit 32s linear infinite;
+}
+
+.scope-orbit::before,
+.scope-orbit::after {
+  content: "";
+  position: absolute;
+  background: rgba(232,225,211,.18);
+}
+
+.scope-orbit::before {
+  left: 50%;
+  top: -8%;
+  width: 1px;
+  height: 116%;
+}
+
+.scope-orbit::after {
+  left: -8%;
+  top: 50%;
+  width: 116%;
+  height: 1px;
+}
+
+.clock-orbit {
+  width: 360px;
+  bottom: 10rem;
+  border: 1px dashed rgba(139,26,45,.30);
+  animation: roselynOrbitReverse 24s linear infinite;
+}
+
+.clock-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: inherit;
+  border: 1px dashed rgba(232,225,211,.16);
+}
+
+.silver-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  bottom: 4.5rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(232,225,211,.16), rgba(139,26,45,.12), transparent 70%);
+  filter: blur(42px);
+  animation: roselynSilverGlow 5s ease-in-out infinite;
+}
+
+.trajectory-line {
+  position: absolute;
+  height: 1px;
+  width: 260px;
+  background: linear-gradient(90deg, transparent, rgba(232,225,211,.38), rgba(139,26,45,.22), transparent);
+  filter: drop-shadow(0 0 10px rgba(232,225,211,.20));
+  opacity: .55;
+}
+
+.trajectory-line.one {
+  right: 8%;
+  top: 38%;
+  rotate: -10deg;
+  animation: roselynTrajectoryIdle 3.5s ease-in-out infinite;
+}
+
+.trajectory-line.two {
+  left: 8%;
+  bottom: 33%;
+  rotate: 12deg;
+  animation: roselynTrajectoryIdle 4.2s ease-in-out infinite reverse;
+}
+
+.metronome-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 4;
+  border: 1px solid rgba(232,225,211,.28);
+  border-radius: 18px;
+  padding: .8rem;
+  background: rgba(0,0,0,.46);
+  backdrop-filter: blur(10px);
+  transition: .22s ease;
+}
+
+.metronome-status span {
+  display: block;
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: .62rem;
+  margin-bottom: .32rem;
+}
+
+.metronome-status strong {
+  color: #fff;
+  font-size: .88rem;
+}
+
+.metronome-meter {
+  margin-top: .65rem;
+  height: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(232,225,211,.26);
+  background: rgba(0,0,0,.35);
+  overflow: hidden;
+}
+
+.metronome-meter span {
+  display: block;
+  height: 100%;
+  width: 62%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--wine), var(--ivory), var(--silver));
+  box-shadow: 0 0 18px rgba(232,225,211,.38);
+  animation: roselynMeterPulse 2.4s ease-in-out infinite;
+}
+
+.metronome-status.metronome-alert {
+  border-color: rgba(232,225,211,.62);
+  box-shadow: 0 0 34px rgba(232,225,211,.12);
+}
+
+.character-image {
+  position: relative;
+  z-index: 2;
+  max-width: 120%;
+  max-height: 800px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter:
+    drop-shadow(0 0 22px rgba(232,225,211,.26))
+    drop-shadow(0 24px 36px rgba(0,0,0,.74));
+  animation: roselynCharacterFloat 6s ease-in-out infinite;
+}
+
+.hotspot {
+  position: absolute;
+  z-index: 5;
+  border: 1px solid rgba(232,225,211,.46);
+  border-radius: 999px;
+  padding: .55rem .7rem;
+  background: rgba(0,0,0,.60);
+  color: #fff8ec;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .58rem;
+  cursor: pointer;
+  box-shadow: 0 0 22px rgba(232,225,211,.10);
+  animation: roselynHotspotPulse 2.8s ease-in-out infinite;
+}
+
+.hotspot:hover {
+  border-color: rgba(232,225,211,.86);
+  box-shadow: 0 0 30px rgba(232,225,211,.18);
+}
+
+.hotspot-rifle {
+  right: 15%;
+  top: 45%;
+}
+
+.hotspot-lens {
+  right: 23%;
+  top: 34%;
+}
+
+.hotspot-metronome {
+  left: 16%;
+  top: 32%;
+}
+
+.nameplate {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  border: 1px solid rgba(232,225,211,.22);
+  border-radius: 20px;
+  padding: .9rem;
+  background: rgba(0,0,0,.58);
+  backdrop-filter: blur(10px);
+}
+
+.nameplate span {
+  display: block;
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-size: .66rem;
+  margin-bottom: .3rem;
+}
+
+.nameplate strong {
+  color: #fff8ec;
+  font-size: 1.2rem;
+}
+
+.nameplate p {
+  margin: .4rem 0 0;
+  color: rgba(240,235,226,.68);
+  line-height: 1.45;
+  font-size: .86rem;
+}
+
+/* =========================================================
+   RODA / MIRA CRONOTÁTICA
+========================================================= */
+
+.attribute-wheel {
+  position: relative;
+  width: min(300px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto 1rem;
+  display: grid;
+  place-items: center;
+  transition: filter .25s ease;
+}
+
+.attribute-wheel:hover {
+  filter: brightness(1.18);
+}
+
+.wheel-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 0 18px rgba(232,225,211,.22));
+}
+
+.wheel-outer {
+  animation: roselynWheelSpin 28s linear infinite;
+}
+
+.attribute-wheel:hover .wheel-outer {
+  animation-duration: 12s;
+}
+
+.wheel-inner {
+  width: 78%;
+  height: 78%;
+  animation: roselynWheelSpinReverse 20s linear infinite;
+}
+
+.attribute-wheel:hover .wheel-inner {
+  animation-duration: 9s;
+}
+
+.wheel-core {
+  width: 46%;
+  height: 46%;
+  animation: roselynWheelCorePulse 3.4s ease-in-out infinite;
+}
+
+.wheel-node {
+  width: 24%;
+  height: 24%;
+  animation: roselynWheelNodePulse 2.6s ease-in-out infinite;
+}
+
+.scope-crosshair {
+  position: absolute;
+  width: 68%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(232,225,211,.22);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.scope-crosshair::before,
+.scope-crosshair::after {
+  content: "";
+  position: absolute;
+  background: rgba(232,225,211,.30);
+}
+
+.scope-crosshair::before {
+  left: 50%;
+  top: -10%;
+  width: 1px;
+  height: 120%;
+}
+
+.scope-crosshair::after {
+  left: -10%;
+  top: 50%;
+  width: 120%;
+  height: 1px;
+}
+
+.metronome-hand {
+  position: absolute;
+  width: 2px;
+  height: 42%;
+  bottom: 50%;
+  transform-origin: bottom center;
+  background: linear-gradient(180deg, var(--ivory), transparent);
+  box-shadow: 0 0 12px rgba(232,225,211,.44);
+  animation: roselynMetronomeSwing 1.4s ease-in-out infinite;
+}
+
+.attr-button {
+  position: absolute;
+  width: 58px;
+  height: 76px;
+  z-index: 4;
+  border: 1px solid rgba(232,225,211,.28);
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  gap: .1rem;
+  color: #fff;
+  background: rgba(0,0,0,.50);
+  cursor: pointer;
+  transition: .22s ease;
+}
+
+.attr-button:hover,
+.attr-button.active {
+  border-color: rgba(232,225,211,.74);
+  box-shadow:
+    0 0 24px rgba(232,225,211,.14),
+    inset 0 0 18px rgba(139,26,45,.08);
+  transform: scale(1.08);
+}
+
+.attr-button img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.attr-button span {
+  font-size: .62rem;
+  letter-spacing: .12em;
+}
+
+.attr-button strong {
+  font-size: .9rem;
+}
+
+.attr-for {
+  left: 50%;
+  top: -4%;
+  translate: -50% 0;
+}
+
+.attr-agi {
+  right: -3%;
+  top: 34%;
+}
+
+.attr-int {
+  right: 15%;
+  bottom: -5%;
+}
+
+.attr-pre {
+  left: 15%;
+  bottom: -5%;
+}
+
+.attr-vig {
+  left: -3%;
+  top: 34%;
+}
+
+.attr-reading {
+  min-height: 96px;
+  padding: .9rem;
+  border-radius: 18px;
+  border: 1px solid rgba(232,225,211,.20);
+  background: rgba(0,0,0,.28);
+  color: rgba(240,235,226,.72);
+  line-height: 1.55;
+  font-size: .86rem;
+}
+
+.core-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .7rem;
+}
+
+.handling-protocol strong {
+  display: block;
+  color: #fff8ec;
+  margin: .6rem 0 .4rem;
+}
+
+.handling-protocol p {
+  color: rgba(240,235,226,.72);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* =========================================================
+   READER
+========================================================= */
+
+.reader-section {
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.reader-panel {
+  display: none;
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.reader-panel.active {
+  display: block;
+  animation: roselynReaderOpen .45s ease both;
+}
+
+.reader-panel > span {
+  margin-bottom: .55rem;
+}
+
+.reader-panel h2 {
+  margin: 0 0 .8rem;
+  color: #fff8ec;
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.reader-panel h3 {
+  color: #fff8ec;
+}
+
+.reader-panel p {
+  color: rgba(240,235,226,.74);
+  line-height: 1.75;
+}
+
+.ordo-note,
+.ordo-warning {
+  margin-top: 1rem;
+  border: 1px solid rgba(232,225,211,.24);
+  border-radius: 22px;
+  padding: 1rem;
+  color: #fff8ec;
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.06), rgba(139,26,45,.06)),
+    rgba(0,0,0,.28);
+  line-height: 1.6;
+}
+
+.ordo-warning {
+  border-color: rgba(139,26,45,.38);
+  color: #ffd7df;
+}
+
+.identity-grid-large,
+.field-role-grid,
+.stat-grid,
+.skill-grid,
+.ability-grid,
+.inventory-grid,
+.risk-grid,
+.living-grid,
+.locked-grid,
+.rifle-display,
+.metronome-data {
+  display: grid;
+  gap: .85rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1rem;
+}
+
+.skill-display {
+  margin: 1rem 0;
+  border: 1px solid rgba(232,225,211,.24);
+  border-radius: 24px;
+  padding: 1.1rem;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(232,225,211,.09), transparent 55%),
+    rgba(0,0,0,.28);
+}
+
+.skill-display span {
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: .68rem;
+}
+
+.skill-display h3 {
+  margin: .45rem 0;
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.skill-display p {
+  margin: 0;
+}
+
+.major-skill {
+  border-color: rgba(232,225,211,.34);
+  box-shadow: inset 0 0 22px rgba(232,225,211,.035);
+}
+
+.ability-grid button,
+.mansion-map button {
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ability-grid button {
+  position: relative;
+  overflow: hidden;
+}
+
+.ability-grid button span,
+.mansion-map button span {
+  display: block;
+  color: var(--ivory);
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-size: .64rem;
+  margin-bottom: .4rem;
+}
+
+/* =========================================================
+   INVENTÁRIO / RELÍQUIAS
+========================================================= */
+
+.inventory-groups {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.inventory-groups section {
+  position: relative;
+  border: 1px solid rgba(232,225,211,.14);
+  border-radius: 24px;
+  padding: 1rem;
+  background: rgba(0,0,0,.18);
+}
+
+.inventory-groups h3 {
+  margin: 0 0 .8rem;
+  color: #fff8ec;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .88rem;
+}
+
+.relic-grid .relic-item {
+  border-color: rgba(139,26,45,.34);
+  box-shadow: inset 0 0 24px rgba(139,26,45,.05);
+}
+
+.relic-item:hover {
+  border-color: rgba(232,225,211,.58);
+  box-shadow:
+    inset 0 0 24px rgba(232,225,211,.045),
+    0 0 32px rgba(139,26,45,.12);
+}
+
+/* =========================================================
+   RIFLE / LENTE
+========================================================= */
+
+.rifle-display {
+  position: relative;
+  overflow: hidden;
+}
+
+.rifle-line {
+  grid-column: 1 / -1;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(232,225,211,.16);
+  background:
+    linear-gradient(90deg, transparent, rgba(232,225,211,.18), rgba(139,26,45,.22), rgba(232,225,211,.18), transparent);
+  box-shadow: 0 0 26px rgba(232,225,211,.08);
+}
+
+.scope-lens {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(232,225,211,.34);
+  background:
+    radial-gradient(circle, rgba(232,225,211,.20), rgba(117,138,155,.12), transparent 68%);
+  box-shadow:
+    inset 0 0 20px rgba(232,225,211,.08),
+    0 0 26px rgba(232,225,211,.10);
+  animation: roselynLensFocus 3s ease-in-out infinite;
+}
+
+/* =========================================================
+   METRÔNOMO
+========================================================= */
+
+.metronome-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, .6fr) 1fr;
+  gap: 1rem;
+  align-items: stretch;
+  margin-top: 1rem;
+}
+
+.metronome-object {
+  position: relative;
+  min-height: 280px;
+  border: 1px solid rgba(232,225,211,.20);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(232,225,211,.12), transparent 50%),
+    rgba(0,0,0,.28);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.metronome-object::before {
+  content: "";
+  width: 92px;
+  height: 148px;
+  border: 1px solid rgba(232,225,211,.34);
+  border-radius: 36px 36px 22px 22px;
+  background:
+    linear-gradient(145deg, rgba(232,225,211,.16), rgba(0,0,0,.32)),
+    rgba(0,0,0,.38);
+  box-shadow:
+    inset 0 0 28px rgba(232,225,211,.08),
+    0 0 28px rgba(232,225,211,.08);
+}
+
+.metronome-object span {
+  position: absolute;
+  bottom: 72px;
+  width: 2px;
+  height: 116px;
+  background: linear-gradient(180deg, var(--ivory), var(--wine));
+  transform-origin: bottom center;
+  animation: roselynMetronomeSwing 1.3s ease-in-out infinite;
+  box-shadow: 0 0 18px rgba(232,225,211,.42);
+}
+
+.metronome-object::after {
+  content: "";
+  position: absolute;
+  bottom: 62px;
+  width: 110px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(232,225,211,.28);
+}
+
+.metronome-data {
+  margin-top: 0;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* =========================================================
+   MANSÃO TATE
+========================================================= */
+
+.mansion-map {
+  position: relative;
+  margin-top: 1rem;
+  min-height: 380px;
+  border: 1px solid rgba(232,225,211,.16);
+  border-radius: 28px;
+  padding: 1rem;
+  background:
+    linear-gradient(90deg, rgba(232,225,211,.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(232,225,211,.035) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(139,26,45,.08), transparent 60%),
+    rgba(0,0,0,.22);
+  background-size: 52px 52px, 52px 52px, auto, auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .8rem;
+  align-items: center;
+}
+
+.mansion-map::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid rgba(232,225,211,.12);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.mansion-map button {
+  position: relative;
+  z-index: 2;
+  min-height: 92px;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  color: rgba(240,235,226,.76);
+  text-transform: uppercase;
+  letter-spacing: .10em;
+  font-size: .68rem;
+}
+
+.mansion-map button span {
+  width: 32px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto .35rem;
+  border: 1px solid rgba(232,225,211,.28);
+  color: var(--ivory);
+}
+
+.mansion-map button.active {
+  color: #fff8ec;
+  border-color: rgba(232,225,211,.62);
+  box-shadow:
+    inset 0 0 24px rgba(232,225,211,.06),
+    0 0 28px rgba(139,26,45,.16);
+}
+
+.mansion-display {
+  margin-top: 1rem;
+}
+
+/* =========================================================
+   RELATÓRIO / RISCOS / BLOQUEADOS
+========================================================= */
+
+.report-block {
+  margin-top: .85rem;
+}
+
+.report-block h3 {
+  margin: 0 0 .45rem;
+  font-size: 1.15rem;
+}
+
+.report-block p {
+  margin: 0;
+}
+
+.risk-grid article {
+  border-color: rgba(181,154,92,.22);
+}
+
+.risk-grid article:hover {
+  border-color: rgba(181,154,92,.50);
+  box-shadow:
+    inset 0 0 22px rgba(181,154,92,.06),
+    0 0 28px rgba(181,154,92,.10);
+}
+
+.living-grid article {
+  border-color: rgba(232,225,211,.22);
+}
+
+.locked-grid article {
+  position: relative;
+  filter: grayscale(.30);
+  border-color: rgba(139,26,45,.34);
+}
+
+.locked-grid article::after {
+  content: "FRAGMENTO LACRADO";
+  display: block;
+  margin-top: .6rem;
+  color: rgba(255,210,218,.82);
+  font-size: .62rem;
+  letter-spacing: .14em;
+}
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes roselynLoaderScan {
+  to { transform: translateX(120%); }
+}
+
+@keyframes roselynLoaderBar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes roselynGridMove {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to { background-position: 62px 62px, -62px 62px, 180px 0; }
+}
+
+@keyframes roselynDustDrift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: 160px 200px, -200px 180px, 140px -200px, -180px -160px; }
+}
+
+@keyframes roselynMetronomeSwing {
+  0%, 100% { transform: rotate(-17deg); }
+  50% { transform: rotate(17deg); }
+}
+
+@keyframes roselynTitleBreath {
+  0%, 100% { transform: scale(1); filter: none; }
+  50% { transform: scale(1.01); filter: brightness(1.06) saturate(.92); }
+}
+
+@keyframes roselynTitleOffset {
+  0%, 90%, 100% { transform: translate(0,0); }
+  93% { transform: translate(5px,-1px); }
+  96% { transform: translate(-4px,2px); }
+}
+
+@keyframes roselynPanelScan {
+  0%, 64% {
+    opacity: 0;
+    transform: translateX(-130%);
+  }
+
+  74% {
+    opacity: .62;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(130%);
+  }
+}
+
+@keyframes roselynStatusPulse {
+  0%, 100% { transform: translateY(0); filter: none; }
+  50% { transform: translateY(-2px); filter: brightness(1.04); }
+}
+
+@keyframes roselynTerminalNew {
+  from { opacity: 0; transform: translateX(-10px); filter: blur(4px); }
+  to { opacity: 1; transform: translateX(0); filter: none; }
+}
+
+@keyframes roselynOrbit {
+  to { rotate: 360deg; }
+}
+
+@keyframes roselynOrbitReverse {
+  to { rotate: -360deg; }
+}
+
+@keyframes roselynSilverGlow {
+  0%, 100% { opacity: .68; transform: scale(1); }
+  50% { opacity: .95; transform: scale(1.13); }
+}
+
+@keyframes roselynTrajectoryIdle {
+  0%, 100% { opacity: .35; transform: translateX(0); }
+  50% { opacity: .75; transform: translateX(22px); }
+}
+
+@keyframes roselynMeterPulse {
+  0%, 100% { width: 50%; filter: brightness(1); }
+  50% { width: 86%; filter: brightness(1.28); }
+}
+
+@keyframes roselynCharacterFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.008); }
+}
+
+@keyframes roselynHotspotPulse {
+  0%, 100% { opacity: .66; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes roselynWheelSpin {
+  to { rotate: 360deg; }
+}
+
+@keyframes roselynWheelSpinReverse {
+  to { rotate: -360deg; }
+}
+
+@keyframes roselynWheelCorePulse {
+  0%, 100% { transform: scale(1); opacity: .92; }
+  50% { transform: scale(1.07); opacity: 1; }
+}
+
+@keyframes roselynWheelNodePulse {
+  0%, 100% { transform: scale(1); opacity: .86; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes roselynReaderOpen {
+  from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: none; }
+}
+
+@keyframes roselynLensFocus {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.22); }
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 1180px) {
+  .main-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .character-card {
+    min-height: 720px;
+  }
+
+  .identity-grid-large,
+  .field-role-grid,
+  .stat-grid,
+  .skill-grid,
+  .ability-grid,
+  .inventory-grid,
+  .risk-grid,
+  .living-grid,
+  .locked-grid,
+  .rifle-display,
+  .metronome-data {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .terminal-card {
+    order: 3;
+  }
+}
+
+@media (max-width: 760px) {
+  .roselyn-hero {
+    flex-direction: column;
+    padding-top: 3rem;
+  }
+
+  .status-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .character-card {
+    min-height: 560px;
+  }
+
+  .character-image {
+    max-width: 138%;
+  }
+
+  .attribute-wheel {
+    width: min(250px, 100%);
+  }
+
+  .attr-button {
+    width: 52px;
+    height: 70px;
+  }
+
+  .identity-grid-large,
+  .field-role-grid,
+  .stat-grid,
+  .skill-grid,
+  .ability-grid,
+  .inventory-grid,
+  .risk-grid,
+  .living-grid,
+  .locked-grid,
+  .rifle-display,
+  .metronome-data {
+    grid-template-columns: 1fr;
+  }
+
+  .metronome-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .mansion-map {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hotspot {
+    font-size: .52rem;
+    padding: .45rem .58rem;
+  }
+
+  .hotspot-rifle {
+    right: 8%;
+    top: 48%;
+  }
+
+  .hotspot-lens {
+    right: 12%;
+    top: 36%;
+  }
+
+  .hotspot-metronome {
+    left: 8%;
+    top: 30%;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-copy h1 {
+    font-size: clamp(3rem, 16vw, 5rem);
+  }
+
+  .status-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .character-card {
+    min-height: 500px;
+  }
+
+  .attribute-wheel {
+    width: min(220px, 100%);
+  }
+
+  .attr-button {
+    width: 48px;
+    height: 64px;
+  }
+
+  .attr-button img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .metronome-status {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .reader-section {
+    width: min(100% - 1rem, 1320px);
+    padding: .65rem;
+  }
+
+  .reader-panel {
+    padding: 1rem;
+  }
+
+  .mansion-map {
+    grid-template-columns: 1fr;
+  }
+}

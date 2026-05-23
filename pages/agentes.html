@@ -4,142 +4,415 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Agentes — Arquivo Público</title>
+  <title>Agentes — Arquivo da Campanha</title>
 
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=11" />
 </head>
 
 <body>
-  <main class="agents-hub-page">
-    <div class="agents-hub-noise"></div>
-    <div class="agents-hub-scan"></div>
+  <main class="agents-page" data-agents-page>
+    <div class="agents-bg-grid" aria-hidden="true"></div>
+    <div class="agents-bg-scan" aria-hidden="true"></div>
+    <div class="agents-bg-aura" aria-hidden="true"></div>
 
-    <header class="agents-hub-header">
+    <header class="agents-hero">
       <div>
-        <p class="tag">ORDO REALITAS // ARQUIVO PÚBLICO</p>
-        <h1>AGENTES</h1>
+        <p class="agents-kicker">ORDO REALITAS // REGISTROS OPERACIONAIS // CORAÇÕES DO OUTRO LADO</p>
+
+        <h1 data-text="AGENTES">
+          Agentes
+        </h1>
+
         <p>
-          Dossiês visuais liberados para consulta pública da campanha.
-          Registros restritos foram isolados por corrupção de leitura, ausência de credencial
-          ou classificação operacional superior.
+          Fichas públicas dos jogadores e registros restritos da Ordo Realitas. Os cards
+          bloqueados existem visualmente, mas não liberam conteúdo sensível da campanha.
         </p>
+
+        <div class="agents-status-strip">
+          <article>
+            <span>Setor</span>
+            <strong>Arquivo Operacional</strong>
+          </article>
+
+          <article>
+            <span>Agentes públicos</span>
+            <strong>3 registros</strong>
+          </article>
+
+          <article>
+            <span>Trindade</span>
+            <strong>Acesso restrito</strong>
+          </article>
+
+          <article>
+            <span>Comando</span>
+            <strong>Klint</strong>
+          </article>
+        </div>
       </div>
 
-      <a class="back-link" href="../index.html">Voltar ao Arquivo Público</a>
+      <a class="agents-back-link" href="../inicio.html">
+        Voltar ao Arquivo
+      </a>
     </header>
 
-    <section class="agents-hub-dashboard">
-      <article class="agents-hub-main-status">
-        <span>Central de leitura</span>
-        <strong>Dossiês de campo</strong>
-        <p>
-          Selecione um registro liberado para abrir a ficha interativa. Arquivos corrompidos
-          permanecem visíveis apenas como fragmentos bloqueados.
-        </p>
-      </article>
-
-      <article>
-        <span>Liberados</span>
-        <strong>3</strong>
-      </article>
-
-      <article>
-        <span>Corrompidos</span>
-        <strong>5</strong>
-      </article>
-
-      <article>
-        <span>Status</span>
-        <strong>Parcial</strong>
-      </article>
-    </section>
-
-    <section class="agents-hub-controls">
-      <button class="active" data-filter="all">Todos</button>
-      <button data-filter="public">Liberados</button>
-      <button data-filter="corrupted">Corrompidos</button>
-    </section>
-
-    <section class="agents-hub-layout">
-      <section class="agents-hub-grid-area">
-        <div id="agentsGrid" class="agents-grid"></div>
-      </section>
-
-      <aside class="agents-hub-terminal">
-        <p>// sincronizando registros...</p>
-        <p>// Maisie_Hundown: <span>LIBERADO</span></p>
-        <p>// Roselyn_Tate: <span>LIBERADO</span></p>
-        <p>// Lilian_Moretti: <span>LIBERADO</span></p>
-        <p>// Yuna: <b>CORROMPIDO</b></p>
-        <p>// Lisa: <b>CORROMPIDO</b></p>
-        <p>// Blender: <b>CORROMPIDO</b></p>
-        <p>// Klint: <b>RESTRITO</b></p>
-        <p>// Anny: <b>INCOMPLETO</b></p>
-
-        <div class="agents-terminal-warning">
-          <strong>AVISO</strong>
-          <p>
-            Registros corrompidos podem conter fragmentos visuais, nomes parciais
-            ou leituras interrompidas pela interface.
-          </p>
+    <section class="agents-control-panel">
+      <div class="agents-terminal">
+        <div class="terminal-head">
+          <span></span>
+          <span></span>
+          <span></span>
+          <strong>terminal_ordo.agentes</strong>
         </div>
-      </aside>
+
+        <div class="terminal-body" data-agents-terminal>
+          <p>&gt; renderização dinâmica ativa.</p>
+          <p>&gt; fichas públicas localizadas.</p>
+          <p>&gt; registros restritos protegidos.</p>
+          <p>&gt; chefe de operação identificado.</p>
+        </div>
+      </div>
+
+      <div class="agents-filter-panel">
+        <span>Filtros de visualização</span>
+
+        <div class="agents-filters">
+          <button class="active" type="button" data-filter="todos">Todos</button>
+          <button type="button" data-filter="agentes">Agentes</button>
+          <button type="button" data-filter="trindade">Trindade</button>
+          <button type="button" data-filter="chefe">Chefe</button>
+          <button type="button" data-filter="liberado">Liberados</button>
+          <button type="button" data-filter="restrito">Restritos</button>
+        </div>
+
+        <div class="agents-search-box">
+          <label for="agentSearch">Busca interna</label>
+          <input
+            id="agentSearch"
+            type="text"
+            placeholder="Pesquisar agente, classe, função..."
+            data-agent-search
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="agents-section" data-group="agentes">
+      <div class="section-heading">
+        <p>Fichas públicas dos jogadores</p>
+        <h2>Agentes</h2>
+        <span>
+          Registros liberados para consulta segura dos jogadores.
+        </span>
+      </div>
+
+      <div class="agents-grid">
+        <article
+          class="agent-card agent-card-maisie unlocked"
+          data-agent-card
+          data-category="agentes liberado"
+          data-search="maisie hundown ocultista agente de saúde suporte ocultismo energia tecnologia"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Liberado</span>
+            <strong>AG-01</strong>
+          </div>
+
+          <div class="agent-portrait-mini">
+            <img src="../assets/imagens/personagens/maisie.png" alt="Maisie Hundown" />
+          </div>
+
+          <div class="agent-info">
+            <span>Ocultista // Agente de Saúde</span>
+            <h3>Maisie Hundown</h3>
+            <p>
+              Suporte ocultista, tecnologia improvisada, Energia paranormal e equipamento pessoal sensível.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 40%</span>
+            <span>Suporte</span>
+            <span>Energia</span>
+          </div>
+
+          <a class="agent-open" href="./maisie.html">
+            Abrir ficha
+          </a>
+        </article>
+
+        <article
+          class="agent-card agent-card-lilian unlocked"
+          data-agent-card
+          data-category="agentes liberado"
+          data-search="lilian rodrigues moretti combatente atleta linha de frente proteção casca grossa manoplas"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Liberado</span>
+            <strong>AG-02</strong>
+          </div>
+
+          <div class="agent-portrait-mini">
+            <img src="../assets/imagens/personagens/lilian.png" alt="Lilian Rodrigues Moretti" />
+          </div>
+
+          <div class="agent-info">
+            <span>Combatente // Atleta</span>
+            <h3>Lilian Moretti</h3>
+            <p>
+              Linha de frente, contenção física, manoplas, proteção de aliados e resistência extrema.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 40%</span>
+            <span>Proteção</span>
+            <span>Impacto</span>
+          </div>
+
+          <a class="agent-open" href="./lilian.html">
+            Abrir ficha
+          </a>
+        </article>
+
+        <article
+          class="agent-card agent-card-roselyn unlocked"
+          data-agent-card
+          data-category="agentes liberado"
+          data-search="roselyn tate especialista militar atiradora reconhecimento morte metrônomo rifle mansão"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Liberado</span>
+            <strong>AG-03</strong>
+          </div>
+
+          <div class="agent-portrait-mini">
+            <img src="../assets/imagens/personagens/roselyn.png" alt="Roselyn Tate" />
+          </div>
+
+          <div class="agent-info">
+            <span>Especialista // Militar</span>
+            <h3>Roselyn Tate</h3>
+            <p>
+              Atiradora de precisão, reconhecimento, metrônomo de prata, rifle do pai e Morte residual.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 40%</span>
+            <span>Precisão</span>
+            <span>Morte</span>
+          </div>
+
+          <a class="agent-open" href="./roselyn.html">
+            Abrir ficha
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="agents-section restricted-section" data-group="trindade">
+      <div class="section-heading">
+        <p>Registros superiores da Ordo</p>
+        <h2>Trindade</h2>
+        <span>
+          Semi-líderes da Ordo Realitas. Acesso completo reservado ao mestre.
+        </span>
+      </div>
+
+      <div class="agents-grid trinity-grid">
+        <article
+          class="agent-card agent-card-yuna restricted"
+          data-agent-card
+          data-category="trindade restrito"
+          data-search="yuna ocultista semi líder morte análise paranormal trindade"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Restrito</span>
+            <strong>TR-01</strong>
+          </div>
+
+          <div class="agent-portrait-mini locked-portrait">
+            <img src="../assets/imagens/personagens/yuna.png" alt="Yuna" />
+          </div>
+
+          <div class="agent-info">
+            <span>Semi-Líder // Ocultista</span>
+            <h3>Yuna</h3>
+            <p>
+              Registro superior da área ocultista. Conteúdo completo oculto por segurança operacional.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 60%</span>
+            <span>Ocultismo</span>
+            <span>Restrito</span>
+          </div>
+
+          <button class="agent-open locked-action" type="button" data-locked="Yuna">
+            Acesso restrito
+          </button>
+        </article>
+
+        <article
+          class="agent-card agent-card-lisa restricted"
+          data-agent-card
+          data-category="trindade restrito"
+          data-search="lisa especialista semi líder ginasta coordenação trindade"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Restrito</span>
+            <strong>TR-02</strong>
+          </div>
+
+          <div class="agent-portrait-mini locked-portrait">
+            <img src="../assets/imagens/personagens/lisa.png" alt="Lisa" />
+          </div>
+
+          <div class="agent-info">
+            <span>Semi-Líder // Especialista</span>
+            <h3>Lisa</h3>
+            <p>
+              Coordenação operacional, análise de missão e ligação entre setores da Trindade.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 60%</span>
+            <span>Coordenação</span>
+            <span>Restrito</span>
+          </div>
+
+          <button class="agent-open locked-action" type="button" data-locked="Lisa">
+            Acesso restrito
+          </button>
+        </article>
+
+        <article
+          class="agent-card agent-card-blender restricted"
+          data-agent-card
+          data-category="trindade restrito"
+          data-search="blender combatente semi líder lutador trindade linha de frente"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Restrito</span>
+            <strong>TR-03</strong>
+          </div>
+
+          <div class="agent-portrait-mini locked-portrait">
+            <img src="../assets/imagens/personagens/blender.png" alt="Blender" />
+          </div>
+
+          <div class="agent-info">
+            <span>Semi-Líder // Combatente</span>
+            <h3>Blender</h3>
+            <p>
+              Força de campo da Trindade, combate direto e missões de alto risco.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>NEX 60%</span>
+            <span>Combate</span>
+            <span>Restrito</span>
+          </div>
+
+          <button class="agent-open locked-action" type="button" data-locked="Blender">
+            Acesso restrito
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="agents-section chief-section" data-group="chefe">
+      <div class="section-heading">
+        <p>Comando da Ordo Realitas</p>
+        <h2>Chefe</h2>
+        <span>
+          Registro de comando. Informações completas permanecem lacradas.
+        </span>
+      </div>
+
+      <div class="chief-grid">
+        <article
+          class="agent-card agent-card-klint chief restricted"
+          data-agent-card
+          data-category="chefe restrito"
+          data-search="klint chefe comando ordo realitas liderança culpa trindade"
+        >
+          <div class="agent-card-bg"></div>
+
+          <div class="agent-card-status">
+            <span>Comando</span>
+            <strong>CMD-01</strong>
+          </div>
+
+          <div class="agent-portrait-mini chief-portrait">
+            <img src="../assets/imagens/personagens/klint.png" alt="Klint" />
+          </div>
+
+          <div class="agent-info">
+            <span>Chefe // Ordo Realitas</span>
+            <h3>Klint</h3>
+            <p>
+              Liderança operacional da Ordo. Autoridade máxima conhecida neste arquivo.
+              Registro sensível ligado à Trindade e às missões de alto risco.
+            </p>
+          </div>
+
+          <div class="agent-tags">
+            <span>Comando</span>
+            <span>Restrito</span>
+            <span>Ordo</span>
+          </div>
+
+          <button class="agent-open locked-action" type="button" data-locked="Klint">
+            Acesso restrito
+          </button>
+        </article>
+
+        <aside class="chief-note">
+          <span>Nota do sistema</span>
+          <h3>O chefe não é um card comum.</h3>
+          <p>
+            O registro de Klint deve aparecer na página para estabelecer hierarquia,
+            mas não deve liberar conteúdo sensível para os jogadores sem autorização do mestre.
+          </p>
+
+          <div class="chief-warning">
+            ACESSO TOTAL RESERVADO AO MESTRE
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="agents-reader" data-agents-reader>
+      <div class="reader-header">
+        <span>Leitura rápida</span>
+        <strong data-reader-title>Selecione um registro</strong>
+      </div>
+
+      <p data-reader-text>
+        Passe o mouse ou clique em um card para visualizar uma leitura rápida do sistema da Ordo.
+      </p>
     </section>
   </main>
 
-  <script src="../script.js"></script>
-
-  <script>
-    function setupAgentsHubFilters() {
-      const buttons = document.querySelectorAll(".agents-hub-controls button");
-      const cards = document.querySelectorAll(".agent-card");
-
-      buttons.forEach(button => {
-        button.addEventListener("click", () => {
-          const filter = button.dataset.filter;
-
-          buttons.forEach(btn => btn.classList.remove("active"));
-          button.classList.add("active");
-
-          cards.forEach(card => {
-            const isCorrupted = card.classList.contains("corrupted-card");
-
-            if (filter === "all") {
-              card.classList.remove("agents-hidden-card");
-              return;
-            }
-
-            if (filter === "public") {
-              card.classList.toggle("agents-hidden-card", isCorrupted);
-              return;
-            }
-
-            if (filter === "corrupted") {
-              card.classList.toggle("agents-hidden-card", !isCorrupted);
-            }
-          });
-        });
-      });
-    }
-
-    function decorateAgentsHubCards() {
-      document.querySelectorAll(".agent-card").forEach(card => {
-        if (!card.querySelector(".agents-card-code")) {
-          const agent = card.dataset.agent || "registro";
-          const code = document.createElement("span");
-          code.className = "agents-card-code";
-          code.textContent = `ARQ-${agent.slice(0, 3).toUpperCase()}`;
-          card.appendChild(code);
-        }
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => {
-        setupAgentsHubFilters();
-        decorateAgentsHubCards();
-      }, 120);
-    });
-  </script>
+  <link rel="stylesheet" href="../style.css?v=12" />
+  <script src="./agentes.js?v=1"></script>
 </body>
 </html>

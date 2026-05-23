@@ -3,113 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Arquivo Público — Ordo Realitas</title>
-
+  <title>Arquivo da Campanha — Corações do Outro Lado</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <main class="home-cinematic">
-    <div class="home-noise"></div>
-    <div class="home-scan"></div>
-    <div class="home-orb home-orb-a"></div>
-    <div class="home-orb home-orb-b"></div>
-    <div class="home-orb home-orb-c"></div>
-
+  <main class="home-cinematic" data-opening-title="Arquivo da Campanha" data-opening-subtitle="Corações do Outro Lado">
     <section class="home-hero">
-      <div class="home-classification">
-        <span>ORDO REALITAS</span>
-        <strong>ARQUIVO PÚBLICO</strong>
-      </div>
-
-      <p class="home-case">CORAÇÕES DO OUTRO LADO</p>
-
-      <h1 class="home-title">
-        REGISTROS<br />
-        LIBERADOS
-      </h1>
-
-      <p class="home-description">
-        Interface pública de consulta aos dossiês visuais autorizados da campanha.
-        Alguns registros permanecem corrompidos, bloqueados ou fragmentados por
-        inconsistência de credencial.
-      </p>
-
+      <p class="tag">ORDO REALITAS // INTERFACE CINEMATOGRÁFICA</p>
+      <h1 class="home-title">Corações do Outro Lado</h1>
+      <p class="home-subtitle">Arquivo visual e narrativo da campanha. Documentos recuperados, agentes, locais, elementos e segredos da investigação em Santa Luzia reunidos em um sistema corrompido pelo Outro Lado.</p>
       <div class="home-actions">
-        <a class="home-main-button" href="pages/agentes.html">
-          Acessar Arquivos
-        </a>
-
-        <button class="home-secondary-button" type="button" onclick="homeTriggerCorruption()">
-          Testar Registro Corrompido
-        </button>
+        <a class="home-main-button" href="inicio.html">Acessar Arquivo</a>
+        <a class="home-secondary-button" href="pages/elementos.html">Ver Elementos</a>
       </div>
-
-      <section class="home-status-grid">
-        <article>
-          <span>Status</span>
-          <strong>Leitura parcial autorizada</strong>
-        </article>
-
-        <article>
-          <span>Agentes liberados</span>
-          <strong>Maisie / Roselyn / Lilian</strong>
-        </article>
-
-        <article>
-          <span>Bloqueios ativos</span>
-          <strong>Registros restritos isolados</strong>
-        </article>
-      </section>
-    </section>
-
-    <aside class="home-right-panel">
       <section class="home-terminal">
-        <p>// inicializando arquivo público...</p>
-        <p>// verificando permissões de leitura...</p>
-        <p>// Maisie_Hundown: <span>LIBERADO</span></p>
-        <p>// Roselyn_Tate: <span>LIBERADO</span></p>
-        <p>// Lilian_Moretti: <span>LIBERADO</span></p>
-        <p>// Yuna: <b>CORROMPIDO</b></p>
-        <p>// Lisa: <b>CORROMPIDO</b></p>
-        <p>// Blender: <b>CORROMPIDO</b></p>
-        <p>// status: aguardando entrada...</p>
+        <p><span>[SISTEMA]</span> Inicializando camadas do arquivo...</p>
+        <p><span>[ORDO]</span> Caso ativo: <b>Corações do Outro Lado</b></p>
+        <p><span>[LOCAL]</span> Santa Luzia // Rio Lepras // Rodovia Ferreira</p>
+        <p><span>[STATUS]</span> Integridade parcial. Corrupção detectada.</p>
+        <p><span>[ALERTA]</span> Pulso de Sangue abaixo da camada pública.</p>
       </section>
-
-      <section class="home-agent-preview">
-        <a class="home-agent-card home-agent-maisie" href="pages/maisie.html">
-          <span>Arquivo liberado</span>
-          <strong>Maisie Hundown</strong>
-          <p>Energia / tecnologia paranormal</p>
-        </a>
-
-        <a class="home-agent-card home-agent-roselyn" href="pages/agente.html?id=roselyn">
-          <span>Arquivo liberado</span>
-          <strong>Roselyn Tate</strong>
-          <p>Metrônomo / mira temporal</p>
-        </a>
-
-        <a class="home-agent-card home-agent-lilian" href="pages/agente.html?id=lilian">
-          <span>Arquivo liberado</span>
-          <strong>Lilian Moretti</strong>
-          <p>Linha de frente / casca grossa</p>
-        </a>
-      </section>
-    </aside>
-
-    <section id="homeCorruptionPopup" class="home-corruption-popup">
-      <div>
-        <p>ERRO DE CREDENCIAL</p>
-        <h2>Arquivo<br />Corrompido</h2>
-        <span>
-          A leitura pública foi interrompida antes da reconstrução completa do registro.
-        </span>
-        <button type="button" onclick="homeCloseCorruption()">Interromper Leitura</button>
-      </div>
     </section>
   </main>
-
   <script src="script.js"></script>
+  <script src="pages/effects-loader.js"></script>
 </body>
 </html>

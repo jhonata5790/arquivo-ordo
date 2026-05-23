@@ -1,0 +1,16 @@
+PACOTE REFEITO — ARQUIVO DA CAMPANHA
+
+Este pacote alinha HTML e JS ao style.css refeito do zero.
+Substitua os arquivos no projeto mantendo a mesma estrutura de pastas.
+
+Inclui:
+- index.html
+- inicio.html
+- script.js
+- style.css
+- pages/*.html
+- pages/*.js
+- assets preservados
+
+Modo lite/performance não foi reativado.
+Todos os scripts usam safeClosest ou proteções equivalentes para evitar erro com event.target.closest.

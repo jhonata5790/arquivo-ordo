@@ -3,67 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Documentos — Arquivo Ordo Realitas</title>
-
+  <title>Documentos — Arquivo da Campanha</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
-
 <body>
-  <main class="app internal-page">
-    <header class="page-header">
-      <div>
-        <p class="system-status">Arquivo liberado — biblioteca documental</p>
+  <main class="documents-page archive-interface">
+    <div class="documents-noise" aria-hidden="true"></div>
+    <div class="documents-scan" aria-hidden="true"></div>
+    <div class="documents-redline" aria-hidden="true"></div>
 
-        <h1 class="dashboard-title glitch-text" data-text="Documentos">
-          Documentos
-        </h1>
-
-        <p class="page-description">
-          Biblioteca geral de fichas brutas, dossiês narrativos, relatórios preliminares, imagens de arquivo e documentos operacionais.
+    <header class="documents-header cinematic-header">
+      <div class="header-copy">
+        <p class="tag">ORDO REALITAS // CENTRAL DE ARQUIVOS RECUPERADOS</p>
+        <h1>Documentos</h1>
+        <p>
+          Relatórios, fragmentos, dossiês e arquivos parcialmente reconstruídos pela Ordo Realitas durante a investigação de
+          <strong>Corações do Outro Lado</strong>. Nem tudo aqui está completo. Nem tudo aqui deveria responder quando é aberto.
         </p>
       </div>
-
-      <button class="logout-button" onclick="goBack()">Voltar ao Painel</button>
+      <a class="back-link" href="../inicio.html">Voltar ao Arquivo</a>
     </header>
 
-    <section class="terminal-message">
-      <strong>Organização:</strong> Esta seção será usada como central de consulta para PDFs, DOCX, fichas mecânicas, dossiês da Ordo e relatórios visuais.
+    <section class="documents-status-panel status-grid" aria-label="Status da central de documentos">
+      <article><span>Arquivos</span><strong>Recuperados</strong></article>
+      <article><span>Integridade</span><strong>Variável</strong></article>
+      <article><span>Risco</span><strong>Paranormal</strong></article>
+      <article><span>Acesso</span><strong>Parcial</strong></article>
     </section>
 
-    <section class="page-grid">
-      <article class="profile-card">
-        <p class="card-status">Categoria</p>
-        <h2 class="card-title">Dossiês Narrativos</h2>
-        <p class="card-text">Documentos escritos pela perspectiva institucional da Ordo Realitas.</p>
-      </article>
+    <section class="documents-layout investigation-layout">
+      <section class="documents-grid" aria-label="Lista de documentos recuperados">
+        <button class="document-card document-released" type="button" data-document="santa-luzia">
+          <span class="doc-code">DOC-ORDO-001</span>
+          <strong>Arquivo Preliminar — Santa Luzia</strong>
+          <p>Relatório inicial sobre a cidade, seus pontos públicos e o contexto pré-investigação.</p>
+          <i>ESTADO: LIBERADO</i>
+        </button>
 
-      <article class="profile-card">
-        <p class="card-status">Categoria</p>
-        <h2 class="card-title">Fichas Brutas</h2>
-        <p class="card-text">Arquivos mecânicos para consulta rápida de atributos, habilidades, inventário e classe.</p>
-      </article>
+        <button class="document-card document-fragmented" type="button" data-document="caso-miyara">
+          <span class="doc-code">DOC-ORDO-002</span>
+          <strong>Caso Miyara</strong>
+          <p>Registro incompleto da primeira vítima e do primeiro rastro narrativo da missão.</p>
+          <i>ESTADO: FRAGMENTADO</i>
+        </button>
 
-      <article class="profile-card">
-        <p class="card-status">Categoria</p>
-        <h2 class="card-title">Relatórios da Ordo</h2>
-        <p class="card-text">Registros formais sobre missões, locais, casos e observações operacionais.</p>
-      </article>
+        <button class="document-card document-elemental document-blood" type="button" data-document="elemento-sangue">
+          <span class="doc-code">DOC-ELM-SAN</span>
+          <strong>Elemento Sangue</strong>
+          <p>Arquivo elemental contaminado por pulso, fome, carne, ligação e instinto.</p>
+          <i>ESTADO: CORROMPIDO</i>
+        </button>
 
-      <article class="profile-card">
-        <p class="card-status">Categoria</p>
-        <h2 class="card-title">Arquivos Corrompidos</h2>
-        <p class="card-text">Documentos com trechos ilegíveis, lacunas narrativas, sigilos ou dados parcialmente ocultos.</p>
-      </article>
+        <button class="document-card document-elemental document-blood" type="button" data-document="coracao-amaldicoado">
+          <span class="doc-code">DOC-RIT-001</span>
+          <strong>Coração Amaldiçoado</strong>
+          <p>Componente ritualístico central ligado à contaminação de Santa Luzia.</p>
+          <i>ESTADO: INSTÁVEL</i>
+        </button>
 
-      <article class="profile-card disabled-card">
-        <p class="card-status">Pendente</p>
-        <h2 class="card-title">Galeria de Evidências</h2>
-        <p class="card-text">Área futura para imagens, prints, mapas, fotos e materiais visuais da investigação.</p>
-      </article>
+        <button class="document-card document-locked" type="button" data-document="klint-comando">
+          <span class="doc-code">DOC-CMD-000</span>
+          <strong>Klint — Comando</strong>
+          <p>Dossiê reservado de liderança. Informações ocultas por restrição administrativa.</p>
+          <i>ACESSO: NEGADO</i>
+        </button>
+
+        <button class="document-card document-locked master-lock" type="button" data-document="arquivos-mestre">
+          <span class="doc-code">DOC-MST-???</span>
+          <strong>Arquivos do Mestre</strong>
+          <p>Camada privada contendo spoilers, segredos estruturais e revelações futuras.</p>
+          <i>ACESSO: SIGILOSO</i>
+        </button>
+      </section>
+
+      <aside class="documents-terminal" aria-label="Terminal do sistema da Ordo">
+        <div class="terminal-header">
+          <span></span><span></span><span></span>
+          <strong>terminal_ordo.exe</strong>
+        </div>
+        <div class="terminal-feed" id="documentTerminalFeed">
+          <p><span>[SISTEMA]</span> Central de documentos inicializada.</p>
+          <p><span>[RECUPERAÇÃO]</span> 6 entradas encontradas em cache local.</p>
+          <p><span>[AVISO]</span> Fragmentos corrompidos podem reagir a tentativas de reconstrução.</p>
+          <p><span>[ORDEM]</span> Nenhum documento deve revelar mais do que a investigação permite.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="documentReader" class="document-reader" aria-live="polite">
+      <div class="reader-empty-state">
+        <span>LEITOR EM ESPERA</span>
+        <h2>Selecione um documento</h2>
+        <p>Clique em um card acima para abrir uma versão reconstruída no painel inferior.</p>
+      </div>
     </section>
   </main>
 
-  <script src="../script.js"></script>
+  <script src="effects-loader.js"></script>
+  <script src="documentos.js"></script>
 </body>
 </html>
