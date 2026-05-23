@@ -146,7 +146,7 @@
     field.classList.add(`ordo-ambient-${pageType}`);
     field.style.setProperty("--field-color", palette[pageType] || palette.ordo);
 
-    window.setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       const x = Math.random() * window.innerWidth;
       const y = Math.random() * window.innerHeight;

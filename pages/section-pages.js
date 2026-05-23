@@ -36,7 +36,7 @@
     if (!canvas || !ctx) return;
     width = window.innerWidth;
     height = window.innerHeight;
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const ratio = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
     canvas.width = Math.floor(width * ratio);
     canvas.height = Math.floor(height * ratio);
     canvas.style.width = `${width}px`;
@@ -61,7 +61,7 @@
         ring: Math.random() > 0.72
       });
     }
-    if (particles.length > 260) particles = particles.slice(-260);
+    if (particles.length > 180) particles = particles.slice(-180);
   }
 
   function draw() {
@@ -92,7 +92,7 @@
       ctx.restore();
     });
     particles = particles.filter((p) => p.life > 0);
-    requestAnimationFrame(draw);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(draw);
   }
 
   function updateTerminal(lines) {

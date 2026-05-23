@@ -14,3 +14,24 @@ Inclui:
 
 Modo lite/performance não foi reativado.
 Todos os scripts usam safeClosest ou proteções equivalentes para evitar erro com event.target.closest.
+
+==============================
+VERSÃO 2.0 — OTIMIZAÇÃO
+==============================
+- Adicionado pages/performance-core.js para centralizar otimizações sem remover efeitos.
+- Canvases e partículas continuam ativos, mas com DPR limitado para reduzir uso de GPU.
+- Loops de animação e timers agora respeitam aba invisível/inativa.
+- Scroll horizontal travado globalmente.
+- Cards e painéis ganharam contenção de layout/pintura.
+- Imagens receberam lazy loading e decoding assíncrono.
+- PNGs foram recompactados de forma lossless quando possível.
+- Cache bust atualizado para v=20.
+
+VERSÃO 2.0.1 — CORREÇÃO DOS EFEITOS
+- Corrigido performance-core.js para não quebrar requestAnimationFrame.
+- Removidas otimizações agressivas que podiam esconder VFX.
+- Mantidas otimizações seguras: DPR limitado, pausa em aba oculta, lazy loading de imagens, bloqueio de overflow horizontal e canvas VFX em camada garantida.
+- Após substituir, use Ctrl + F5.
+
+
+Versão 2.0.2: otimização anti-travamento dos VFX. Mantém efeitos ativos, mas limita rajadas repetidas, reduz quantidade quando há spam de cliques e impede acúmulo excessivo de partículas.

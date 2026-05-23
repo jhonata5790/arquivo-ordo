@@ -840,11 +840,12 @@
   }
 
   function burst(x, y, type = "normal") {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("maisie-burst", type === "energy" ? 11 : 7)) return;
     spawnWave(x, y);
 
-    const sparkAmount = type === "energy" ? 26 : 16;
-    const dotAmount = type === "energy" ? 16 : 8;
-    const runeAmount = type === "energy" ? 7 : 4;
+    const sparkAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "energy" ? 26 : 16, .68, .45) : (type === "energy" ? 26 : 16);
+    const dotAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "energy" ? 16 : 8, .68, .45) : (type === "energy" ? 16 : 8);
+    const runeAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "energy" ? 7 : 4, .7, .5) : (type === "energy" ? 7 : 4);
 
     for (let i = 0; i < sparkAmount; i++) {
       spawnSpark(x, y, i % 3 === 0);
@@ -1452,17 +1453,17 @@
   }
 
   function ambient() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       addTerminal(pick(terminalLines));
     }, 6500);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       spawnAmbientEnergy();
     }, 1200);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const tankVisible = document.querySelector(".equipment-status");

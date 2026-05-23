@@ -452,6 +452,7 @@
   }
 
   function spawnDocumentRune(x, y) {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("docs-rune", 1.1)) return;
     const glyphs = ["OR", "F", "//", "Δ", "◇", "01", "SIG", "DOC", "██"];
     particles.push({
       x,
@@ -474,12 +475,12 @@
     ctx = canvas.getContext("2d");
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-    requestAnimationFrame(drawCanvas);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(drawCanvas);
   }
 
   function resizeCanvas() {
     if (!canvas) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
     canvas.width = Math.floor(window.innerWidth * dpr);
     canvas.height = Math.floor(window.innerHeight * dpr);
     canvas.style.width = "100vw";
@@ -488,11 +489,13 @@
   }
 
   function spawnCanvasBurst(x, y, mode = "normal") {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("docs-burst", 10)) return;
     const colors = mode === "block"
       ? ["rgba(255,84,84,0.95)", "rgba(214,179,90,0.85)"]
       : ["rgba(214,179,90,0.88)", "rgba(126,36,255,0.75)", "rgba(255,255,255,0.72)"];
 
-    for (let i = 0; i < 34; i += 1) {
+    const burstAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(34, 22, 14) : 34;
+    for (let i = 0; i < burstAmount; i += 1) {
       particles.push({
         x,
         y,
@@ -525,7 +528,8 @@
 
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    if (Math.random() < 0.82) {
+    const ambientChance = window.OrdoPerf?.vfxPressure?.() === "high" ? 0.18 : window.OrdoPerf?.vfxPressure?.() === "medium" ? 0.42 : 0.82;
+    if (Math.random() < ambientChance && (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("docs-ambient", 0.25))) {
       particles.push({
         x: mouseX + (Math.random() - 0.5) * 38,
         y: mouseY + (Math.random() - 0.5) * 38,
@@ -538,7 +542,7 @@
       });
     }
 
-    particles = particles.filter(particle => particle.life > 0).slice(-180);
+    particles = particles.filter(particle => particle.life > 0).slice(-120);
 
     particles.forEach(particle => {
       particle.x += particle.vx;
@@ -574,7 +578,7 @@
     });
 
     ctx.globalAlpha = 1;
-    requestAnimationFrame(drawCanvas);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(drawCanvas);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -639,7 +643,7 @@
       search.addEventListener("input", applyFilters);
     }
 
-    window.setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       const [kind, message] = ambientMessages[Math.floor(Math.random() * ambientMessages.length)];
       addTerminalLine(message, kind);
     }, 6000);

@@ -207,7 +207,7 @@
     }
 
     function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
       width = Math.max(1, window.innerWidth);
       height = Math.max(1, window.innerHeight);
       canvas.width = Math.floor(width * dpr);
@@ -249,7 +249,8 @@
     function addTrail(x, y, cardName) {
       const color = getCardColor(cardName || state.activeCard);
       const rgb = hexToRgb(color);
-      for (let i = 0; i < 2; i++) {
+      if (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("home-trail", 0.35)) {
+        for (let i = 0; i < 2; i++) {
         particles.push({
           x: x + random(-5, 5),
           y: y + random(-5, 5),
@@ -263,15 +264,18 @@
           kind: "trail"
         });
       }
+        }
     }
 
     function burst(x, y, cardName) {
+      if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("home-burst", 10)) return;
       const color = getCardColor(cardName || state.activeCard);
       const rgb = hexToRgb(color);
 
       waves.push({ x, y, life: 38, maxLife: 38, color, rgb, radius: 8, power: random(6, 10) });
 
-      for (let i = 0; i < 32; i++) {
+      const particleAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(32, 22, 14) : 32;
+      for (let i = 0; i < particleAmount; i++) {
         const angle = random(0, Math.PI * 2);
         const speed = random(1.4, 5.8);
         particles.push({
@@ -288,7 +292,8 @@
         });
       }
 
-      for (let i = 0; i < 5; i++) {
+      const runeAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(5, 3, 2) : 5;
+      for (let i = 0; i < runeAmount; i++) {
         runes.push({
           x: x + random(-54, 54),
           y: y + random(-54, 54),
@@ -357,6 +362,7 @@
     }
 
     function drawParticles() {
+      if (particles.length > 180) particles.splice(0, particles.length - 180);
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.life -= 1;
@@ -391,6 +397,7 @@
     }
 
     function drawWaves() {
+      if (waves.length > 26) waves.splice(0, waves.length - 26);
       for (let i = waves.length - 1; i >= 0; i--) {
         const w = waves[i];
         w.life -= 1;
@@ -412,6 +419,7 @@
     function drawRunes() {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+      if (runes.length > 45) runes.splice(0, runes.length - 45);
       for (let i = runes.length - 1; i >= 0; i--) {
         const r = runes[i];
         r.life -= 1;
@@ -456,7 +464,7 @@
     }
 
     function loop() {
-      raf = requestAnimationFrame(loop);
+      raf = (window.OrdoPerf?.raf || window.requestAnimationFrame)(loop);
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
       if (!state.reducedMotion) drawFloaters();
@@ -627,7 +635,7 @@
   }
 
   function startAmbientTerminal() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const now = performance.now();

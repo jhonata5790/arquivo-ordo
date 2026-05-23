@@ -785,12 +785,13 @@
   }
 
   function temporalClick(x, y, type = "normal") {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("roselyn-click", type === "shot" ? 9 : 6)) return;
     spawnScopePulse(x, y);
     spawnFreeze(x, y);
     spawnMetronomeBeat(x, y);
 
-    const trajectoryAmount = type === "shot" ? 5 : 2;
-    const dustAmount = type === "shot" ? 16 : 8;
+    const trajectoryAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "shot" ? 5 : 2, .75, .55) : (type === "shot" ? 5 : 2);
+    const dustAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "shot" ? 16 : 8, .7, .45) : (type === "shot" ? 16 : 8);
 
     for (let i = 0; i < trajectoryAmount; i++) {
       spawnTrajectory(x + random(-35, 35), y + random(-35, 35), type === "shot");
@@ -1359,17 +1360,17 @@
   }
 
   function ambient() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       addTerminal(pick(terminalLines));
     }, 7000);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       spawnAmbientTime();
     }, 1650);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const metronome = document.querySelector(".metronome-status");

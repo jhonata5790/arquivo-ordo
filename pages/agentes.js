@@ -614,11 +614,12 @@
   }
 
   function burst(x, y, type = "normal") {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("agents-burst", type === "restricted" ? 8 : 5)) return;
     spawnWave(x, y);
     spawnScreenPulse(x, y);
 
-    const sparkAmount = type === "restricted" ? 18 : 11;
-    const dotAmount = type === "restricted" ? 8 : 5;
+    const sparkAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "restricted" ? 18 : 11, .7, .45) : (type === "restricted" ? 18 : 11);
+    const dotAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(type === "restricted" ? 8 : 5, .7, .45) : (type === "restricted" ? 8 : 5);
 
     for (let i = 0; i < sparkAmount; i++) {
       spawnSpark(x, y, type === "restricted" && i % 3 === 0);
@@ -979,12 +980,12 @@
   }
 
   function ambient() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       addTerminal(pick(terminalLines));
     }, 10500);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const x = innerWidth * random(0.12, 0.88);

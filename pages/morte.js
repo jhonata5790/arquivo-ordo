@@ -53,7 +53,7 @@
   }
 
   function resize() {
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const ratio = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = Math.floor(w * ratio); canvas.height = Math.floor(h * ratio);
     canvas.style.width = w + "px"; canvas.style.height = h + "px";
@@ -74,8 +74,10 @@
   function setReading(text) { if (reading) reading.textContent = text; }
 
   function spawn(x, y, count = 16, power = 1) {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("edoc-spawn", Math.max(1, count / 4))) return;
+    count = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(count, 0.7, 0.45) : count;
     for (let i = 0; i < count; i++) {
-      if (particles.length > cfg.max) particles.shift();
+      if (particles.length > cfg.max) particles.splice(0, particles.length - cfg.max + 1);
       particles.push({
         x, y, vx: rand(-2.2, 2.2) * power, vy: rand(-2.2, 2.2) * power,
         life: rand(35, 95), max: rand(35, 95), size: rand(1, 4) * power,
@@ -178,7 +180,7 @@
       ctx.restore();
     }
 
-    requestAnimationFrame(draw);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(draw);
   }
 
   resize(); window.addEventListener("resize", resize);
@@ -201,8 +203,8 @@
   document.addEventListener("contextmenu", (event) => { event.preventDefault(); log("menu contextual bloqueado por contenção da Ordo."); spawn(event.clientX, event.clientY, 30, 1.4); return false; }, { capture: true });
   ["selectstart", "dragstart", "copy", "cut"].forEach(evt => document.addEventListener(evt, e => e.preventDefault()));
 
-  setInterval(() => { log(pick(cfg.logs)); setReading(pick(cfg.readings)); if (type === "conhecimento") popup(); if (type === "energia") file?.classList.toggle("edoc-file-shift"); }, type === "energia" ? 2200 : type === "conhecimento" ? 3000 : 5200);
-  setInterval(() => spawn(rand(0,w), rand(0,h), type === "energia" ? 12 : 5, type === "energia" ? 1.5 : 1), 900);
+  (window.OrdoPerf?.interval || window.setInterval)(() => { log(pick(cfg.logs)); setReading(pick(cfg.readings)); if (type === "conhecimento") popup(); if (type === "energia") file?.classList.toggle("edoc-file-shift"); }, type === "energia" ? 2200 : type === "conhecimento" ? 3000 : 5200);
+  (window.OrdoPerf?.interval || window.setInterval)(() => spawn(rand(0,w), rand(0,h), type === "energia" ? 12 : 5, type === "energia" ? 1.5 : 1), 900);
   setTimeout(() => { log("fragmento estabilizado com corrupção ativa."); spawn(w/2,h/2,45,1.5); }, 400);
   draw();
 })();

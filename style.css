@@ -16775,3 +16775,92 @@ body {
     height: 190px;
   }
 }
+
+/* ================================
+   ORDO REALITAS // PERFORMANCE 2.0
+   Otimização sem remoção de efeitos
+================================ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+canvas {
+  max-width: 100vw;
+}
+
+.home-sector-card,
+.agent-card,
+.document-card,
+.element-card,
+.section-card,
+.edoc-panel,
+.edoc-file,
+.metric-card,
+.trail-item,
+.reader-panel,
+.terminal-panel,
+.ordo-panel,
+.character-panel,
+.character-card {
+  contain: layout paint style;
+}
+
+.document-card,
+.element-card,
+.section-card,
+.agent-card,
+.edoc-panel,
+.edoc-file {
+  content-visibility: auto;
+  contain-intrinsic-size: 320px;
+}
+
+#home-vfx-canvas,
+#documentsVfxCanvas,
+[data-elements-vfx],
+[data-edoc-canvas],
+.section-vfx-canvas,
+canvas[id*="vfx"],
+canvas[class*="vfx"] {
+  transform: translateZ(0);
+  will-change: opacity, transform;
+  pointer-events: none !important;
+}
+
+.knowledge-popup-alert,
+.edoc-sigil,
+.player-character,
+.character-art,
+.floating-symbol,
+.home-orb,
+.case-orb,
+.element-sigil,
+.sigil-orbit {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 900px) {
+  .document-grid,
+  .agent-grid,
+  .section-grid,
+  .element-grid,
+  .home-sector-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

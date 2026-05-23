@@ -692,12 +692,13 @@
   }
 
   function impactClick(x, y, type = "normal") {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("lilian-impact", (type === "heavy" || type === "guard" || type === "demolish") ? 9 : 6)) return;
     const heavy = type === "heavy" || type === "guard" || type === "demolish";
 
     spawnImpactWave(x, y, heavy);
     spawnScreenImpact(x, y);
-    spawnDust(x, y, heavy ? 18 : 9);
-    spawnCracks(x, y, heavy ? 9 : 5);
+    spawnDust(x, y, window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(heavy ? 18 : 9, .7, .45) : (heavy ? 18 : 9));
+    spawnCracks(x, y, window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(heavy ? 9 : 5, .7, .45) : (heavy ? 9 : 5));
 
     if (type === "fist" || type === "demolish" || type === "heavy") {
       spawnFistMark(x, y);
@@ -1302,17 +1303,17 @@
   }
 
   function ambient() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       addTerminal(pick(terminalLines));
     }, 6500);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
       spawnAmbientImpact();
     }, 1600);
 
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const guard = document.querySelector(".guard-status");

@@ -256,7 +256,7 @@
   }
 
   function startAmbientTerminal() {
-    setInterval(() => {
+    (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       addTerminal(pick(terminalLines));

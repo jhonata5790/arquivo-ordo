@@ -144,7 +144,7 @@
   function resizeCanvas() {
     if (!canvas || !ctx) return;
 
-    state.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    state.dpr = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
     state.width = window.innerWidth;
     state.height = window.innerHeight;
 
@@ -283,6 +283,8 @@
     ctx.clearRect(0, 0, state.width, state.height);
     ctx.globalCompositeOperation = "lighter";
 
+    if (state.particles.length > 160) state.particles.splice(0, state.particles.length - 160);
+    if (state.waves.length > 24) state.waves.splice(0, state.waves.length - 24);
     for (let i = state.particles.length - 1; i >= 0; i--) {
       const p = state.particles[i];
       const alpha = Math.max(p.life / p.maxLife, 0);
@@ -350,7 +352,7 @@
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = "source-over";
 
-    requestAnimationFrame(draw);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(draw);
   }
 
   function bindCards() {
@@ -464,7 +466,7 @@
   }
 
   function startAmbient() {
-    state.ambientTimer = setInterval(() => {
+    state.ambientTimer = (window.OrdoPerf?.interval || window.setInterval)(() => {
       if (document.hidden) return;
 
       const names = Object.keys(elementData);
@@ -497,7 +499,7 @@
     bindInteractionLocks();
     startAmbient();
     bootPulse();
-    requestAnimationFrame(draw);
+    (window.OrdoPerf?.raf || window.requestAnimationFrame)(draw);
 
     window.addEventListener("resize", resizeCanvas, { passive: true });
 
