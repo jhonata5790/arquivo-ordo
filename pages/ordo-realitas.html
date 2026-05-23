@@ -4,17 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ordo Realitas — Arquivo da Campanha</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=22" />
 </head>
-<body>
-  <main class="internal-page">
-    <div class="archive-home-noise"></div><div class="archive-home-scan"></div>
-    <header class="page-header"><div><p class="tag">INSTITUIÇÃO // CAMADA OPERACIONAL</p><h1>Ordo Realitas</h1><p>Registros sobre a presença da Ordo, comando, setores e Trindade.</p></div><a class="back-link" href="../inicio.html">Voltar ao Arquivo</a></header>
-    <section class="page-grid">
-      <button class="document-card document-locked" type="button" data-popup-title="Klint" data-popup-text="Comando da Ordo e peso operacional das decisões."><span>ORD-001</span><strong>Klint</strong><p>Comando da Ordo e peso operacional das decisões.</p><i>SIGILO</i></button><button class="document-card " type="button" data-popup-title="Trindade da Ordo" data-popup-text="Yuna, Lisa e Blender como semi-líderes dos três setores."><span>ORD-002</span><strong>Trindade da Ordo</strong><p>Yuna, Lisa e Blender como semi-líderes dos três setores.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Setor Ocultista" data-popup-text="Análise de rituais, manifestações e artefatos."><span>ORD-003</span><strong>Setor Ocultista</strong><p>Análise de rituais, manifestações e artefatos.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Setor Especialista" data-popup-text="Coordenação, leitura de campo e suporte investigativo."><span>ORD-004</span><strong>Setor Especialista</strong><p>Coordenação, leitura de campo e suporte investigativo.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Setor Combatente" data-popup-text="Contenção, confronto direto e resposta a ameaças."><span>ORD-005</span><strong>Setor Combatente</strong><p>Contenção, confronto direto e resposta a ameaças.</p><i>EM CONSTRUÇÃO</i></button>
+<body class="archive-section-body section-ordo" data-section="ordo">
+  <canvas class="section-vfx-canvas" aria-hidden="true"></canvas>
+  <main class="archive-section-page">
+    <div class="archive-home-noise"></div>
+    <div class="archive-home-scan"></div>
+
+    <header class="section-hero">
+      <a class="back-link section-back" href="../inicio.html">Voltar ao Arquivo</a>
+      <div class="section-hero-left">
+        <p class="tag">INSTITUIÇÃO // CAMADA OPERACIONAL</p>
+        <h1>Ordo Realitas</h1>
+        <p>
+          Organização dedicada a investigar, conter e ocultar manifestações paranormais. Esta página reúne
+          informações institucionais liberadas para consulta interna de baixo risco.
+        </p>
+        <div class="section-hero-actions">
+          <button class="section-action" type="button" data-action="scan">Validar Credenciais</button>
+          <button class="section-action ghost" type="button" data-action="random">Abrir Setor Aleatório</button>
+        </div>
+      </div>
+      <aside class="section-case-panel">
+        <span>INSTITUIÇÃO</span><strong>Ordo Realitas</strong>
+        <span>CAMADA</span><strong>Operacional</strong>
+        <span>COMANDO</span><strong>Klint // Restrito</strong>
+        <span>SETOR ATIVO</span><strong>Trindade</strong>
+      </aside>
+    </header>
+
+    <section class="section-status-grid" aria-label="Resumo institucional da Ordo">
+      <article><span>Função</span><strong>Conter</strong><p>Reduzir dano civil, investigar ameaças e impedir exposição pública.</p></article>
+      <article><span>Estrutura</span><strong>Setores</strong><p>Ocultistas, especialistas e combatentes atuam em papéis complementares.</p></article>
+      <article><span>Comando</span><strong>Sigilo</strong><p>Decisões de alto risco são filtradas por camada de acesso.</p></article>
+      <article><span>Campo</span><strong>Equipes</strong><p>Agentes são enviados conforme risco, função e necessidade narrativa.</p></article>
+    </section>
+
+    <section class="section-tools">
+      <label class="section-search">
+        <span>Buscar no diretório institucional</span>
+        <input id="sectionSearch" type="search" placeholder="Digite setor, protocolo, hierarquia ou função..." autocomplete="off" />
+      </label>
+      <div class="section-filters" aria-label="Filtros da Ordo Realitas">
+        <button class="active" type="button" data-filter="all">Tudo</button>
+        <button type="button" data-filter="setor">Setores</button>
+        <button type="button" data-filter="protocolo">Protocolos</button>
+        <button type="button" data-filter="hierarquia">Hierarquia</button>
+        <button type="button" data-filter="restrito">Restritos</button>
+      </div>
+    </section>
+
+    <section class="section-layout">
+      <div class="section-card-grid" id="sectionCards">
+        <button class="section-record-card" type="button" data-filter="hierarquia" data-title="Função da Ordo Realitas" data-code="ORD-BASE-001" data-risk="Informação liberada" data-lines="A Ordo Realitas atua para localizar, estudar, conter e ocultar o Paranormal.|A prioridade pública é manter civis seguros sem revelar a existência do Outro Lado.|Nem toda ocorrência exige eliminação; muitas exigem silêncio, observação e controle." data-note="Texto institucional de baixa camada, adequado para contextualização da campanha.">
+          <span>ORD-BASE-001</span><strong>Função da Ordo Realitas</strong><p>Resumo da missão institucional e do papel da organização.</p><i>LIBERADO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="hierarquia restrito" data-title="Comando — Klint" data-code="ORD-CMD-001" data-risk="Restrito / comando superior" data-lines="Klint responde por decisões operacionais de alto risco.|Relatórios indicam postura fria em campo, mas preocupação real com baixas de agentes.|Acesso completo ao dossiê permanece bloqueado nesta camada." data-note="Ficha completa deve permanecer em página própria e restrita.">
+          <span>ORD-CMD-001</span><strong>Comando — Klint</strong><p>Registro resumido do comandante e de sua autoridade operacional.</p><i>RESTRITO</i>
+        </button>
+        <button class="section-record-card highlighted" type="button" data-filter="hierarquia setor" data-title="Trindade da Ordo" data-code="ORD-TRI-002" data-risk="Parcial / liderança tática" data-lines="A Trindade organiza os três setores de atuação: Ocultista, Especialista e Combatente.|Yuna, Lisa e Blender atuam como semi-líderes e ponte entre campo, análise e comando.|A estrutura existe para acelerar decisões sem expor todo o comando superior." data-note="Yuna, Lisa e Blender permanecem com fichas individuais restritas no hub de agentes.">
+          <span>ORD-TRI-002</span><strong>Trindade da Ordo</strong><p>Sistema de semi-liderança que coordena as principais frentes operacionais.</p><i>PARCIAL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="setor" data-title="Setor Ocultista" data-code="ORD-SET-OCU" data-risk="Risco ritualístico" data-lines="Responsável por leitura de manifestações, rituais, símbolos, entidades e elementos.|Ocultistas avaliam o que pode ser estudado, neutralizado ou evitado.|Em missões de baixa informação, este setor define limites de aproximação." data-note="Yuna é a referência de semi-liderança ocultista na campanha.">
+          <span>ORD-SET-OCU</span><strong>Setor Ocultista</strong><p>Análise ritualística, leitura elemental e suporte contra manifestações.</p><i>SETOR</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="setor" data-title="Setor Especialista" data-code="ORD-SET-ESP" data-risk="Risco investigativo" data-lines="Responsável por coleta de dados, infiltração, perícia, logística e leitura de campo.|Especialistas mantêm a missão funcionando quando a ameaça ainda não foi nomeada.|São fundamentais em cidades pequenas, onde cada pergunta chama atenção." data-note="Lisa é a referência de semi-liderança especialista na campanha.">
+          <span>ORD-SET-ESP</span><strong>Setor Especialista</strong><p>Investigação, estratégia, logística, infiltração e coordenação de campo.</p><i>SETOR</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="setor" data-title="Setor Combatente" data-code="ORD-SET-COM" data-risk="Risco de confronto" data-lines="Responsável por contenção direta, proteção de equipe e resposta física a ameaças.|Combatentes entram quando a investigação deixa de ser pergunta e vira sobrevivência.|A prioridade é manter a equipe viva e impedir avanço da manifestação." data-note="Blender é a referência de semi-liderança combatente na campanha.">
+          <span>ORD-SET-COM</span><strong>Setor Combatente</strong><p>Resposta direta, defesa, contenção física e controle de ameaça.</p><i>SETOR</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Camadas de Acesso" data-code="ORD-PR-010" data-risk="Administrativo" data-lines="Arquivos da Ordo são separados por camadas para evitar vazamento, pânico e exposição a conteúdo sensível.|Nem todo agente precisa saber tudo para sobreviver a uma missão.|O desconhecimento controlado é tratado como método de proteção." data-note="Justifica páginas bloqueadas, cards restritos e documentos fragmentados no site.">
+          <span>ORD-PR-010</span><strong>Camadas de Acesso</strong><p>Regras de liberação, bloqueio e ocultação de documentos internos.</p><i>PROTOCOLO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Infiltração Civil" data-code="ORD-PR-021" data-risk="Baixo perfil" data-lines="Em comunidades pequenas, a presença da Ordo deve parecer casual e não institucional.|Agentes podem usar cobertura de moradores temporários, pesquisadores, visitantes ou profissionais comuns.|O objetivo é observar antes de interferir." data-note="Aplicável diretamente ao envio da Equipe F para Santa Luzia.">
+          <span>ORD-PR-021</span><strong>Infiltração Civil</strong><p>Procedimento para entrar em cidades sem acionar resistência social.</p><i>PROTOCOLO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Contenção de Boatos" data-code="ORD-PR-033" data-risk="Social / mídia local" data-lines="Quando uma ocorrência ainda parece lenda urbana, a Ordo evita confirmar qualquer narrativa paranormal.|Boatos podem proteger ou piorar uma investigação, dependendo do tipo de manifestação.|A primeira etapa é entender quem espalha, quem acredita e quem lucra com o medo." data-note="Útil para casos como Santa Luzia, antes de confirmação concreta.">
+          <span>ORD-PR-033</span><strong>Contenção de Boatos</strong><p>Controle de rumores civis antes da confirmação de ameaça paranormal.</p><i>PROTOCOLO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="hierarquia" data-title="Patentes e Funções" data-code="ORD-ADM-018" data-risk="Administrativo" data-lines="A patente define nível de confiança, exposição e autonomia.|A função em campo nem sempre acompanha cargo formal: um recruta pode carregar uma pista decisiva.|Relatórios priorizam eficiência, sobrevivência e capacidade de sigilo." data-note="Base para fichas, hubs de agentes e classificação operacional.">
+          <span>ORD-ADM-018</span><strong>Patentes e Funções</strong><p>Resumo sobre autoridade, responsabilidade e leitura operacional de agentes.</p><i>ADMIN</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Registro de Baixas" data-code="ORD-PR-040" data-risk="Sensível / psicológico" data-lines="A Ordo registra baixas com linguagem objetiva, mas cada perda altera decisões futuras.|Comando deve equilibrar luto, urgência e contenção.|Relatórios públicos internos reduzem detalhes para proteger agentes ativos." data-note="Informação liberada apenas em forma resumida.">
+          <span>ORD-PR-040</span><strong>Registro de Baixas</strong><p>Procedimento de arquivamento e proteção emocional após perdas em campo.</p><i>SENSÍVEL</i>
+        </button>
+        <button class="section-record-card locked" type="button" data-filter="restrito" data-title="Arquivo Mestre" data-code="ORD-MST-000" data-risk="Acesso negado" data-lines="Camada reservada ao mestre da campanha.|Contém segredos de campanha, revelações futuras e documentos completos.|Interface pública mantém apenas fragmentos controlados." data-note="Não abrir em sessão com jogadores sem intenção narrativa.">
+          <span>ORD-MST-000</span><strong>Arquivo Mestre</strong><p>Camada externa com segredos da campanha e conteúdos não liberados.</p><i>RESTRITO</i>
+        </button>
+      </div>
+
+      <aside class="section-reader-panel" aria-live="polite">
+        <div class="reader-terminal">
+          <div class="terminal-top"><span></span><span></span><span></span><strong>ORDO_REALITAS.EXE</strong></div>
+          <p>[CREDENCIAL] camada operacional validada.</p>
+          <p>[OR DO] acesso completo ao comando permanece restrito.</p>
+          <p>[TRINDADE] semi-liderança reconhecida.</p>
+        </div>
+        <div class="section-reader" id="sectionReader">
+          <p class="tag">LEITURA INSTITUCIONAL</p>
+          <h2>Selecione um registro da Ordo</h2>
+          <p>O painel exibirá informações liberadas sobre setores, protocolos e hierarquia.</p>
+          <div class="reader-lines"><span>Sistema em espera.</span><span>Nenhum setor fixado.</span></div>
+        </div>
+      </aside>
     </section>
   </main>
-  <script src="../script.js"></script>
-  <script src="effects-loader.js"></script>
+  <script src="./section-pages.js?v=1"></script>
 </body>
 </html>

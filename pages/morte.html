@@ -3,76 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Morte — Arquivo Elemental</title>
-  <link rel="stylesheet" href="../style.css" />
+  <title>Morte — Arquivo Elemental Corrompido</title>
+  <link rel="stylesheet" href="../style.css?v=19" />
 </head>
 <body>
-  <main class="death-element-page element-page" data-element-page="death">
-    <div class="death-bg-noise" aria-hidden="true"></div>
-    <div class="death-bg-clock" aria-hidden="true"></div>
-    <div class="death-bg-dust" aria-hidden="true"></div>
-    <div class="death-bg-decay" aria-hidden="true"></div>
+  <main class="edoc-page edoc-death" data-element-doc="morte">
+    <canvas class="edoc-canvas" data-edoc-canvas aria-hidden="true"></canvas>
+    <div class="edoc-bg edoc-bg-a" aria-hidden="true"></div>
+    <div class="edoc-bg edoc-bg-b" aria-hidden="true"></div>
+    <div class="edoc-bg edoc-bg-c" aria-hidden="true"></div>
 
-    <header class="death-header element-header cinematic-header">
-      <div class="header-copy">
-        <p class="tag">ELEMENTO // MORTE</p>
-        <h1 data-text="Morte">Morte</h1>
-        <p>A página envelhece enquanto é lida. Poeira, repetição e perda gradual substituem impacto por inevitabilidade.</p>
-        <span class="death-warning element-warning">arquivo instável // interação recomendada com cautela</span>
+    <header class="edoc-header">
+      <a class="edoc-back" href="./elementos.html">← Voltar aos Elementos</a>
+      <div class="edoc-header-grid">
+        <section class="edoc-title-block">
+          <p class="edoc-kicker">ORDO REALITAS // ARQUIVO ELEMENTAL CORROMPIDO</p>
+          <h1 data-text="MORTE">Morte</h1>
+          <p>O arquivo foi levado pela Morte parcialmente. Tudo que retorna volta alterado, envelhecido ou deslocado da própria linha temporal.</p>
+          <div class="edoc-tags">
+            <span>fragmento recuperado</span>
+            <span>não é o documento final</span>
+            <span>CICLO / ESPIRAIS NEGRAS</span>
+          </div>
+        </section>
+
+        <aside class="edoc-sigil-card">
+          <span>sigilo oficial</span>
+          <img src="../assets/imagens/elementos/morte.png" alt="Sigilo de Morte" draggable="false" />
+          <strong>FORA DA LINHA DO TEMPO / DECADÊNCIA ATIVA / CICLO INCOMPLETO</strong>
+        </aside>
       </div>
-      <a class="back-link" href="elementos.html">Voltar aos Elementos</a>
     </header>
 
-    <section class="element-shell death-layout">
-      <aside class="element-side-panel death-time-panel">
-        <article><span>Tempo</span><strong>Circular</strong></article><article><span>Risco</span><strong>Decadência</strong></article><article><span>Estado</span><strong>Erodindo</strong></article>
-        <div class="element-meter death-decay-meter" aria-hidden="true"></div>
+    <section class="edoc-layout">
+      <aside class="edoc-terminal" aria-label="Terminal elemental">
+        <div class="edoc-terminal-top"><i></i><i></i><i></i><strong>terminal_ordo.morte</strong></div>
+        <div class="edoc-terminal-lines" data-edoc-terminal>
+          <p>&gt; abrindo or-elm-morte // setor de arquivos impossíveis...</p>
+          <p>&gt; estado: fora da linha do tempo / decadência ativa / ciclo incompleto.</p>
+          <p>&gt; contenção visual iniciada.</p>
+          <p>&gt; o documento reagiu ao carregamento.</p>
+        </div>
       </aside>
 
-      <article class="element-main-file death-main-file">
-        <span class="element-file-classification death-file-classification">ORDEM // FRAGMENTO ELEMENTAL</span>
-        <h2>Morte</h2>
-        <p class="element-theme death-theme">“Tudo tem um começo e um fim, e o Tempo leva todas as coisas. Nada que é levado pela Morte pode voltar ao que era antes.”</p>
-
-        <div class="element-fragments death-fragments" data-element-fragments>
-          <p class="death-line element-fragment-line">Morte não corre. Ela não precisa.</p>
-          <p class="death-line element-fragment-line">Cada arquivo salvo já começou a se perder no mesmo instante em que nasceu.</p>
-          <p class="death-line element-fragment-line">O tempo não mata por crueldade. Ele apenas continua.</p>
-          <p class="death-line element-fragment-line">Nada retorna exatamente ao que era, nem mesmo uma lembrança reconstruída.</p>
-          <p class="death-line element-fragment-line">A Ordo registrou que tentativas de retorno sempre geram uma versão mais antiga, não uma versão original.</p>
+      <article class="edoc-file" data-edoc-file>
+        <div class="edoc-file-topline">
+          <span>OR-ELM-MORTE // SETOR DE ARQUIVOS IMPOSSÍVEIS</span>
+          <b>ACESSO RESTRITO</b>
         </div>
 
-        <div class="element-ordo-note death-ordo-note">
-          <strong>Nota da Ordo</strong>
-          <p>Este documento não é a versão final do elemento. Parte dele já se perdeu desde que foi aberto.</p>
-        </div>
+        <section class="edoc-section edoc-theme-box">
+          <span>FRASE-TEMA RECUPERADA</span>
+          <h2>“Tudo tem um começo e um fim, e o Tempo leva todas as coisas. Nada que é levado pela Morte pode voltar ao que era antes.”</h2>
+        </section>
 
-        <div class="element-actions death-actions">
-          <button class="death-action-button element-action-button" type="button" data-death-action="decay">Acelerar Decadência</button><button class="death-action-button element-action-button" type="button" data-death-action="return">Tentar Retornar</button><button class="death-action-button element-action-button" type="button" data-death-action="cycle">Iniciar Ciclo</button>
+        <section class="edoc-section">
+          <span>RELATÓRIO DE RECUPERAÇÃO</span>
+          <p>O arquivo foi levado pela Morte parcialmente. Tudo que retorna volta alterado, envelhecido ou deslocado da própria linha temporal.</p>
+          <p>O conteúdo abaixo corresponde apenas aos trechos que a Ordo conseguiu estabilizar antes da corrupção elemental transformar o restante em ruído, lacuna, ciclo, impulso ou excesso.</p>
+        </section>
+
+        <section class="edoc-section edoc-fragments" data-edoc-fragments>
+          <span>FRAGMENTO TEXTUAL RESGATADO</span>
+          <p class="edoc-fragment-line"><span>01</span>Data de criação: 21/05/2026. Data de decomposição: 03/11/1998.</p>
+<p class="edoc-fragment-line"><span>02</span>Tudo tem um começo. Tudo teve um começo. Tudo terá tido um começo.</p>
+<p class="edoc-fragment-line"><span>03</span>O Tempo levou este arquivo. O Tempo levará o leitor.</p>
+<p class="edoc-fragment-line"><span>04</span>Linha 01: O documento começou. Linha 02: O documento terminou.</p>
+<p class="edoc-fragment-line"><span>05</span>AVISO: NÃO RESTAURAR. Ele já se lembra da restauração falha.</p>
+        </section>
+
+        <section class="edoc-section edoc-note">
+          <span>NOTA DA ORDO REALITAS</span>
+          <p>Este arquivo não deve ser tratado como documento final. A forma como ele se comporta durante a leitura é parte da manifestação e deve ser registrada junto do conteúdo textual.</p>
+        </section>
+
+        <div class="edoc-actions">
+          <button type="button" data-edoc-action="primary">Acelerar Decadência</button>
+          <button type="button" data-edoc-action="secondary">Iniciar Ciclo</button>
+          <button type="button" data-edoc-action="tertiary">Tentar Retornar</button>
         </div>
       </article>
 
-      <aside class="element-symbol-panel death-side-file">
-        <section class="element-symbol-card death-symbol-card">
-          <span>Ampulheta quebrada</span>
-          <div class="element-symbol-orbit" aria-hidden="true"><span>⌛</span><span>◷</span><span>□</span></div>
-          <p>O medidor não conta o que resta. Ele registra o que já foi levado.</p>
+      <aside class="edoc-observation">
+        <section>
+          <span>Comportamento visual</span>
+          <h2>CICLO / ESPIRAIS NEGRAS</h2>
+          <ul><li>Espirais negras representam ciclo e retorno incompleto.</li>
+<li>Restaurações criam versões mais antigas que o original.</li>
+<li>Trechos reaparecem, mas com palavras diferentes.</li>
+<li>O arquivo já acabou; a página mostra apenas o resto.</li></ul>
+        </section>
+        <section class="edoc-reading-card">
+          <span>Leitura dinâmica</span>
+          <p data-edoc-reading>Interaja com o documento para registrar novas anomalias.</p>
         </section>
       </aside>
     </section>
   </main>
-  <!-- Morte -->
-<button data-death-action="decay">Acelerar Decadência</button>
-<button data-death-action="return">Tentar Retornar</button>
-<button data-death-action="cycle">Iniciar Ciclo</button>
-
-<!-- Morte -->
-<strong data-death-decay>27%</strong>
-<strong data-death-cycle>Ciclo 1</strong>
-<strong data-death-erosion>39%</strong>
-<strong data-death-status>Erodindo</strong>
-
-  <script src="effects-loader.js"></script>
-<script src="./morte.js?v=2"></script>
+  <script src="./morte.js?v=10"></script>
 </body>
 </html>

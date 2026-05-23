@@ -1,33 +1,50 @@
+
 (() => {
   "use strict";
 
-  console.log("[CONHECIMENTO] conhecimento.js executou de verdade.");
-
-  const page =
-    document.querySelector(".knowledge-element-page") ||
-    document.querySelector("[data-element-page='knowledge']") ||
-    document.body;
-
+  const page = document.querySelector("[data-element-doc]");
   if (!page) return;
 
-  const state = {
-    layers: 1,
-    overload: 34,
-    integrity: 72,
-    lastMove: 0
+  const type = page.dataset.elementDoc;
+  const canvas = page.querySelector("[data-edoc-canvas]");
+  const ctx = canvas.getContext("2d");
+  const terminal = page.querySelector("[data-edoc-terminal]");
+  const reading = page.querySelector("[data-edoc-reading]");
+  const file = page.querySelector("[data-edoc-file]");
+  const fragments = page.querySelector("[data-edoc-fragments]");
+
+  const configs = {
+    sangue: {
+      color: [255, 18, 55], alt: [120, 0, 18], max: 130,
+      logs: ["batimento externo detectado.", "instinto destruído reapareceu em outra margem.", "fome colidiu com proteção.", "o arquivo não morreu. ele mudou de lugar."],
+      readings: ["guerra de instintos ativa", "o documento pulsa contra a leitura", "fragmentos orgânicos reaparecendo", "sensação convertida em dado"],
+      words: ["FOME", "DOR", "RAIVA", "PROTEÇÃO", "APEGO", "MEDO", "DESEJO", "SOBREVIVÊNCIA"]
+    },
+    conhecimento: {
+      color: [255, 205, 28], alt: [255, 72, 20], max: 90,
+      logs: ["nova chave detectada.", "porta aberta dentro da porta anterior.", "leitor incluído no objeto de análise.", "sobrecarga de informações."],
+      readings: ["conhecimento adquirido", "conhecimento expandido", "perdendo conhecimento", "saber tudo é perder tudo"],
+      popups: ["SABER TUDO É PERDER TUDO", "SOBRECARGA DE INFORMAÇÕES", "CONHECIMENTO ADQUIRIDO", "CONHECIMENTO EXPANDIDO", "PERDENDO CONHECIMENTO", "NOVA CHAVE DETECTADA", "PORTA ABERTA", "SIGNIFICADO DUPLICADO"]
+    },
+    energia: {
+      color: [0, 240, 255], alt: [255, 0, 180], max: 220,
+      logs: ["acesso permitido.", "acesso negado.", "acesso alterado.", "acesso rindo.", "padrão encontrado: todos."],
+      readings: ["o arquivo mudou durante a leitura", "contradição registrada como manifestação", "ruído de padrão ativo", "o caos é inevitável"]
+    },
+    morte: {
+      color: [88, 112, 86], alt: [0, 0, 0], max: 100,
+      logs: ["ciclo iniciado antes do comando.", "restauração retornou mais antiga que o erro.", "linha 01 reapareceu.", "o documento terminou novamente."],
+      readings: ["espiral negra detectada", "decomposição temporal em curso", "ciclo incompleto", "o arquivo lembra aberturas futuras"]
+    },
+    medo: {
+      color: [230, 230, 245], alt: [15, 15, 25], max: 70,
+      logs: ["nenhuma anomalia detectada.", "você ainda está lendo.", "localização: atrás.", "o conteúdo evitou observação."],
+      readings: ["ausência ativa", "o texto percebeu você primeiro", "observador afetado", "não confundir silêncio com segurança"]
+    }
   };
 
-  const symbols = ["◉", "⌬", "△", "◇", "𐌏", "∴", "⊙", "⌁", "⟡", "∞", "?", "§"];
-
-  const lines = [
-    "Nova camada revelada. A interpretação anterior foi considerada incompleta.",
-    "O arquivo não contém uma resposta. Ele contém respostas demais.",
-    "Símbolo recuperado sem contexto seguro.",
-    "Leitura duplicada. Uma das versões contradiz a outra.",
-    "A Ordo recomenda interromper a análise antes que o operador tente entender tudo.",
-    "Saber tudo é perder tudo. O fragmento repetiu a frase antes de ser aberto.",
-    "O olho na margem não foi inserido pela interface."
-  ];
+  const cfg = configs[type];
+  let w = 0, h = 0, particles = [], lastMove = 0, lastPopup = 0, tick = 0;
 
   function safeClosest(event, selector) {
     const target = event.target;
@@ -35,401 +52,157 @@
     return target.closest(selector);
   }
 
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = Math.floor(w * ratio); canvas.height = Math.floor(h * ratio);
+    canvas.style.width = w + "px"; canvas.style.height = h + "px";
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
-  function pick(list) {
-    return list[Math.floor(Math.random() * list.length)];
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function log(text) {
+    if (!terminal) return;
+    const p = document.createElement("p");
+    p.textContent = "> " + text;
+    terminal.appendChild(p);
+    while (terminal.children.length > 6) terminal.removeChild(terminal.firstElementChild);
   }
 
-  function createLayer(className) {
-    let layer = document.querySelector(`.${className}`);
-    if (!layer) {
-      layer = document.createElement("div");
-      layer.className = className;
-      layer.setAttribute("aria-hidden", "true");
-      document.body.appendChild(layer);
-    }
-    return layer;
-  }
+  function setReading(text) { if (reading) reading.textContent = text; }
 
-  function injectCss() {
-    if (document.querySelector("#knowledge-js-css")) return;
-
-    const style = document.createElement("style");
-    style.id = "knowledge-js-css";
-
-    style.textContent = `
-      .knowledge-js-layer,
-      .knowledge-symbol-field,
-      .knowledge-note-field,
-      .knowledge-eye-field {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .knowledge-js-layer {
-        z-index: 999999;
-      }
-
-      .knowledge-symbol-field {
-        z-index: 999991;
-        mix-blend-mode: screen;
-        opacity: .72;
-      }
-
-      .knowledge-note-field {
-        z-index: 999992;
-      }
-
-      .knowledge-eye-field {
-        z-index: 999990;
-      }
-
-      .knowledge-symbol-field span {
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
-        color: rgba(215, 170, 69, .65);
-        font-size: var(--s);
-        text-shadow:
-          0 0 10px rgba(215, 170, 69, .85),
-          0 0 28px rgba(215, 170, 69, .35);
-        animation: knowledgeSymbolFloat var(--d) ease-in-out infinite;
-        animation-delay: var(--delay);
-      }
-
-      .knowledge-note-field span {
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
-        max-width: 180px;
-        padding: .55rem .7rem;
-        border: 1px solid rgba(215, 170, 69, .32);
-        border-radius: 12px;
-        background: rgba(20, 13, 3, .68);
-        color: rgba(255, 236, 181, .82);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: .68rem;
-        line-height: 1.35;
-        box-shadow: 0 0 22px rgba(215, 170, 69, .16);
-        animation: knowledgeNoteFloat var(--d) ease-in-out infinite;
-        animation-delay: var(--delay);
-      }
-
-      .knowledge-eye-field::before {
-        content: "";
-        position: absolute;
-        left: var(--cursor-x, 50%);
-        top: var(--cursor-y, 50%);
-        width: 220px;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        background:
-          radial-gradient(circle, rgba(255,255,255,.88) 0 2%, rgba(215,170,69,.95) 3% 8%, transparent 9%),
-          radial-gradient(ellipse at center, transparent 0 28%, rgba(215,170,69,.16) 30% 31%, transparent 32%),
-          radial-gradient(circle, rgba(215,170,69,.12), transparent 64%);
-        opacity: .42;
-        filter: drop-shadow(0 0 22px rgba(215, 170, 69, .45));
-        animation: knowledgeEyeBlink 4s ease-in-out infinite;
-      }
-
-      .knowledge-js-rune {
-        position: fixed;
-        left: var(--x);
-        top: var(--y);
-        color: #d7aa45;
-        font-size: var(--s, 1.8rem);
-        text-shadow:
-          0 0 12px rgba(215, 170, 69, .9),
-          0 0 34px rgba(215, 170, 69, .4);
-        transform: translate(-50%, -50%) rotate(var(--r));
-        animation: knowledgeRuneBurst 1.15s ease forwards;
-      }
-
-      .knowledge-js-page {
-        animation: knowledgePagePulse .8s ease both;
-      }
-
-      .knowledge-js-line {
-        opacity: 1 !important;
-        transform: none !important;
-        border-left-color: rgba(215, 170, 69, .95) !important;
-        box-shadow:
-          inset 0 0 26px rgba(215, 170, 69, .12),
-          0 0 24px rgba(215, 170, 69, .12);
-        animation: knowledgeLineReveal .8s ease both;
-      }
-
-      .knowledge-layer-hit {
-        animation: knowledgeLayerHit .65s ease both;
-      }
-
-      @keyframes knowledgeSymbolFloat {
-        0%, 100% {
-          transform: translateY(0) rotate(0deg);
-          opacity: .25;
-        }
-
-        50% {
-          transform: translateY(-28px) rotate(12deg);
-          opacity: .9;
-        }
-      }
-
-      @keyframes knowledgeNoteFloat {
-        0%, 100% {
-          transform: translateY(0) rotate(-1deg);
-          opacity: .32;
-        }
-
-        50% {
-          transform: translateY(-18px) rotate(1deg);
-          opacity: .88;
-        }
-      }
-
-      @keyframes knowledgeEyeBlink {
-        0%, 82%, 100% {
-          transform: translate(-50%, -50%) scaleY(1);
-          opacity: .42;
-        }
-
-        88% {
-          transform: translate(-50%, -50%) scaleY(.08);
-          opacity: .8;
-        }
-
-        92% {
-          transform: translate(-50%, -50%) scaleY(1);
-        }
-      }
-
-      @keyframes knowledgeRuneBurst {
-        0% {
-          opacity: 0;
-          transform: translate(-50%, -50%) rotate(var(--r)) scale(.35);
-        }
-
-        20% {
-          opacity: 1;
-        }
-
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) rotate(calc(var(--r) + 100deg)) scale(1.8);
-        }
-      }
-
-      @keyframes knowledgePagePulse {
-        0%, 100% {
-          filter: none;
-        }
-
-        35% {
-          filter: brightness(1.24) sepia(.22) saturate(1.35);
-        }
-      }
-
-      @keyframes knowledgeLineReveal {
-        0% {
-          opacity: 0;
-          transform: translateY(14px) scale(.98);
-          filter: blur(5px) brightness(1.8);
-        }
-
-        100% {
-          opacity: 1;
-          transform: none;
-          filter: none;
-        }
-      }
-
-      @keyframes knowledgeLayerHit {
-        0%, 100% {
-          transform: translateX(0);
-          filter: none;
-        }
-
-        35% {
-          transform: translateX(4px);
-          filter: brightness(1.22) sepia(.2);
-        }
-
-        60% {
-          transform: translateX(-2px);
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
-
-  function updateStats(status) {
-    const layerEl = document.querySelector("[data-knowledge-layers]");
-    const overloadEl = document.querySelector("[data-knowledge-overload]");
-    const integrityEl = document.querySelector("[data-knowledge-integrity]");
-    const statusEl = document.querySelector("[data-knowledge-status]");
-
-    if (layerEl) layerEl.textContent = `${state.layers} camadas`;
-    if (overloadEl) overloadEl.textContent = `${state.overload}%`;
-    if (integrityEl) integrityEl.textContent = `${state.integrity}%`;
-    if (statusEl) statusEl.textContent = status || "Interpretando";
-  }
-
-  function spawnRune(x, y, intense = false) {
-    const layer = createLayer("knowledge-js-layer");
-    const rune = document.createElement("span");
-
-    rune.className = "knowledge-js-rune";
-    rune.textContent = pick(symbols);
-    rune.style.setProperty("--x", `${x + random(-30, 30)}px`);
-    rune.style.setProperty("--y", `${y + random(-30, 30)}px`);
-    rune.style.setProperty("--r", `${random(-90, 90)}deg`);
-    rune.style.setProperty("--s", intense ? `${random(2, 3.5)}rem` : `${random(1.1, 2.2)}rem`);
-
-    layer.appendChild(rune);
-    setTimeout(() => rune.remove(), 1200);
-  }
-
-  function createAmbientSymbols() {
-    const field = createLayer("knowledge-symbol-field");
-    field.innerHTML = "";
-
-    for (let i = 0; i < 58; i++) {
-      const symbol = document.createElement("span");
-      symbol.textContent = pick(symbols);
-      symbol.style.setProperty("--x", `${random(0, 100)}%`);
-      symbol.style.setProperty("--y", `${random(0, 100)}%`);
-      symbol.style.setProperty("--s", `${random(1, 2.8)}rem`);
-      symbol.style.setProperty("--d", `${random(5, 15)}s`);
-      symbol.style.setProperty("--delay", `${random(-12, 0)}s`);
-      field.appendChild(symbol);
+  function spawn(x, y, count = 16, power = 1) {
+    for (let i = 0; i < count; i++) {
+      if (particles.length > cfg.max) particles.shift();
+      particles.push({
+        x, y, vx: rand(-2.2, 2.2) * power, vy: rand(-2.2, 2.2) * power,
+        life: rand(35, 95), max: rand(35, 95), size: rand(1, 4) * power,
+        kind: type === "morte" ? "spiral" : type === "sangue" ? "instinct" : type === "energia" ? "glitch" : type === "medo" ? "void" : "symbol",
+        word: cfg.words ? pick(cfg.words) : "",
+        angle: rand(0, Math.PI * 2)
+      });
     }
   }
 
-  function createNotes() {
-    const field = createLayer("knowledge-note-field");
-    field.innerHTML = "";
+  function popup() {
+    if (type !== "conhecimento") return;
+    const now = Date.now();
+    if (now - lastPopup < 260) return;
+    lastPopup = now;
+    const box = document.createElement("button");
+    box.type = "button";
+    box.className = "knowledge-popup-alert";
+    box.innerHTML = `<strong>${pick(cfg.popups)}</strong><span>clique para fechar / ou abrir outra camada</span>`;
+    box.style.left = rand(4, 72) + "vw";
+    box.style.top = rand(12, 74) + "vh";
+    page.appendChild(box);
+    box.addEventListener("click", () => { box.remove(); if (Math.random() > .35) { popup(); setTimeout(popup, 90); } });
+    setTimeout(() => box.remove(), rand(3000, 7000));
+  }
 
-    const notes = [
-      "camada inconsistente",
-      "significado duplicado",
-      "olho não catalogado",
-      "não interpretar sozinho",
-      "símbolo reage",
-      "saber = perda",
-      "leitura observada"
-    ];
-
-    for (let i = 0; i < 18; i++) {
-      const note = document.createElement("span");
-      note.textContent = pick(notes);
-      note.style.setProperty("--x", `${random(3, 88)}%`);
-      note.style.setProperty("--y", `${random(4, 88)}%`);
-      note.style.setProperty("--d", `${random(6, 14)}s`);
-      note.style.setProperty("--delay", `${random(-10, 0)}s`);
-      field.appendChild(note);
+  function addFragment() {
+    if (!fragments) return;
+    const p = document.createElement("p");
+    p.className = "edoc-fragment-line edoc-added-line";
+    const span = document.createElement("span");
+    span.textContent = "//";
+    p.appendChild(span);
+    p.appendChild(document.createTextNode(pick(cfg.logs)));
+    fragments.appendChild(p);
+    while (fragments.querySelectorAll(".edoc-added-line").length > 4) {
+      fragments.querySelector(".edoc-added-line")?.remove();
     }
   }
 
-  function addLine(label) {
-    const list =
-      document.querySelector("[data-knowledge-fragments]") ||
-      document.querySelector(".knowledge-fragments") ||
-      document.querySelector(".element-fragments");
-
-    if (!list) return;
-
-    const line = document.createElement("p");
-    line.className = "knowledge-js-line";
-    line.innerHTML = `<span>${label}</span>${pick(lines)}`;
-    list.appendChild(line);
-
-    line.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  function action(kind) {
+    log(pick(cfg.logs)); setReading(pick(cfg.readings)); addFragment();
+    page.classList.add("edoc-shock"); setTimeout(() => page.classList.remove("edoc-shock"), 600);
+    spawn(w / 2, h / 2, type === "energia" ? 80 : 34, type === "energia" ? 2 : 1.4);
+    if (type === "conhecimento") { popup(); popup(); }
+    if (type === "morte") page.classList.toggle("death-cycle-active");
+    if (type === "medo") page.classList.toggle("fear-observed");
+    if (type === "sangue") page.classList.add("blood-instinct-war"), setTimeout(()=>page.classList.remove("blood-instinct-war"), 1000);
+    if (type === "energia") page.classList.add("energy-overload"), setTimeout(()=>page.classList.remove("energy-overload"), 900);
   }
 
-  function hitText() {
-    document.querySelectorAll(".knowledge-fragment-line, .element-fragments p, .element-main-file p").forEach((el, index) => {
-      setTimeout(() => {
-        el.classList.add("knowledge-layer-hit");
-        setTimeout(() => el.classList.remove("knowledge-layer-hit"), 700);
-      }, index * 35);
-    });
+  function draw() {
+    tick += 1;
+    ctx.clearRect(0, 0, w, h);
+    const [r,g,b] = cfg.color, [ar,ag,ab] = cfg.alt;
+
+    if (type === "energia") {
+      for (let i=0;i<10;i++) {
+        ctx.fillStyle = `rgba(${i%2?r:ar},${i%2?g:ag},${i%2?b:ab},${rand(.06,.22)})`;
+        ctx.fillRect(rand(0,w), rand(0,h), rand(20,180), rand(1,5));
+      }
+    }
+
+    if (type === "morte") {
+      ctx.strokeStyle = `rgba(0,0,0,.38)`; ctx.lineWidth = 2;
+      for (let s=0;s<4;s++) {
+        ctx.beginPath();
+        const cx = (w * (.2 + s*.2)) + Math.sin(tick/80+s)*30, cy = h*(.25 + (s%2)*.4);
+        for (let a=0; a<Math.PI*7; a+=.18) {
+          const rr = 4 + a*5;
+          const x = cx + Math.cos(a + tick/120) * rr;
+          const y = cy + Math.sin(a + tick/120) * rr;
+          if (a === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    particles = particles.filter(p => p.life > 0);
+    for (const p of particles) {
+      const alpha = Math.max(0, p.life / p.max);
+      p.life -= 1; p.x += p.vx; p.y += p.vy; p.vy += type === "sangue" ? .015 : 0;
+      ctx.save(); ctx.globalAlpha = alpha;
+      if (p.kind === "instinct") {
+        ctx.fillStyle = `rgba(${r},${g},${b},${.4 + alpha*.45})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.size*2,0,Math.PI*2); ctx.fill();
+        if (p.word && alpha > .45) { ctx.font = "700 10px monospace"; ctx.fillText(p.word, p.x+8, p.y); }
+      } else if (p.kind === "glitch") {
+        ctx.fillStyle = `rgba(${Math.random()>.5?r:ar},${Math.random()>.5?g:ag},${Math.random()>.5?b:ab},${alpha})`;
+        ctx.fillRect(p.x,p.y,p.size*10,p.size*1.5);
+      } else if (p.kind === "spiral") {
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha*.45})`; ctx.beginPath();
+        for (let a=0; a<Math.PI*3; a+=.3) { const rr=a*p.size; const x=p.x+Math.cos(a+p.angle)*rr; const y=p.y+Math.sin(a+p.angle)*rr; if(a===0)ctx.moveTo(x,y);else ctx.lineTo(x,y); }
+        ctx.stroke();
+      } else if (p.kind === "void") {
+        ctx.fillStyle = `rgba(0,0,0,${alpha*.55})`; ctx.beginPath(); ctx.ellipse(p.x,p.y,p.size*5,p.size*2,p.angle,0,Math.PI*2); ctx.fill();
+      } else {
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`; ctx.strokeRect(p.x,p.y,p.size*4,p.size*4);
+      }
+      ctx.restore();
+    }
+
+    requestAnimationFrame(draw);
   }
 
-  function pagePulse() {
-    page.classList.remove("knowledge-js-page");
-    void page.offsetWidth;
-    page.classList.add("knowledge-js-page");
-    setTimeout(() => page.classList.remove("knowledge-js-page"), 850);
-  }
+  resize(); window.addEventListener("resize", resize);
 
-  function revealLayer(event) {
-    state.layers += 1;
-    state.overload += 8;
-    state.integrity -= 4;
+  document.addEventListener("pointermove", (event) => {
+    const now = Date.now();
+    if (now - lastMove < 28) return;
+    lastMove = now;
+    spawn(event.clientX, event.clientY, type === "energia" ? 5 : 2, type === "medo" ? .6 : 1);
+    if (type === "conhecimento" && Math.random() > .82) popup();
+    if (type === "medo" && safeClosest(event, ".edoc-fragment-line")) safeClosest(event, ".edoc-fragment-line")?.classList.add("fear-hide-line");
+  }, { passive: true });
 
-    updateStats("Camada revelada");
-    pagePulse();
-    hitText();
-    addLine("CAMADA REVELADA");
+  document.addEventListener("click", (event) => {
+    const btn = safeClosest(event, "[data-edoc-action]");
+    spawn(event.clientX, event.clientY, btn ? 38 : 18, btn ? 1.7 : 1);
+    if (btn) action(btn.dataset.edocAction);
+  });
 
-    for (let i = 0; i < 24; i++) spawnRune(event.clientX || innerWidth / 2, event.clientY || innerHeight / 2, true);
-  }
+  document.addEventListener("contextmenu", (event) => { event.preventDefault(); log("menu contextual bloqueado por contenção da Ordo."); spawn(event.clientX, event.clientY, 30, 1.4); return false; }, { capture: true });
+  ["selectstart", "dragstart", "copy", "cut"].forEach(evt => document.addEventListener(evt, e => e.preventDefault()));
 
-  function decode(event) {
-    state.overload += 12;
-    state.integrity -= 8;
-
-    updateStats("Decodificação instável");
-    pagePulse();
-    addLine("DECODIFICAÇÃO PARCIAL");
-
-    for (let i = 0; i < 34; i++) spawnRune(event.clientX || innerWidth / 2, event.clientY || innerHeight / 2, i % 2 === 0);
-  }
-
-  function bindEvents() {
-    document.addEventListener("click", event => {
-      const button = safeClosest(event, "[data-knowledge-action]");
-      const action = button?.dataset.knowledgeAction;
-
-      if (action === "reveal") return revealLayer(event);
-      if (action === "decode") return decode(event);
-
-      for (let i = 0; i < 8; i++) spawnRune(event.clientX, event.clientY, false);
-    });
-
-    document.addEventListener("pointermove", event => {
-      page.style.setProperty("--cursor-x", `${event.clientX}px`);
-      page.style.setProperty("--cursor-y", `${event.clientY}px`);
-
-      const now = performance.now();
-      if (now - state.lastMove < 90) return;
-
-      state.lastMove = now;
-
-      if (Math.random() > .45) spawnRune(event.clientX, event.clientY, false);
-    }, { passive: true });
-  }
-
-  function init() {
-    injectCss();
-    createLayer("knowledge-js-layer");
-    createLayer("knowledge-eye-field");
-    createAmbientSymbols();
-    createNotes();
-    updateStats("Arquivo interpretando");
-    bindEvents();
-
-    page.classList.add("knowledge-js-active");
-
-    console.log("[CONHECIMENTO] efeitos visíveis ativados.");
-  }
-
-  init();
+  setInterval(() => { log(pick(cfg.logs)); setReading(pick(cfg.readings)); if (type === "conhecimento") popup(); if (type === "energia") file?.classList.toggle("edoc-file-shift"); }, type === "energia" ? 2200 : type === "conhecimento" ? 3000 : 5200);
+  setInterval(() => spawn(rand(0,w), rand(0,h), type === "energia" ? 12 : 5, type === "energia" ? 1.5 : 1), 900);
+  setTimeout(() => { log("fragmento estabilizado com corrupção ativa."); spawn(w/2,h/2,45,1.5); }, 400);
+  draw();
 })();

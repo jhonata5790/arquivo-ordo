@@ -6,47 +6,91 @@
 
   <title>Elementos — Arquivo da Campanha</title>
 
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=19" />
 </head>
 
 <body>
-  <main class="elements-hub-page" data-page="elementos">
+  <main class="elements-hub-page elements-hub-v2" data-page="elementos">
+    <canvas class="elements-vfx-canvas" data-elements-vfx aria-hidden="true"></canvas>
+
     <div class="elements-bg-grid" aria-hidden="true"></div>
     <div class="elements-bg-orbit" aria-hidden="true"></div>
     <div class="elements-bg-noise" aria-hidden="true"></div>
     <div class="elements-bg-corruption" aria-hidden="true"></div>
+    <div class="elements-bg-scanline" aria-hidden="true"></div>
 
-    <section class="elements-hero">
+    <section class="elements-hero elements-hero-v2">
       <div class="elements-hero-copy">
         <p class="elements-kicker">ARQUIVO DA CAMPANHA // ORDO REALITAS</p>
 
         <h1 data-text="ELEMENTOS">Elementos</h1>
 
         <p>
-          Esta área reúne registros corrompidos dos cinco elementos paranormais.
-          Cada arquivo responde de uma forma diferente, como se a própria interface
-          tentasse traduzir algo que não deveria caber em linguagem humana.
+          Central de contenção das cinco assinaturas paranormais reconhecidas pela Ordo. Cada elemento
+          distorce o arquivo de um jeito diferente: alguns pulsam, alguns revelam demais, alguns quebram,
+          alguns envelhecem e alguns simplesmente retiram a luz da interface.
         </p>
 
         <div class="elements-warning-line">
           <span>acesso parcial</span>
-          <span>integridade corrompida</span>
-          <span>risco alto</span>
+          <span>leitura instável</span>
+          <span>contenção visual ativa</span>
         </div>
       </div>
 
-      <a class="elements-back-link" href="../inicio.html">Voltar ao Arquivo</a>
+      <aside class="elements-case-card" aria-label="Resumo da contenção elemental">
+        <div class="elements-case-topline">
+          <span>caso vinculado</span>
+          <strong>Santa Luzia</strong>
+        </div>
+
+        <div class="elements-case-core" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <i></i>
+        </div>
+
+        <div class="elements-case-grid">
+          <article>
+            <span>Foco</span>
+            <strong>Sangue</strong>
+          </article>
+          <article>
+            <span>Estado</span>
+            <strong>Aberto</strong>
+          </article>
+          <article>
+            <span>Camadas</span>
+            <strong>5</strong>
+          </article>
+          <article>
+            <span>Risco</span>
+            <strong data-elements-risk>Alto</strong>
+          </article>
+        </div>
+
+        <a class="elements-back-link" href="../inicio.html">Voltar ao Arquivo</a>
+      </aside>
     </section>
 
-    <section class="elements-status-panel" aria-label="Status dos arquivos elementais">
+    <section class="elements-official-sigils" aria-label="Sigilos oficiais dos elementos">
+      <article class="sigil-node sigil-blood"><img src="../assets/imagens/elementos/sangue.png" alt="Sigilo de Sangue" draggable="false"><span>Sangue</span></article>
+      <article class="sigil-node sigil-knowledge"><img src="../assets/imagens/elementos/conhecimento.png" alt="Sigilo de Conhecimento" draggable="false"><span>Conhecimento</span></article>
+      <article class="sigil-node sigil-fear"><img src="../assets/imagens/elementos/medo.png" alt="Sigilo de Medo" draggable="false"><span>Medo</span></article>
+      <article class="sigil-node sigil-death"><img src="../assets/imagens/elementos/morte.png" alt="Sigilo de Morte" draggable="false"><span>Morte</span></article>
+      <article class="sigil-node sigil-energy"><img src="../assets/imagens/elementos/energia.png" alt="Sigilo de Energia" draggable="false"><span>Energia</span></article>
+    </section>
+
+    <section class="elements-status-panel elements-status-v2" aria-label="Status dos arquivos elementais">
       <article>
-        <span>Camadas</span>
+        <span>Camadas indexadas</span>
         <strong>5 Elementos</strong>
       </article>
 
       <article>
         <span>Integridade</span>
-        <strong data-elements-integrity>Corrompida</strong>
+        <strong data-elements-integrity>78%</strong>
       </article>
 
       <article>
@@ -55,13 +99,13 @@
       </article>
 
       <article>
-        <span>Risco</span>
-        <strong data-elements-risk>Alto</strong>
+        <span>Contenção</span>
+        <strong data-elements-containment>Oscilando</strong>
       </article>
     </section>
 
-    <section class="elements-main-layout">
-      <aside class="elements-terminal">
+    <section class="elements-main-layout elements-layout-v2">
+      <aside class="elements-terminal elements-terminal-v2" aria-label="Terminal elemental da Ordo">
         <div class="terminal-header">
           <span></span>
           <span></span>
@@ -70,14 +114,14 @@
         </div>
 
         <div class="terminal-lines" data-elements-terminal>
-          <p>&gt; inicializando leitura elemental...</p>
+          <p>&gt; inicializando contenção elemental...</p>
           <p>&gt; cinco assinaturas detectadas.</p>
           <p>&gt; aviso: corrupção não uniforme.</p>
-          <p>&gt; operadores devem evitar interação prolongada.</p>
+          <p>&gt; canvas_vfx: sincronizado.</p>
         </div>
       </aside>
 
-      <section class="elements-map" aria-label="Mapa dos elementos">
+      <section class="elements-map elements-map-v2" aria-label="Mapa dos elementos">
         <div class="elements-core" aria-hidden="true">
           <span class="core-ring ring-one"></span>
           <span class="core-ring ring-two"></span>
@@ -85,7 +129,7 @@
           <span class="core-eye"></span>
         </div>
 
-        <div class="elements-card-grid">
+        <div class="elements-card-grid elements-card-grid-v2">
           <a class="element-card element-card-blood" data-element="sangue" href="./sangue.html">
             <span class="element-index">01</span>
             <div class="element-card-orb"></div>
@@ -93,9 +137,7 @@
             <div class="element-card-copy">
               <p>Sangue</p>
               <h2>Impulso Vivo</h2>
-              <span>
-                Batimento, carne, fome, veias, desejo e instinto.
-              </span>
+              <span>Batimento, carne, fome, veias, desejo e instinto.</span>
             </div>
 
             <strong>abrir arquivo</strong>
@@ -108,9 +150,7 @@
             <div class="element-card-copy">
               <p>Conhecimento</p>
               <h2>Excesso de Saber</h2>
-              <span>
-                Símbolos, olhos, camadas, interpretação e perda.
-              </span>
+              <span>Símbolos, olhos, camadas, interpretação e perda.</span>
             </div>
 
             <strong>abrir arquivo</strong>
@@ -123,9 +163,7 @@
             <div class="element-card-copy">
               <p>Energia</p>
               <h2>Caos Instável</h2>
-              <span>
-                Glitch, faísca, erro, velocidade e reconfiguração.
-              </span>
+              <span>Glitch, faísca, erro, velocidade e reconfiguração.</span>
             </div>
 
             <strong>abrir arquivo</strong>
@@ -138,9 +176,7 @@
             <div class="element-card-copy">
               <p>Morte</p>
               <h2>Tempo em Ruína</h2>
-              <span>
-                Poeira, ciclo, atraso, relógio, fim e decadência.
-              </span>
+              <span>Poeira, ciclo, atraso, relógio, fim e decadência.</span>
             </div>
 
             <strong>abrir arquivo</strong>
@@ -153,9 +189,7 @@
             <div class="element-card-copy">
               <p>Medo</p>
               <h2>Ausência Infinita</h2>
-              <span>
-                Vazio, silêncio, olho, presença e trechos apagados.
-              </span>
+              <span>Vazio, silêncio, olho, presença e trechos apagados.</span>
             </div>
 
             <strong>abrir arquivo</strong>
@@ -163,17 +197,32 @@
         </div>
       </section>
 
-      <aside class="elements-reading-panel">
-        <span>leitura atual</span>
+      <aside class="elements-reading-panel elements-reading-v2" aria-label="Leitura dinâmica elemental">
+        <span>leitura dinâmica</span>
         <h2 data-elements-reading-title>Nenhum arquivo selecionado</h2>
 
         <p data-elements-reading-text>
-          Passe o cursor sobre um elemento para observar a assinatura paranormal
-          correspondente. A interface pode reagir antes da abertura do arquivo.
+          Passe o cursor sobre um elemento para observar a assinatura paranormal correspondente. A interface
+          pode reagir antes da abertura do arquivo.
         </p>
 
         <div class="elements-reading-signature" data-elements-signature>
           assinatura: neutra
+        </div>
+
+        <div class="elements-protocol-list" aria-label="Protocolos de segurança">
+          <article>
+            <b>01</b>
+            <span>Não manter leitura contínua por tempo prolongado.</span>
+          </article>
+          <article>
+            <b>02</b>
+            <span>Não comparar assinaturas sem contenção ativa.</span>
+          </article>
+          <article>
+            <b>03</b>
+            <span>Em caso de resposta espontânea, encerrar sessão.</span>
+          </article>
         </div>
 
         <button class="elements-random-button" type="button" data-elements-random>
@@ -183,6 +232,6 @@
     </section>
   </main>
 
-  <script src="./elementos-corrompidos.js?v=1"></script>
+  <script src="./elementos-corrompidos.js?v=3"></script>
 </body>
 </html>

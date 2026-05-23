@@ -1,20 +1,31 @@
 (() => {
   "use strict";
 
-  console.log("[ELEMENTOS] elementos-corrompidos.js executou.");
-
   const page = document.querySelector(".elements-hub-page");
 
-  if (!page) {
-    console.warn("[ELEMENTOS] Página elementos não encontrada.");
-    return;
-  }
+  if (!page) return;
+
+  const canvas = document.querySelector("[data-elements-vfx]");
+  const ctx = canvas?.getContext("2d", { alpha: true });
+  const terminal = document.querySelector("[data-elements-terminal]");
+  const readingTitle = document.querySelector("[data-elements-reading-title]");
+  const readingText = document.querySelector("[data-elements-reading-text]");
+  const readingSignature = document.querySelector("[data-elements-signature]");
+  const integrity = document.querySelector("[data-elements-integrity]");
+  const risk = document.querySelector("[data-elements-risk]");
+  const containment = document.querySelector("[data-elements-containment]");
 
   const elementData = {
     sangue: {
       title: "Sangue // Impulso Vivo",
-      text: "O card pulsa como tecido orgânico. A leitura registra fome, instinto, contração e resposta biológica.",
+      text: "O arquivo pulsa como tecido orgânico. A leitura registra fome, instinto, contração e resposta emocional antes mesmo da análise terminar.",
       signature: "assinatura: batimento / carne / desejo",
+      color: "#ff1646",
+      dim: "rgba(255, 22, 70, 0.18)",
+      glyph: "●",
+      integrity: "64%",
+      risk: "Crítico",
+      containment: "Pulsando",
       terminal: [
         "> assinatura de Sangue detectada.",
         "> pressão orgânica aumentando.",
@@ -26,6 +37,12 @@
       title: "Conhecimento // Excesso de Saber",
       text: "A leitura se multiplica em camadas. Símbolos, interpretações e olhos ocultos competem pela mesma superfície.",
       signature: "assinatura: símbolos / olho / perda",
+      color: "#d7aa45",
+      dim: "rgba(215, 170, 69, 0.18)",
+      glyph: "◉",
+      integrity: "71%",
+      risk: "Alto",
+      containment: "Decodificando",
       terminal: [
         "> assinatura de Conhecimento detectada.",
         "> excesso de metadados encontrado.",
@@ -35,8 +52,14 @@
 
     energia: {
       title: "Energia // Caos Instável",
-      text: "A estrutura do card tenta se reconfigurar. O arquivo muda rápido demais para ser estabilizado.",
+      text: "A estrutura tenta se reconfigurar. O arquivo muda rápido demais para ser estabilizado, como se cada erro gerasse uma versão nova dele.",
       signature: "assinatura: glitch / faísca / erro",
+      color: "#2be7ff",
+      dim: "rgba(43, 231, 255, 0.18)",
+      glyph: "✦",
+      integrity: "43%",
+      risk: "Instável",
+      containment: "Oscilando",
       terminal: [
         "> assinatura de Energia detectada.",
         "> instabilidade subindo.",
@@ -46,8 +69,14 @@
 
     morte: {
       title: "Morte // Tempo em Ruína",
-      text: "A interface parece atrasada, envelhecida e coberta por poeira. O arquivo não quebra; ele se desgasta.",
+      text: "A interface parece atrasada, envelhecida e coberta por poeira. O arquivo não quebra de uma vez; ele se desgasta.",
       signature: "assinatura: tempo / fim / decadência",
+      color: "#9bbf7a",
+      dim: "rgba(155, 191, 122, 0.18)",
+      glyph: "⌛",
+      integrity: "58%",
+      risk: "Severo",
+      containment: "Erodindo",
       terminal: [
         "> assinatura de Morte detectada.",
         "> erosão temporal registrada.",
@@ -57,8 +86,14 @@
 
     medo: {
       title: "Medo // Ausência Infinita",
-      text: "A leitura não revela. Ela retira. O espaço ao redor do card parece ficar silencioso demais.",
+      text: "A leitura não revela. Ela retira. O espaço ao redor do card parece ficar silencioso demais, como se a interface prendesse a respiração.",
       signature: "assinatura: vazio / olho / presença",
+      color: "#e9e5df",
+      dim: "rgba(233, 229, 223, 0.13)",
+      glyph: "○",
+      integrity: "??%",
+      risk: "Observando",
+      containment: "Inconclusiva",
       terminal: [
         "> assinatura de Medo detectada.",
         "> ausência ocupando espaço.",
@@ -78,17 +113,23 @@
   ];
 
   const state = {
-    lastParticle: 0,
-    selected: null
+    width: 0,
+    height: 0,
+    dpr: 1,
+    particles: [],
+    waves: [],
+    glyphs: [],
+    lastMouseParticle: 0,
+    lastCard: null,
+    lastCardTime: 0,
+    activeElement: "neutral",
+    terminalSignature: "",
+    ambientTimer: null
   };
 
   function safeClosest(event, selector) {
     const target = event.target;
-
-    if (!target || !(target instanceof Element)) {
-      return null;
-    }
-
+    if (!target || !(target instanceof Element)) return null;
     return target.closest(selector);
   }
 
@@ -100,141 +141,216 @@
     return list[Math.floor(Math.random() * list.length)];
   }
 
-  function createLayer(className) {
-    let layer = document.querySelector(`.${className}`);
+  function resizeCanvas() {
+    if (!canvas || !ctx) return;
 
-    if (!layer) {
-      layer = document.createElement("div");
-      layer.className = className;
-      layer.setAttribute("aria-hidden", "true");
-      document.body.appendChild(layer);
-    }
+    state.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    state.width = window.innerWidth;
+    state.height = window.innerHeight;
 
-    return layer;
+    canvas.width = Math.floor(state.width * state.dpr);
+    canvas.height = Math.floor(state.height * state.dpr);
+    canvas.style.width = `${state.width}px`;
+    canvas.style.height = `${state.height}px`;
+
+    ctx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
   }
 
-  function setReading(elementName) {
-    const data = elementData[elementName];
-    if (!data) return;
-
-    state.selected = elementName;
-
-    page.dataset.activeElement = elementName;
-
-    const title = document.querySelector("[data-elements-reading-title]");
-    const text = document.querySelector("[data-elements-reading-text]");
-    const signature = document.querySelector("[data-elements-signature]");
-
-    if (title) title.textContent = data.title;
-    if (text) text.textContent = data.text;
-    if (signature) signature.textContent = data.signature;
-
-    addTerminalLines(data.terminal);
+  function getElementColor(elementName) {
+    return elementData[elementName]?.color || "#d7aa45";
   }
 
-  function addTerminalLines(lines) {
-    const terminal = document.querySelector("[data-elements-terminal]");
+  function getElementGlyph(elementName) {
+    return elementData[elementName]?.glyph || "◆";
+  }
+
+  function addTerminalBlock(lines, signature = lines.join("|")) {
     if (!terminal) return;
 
-    lines.forEach((line, index) => {
-      setTimeout(() => {
-        const p = document.createElement("p");
-        p.textContent = line;
-        p.className = "terminal-line-new";
-        terminal.appendChild(p);
+    const now = performance.now();
+    const normalized = `${signature}:${lines.join("|")}`;
 
-        while (terminal.children.length > 9) {
-          terminal.removeChild(terminal.firstElementChild);
-        }
-      }, index * 90);
+    if (state.terminalSignature === normalized && now - state.lastTerminalTime < 1200) return;
+    state.terminalSignature = normalized;
+    state.lastTerminalTime = now;
+
+    terminal.innerHTML = "";
+
+    lines.slice(0, 6).forEach((line, index) => {
+      const p = document.createElement("p");
+      p.textContent = line;
+      p.className = "terminal-line-new";
+      p.style.animationDelay = `${index * 55}ms`;
+      terminal.appendChild(p);
     });
   }
 
-  function spawnParticle(x, y, elementName = "neutral") {
-    const layer = createLayer("elements-js-layer");
-    const particle = document.createElement("span");
+  function addAmbientTerminalLine() {
+    if (!terminal) return;
 
-    particle.className = `elements-js-particle particle-${elementName}`;
-    particle.style.setProperty("--x", `${x}px`);
-    particle.style.setProperty("--y", `${y}px`);
-    particle.style.setProperty("--dx", `${random(-70, 70)}px`);
-    particle.style.setProperty("--dy", `${random(-90, 70)}px`);
-    particle.style.setProperty("--s", random(0.7, 1.55).toFixed(2));
+    const p = document.createElement("p");
+    p.textContent = pick(randomLines);
+    p.className = "terminal-line-new";
+    terminal.appendChild(p);
 
-    layer.appendChild(particle);
-
-    setTimeout(() => particle.remove(), 1300);
-  }
-
-  function spawnRune(x, y, elementName = "neutral") {
-    const layer = createLayer("elements-js-layer");
-    const rune = document.createElement("span");
-
-    const symbols = {
-      sangue: "●",
-      conhecimento: "◉",
-      energia: "✦",
-      morte: "⌛",
-      medo: "○",
-      neutral: "◆"
-    };
-
-    rune.className = `elements-js-rune rune-${elementName}`;
-    rune.textContent = symbols[elementName] || symbols.neutral;
-    rune.style.setProperty("--x", `${x}px`);
-    rune.style.setProperty("--y", `${y}px`);
-    rune.style.setProperty("--r", `${random(-90, 90)}deg`);
-
-    layer.appendChild(rune);
-
-    setTimeout(() => rune.remove(), 1100);
-  }
-
-  function spawnShockwave(x, y, elementName = "neutral") {
-    const layer = createLayer("elements-js-layer");
-    const wave = document.createElement("span");
-
-    wave.className = `elements-js-shockwave shockwave-${elementName}`;
-    wave.style.setProperty("--x", `${x}px`);
-    wave.style.setProperty("--y", `${y}px`);
-
-    layer.appendChild(wave);
-
-    setTimeout(() => wave.remove(), 900);
-  }
-
-  function burstAt(x, y, elementName = "neutral") {
-    spawnShockwave(x, y, elementName);
-
-    for (let i = 0; i < 12; i++) {
-      spawnParticle(x, y, elementName);
-    }
-
-    for (let i = 0; i < 4; i++) {
-      spawnRune(x + random(-45, 45), y + random(-45, 45), elementName);
+    while (terminal.children.length > 6) {
+      terminal.removeChild(terminal.firstElementChild);
     }
   }
 
-  function createAmbientField() {
-    const field = createLayer("elements-ambient-symbols");
-    field.innerHTML = "";
+  function setReading(elementName, force = false) {
+    const data = elementData[elementName];
+    if (!data) return;
 
-    const symbols = ["●", "◉", "✦", "⌛", "○", "△", "◇", "╳"];
+    const now = performance.now();
 
-    for (let i = 0; i < 42; i++) {
-      const symbol = document.createElement("span");
-      const elementNames = ["sangue", "conhecimento", "energia", "morte", "medo"];
-      const type = pick(elementNames);
+    if (!force && state.activeElement === elementName && now - state.lastCardTime < 550) return;
 
-      symbol.textContent = pick(symbols);
-      symbol.className = `ambient-symbol ambient-${type}`;
-      symbol.style.left = `${random(0, 100)}%`;
-      symbol.style.top = `${random(0, 100)}%`;
-      symbol.style.animationDelay = `${random(-8, 0)}s`;
-      symbol.style.animationDuration = `${random(6, 16)}s`;
+    state.activeElement = elementName;
+    state.lastCardTime = now;
+    page.dataset.activeElement = elementName;
+    page.style.setProperty("--active-element-color", data.color);
+    page.style.setProperty("--active-element-dim", data.dim);
 
-      field.appendChild(symbol);
+    if (readingTitle) readingTitle.textContent = data.title;
+    if (readingText) readingText.textContent = data.text;
+    if (readingSignature) readingSignature.textContent = data.signature;
+    if (integrity) integrity.textContent = data.integrity;
+    if (risk) risk.textContent = data.risk;
+    if (containment) containment.textContent = data.containment;
+
+    addTerminalBlock(data.terminal, elementName);
+  }
+
+  function spawnParticle(x, y, elementName = state.activeElement, amount = 1) {
+    const color = getElementColor(elementName);
+
+    for (let i = 0; i < amount; i++) {
+      state.particles.push({
+        x,
+        y,
+        vx: random(-1.9, 1.9),
+        vy: random(-2.2, .9),
+        life: random(34, 68),
+        maxLife: random(34, 68),
+        size: random(1.6, 4.8),
+        color
+      });
     }
+  }
+
+  function spawnWave(x, y, elementName = state.activeElement) {
+    state.waves.push({
+      x,
+      y,
+      radius: 4,
+      life: 38,
+      maxLife: 38,
+      color: getElementColor(elementName)
+    });
+  }
+
+  function spawnGlyph(x, y, elementName = state.activeElement, amount = 1) {
+    const color = getElementColor(elementName);
+    const glyph = getElementGlyph(elementName);
+
+    for (let i = 0; i < amount; i++) {
+      state.glyphs.push({
+        x: x + random(-34, 34),
+        y: y + random(-34, 34),
+        vx: random(-.45, .45),
+        vy: random(-1.2, -.25),
+        life: random(44, 76),
+        maxLife: random(44, 76),
+        size: random(14, 28),
+        rotation: random(-.8, .8),
+        spin: random(-.018, .018),
+        color,
+        glyph
+      });
+    }
+  }
+
+  function burstAt(x, y, elementName = state.activeElement) {
+    spawnWave(x, y, elementName);
+    spawnParticle(x, y, elementName, 18);
+    spawnGlyph(x, y, elementName, 5);
+  }
+
+  function draw() {
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, state.width, state.height);
+    ctx.globalCompositeOperation = "lighter";
+
+    for (let i = state.particles.length - 1; i >= 0; i--) {
+      const p = state.particles[i];
+      const alpha = Math.max(p.life / p.maxLife, 0);
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.018;
+      p.life -= 1;
+
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = alpha * .78;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 16;
+      ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (p.life <= 0) state.particles.splice(i, 1);
+    }
+
+    for (let i = state.waves.length - 1; i >= 0; i--) {
+      const w = state.waves[i];
+      const alpha = Math.max(w.life / w.maxLife, 0);
+
+      w.radius += 9.5;
+      w.life -= 1;
+
+      ctx.beginPath();
+      ctx.strokeStyle = w.color;
+      ctx.lineWidth = 2.2 * alpha;
+      ctx.globalAlpha = alpha * .64;
+      ctx.shadowColor = w.color;
+      ctx.shadowBlur = 24;
+      ctx.arc(w.x, w.y, w.radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      if (w.life <= 0) state.waves.splice(i, 1);
+    }
+
+    for (let i = state.glyphs.length - 1; i >= 0; i--) {
+      const g = state.glyphs[i];
+      const alpha = Math.max(g.life / g.maxLife, 0);
+
+      g.x += g.vx;
+      g.y += g.vy;
+      g.rotation += g.spin;
+      g.life -= 1;
+
+      ctx.save();
+      ctx.translate(g.x, g.y);
+      ctx.rotate(g.rotation);
+      ctx.globalAlpha = alpha * .78;
+      ctx.fillStyle = g.color;
+      ctx.shadowColor = g.color;
+      ctx.shadowBlur = 18;
+      ctx.font = `${g.size}px ui-serif, Georgia, serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(g.glyph, 0, 0);
+      ctx.restore();
+
+      if (g.life <= 0) state.glyphs.splice(i, 1);
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+
+    requestAnimationFrame(draw);
   }
 
   function bindCards() {
@@ -242,16 +358,17 @@
       const card = safeClosest(event, ".element-card");
       if (!card) return;
 
-      const elementName = card.dataset.element;
-      setReading(elementName);
+      if (state.lastCard === card && performance.now() - state.lastCardTime < 520) return;
+      state.lastCard = card;
 
+      const elementName = card.dataset.element;
       const rect = card.getBoundingClientRect();
+
+      setReading(elementName, true);
       burstAt(rect.left + rect.width / 2, rect.top + rect.height / 2, elementName);
     });
 
     document.addEventListener("pointermove", event => {
-      const now = performance.now();
-
       page.style.setProperty("--cursor-x", `${event.clientX}px`);
       page.style.setProperty("--cursor-y", `${event.clientY}px`);
       page.style.setProperty("--mx", `${(event.clientX / window.innerWidth - 0.5).toFixed(3)}`);
@@ -264,20 +381,16 @@
         const px = (event.clientX - rect.left) / rect.width - 0.5;
         const py = (event.clientY - rect.top) / rect.height - 0.5;
 
-        card.style.setProperty("--tilt-x", `${py * -8}deg`);
-        card.style.setProperty("--tilt-y", `${px * 10}deg`);
-        card.style.setProperty("--light-x", `${(event.clientX - rect.left) / rect.width * 100}%`);
-        card.style.setProperty("--light-y", `${(event.clientY - rect.top) / rect.height * 100}%`);
+        card.style.setProperty("--tilt-x", `${py * -7}deg`);
+        card.style.setProperty("--tilt-y", `${px * 9}deg`);
+        card.style.setProperty("--light-x", `${((event.clientX - rect.left) / rect.width) * 100}%`);
+        card.style.setProperty("--light-y", `${((event.clientY - rect.top) / rect.height) * 100}%`);
       }
 
-      if (now - state.lastParticle > 95) {
-        state.lastParticle = now;
-
-        const active = card?.dataset.element || page.dataset.activeElement || "neutral";
-
-        if (Math.random() > 0.45) {
-          spawnParticle(event.clientX, event.clientY, active);
-        }
+      const now = performance.now();
+      if (now - state.lastMouseParticle > 85) {
+        state.lastMouseParticle = now;
+        spawnParticle(event.clientX, event.clientY, card?.dataset.element || state.activeElement, 2);
       }
     }, { passive: true });
 
@@ -291,83 +404,105 @@
 
     document.addEventListener("click", event => {
       const card = safeClosest(event, ".element-card");
+      const elementName = card?.dataset.element || state.activeElement;
 
-      if (card) {
-        const elementName = card.dataset.element;
-        burstAt(event.clientX, event.clientY, elementName);
-        page.classList.add("elements-click-impact");
+      burstAt(event.clientX, event.clientY, elementName);
+      page.classList.add("elements-click-impact");
 
-        setTimeout(() => {
-          page.classList.remove("elements-click-impact");
-        }, 700);
-
-        return;
-      }
-
-      burstAt(event.clientX, event.clientY, page.dataset.activeElement || "neutral");
+      setTimeout(() => page.classList.remove("elements-click-impact"), 520);
     });
   }
 
   function bindRandomButton() {
     const button = document.querySelector("[data-elements-random]");
-
     if (!button) return;
 
     button.addEventListener("click", event => {
-      const names = Object.keys(elementData);
-      const elementName = pick(names);
-
-      setReading(elementName);
-      burstAt(event.clientX, event.clientY, elementName);
-
+      const elementName = pick(Object.keys(elementData));
       const card = document.querySelector(`[data-element="${elementName}"]`);
+
+      setReading(elementName, true);
+      burstAt(event.clientX, event.clientY, elementName);
 
       if (card) {
         card.classList.add("element-card-forced");
-
-        setTimeout(() => {
-          card.classList.remove("element-card-forced");
-        }, 900);
+        setTimeout(() => card.classList.remove("element-card-forced"), 900);
       }
 
-      addTerminalLines([
+      addTerminalBlock([
         "> leitura aleatória forçada.",
         `> elemento selecionado: ${elementName.toUpperCase()}.`,
         pick(randomLines)
-      ]);
+      ], `random-${elementName}-${Date.now()}`);
     });
   }
 
-  function startAmbientMessages() {
-    setInterval(() => {
+  function bindInteractionLocks() {
+    document.addEventListener("selectstart", event => event.preventDefault());
+    document.addEventListener("dragstart", event => event.preventDefault());
+
+    document.addEventListener("copy", event => {
+      event.preventDefault();
+      addTerminalBlock([
+        "> tentativa de extração textual bloqueada.",
+        "> protocolo de contenção preservado.",
+        "> acesso de cópia negado pela Ordo."
+      ], "copy-blocked");
+    });
+
+    document.addEventListener("contextmenu", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      burstAt(event.clientX, event.clientY, state.activeElement);
+      addTerminalBlock([
+        "> menu externo bloqueado.",
+        "> leitura elemental não pode ser exportada por método comum.",
+        "> contenção mantida."
+      ], "context-blocked");
+      return false;
+    }, { capture: true });
+  }
+
+  function startAmbient() {
+    state.ambientTimer = setInterval(() => {
       if (document.hidden) return;
 
-      addTerminalLines([pick(randomLines)]);
-
       const names = Object.keys(elementData);
-      const elementName = page.dataset.activeElement || pick(names);
+      const elementName = state.activeElement === "neutral" ? pick(names) : state.activeElement;
 
-      if (Math.random() > 0.55) {
-        spawnRune(
-          random(80, window.innerWidth - 80),
-          random(80, window.innerHeight - 80),
-          elementName
-        );
+      addAmbientTerminalLine();
+      spawnGlyph(random(80, window.innerWidth - 80), random(80, window.innerHeight - 80), elementName, 1);
+
+      if (Math.random() > .45) {
+        spawnParticle(random(0, window.innerWidth), random(0, window.innerHeight), elementName, 4);
       }
-    }, 3600);
+    }, 3400);
+  }
+
+  function bootPulse() {
+    setTimeout(() => {
+      burstAt(window.innerWidth / 2, Math.min(window.innerHeight * .42, 390), "energia");
+      addTerminalBlock([
+        "> central elemental sincronizada.",
+        "> canvas_vfx: visível.",
+        "> selecione uma assinatura para leitura dinâmica."
+      ], "boot");
+    }, 260);
   }
 
   function init() {
-    createLayer("elements-js-layer");
-    createAmbientField();
-
+    resizeCanvas();
     bindCards();
     bindRandomButton();
-    startAmbientMessages();
+    bindInteractionLocks();
+    startAmbient();
+    bootPulse();
+    requestAnimationFrame(draw);
+
+    window.addEventListener("resize", resizeCanvas, { passive: true });
 
     page.classList.add("elements-js-active");
-
-    console.log("[ELEMENTOS] efeitos ativados.");
+    console.log("[ELEMENTOS] Hub elemental V2 ativo.");
   }
 
   init();

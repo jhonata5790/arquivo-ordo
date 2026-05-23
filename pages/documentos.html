@@ -4,102 +4,178 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Documentos — Arquivo da Campanha</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=21" />
 </head>
-<body>
-  <main class="documents-page archive-interface">
+<body class="documents-body">
+  <main class="documents-page documents-page-v3 archive-interface">
+    <canvas id="documentsVfxCanvas" class="documents-vfx-canvas" aria-hidden="true"></canvas>
     <div class="documents-noise" aria-hidden="true"></div>
     <div class="documents-scan" aria-hidden="true"></div>
     <div class="documents-redline" aria-hidden="true"></div>
 
-    <header class="documents-header cinematic-header">
+    <header class="documents-header documents-header-v3 cinematic-header">
       <div class="header-copy">
-        <p class="tag">ORDO REALITAS // CENTRAL DE ARQUIVOS RECUPERADOS</p>
+        <p class="tag">ORDO REALITAS // CENTRAL DE ARQUIVOS // ACESSO DE CAMPANHA</p>
         <h1>Documentos</h1>
         <p>
-          Relatórios, fragmentos, dossiês e arquivos parcialmente reconstruídos pela Ordo Realitas durante a investigação de
-          <strong>Corações do Outro Lado</strong>. Nem tudo aqui está completo. Nem tudo aqui deveria responder quando é aberto.
+          Registros internos, relatórios de campo, protocolos, ocorrências arquivadas e fragmentos operacionais da Ordo Realitas.
+          A maioria dos arquivos não pertence diretamente ao caso atual; eles existem para manter o sistema vivo, amplo e maior do que uma única missão.
         </p>
       </div>
       <a class="back-link" href="../inicio.html">Voltar ao Arquivo</a>
     </header>
 
-    <section class="documents-status-panel status-grid" aria-label="Status da central de documentos">
-      <article><span>Arquivos</span><strong>Recuperados</strong></article>
-      <article><span>Integridade</span><strong>Variável</strong></article>
-      <article><span>Risco</span><strong>Paranormal</strong></article>
-      <article><span>Acesso</span><strong>Parcial</strong></article>
+    <section class="documents-command-panel" aria-label="Resumo da central documental">
+      <article class="documents-command-main">
+        <span>CASO ATIVO // PRÉ-SESSÃO</span>
+        <h2>Equipe F preparada para infiltração</h2>
+        <p>
+          A Ordo ainda não possui confirmação paranormal sobre Santa Luzia. O único registro vinculado ao caso atual permanece classificado como
+          <strong>lenda urbana em observação</strong>. A equipe será enviada como moradores temporários para coleta discreta de dados.
+        </p>
+      </article>
+
+      <div class="documents-status-panel status-grid" aria-label="Status da central de documentos">
+        <article><span>Entradas</span><strong id="documentsCount">12</strong></article>
+        <article><span>Caso Atual</span><strong>1 arquivo</strong></article>
+        <article><span>Ordo</span><strong>Arquivo vivo</strong></article>
+        <article><span>Risco</span><strong>Baixo/Variável</strong></article>
+      </div>
     </section>
 
-    <section class="documents-layout investigation-layout">
-      <section class="documents-grid" aria-label="Lista de documentos recuperados">
-        <button class="document-card document-released" type="button" data-document="santa-luzia">
-          <span class="doc-code">DOC-ORDO-001</span>
-          <strong>Arquivo Preliminar — Santa Luzia</strong>
-          <p>Relatório inicial sobre a cidade, seus pontos públicos e o contexto pré-investigação.</p>
-          <i>ESTADO: LIBERADO</i>
+    <section class="documents-tools" aria-label="Ferramentas de busca documental">
+      <label class="documents-search-box">
+        <span>BUSCAR NO ARQUIVO</span>
+        <input id="documentsSearch" type="search" placeholder="ex: protocolo, agente, santa luzia, contenção..." autocomplete="off" />
+      </label>
+
+      <div class="documents-filter-bar" aria-label="Filtros de documentos">
+        <button type="button" class="doc-filter active" data-filter="all">Todos</button>
+        <button type="button" class="doc-filter" data-filter="caso">Caso atual</button>
+        <button type="button" class="doc-filter" data-filter="ordo">Ordo</button>
+        <button type="button" class="doc-filter" data-filter="campo">Campo</button>
+        <button type="button" class="doc-filter" data-filter="protocolo">Protocolos</button>
+        <button type="button" class="doc-filter" data-filter="restrito">Restritos</button>
+      </div>
+    </section>
+
+    <section class="documents-layout documents-layout-v3 investigation-layout">
+      <section class="documents-grid documents-grid-v3" aria-label="Lista de documentos recuperados">
+        <button class="document-card document-case" type="button" data-category="caso campo" data-document="santa-luzia-lenda">
+          <span class="doc-code">OR-F-0001</span>
+          <strong>Lenda Urbana — Santa Luzia</strong>
+          <p>Único arquivo do caso atual. Animais agressivos, relatos locais e envio infiltrado da Equipe F.</p>
+          <i>CASO ATUAL // OBSERVAÇÃO</i>
         </button>
 
-        <button class="document-card document-fragmented" type="button" data-document="caso-miyara">
-          <span class="doc-code">DOC-ORDO-002</span>
-          <strong>Caso Miyara</strong>
-          <p>Registro incompleto da primeira vítima e do primeiro rastro narrativo da missão.</p>
-          <i>ESTADO: FRAGMENTADO</i>
+        <button class="document-card document-protocol" type="button" data-category="ordo protocolo" data-document="protocolo-infiltracao">
+          <span class="doc-code">OR-PRT-014</span>
+          <strong>Moradores Temporários</strong>
+          <p>Protocolo de infiltração civil para cidades pequenas sem confirmação pública de ameaça paranormal.</p>
+          <i>PROTOCOLO // LIBERADO</i>
         </button>
 
-        <button class="document-card document-elemental document-blood" type="button" data-document="elemento-sangue">
-          <span class="doc-code">DOC-ELM-SAN</span>
-          <strong>Elemento Sangue</strong>
-          <p>Arquivo elemental contaminado por pulso, fome, carne, ligação e instinto.</p>
-          <i>ESTADO: CORROMPIDO</i>
+        <button class="document-card document-ordo-card" type="button" data-category="ordo protocolo" data-document="hierarquia-camadas">
+          <span class="doc-code">OR-ADM-022</span>
+          <strong>Camadas de Acesso</strong>
+          <p>Guia interno sobre arquivos públicos, parciais, restritos e camadas bloqueadas pelo mestre.</p>
+          <i>ADMINISTRATIVO</i>
         </button>
 
-        <button class="document-card document-elemental document-blood" type="button" data-document="coracao-amaldicoado">
-          <span class="doc-code">DOC-RIT-001</span>
-          <strong>Coração Amaldiçoado</strong>
-          <p>Componente ritualístico central ligado à contaminação de Santa Luzia.</p>
-          <i>ESTADO: INSTÁVEL</i>
+        <button class="document-card document-field" type="button" data-category="campo ordo" data-document="cidade-aracati">
+          <span class="doc-code">OR-CAM-117</span>
+          <strong>Ocorrência em Aracati</strong>
+          <p>Relato de ameaça isolada no litoral do Ceará. Caso encerrado sem relação com Santa Luzia.</p>
+          <i>CAMPO // ENCERRADO</i>
         </button>
 
-        <button class="document-card document-locked" type="button" data-document="klint-comando">
-          <span class="doc-code">DOC-CMD-000</span>
-          <strong>Klint — Comando</strong>
-          <p>Dossiê reservado de liderança. Informações ocultas por restrição administrativa.</p>
+        <button class="document-card document-field" type="button" data-category="campo ordo" data-document="cine-imperial">
+          <span class="doc-code">OR-LOC-044</span>
+          <strong>Cine Imperial</strong>
+          <p>Registro de lugar com manifestações recorrentes em uma construção abandonada no Paraná.</p>
+          <i>LOCAL ANÔMALO</i>
+        </button>
+
+        <button class="document-card document-ordo-card" type="button" data-category="ordo campo" data-document="agente-rastreado">
+          <span class="doc-code">OR-REC-031</span>
+          <strong>Agente Rastreado</strong>
+          <p>Documento genérico de recrutamento após sobrevivente demonstrar resistência a evento paranormal.</p>
+          <i>RECRUTAMENTO</i>
+        </button>
+
+        <button class="document-card document-protocol" type="button" data-category="ordo protocolo" data-document="boatos-contencao">
+          <span class="doc-code">OR-PRT-027</span>
+          <strong>Contenção de Boatos</strong>
+          <p>Manual para reduzir pânico civil quando lendas urbanas começam a ganhar força demais.</p>
+          <i>PROTOCOLO // SOCIAL</i>
+        </button>
+
+        <button class="document-card document-field" type="button" data-category="campo ordo" data-document="torre-radio">
+          <span class="doc-code">OR-SIG-088</span>
+          <strong>Torre de Rádio</strong>
+          <p>Interferência em transmissão regional. Sinais repetiam nomes que não constavam em registros locais.</p>
+          <i>SINAL // ARQUIVADO</i>
+        </button>
+
+        <button class="document-card document-ordo-card" type="button" data-category="ordo protocolo" data-document="equipe-f">
+          <span class="doc-code">OR-EQP-F</span>
+          <strong>Equipe F</strong>
+          <p>Designação operacional para deslocamentos discretos, observação civil e leitura inicial de campo.</p>
+          <i>OPERACIONAL</i>
+        </button>
+
+        <button class="document-card document-fragmented" type="button" data-category="campo ordo" data-document="fazenda-vazia">
+          <span class="doc-code">OR-CAM-203</span>
+          <strong>Fazenda Vazia</strong>
+          <p>Registro incompleto de propriedade rural encontrada sem moradores, mas com rotina doméstica ativa.</p>
+          <i>FRAGMENTADO</i>
+        </button>
+
+        <button class="document-card document-locked" type="button" data-category="restrito ordo" data-document="comando-restrito">
+          <span class="doc-code">OR-CMD-000</span>
+          <strong>Comando da Ordo</strong>
+          <p>Documento reservado sobre decisões administrativas, custos operacionais e envio de equipes.</p>
           <i>ACESSO: NEGADO</i>
         </button>
 
-        <button class="document-card document-locked master-lock" type="button" data-document="arquivos-mestre">
-          <span class="doc-code">DOC-MST-???</span>
-          <strong>Arquivos do Mestre</strong>
-          <p>Camada privada contendo spoilers, segredos estruturais e revelações futuras.</p>
+        <button class="document-card document-locked master-lock" type="button" data-category="restrito" data-document="mestre-camada">
+          <span class="doc-code">OR-MST-???</span>
+          <strong>Camada do Mestre</strong>
+          <p>Área visual para arquivos futuros, spoilers, documentos finais e revelações que ainda não existem para os jogadores.</p>
           <i>ACESSO: SIGILOSO</i>
         </button>
       </section>
 
-      <aside class="documents-terminal" aria-label="Terminal do sistema da Ordo">
+      <aside class="documents-terminal documents-terminal-v3" aria-label="Terminal do sistema da Ordo">
         <div class="terminal-header">
           <span></span><span></span><span></span>
-          <strong>terminal_ordo.exe</strong>
+          <strong>terminal_documental.exe</strong>
         </div>
-        <div class="terminal-feed" id="documentTerminalFeed">
-          <p><span>[SISTEMA]</span> Central de documentos inicializada.</p>
-          <p><span>[RECUPERAÇÃO]</span> 6 entradas encontradas em cache local.</p>
-          <p><span>[AVISO]</span> Fragmentos corrompidos podem reagir a tentativas de reconstrução.</p>
-          <p><span>[ORDEM]</span> Nenhum documento deve revelar mais do que a investigação permite.</p>
+        <div class="terminal-feed terminal-feed-fixed" id="documentTerminalFeed">
+          <p><span>[SISTEMA]</span> Central documental inicializada.</p>
+          <p><span>[CONTEXTO]</span> Site definido antes da primeira sessão.</p>
+          <p><span>[CASO]</span> Santa Luzia possui apenas uma entrada preliminar.</p>
+          <p><span>[ORDEM]</span> Não antecipar segredos da campanha.</p>
         </div>
+
+        <section class="documents-live-panel" aria-label="Leitura dinâmica">
+          <strong>LEITURA DINÂMICA</strong>
+          <h3 id="dynamicDocTitle">Arquivo em espera</h3>
+          <p id="dynamicDocText">Passe o mouse sobre um documento para receber uma leitura rápida do terminal.</p>
+        </section>
       </aside>
     </section>
 
-    <section id="documentReader" class="document-reader" aria-live="polite">
+    <section id="documentReader" class="document-reader document-reader-v3" aria-live="polite">
       <div class="reader-empty-state">
         <span>LEITOR EM ESPERA</span>
         <h2>Selecione um documento</h2>
-        <p>Clique em um card acima para abrir uma versão reconstruída no painel inferior.</p>
+        <p>Os arquivos desta central são pistas de mundo, protocolos e registros da Ordo. Só um deles fala diretamente sobre Santa Luzia.</p>
       </div>
     </section>
   </main>
 
-  <script src="effects-loader.js"></script>
-  <script src="documentos.js"></script>
+  <script src="effects-loader.js?v=20"></script>
+  <script src="documentos.js?v=3"></script>
 </body>
 </html>

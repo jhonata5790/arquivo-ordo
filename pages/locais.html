@@ -4,17 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Locais — Arquivo da Campanha</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=22" />
 </head>
-<body>
-  <main class="internal-page">
-    <div class="archive-home-noise"></div><div class="archive-home-scan"></div>
-    <header class="page-header"><div><p class="tag">SANTA LUZIA // MAPA NARRATIVO</p><h1>Locais</h1><p>Pontos principais da cidade, organizados para consulta rápida durante a campanha.</p></div><a class="back-link" href="../inicio.html">Voltar ao Arquivo</a></header>
-    <section class="page-grid">
-      <button class="document-card " type="button" data-popup-title="Praça Central + Árvore Mãe" data-popup-text="Marco simbólico central da cidade e referência visual principal."><span>LOC-001</span><strong>Praça Central + Árvore Mãe</strong><p>Marco simbólico central da cidade e referência visual principal.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Rio Lepras" data-popup-text="Rio que divide Santa Luzia em três partes e cria travessias importantes."><span>LOC-002</span><strong>Rio Lepras</strong><p>Rio que divide Santa Luzia em três partes e cria travessias importantes.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Igreja do Conhecimento" data-popup-text="Ponto religioso associado ao elemento de Conhecimento."><span>LOC-003</span><strong>Igreja do Conhecimento</strong><p>Ponto religioso associado ao elemento de Conhecimento.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Parque Mentres" data-popup-text="Área de caminhada, árvores e caminhos fáceis de se perder."><span>LOC-004</span><strong>Parque Mentres</strong><p>Área de caminhada, árvores e caminhos fáceis de se perder.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Rodovia Ferreira" data-popup-text="Entrada principal isolada da cidade, cercada por natureza."><span>LOC-005</span><strong>Rodovia Ferreira</strong><p>Entrada principal isolada da cidade, cercada por natureza.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card document-locked" type="button" data-popup-title="Igreja Abandonada" data-popup-text="Local secreto ligado à passagem subterrânea e ao laboratório."><span>LOC-???</span><strong>Igreja Abandonada</strong><p>Local secreto ligado à passagem subterrânea e ao laboratório.</p><i>RESTRITO</i></button>
+<body class="archive-section-body section-locais" data-section="locais">
+  <canvas class="section-vfx-canvas" aria-hidden="true"></canvas>
+  <main class="archive-section-page">
+    <div class="archive-home-noise"></div>
+    <div class="archive-home-scan"></div>
+
+    <header class="section-hero">
+      <a class="back-link section-back" href="../inicio.html">Voltar ao Arquivo</a>
+      <div class="section-hero-left">
+        <p class="tag">ORDO REALITAS // CARTOGRAFIA DE INCIDENTES</p>
+        <h1>Locais Catalogados</h1>
+        <p>
+          Mapa documental de regiões, estruturas e zonas com relatos paranormais em território brasileiro.
+          Os registros abaixo existem para consulta operacional e triagem de campo.
+        </p>
+        <div class="section-hero-actions">
+          <button class="section-action" type="button" data-action="scan">Iniciar Varredura</button>
+          <button class="section-action ghost" type="button" data-action="random">Abrir Registro Aleatório</button>
+        </div>
+      </div>
+      <aside class="section-case-panel">
+        <span>SETOR</span><strong>Cartografia Anômala</strong>
+        <span>ARQUIVOS</span><strong>12 registros</strong>
+        <span>CASO ATUAL</span><strong>Santa Luzia // Observação</strong>
+        <span>RISCO</span><strong>Variável</strong>
+      </aside>
+    </header>
+
+    <section class="section-status-grid" aria-label="Resumo de locais catalogados">
+      <article><span>Zonas urbanas</span><strong>04</strong><p>Prédios, estações, hospitais e bairros com ocorrências dispersas.</p></article>
+      <article><span>Zonas rurais</span><strong>03</strong><p>Fazendas, estradas, matas e comunidades de baixa circulação.</p></article>
+      <article><span>Locais sensíveis</span><strong>03</strong><p>Estruturas com histórico recorrente ou comportamento ambiental incomum.</p></article>
+      <article><span>Monitoramento</span><strong>02</strong><p>Registros ainda tratados como rumor operacional.</p></article>
+    </section>
+
+    <section class="section-tools">
+      <label class="section-search">
+        <span>Buscar no mapa documental</span>
+        <input id="sectionSearch" type="search" placeholder="Digite cidade, tipo, risco ou código..." autocomplete="off" />
+      </label>
+      <div class="section-filters" aria-label="Filtros de locais">
+        <button class="active" type="button" data-filter="all">Todos</button>
+        <button type="button" data-filter="urbano">Urbano</button>
+        <button type="button" data-filter="rural">Rural</button>
+        <button type="button" data-filter="sensivel">Sensível</button>
+        <button type="button" data-filter="observacao">Observação</button>
+      </div>
+    </section>
+
+    <section class="section-layout">
+      <div class="section-card-grid" id="sectionCards">
+        <button class="section-record-card" type="button" data-filter="observacao rural" data-title="Santa Luzia" data-code="LOC-SL-014" data-risk="Lenda urbana / avaliação pendente" data-lines="Moradores relatam comportamento agressivo em animais domésticos e de rua.|Cães latem para espaços vazios; gatos evitam certas ruas após o entardecer.|A hipótese atual considera influência ambiental, contaminação local ou ação ritualística indireta.|Equipe F designada para entrada discreta como moradores temporários." data-note="Único registro vinculado ao caso ativo. Não há confirmação de manifestação paranormal até o momento.">
+          <span>LOC-SL-014</span><strong>Santa Luzia</strong><p>Pequena cidade interiorana com relatos envolvendo animais agressivos e reação a espaços vazios.</p><i>OBSERVAÇÃO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="urbano sensivel" data-title="Estação Norte — Setor Desativado" data-code="LOC-SP-092" data-risk="Médio / contenção indireta" data-lines="Estrutura ferroviária desativada após sucessivos relatos de vozes em túneis sem circulação.|Sensores registraram variação térmica em plataformas lacradas.|Arquivo mantido como referência para investigações de eco paranormal urbano." data-note="Sem relação operacional direta com Santa Luzia.">
+          <span>LOC-SP-092</span><strong>Estação Norte — Setor Desativado</strong><p>Antiga estação ferroviária com registros acústicos sem fonte confirmada.</p><i>URBANO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="rural sensivel" data-title="Fazenda Boa Vigília" data-code="LOC-MG-031" data-risk="Baixo / recorrência sazonal" data-lines="Proprietários relatam deslocamento de espantalhos durante a madrugada.|Pegadas circulares aparecem em solo seco após noites sem chuva.|Amostras anteriores não indicaram entidade ativa, apenas resíduo ritualístico antigo." data-note="Registro útil para comparação com ocorrências rurais de baixa intensidade.">
+          <span>LOC-MG-031</span><strong>Fazenda Boa Vigília</strong><p>Propriedade rural com padrões circulares e movimentação inexplicada de objetos.</p><i>RURAL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="urbano" data-title="Hospital São Bartolomeu" data-code="LOC-BA-118" data-risk="Controlado / arquivo médico" data-lines="Ala antiga fechada após relatos de pacientes acordando com memórias de outras internações.|Equipamentos desligados registraram batimentos em horários fixos.|Caso arquivado após descarte de manifestação ativa." data-note="Mantido no banco por relevância documental, não por ameaça atual.">
+          <span>LOC-BA-118</span><strong>Hospital São Bartolomeu</strong><p>Ala médica interditada com registros fisiológicos incompatíveis.</p><i>URBANO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="rural observacao" data-title="Estrada dos Ipês Mortos" data-code="LOC-GO-044" data-risk="Indefinido / tráfego reduzido" data-lines="Motoristas relatam repetição do mesmo quilômetro por períodos curtos.|Árvores na margem apresentam perda de folhas em faixa linear.|Sem vítimas confirmadas; ocorrência permanece em triagem." data-note="Exemplo de zona de deslocamento anômalo sem ponto fixo.">
+          <span>LOC-GO-044</span><strong>Estrada dos Ipês Mortos</strong><p>Trecho rodoviário com relatos de repetição espacial e perda de referência.</p><i>OBSERVAÇÃO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="urbano sensivel" data-title="Cine Imperial" data-code="LOC-CE-077" data-risk="Baixo / fechado ao público" data-lines="Sessões inexistentes aparecem em cartazes fotografados durante a madrugada.|Moradores afirmam ouvir aplausos vindos da sala principal.|Varredura anterior encontrou símbolos apagados sob a tela." data-note="Local usado em treinamentos sobre lendas urbanas persistentes.">
+          <span>LOC-CE-077</span><strong>Cine Imperial</strong><p>Cinema abandonado com registros audiovisuais fora de horário.</p><i>SENSÍVEL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="rural" data-title="Comunidade Três Sinos" data-code="LOC-PR-023" data-risk="Baixo / vigilância passiva" data-lines="Sinos de capela sem mecanismo funcional tocam em datas sem padrão religioso.|Moradores não demonstram surpresa, indicando normalização cultural do fenômeno.|A Ordo evita interferência direta enquanto não houver escalada." data-note="Registro importante para estudo de adaptação social a anomalias leves.">
+          <span>LOC-PR-023</span><strong>Comunidade Três Sinos</strong><p>Povoado pequeno com fenômeno sonoro recorrente e aceitação comunitária.</p><i>RURAL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="urbano observacao" data-title="Condomínio Aurora Velha" data-code="LOC-RJ-066" data-risk="Baixo / rumor civil" data-lines="Moradores de andares diferentes relatam sonhos idênticos com o mesmo corredor.|Câmeras internas falham apenas quando apontadas para escadas de emergência.|Caso sem confirmação, mantido por repetição de testemunhos." data-note="Registro sem ligação com projetos nomeados de Aurora; nomenclatura civil coincidente.">
+          <span>LOC-RJ-066</span><strong>Condomínio Aurora Velha</strong><p>Edifício residencial com sonhos compartilhados e falhas pontuais de câmera.</p><i>OBSERVAÇÃO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="sensivel" data-title="Arquivo Municipal de Itaruna" data-code="LOC-ES-051" data-risk="Médio / acesso restrito" data-lines="Documentos civis apresentam assinaturas de pessoas ainda não nascidas.|Funcionários relatam perda de noção temporal em sala de mapas.|Amostras catalogadas apontam influência residual de Morte." data-note="Acesso recomendado apenas com acompanhamento ocultista.">
+          <span>LOC-ES-051</span><strong>Arquivo Municipal de Itaruna</strong><p>Arquivo público com inconsistências cronológicas em documentos impressos.</p><i>SENSÍVEL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="urbano" data-title="Mercado das Sete Portas" data-code="LOC-PE-089" data-risk="Baixo / observação comercial" data-lines="Vendedores relatam clientes que pedem produtos inexistentes e somem entre corredores.|Notas fiscais antigas citam boxes que nunca foram construídos.|Fenômeno não hostil; monitorado como interferência de Conhecimento." data-note="Útil para comparação com arquivos que geram portas, chaves e índices falsos.">
+          <span>LOC-PE-089</span><strong>Mercado das Sete Portas</strong><p>Centro comercial com registros de clientes e boxes inexistentes.</p><i>URBANO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="rural sensivel" data-title="Mata de São Jacinto" data-code="LOC-AM-010" data-risk="Alto / não aproximar sem equipe" data-lines="Drones retornam com rotas incompatíveis com o mapa.|Áudio captado repete nomes dos operadores antes da transmissão.|Setor de contenção recomenda não abrir trilhas sem autorização." data-note="Registro preservado como alerta de campo para florestas com resposta ativa.">
+          <span>LOC-AM-010</span><strong>Mata de São Jacinto</strong><p>Área de mata com distorção de rota e resposta anômala a operadores.</p><i>SENSÍVEL</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="observacao" data-title="Farol de Pedra Fria" data-code="LOC-RS-039" data-risk="Indefinido / costa isolada" data-lines="Luz do farol acende mesmo sem alimentação elétrica.|Pescadores afirmam ver silhuetas na base em noites de neblina.|Nenhuma equipe foi enviada após queda de prioridade." data-note="Registro de baixa urgência, mantido para cruzamento futuro.">
+          <span>LOC-RS-039</span><strong>Farol de Pedra Fria</strong><p>Estrutura costeira isolada com ativação luminosa sem fonte elétrica.</p><i>OBSERVAÇÃO</i>
+        </button>
+      </div>
+
+      <aside class="section-reader-panel" aria-live="polite">
+        <div class="reader-terminal">
+          <div class="terminal-top"><span></span><span></span><span></span><strong>MAPA_OR DO.EXE</strong></div>
+          <p>[CARTOGRAFIA] aguardando seleção de local.</p>
+          <p>[OR DO] registros exibidos por prioridade documental.</p>
+          <p>[SANTA LUZIA] observação ativa sem confirmação paranormal.</p>
+        </div>
+        <div class="section-reader" id="sectionReader">
+          <p class="tag">LEITURA DINÂMICA</p>
+          <h2>Selecione um local catalogado</h2>
+          <p>O painel exibirá resumo operacional, risco e notas de campo sem abrir arquivos restritos.</p>
+          <div class="reader-lines"><span>Sistema em espera.</span><span>Nenhum registro fixado.</span></div>
+        </div>
+      </aside>
     </section>
   </main>
-  <script src="../script.js"></script>
-  <script src="effects-loader.js"></script>
+  <script src="./section-pages.js?v=1"></script>
 </body>
 </html>

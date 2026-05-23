@@ -4,17 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Missões — Arquivo da Campanha</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=22" />
 </head>
-<body>
-  <main class="internal-page">
-    <div class="archive-home-noise"></div><div class="archive-home-scan"></div>
-    <header class="page-header"><div><p class="tag">OPERAÇÕES // CORAÇÕES DO OUTRO LADO</p><h1>Missões</h1><p>Área para organizar capítulos, pistas e avanço da investigação.</p></div><a class="back-link" href="../inicio.html">Voltar ao Arquivo</a></header>
-    <section class="page-grid">
-      <button class="document-card " type="button" data-popup-title="Chegada a Santa Luzia" data-popup-text="Primeiro contato dos jogadores com a cidade e suas tensões."><span>MIS-001</span><strong>Chegada a Santa Luzia</strong><p>Primeiro contato dos jogadores com a cidade e suas tensões.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Caso Miyara" data-popup-text="Investigação inicial sobre a primeira vítima da missão."><span>MIS-002</span><strong>Caso Miyara</strong><p>Investigação inicial sobre a primeira vítima da missão.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card " type="button" data-popup-title="Camadas da Cidade" data-popup-text="Exploração dos pontos importantes e padrões estranhos."><span>MIS-003</span><strong>Camadas da Cidade</strong><p>Exploração dos pontos importantes e padrões estranhos.</p><i>EM CONSTRUÇÃO</i></button><button class="document-card document-blood" type="button" data-popup-title="Coração Amaldiçoado" data-popup-text="Revelação ligada ao núcleo da campanha."><span>MIS-???</span><strong>Coração Amaldiçoado</strong><p>Revelação ligada ao núcleo da campanha.</p><i>OCULTO</i></button>
+<body class="archive-section-body section-missoes" data-section="missoes">
+  <canvas class="section-vfx-canvas" aria-hidden="true"></canvas>
+  <main class="archive-section-page">
+    <div class="archive-home-noise"></div>
+    <div class="archive-home-scan"></div>
+
+    <header class="section-hero">
+      <a class="back-link section-back" href="../inicio.html">Voltar ao Arquivo</a>
+      <div class="section-hero-left">
+        <p class="tag">OPERAÇÕES // HISTÓRICO DE CAMPO</p>
+        <h1>Missões Registradas</h1>
+        <p>
+          Índice de operações, deslocamentos, varreduras e protocolos de infiltração. A maioria dos registros
+          serve como referência operacional para equipes em missão.
+        </p>
+        <div class="section-hero-actions">
+          <button class="section-action" type="button" data-action="scan">Sincronizar Operações</button>
+          <button class="section-action ghost" type="button" data-action="random">Abrir Missão Aleatória</button>
+        </div>
+      </div>
+      <aside class="section-case-panel">
+        <span>STATUS</span><strong>Pré-operação</strong>
+        <span>MISSÕES</span><strong>12 registros</strong>
+        <span>EQUIPE</span><strong>F // Designada</strong>
+        <span>EXPOSIÇÃO</span><strong>Baixa</strong>
+      </aside>
+    </header>
+
+    <section class="section-status-grid" aria-label="Resumo de missões registradas">
+      <article><span>Operações encerradas</span><strong>05</strong><p>Relatórios arquivados usados como base de treinamento.</p></article>
+      <article><span>Protocolos ativos</span><strong>03</strong><p>Procedimentos de infiltração, contenção e coleta discreta.</p></article>
+      <article><span>Triagem</span><strong>03</strong><p>Ocorrências ainda sem confirmação de ameaça.</p></article>
+      <article><span>Caso atual</span><strong>01</strong><p>Entrada da Equipe F em Santa Luzia.</p></article>
+    </section>
+
+    <section class="section-tools">
+      <label class="section-search">
+        <span>Buscar no índice operacional</span>
+        <input id="sectionSearch" type="search" placeholder="Digite operação, equipe, status ou protocolo..." autocomplete="off" />
+      </label>
+      <div class="section-filters" aria-label="Filtros de missões">
+        <button class="active" type="button" data-filter="all">Todas</button>
+        <button type="button" data-filter="ativo">Ativas</button>
+        <button type="button" data-filter="encerrado">Encerradas</button>
+        <button type="button" data-filter="protocolo">Protocolos</button>
+        <button type="button" data-filter="triagem">Triagem</button>
+      </div>
+    </section>
+
+    <section class="section-layout">
+      <div class="section-card-grid" id="sectionCards">
+        <button class="section-record-card highlighted" type="button" data-filter="ativo protocolo" data-title="Designação — Equipe F" data-code="MIS-F-001" data-risk="Baixo / infiltração civil" data-lines="Equipe F autorizada para deslocamento discreto até Santa Luzia.|Cobertura sugerida: moradores temporários em fase de adaptação local.|Objetivo inicial: confirmar ou descartar relação paranormal nos relatos envolvendo animais.|Contato direto com civis deve ser limitado para evitar contaminação de testemunho." data-note="Esta é a única missão vinculada diretamente ao caso atual antes da primeira sessão.">
+          <span>MIS-F-001</span><strong>Designação — Equipe F</strong><p>Preparação de infiltração em Santa Luzia sob cobertura civil temporária.</p><i>ATIVA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="encerrado" data-title="Operação Sinal Baixo" data-code="MIS-OR-044" data-risk="Encerrada / ruído residual" data-lines="Equipe enviada para investigar transmissões de rádio repetindo pedidos de socorro antigos.|A origem foi isolada em uma antena rural abandonada.|Nenhuma entidade ativa encontrada; equipamento recolhido para arquivo técnico." data-note="Relatório usado para comparação com interferências de comunicação.">
+          <span>MIS-OR-044</span><strong>Operação Sinal Baixo</strong><p>Varredura em antena rural com transmissões impossíveis.</p><i>ENCERRADA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="triagem" data-title="Ocorrência — Casa Sem Portas" data-code="MIS-TR-013" data-risk="Triagem / baixa prioridade" data-lines="Moradores de bairro periférico relataram casa que surge entre dois muros apenas em noites de chuva.|Equipe local não confirmou manifestação durante a janela de observação.|Arquivo mantido aberto por recorrência de relatos independentes." data-note="Sem vínculo com Santa Luzia.">
+          <span>MIS-TR-013</span><strong>Ocorrência — Casa Sem Portas</strong><p>Relatos civis sobre estrutura residencial intermitente.</p><i>TRIAGEM</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Protocolo Morador Temporário" data-code="MIS-PR-008" data-risk="Procedimento / baixo perfil" data-lines="Cobertura recomendada para equipes que precisam observar comunidades pequenas sem levantar suspeitas.|Agentes devem assumir rotina simples, consumo local e justificativa plausível de permanência.|Evitar excesso de perguntas nos primeiros dias." data-note="Protocolo aplicável à entrada da Equipe F em Santa Luzia.">
+          <span>MIS-PR-008</span><strong>Protocolo Morador Temporário</strong><p>Procedimento de infiltração civil para cidades pequenas.</p><i>PROTOCOLO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="encerrado" data-title="Operação Vidro Azul" data-code="MIS-OR-061" data-risk="Encerrada / artefato removido" data-lines="Investigação em escola desativada após reflexos mostrarem pessoas ausentes.|Objeto contaminado identificado em armário de laboratório.|Artefato lacrado; testemunhas receberam cobertura psicológica." data-note="Exemplo de contenção com baixa exposição pública.">
+          <span>MIS-OR-061</span><strong>Operação Vidro Azul</strong><p>Remoção de artefato refletivo em escola abandonada.</p><i>ENCERRADA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="protocolo" data-title="Protocolo Voz Civil" data-code="MIS-PR-014" data-risk="Procedimento / testemunhas" data-lines="Guia para entrevistas com civis sem induzir relato paranormal.|Perguntas devem começar por rotina, horário, clima e presença de animais.|Evitar termos como ritual, entidade ou Outro Lado durante coleta inicial." data-note="Recomendado para relatos de lenda urbana.">
+          <span>MIS-PR-014</span><strong>Protocolo Voz Civil</strong><p>Manual de coleta discreta de relatos sem contaminação narrativa.</p><i>PROTOCOLO</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="triagem" data-title="Chamado — Barulho no Subsolo" data-code="MIS-TR-027" data-risk="Triagem / aguardando confirmação" data-lines="Prefeitura local relatou sons metálicos vindos de galerias pluviais.|Registros de manutenção não indicam obras no período.|Arquivo sem equipe designada no momento." data-note="Mantido para cruzamento com manifestações subterrâneas.">
+          <span>MIS-TR-027</span><strong>Chamado — Barulho no Subsolo</strong><p>Ocorrência municipal envolvendo ruídos em galerias subterrâneas.</p><i>TRIAGEM</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="encerrado" data-title="Operação Marca de Giz" data-code="MIS-OR-029" data-risk="Encerrada / sem baixas" data-lines="Símbolos apareciam em portas de residências sempre às 03:17.|Fonte identificada como ritual incompleto repetido por objeto doméstico.|Objeto destruído; símbolo deixou de se manifestar." data-note="Treinamento útil para leitura de padrão repetitivo.">
+          <span>MIS-OR-029</span><strong>Operação Marca de Giz</strong><p>Investigação de símbolos recorrentes em bairro residencial.</p><i>ENCERRADA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="ativo" data-title="Monitoramento — Corredor de Ônibus" data-code="MIS-MON-006" data-risk="Ativo / observação remota" data-lines="Passageiros relatam entrar em linhas que não existem no sistema público.|Bilhetes aparecem com datas deslocadas.|Acompanhamento remoto mantido por risco baixo e alta circulação civil." data-note="Sem equipe de campo designada.">
+          <span>MIS-MON-006</span><strong>Monitoramento — Corredor de Ônibus</strong><p>Observação remota de transporte público com linhas inexistentes.</p><i>ATIVA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="encerrado" data-title="Operação Lâmpada Morta" data-code="MIS-OR-052" data-risk="Encerrada / conhecimento residual" data-lines="Luzes de um prédio público piscavam formando sequências interpretáveis.|Sequências continham nomes de funcionários antes de serem contratados.|Sistema elétrico removido; ocorrência cessou." data-note="Arquivado no setor de anomalias de informação.">
+          <span>MIS-OR-052</span><strong>Operação Lâmpada Morta</strong><p>Sequências luminosas com dados pessoais impossíveis.</p><i>ENCERRADA</i>
+        </button>
+        <button class="section-record-card" type="button" data-filter="triagem" data-title="Relato — Animais em Círculo" data-code="MIS-TR-033" data-risk="Triagem / comportamento animal" data-lines="Ocorrência distinta registrou aves pousando em círculos perfeitos por vários minutos.|Não houve agressividade, ferimentos ou desaparecimentos.|Arquivo mantido como paralelo para casos envolvendo fauna." data-note="Pode servir como comparação, mas não está ligado ao caso atual.">
+          <span>MIS-TR-033</span><strong>Relato — Animais em Círculo</strong><p>Registro de comportamento animal coordenado sem causa aparente.</p><i>TRIAGEM</i>
+        </button>
+        <button class="section-record-card locked" type="button" data-filter="protocolo" data-title="Camada do Mestre" data-code="MIS-LOCK-000" data-risk="Acesso negado" data-lines="Registro protegido por camada externa ao arquivo.|Conteúdo indisponível para visualização pública.|Tentativas de abertura serão registradas." data-note="Arquivo oculto pela interface da campanha.">
+          <span>MIS-LOCK-000</span><strong>Camada do Mestre</strong><p>Registro operacional não liberado para jogadores.</p><i>RESTRITO</i>
+        </button>
+      </div>
+
+      <aside class="section-reader-panel" aria-live="polite">
+        <div class="reader-terminal">
+          <div class="terminal-top"><span></span><span></span><span></span><strong>OPERACOES_OR DO.EXE</strong></div>
+          <p>[MISSÕES] índice operacional sincronizado.</p>
+          <p>[EQUIPE F] deslocamento autorizado em baixa exposição.</p>
+          <p>[ALERTA] missão atual ainda sem confirmação paranormal.</p>
+        </div>
+        <div class="section-reader" id="sectionReader">
+          <p class="tag">LEITURA OPERACIONAL</p>
+          <h2>Selecione uma missão</h2>
+          <p>O painel exibirá o resumo do registro, status e notas táticas liberadas.</p>
+          <div class="reader-lines"><span>Sistema em espera.</span><span>Nenhum registro fixado.</span></div>
+        </div>
+      </aside>
     </section>
   </main>
-  <script src="../script.js"></script>
-  <script src="effects-loader.js"></script>
+  <script src="./section-pages.js?v=1"></script>
 </body>
 </html>

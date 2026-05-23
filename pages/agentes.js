@@ -66,6 +66,14 @@
   let currentFilter = "todos";
   let lastParticle = 0;
   let lastGlitch = 0;
+  let lastTerminalText = "";
+  let lastTerminalAt = 0;
+  let terminalSilenceUntil = 0;
+  let lastHoverCard = null;
+  let lastHoverAt = 0;
+
+  const TERMINAL_MAX_LINES = 6;
+  const TERMINAL_DUPLICATE_DELAY = 1100;
 
   function safeClosest(event, selector) {
     const target = event.target;
@@ -85,18 +93,55 @@
     return list[Math.floor(Math.random() * list.length)];
   }
 
-  function addTerminal(text) {
+  function normalizeTerminal() {
     if (!terminal) return;
+
+    while (terminal.children.length > TERMINAL_MAX_LINES) {
+      terminal.removeChild(terminal.firstElementChild);
+    }
+  }
+
+  function addTerminal(text, options = {}) {
+    if (!terminal) return;
+
+    const now = performance.now();
+    const force = Boolean(options.force);
+
+    if (!force && now < terminalSilenceUntil) {
+      return;
+    }
+
+    if (!force && text === lastTerminalText && now - lastTerminalAt < TERMINAL_DUPLICATE_DELAY) {
+      return;
+    }
+
+    lastTerminalText = text;
+    lastTerminalAt = now;
 
     const p = document.createElement("p");
     p.textContent = text;
     p.className = "terminal-new";
 
     terminal.appendChild(p);
+    normalizeTerminal();
+  }
 
-    while (terminal.children.length > 9) {
-      terminal.removeChild(terminal.firstElementChild);
-    }
+  function setTerminal(lines) {
+    if (!terminal) return;
+
+    const safeLines = Array.isArray(lines) ? lines.slice(-TERMINAL_MAX_LINES) : [];
+
+    terminal.replaceChildren(
+      ...safeLines.map(line => {
+        const p = document.createElement("p");
+        p.textContent = line;
+        p.className = "terminal-new";
+        return p;
+      })
+    );
+
+    terminalSilenceUntil = performance.now() + 280;
+    normalizeTerminal();
   }
 
   function injectFxCss() {
@@ -651,7 +696,7 @@
     return filterMatch && searchMatch;
   }
 
-  function applyFilters() {
+  function applyFilters(options = {}) {
     let visibleCount = 0;
 
     cards.forEach(card => {
@@ -664,7 +709,9 @@
       }
     });
 
-    addTerminal(`> filtro aplicado. registros visíveis: ${visibleCount}.`);
+    if (!options.silent) {
+      addTerminal(`> filtro aplicado. registros visíveis: ${visibleCount}.`);
+    }
 
     if (visibleCount === 0) {
       updateReader(
@@ -805,7 +852,7 @@
     if (!searchInput) return;
 
     searchInput.addEventListener("input", () => {
-      applyFilters();
+      applyFilters({ silent: true });
 
       const value = searchInput.value.trim();
 
@@ -885,10 +932,25 @@
   }
 
   function bindCardHover() {
-    document.addEventListener("pointerenter", event => {
+    document.addEventListener("pointerover", event => {
       const card = safeClosest(event, "[data-agent-card]");
 
       if (!card) return;
+
+      const related = event.relatedTarget;
+
+      if (related instanceof Element && card.contains(related)) {
+        return;
+      }
+
+      const now = performance.now();
+
+      if (card === lastHoverCard && now - lastHoverAt < 900) {
+        return;
+      }
+
+      lastHoverCard = card;
+      lastHoverAt = now;
 
       readCard(card);
       pulseCard(card);
@@ -899,19 +961,28 @@
 
       if (card.classList.contains("restricted")) {
         spawnGlitch(x, y);
-        addTerminal("> registro restrito detectado.");
+        setTerminal([
+          "> registro restrito detectado.",
+          "> credencial do visitante insuficiente.",
+          "> conteúdo sensível preservado."
+        ]);
       } else {
         spawnWave(x, y);
-        addTerminal("> registro público em foco.");
+        const name = card.querySelector("h3")?.textContent?.trim() || "registro público";
+        setTerminal([
+          `> registro público em foco: ${name}.`,
+          "> leitura rápida preparada.",
+          "> integridade visual estável."
+        ]);
       }
-    }, true);
+    });
   }
 
   function ambient() {
     setInterval(() => {
       if (document.hidden) return;
       addTerminal(pick(terminalLines));
-    }, 6500);
+    }, 10500);
 
     setInterval(() => {
       if (document.hidden) return;
@@ -935,7 +1006,12 @@
         "Fichas públicas dos jogadores disponíveis. Trindade e comando aparecem como registros visuais restritos.",
         false
       );
-      addTerminal("> sistema de agentes inicializado.");
+      setTerminal([
+        "> sistema de agentes inicializado.",
+        "> fichas públicas disponíveis.",
+        "> registros restritos preservados.",
+        "> terminal estabilizado."
+      ]);
     }, 600);
   }
 

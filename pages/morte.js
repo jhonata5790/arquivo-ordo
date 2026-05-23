@@ -1,649 +1,208 @@
+
 (() => {
   "use strict";
 
-  console.log("[MORTE] morte.js executou de verdade.");
+  const page = document.querySelector("[data-element-doc]");
+  if (!page) return;
 
-  const page =
-    document.querySelector(".death-element-page") ||
-    document.querySelector("[data-element-page='death']") ||
-    document.body;
+  const type = page.dataset.elementDoc;
+  const canvas = page.querySelector("[data-edoc-canvas]");
+  const ctx = canvas.getContext("2d");
+  const terminal = page.querySelector("[data-edoc-terminal]");
+  const reading = page.querySelector("[data-edoc-reading]");
+  const file = page.querySelector("[data-edoc-file]");
+  const fragments = page.querySelector("[data-edoc-fragments]");
 
-  if (!page) {
-    console.warn("[MORTE] Página de Morte não encontrada.");
-    return;
-  }
-
-  const state = {
-    decay: 27,
-    cycle: 1,
-    erosion: 39,
-    lastMove: 0
+  const configs = {
+    sangue: {
+      color: [255, 18, 55], alt: [120, 0, 18], max: 130,
+      logs: ["batimento externo detectado.", "instinto destruído reapareceu em outra margem.", "fome colidiu com proteção.", "o arquivo não morreu. ele mudou de lugar."],
+      readings: ["guerra de instintos ativa", "o documento pulsa contra a leitura", "fragmentos orgânicos reaparecendo", "sensação convertida em dado"],
+      words: ["FOME", "DOR", "RAIVA", "PROTEÇÃO", "APEGO", "MEDO", "DESEJO", "SOBREVIVÊNCIA"]
+    },
+    conhecimento: {
+      color: [255, 205, 28], alt: [255, 72, 20], max: 90,
+      logs: ["nova chave detectada.", "porta aberta dentro da porta anterior.", "leitor incluído no objeto de análise.", "sobrecarga de informações."],
+      readings: ["conhecimento adquirido", "conhecimento expandido", "perdendo conhecimento", "saber tudo é perder tudo"],
+      popups: ["SABER TUDO É PERDER TUDO", "SOBRECARGA DE INFORMAÇÕES", "CONHECIMENTO ADQUIRIDO", "CONHECIMENTO EXPANDIDO", "PERDENDO CONHECIMENTO", "NOVA CHAVE DETECTADA", "PORTA ABERTA", "SIGNIFICADO DUPLICADO"]
+    },
+    energia: {
+      color: [0, 240, 255], alt: [255, 0, 180], max: 220,
+      logs: ["acesso permitido.", "acesso negado.", "acesso alterado.", "acesso rindo.", "padrão encontrado: todos."],
+      readings: ["o arquivo mudou durante a leitura", "contradição registrada como manifestação", "ruído de padrão ativo", "o caos é inevitável"]
+    },
+    morte: {
+      color: [88, 112, 86], alt: [0, 0, 0], max: 100,
+      logs: ["ciclo iniciado antes do comando.", "restauração retornou mais antiga que o erro.", "linha 01 reapareceu.", "o documento terminou novamente."],
+      readings: ["espiral negra detectada", "decomposição temporal em curso", "ciclo incompleto", "o arquivo lembra aberturas futuras"]
+    },
+    medo: {
+      color: [230, 230, 245], alt: [15, 15, 25], max: 70,
+      logs: ["nenhuma anomalia detectada.", "você ainda está lendo.", "localização: atrás.", "o conteúdo evitou observação."],
+      readings: ["ausência ativa", "o texto percebeu você primeiro", "observador afetado", "não confundir silêncio com segurança"]
+    }
   };
 
-  const fragments = [
-    "Tentativa de retorno falhou. O fragmento voltou diferente do que era.",
-    "O tempo não apagou o arquivo. Ele apenas o desgastou até ficar legível de outro jeito.",
-    "A linha recuperada apresenta idade incompatível com o momento da leitura.",
-    "O documento perdeu partes de si mesmo durante a reconstrução.",
-    "O ciclo iniciou antes do comando ser confirmado.",
-    "Nada que é levado pela Morte pode voltar ao que era antes.",
-    "A poeira registrada não pertence ao ambiente físico.",
-    "O relógio marcou um horário que ainda não aconteceu."
-  ];
-
-  const statuses = [
-    "Erodindo",
-    "Ciclo ativo",
-    "Tempo atrasado",
-    "Decadência estável",
-    "Retorno impossível",
-    "Memória deteriorada",
-    "Fim em progresso"
-  ];
+  const cfg = configs[type];
+  let w = 0, h = 0, particles = [], lastMove = 0, lastPopup = 0, tick = 0;
 
   function safeClosest(event, selector) {
     const target = event.target;
-
-    if (!target || !(target instanceof Element)) {
-      return null;
-    }
-
+    if (!target || !(target instanceof Element)) return null;
     return target.closest(selector);
   }
 
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = Math.floor(w * ratio); canvas.height = Math.floor(h * ratio);
+    canvas.style.width = w + "px"; canvas.style.height = h + "px";
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
-  function pick(list) {
-    return list[Math.floor(Math.random() * list.length)];
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function log(text) {
+    if (!terminal) return;
+    const p = document.createElement("p");
+    p.textContent = "> " + text;
+    terminal.appendChild(p);
+    while (terminal.children.length > 6) terminal.removeChild(terminal.firstElementChild);
   }
 
-  function createLayer(className) {
-    let layer = document.querySelector(`.${className}`);
+  function setReading(text) { if (reading) reading.textContent = text; }
 
-    if (!layer) {
-      layer = document.createElement("div");
-      layer.className = className;
-      layer.setAttribute("aria-hidden", "true");
-      document.body.appendChild(layer);
-    }
-
-    return layer;
-  }
-
-  function injectCss() {
-    if (document.querySelector("#death-js-css")) return;
-
-    const style = document.createElement("style");
-    style.id = "death-js-css";
-
-    style.textContent = `
-      .death-js-layer,
-      .death-dust-field,
-      .death-clock-field,
-      .death-vignette-field {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .death-js-layer {
-        z-index: 999999;
-      }
-
-      .death-dust-field {
-        z-index: 999991;
-        opacity: .85;
-        mix-blend-mode: screen;
-      }
-
-      .death-clock-field {
-        z-index: 999990;
-        opacity: .42;
-        mix-blend-mode: screen;
-      }
-
-      .death-vignette-field {
-        z-index: 999989;
-        background:
-          radial-gradient(circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(155, 191, 122, .16), transparent 13rem),
-          radial-gradient(circle at center, transparent 0 48%, rgba(0, 0, 0, .72) 100%);
-      }
-
-      .death-dust-field span {
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
-        width: var(--s);
-        height: var(--s);
-        border-radius: 50%;
-        background: rgba(202, 218, 174, .72);
-        box-shadow: 0 0 10px rgba(155, 191, 122, .45);
-        animation: deathAmbientDust var(--d) ease-in-out infinite;
-        animation-delay: var(--delay);
-      }
-
-      .death-clock-field span {
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
-        width: var(--size);
-        aspect-ratio: 1;
-        border-radius: 50%;
-        border: 1px solid rgba(155, 191, 122, .32);
-        box-shadow:
-          inset 0 0 20px rgba(155, 191, 122, .06),
-          0 0 20px rgba(155, 191, 122, .14);
-        animation: deathClockTurn var(--d) linear infinite;
-        animation-delay: var(--delay);
-      }
-
-      .death-clock-field span::before,
-      .death-clock-field span::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 1px;
-        background: rgba(155, 191, 122, .55);
-        transform-origin: bottom center;
-      }
-
-      .death-clock-field span::before {
-        height: 34%;
-        transform: translate(-50%, -100%) rotate(40deg);
-      }
-
-      .death-clock-field span::after {
-        height: 24%;
-        transform: translate(-50%, -100%) rotate(140deg);
-      }
-
-      .death-js-dust {
-        position: fixed;
-        left: var(--x);
-        top: var(--y);
-        width: var(--s);
-        height: var(--s);
-        border-radius: 50%;
-        background: rgba(207, 220, 183, .82);
-        box-shadow:
-          0 0 8px rgba(155, 191, 122, .65),
-          0 0 20px rgba(155, 191, 122, .22);
-        transform: translate(-50%, -50%);
-        animation: deathDustBurst 1.8s ease forwards;
-      }
-
-      .death-js-ring {
-        position: fixed;
-        left: var(--x);
-        top: var(--y);
-        width: 34px;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        border: 1px solid rgba(155, 191, 122, .9);
-        box-shadow:
-          0 0 18px rgba(155, 191, 122, .6),
-          inset 0 0 12px rgba(155, 191, 122, .28);
-        transform: translate(-50%, -50%);
-        animation: deathTimeRing 1.25s ease forwards;
-      }
-
-      .death-js-symbol {
-        position: fixed;
-        left: var(--x);
-        top: var(--y);
-        color: rgba(202, 218, 174, .9);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: var(--s);
-        text-shadow:
-          0 0 12px rgba(155, 191, 122, .8),
-          0 0 30px rgba(155, 191, 122, .32);
-        transform: translate(-50%, -50%) rotate(var(--r));
-        animation: deathSymbolFade 1.4s ease forwards;
-      }
-
-      .death-js-page-decay {
-        animation: deathPageDecay .95s ease both;
-      }
-
-      .death-js-page-return {
-        animation: deathReturnFail .9s ease both;
-      }
-
-      .death-js-page-cycle {
-        animation: deathCyclePulse 1.1s ease both;
-      }
-
-      .death-js-line {
-        opacity: 1 !important;
-        transform: none !important;
-        border-left-color: rgba(155, 191, 122, .95) !important;
-        color: rgba(220, 230, 200, .72) !important;
-        box-shadow:
-          inset 0 0 24px rgba(155, 191, 122, .1),
-          0 0 24px rgba(155, 191, 122, .1);
-        animation: deathNewLine 1s ease both;
-      }
-
-      .death-line-eroded {
-        opacity: .52 !important;
-        filter: grayscale(.45) sepia(.16);
-        text-decoration: line-through;
-        text-decoration-color: rgba(155, 191, 122, .42);
-      }
-
-      .death-line-hit {
-        animation: deathLineHit .9s ease both;
-      }
-
-      @keyframes deathAmbientDust {
-        0%, 100% {
-          transform: translateY(0) translateX(0);
-          opacity: .18;
-        }
-
-        50% {
-          transform: translateY(-34px) translateX(12px);
-          opacity: .82;
-        }
-      }
-
-      @keyframes deathClockTurn {
-        from {
-          transform: rotate(0deg) scale(.95);
-        }
-
-        to {
-          transform: rotate(360deg) scale(.95);
-        }
-      }
-
-      @keyframes deathDustBurst {
-        0% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translate(0, 0) scale(.3);
-        }
-
-        15% {
-          opacity: 1;
-        }
-
-        100% {
-          opacity: 0;
-          transform:
-            translate(-50%, -50%)
-            translate(var(--dx), var(--dy))
-            scale(1.4);
-        }
-      }
-
-      @keyframes deathTimeRing {
-        0% {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(.25) rotate(0deg);
-        }
-
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) scale(17) rotate(70deg);
-        }
-      }
-
-      @keyframes deathSymbolFade {
-        0% {
-          opacity: 0;
-          transform: translate(-50%, -50%) rotate(var(--r)) scale(.5);
-        }
-
-        20% {
-          opacity: 1;
-        }
-
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) rotate(calc(var(--r) + 40deg)) scale(1.2);
-        }
-      }
-
-      @keyframes deathPageDecay {
-        0%, 100% {
-          filter: none;
-        }
-
-        35% {
-          filter: grayscale(.55) sepia(.22) brightness(.85);
-        }
-
-        65% {
-          filter: grayscale(.2) sepia(.12);
-        }
-      }
-
-      @keyframes deathReturnFail {
-        0%, 100% {
-          transform: translateX(0);
-          filter: none;
-        }
-
-        28% {
-          transform: translateX(-5px);
-          filter: blur(1px) grayscale(.8);
-        }
-
-        54% {
-          transform: translateX(4px);
-          filter: brightness(.8) sepia(.3);
-        }
-      }
-
-      @keyframes deathCyclePulse {
-        0%, 100% {
-          filter: none;
-          transform: scale(1);
-        }
-
-        38% {
-          filter: brightness(1.18) sepia(.22);
-          transform: scale(1.006);
-        }
-      }
-
-      @keyframes deathNewLine {
-        0% {
-          opacity: 0;
-          transform: translateY(14px);
-          filter: blur(6px) grayscale(1);
-        }
-
-        100% {
-          opacity: 1;
-          transform: none;
-          filter: none;
-        }
-      }
-
-      @keyframes deathLineHit {
-        0%, 100% {
-          transform: translateX(0);
-          filter: none;
-        }
-
-        40% {
-          transform: translateX(-4px);
-          filter: grayscale(.7) brightness(.8);
-        }
-
-        70% {
-          transform: translateX(2px);
-        }
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
-
-  function updateStats(status) {
-    const decayEl = document.querySelector("[data-death-decay]");
-    const cycleEl = document.querySelector("[data-death-cycle]");
-    const erosionEl = document.querySelector("[data-death-erosion]");
-    const statusEl = document.querySelector("[data-death-status]");
-
-    state.decay = Math.max(0, Math.min(100, state.decay));
-    state.erosion = Math.max(0, Math.min(100, state.erosion));
-    state.cycle = Math.max(1, Math.min(99, state.cycle));
-
-    if (decayEl) decayEl.textContent = `${state.decay}%`;
-    if (cycleEl) cycleEl.textContent = `Ciclo ${state.cycle}`;
-    if (erosionEl) erosionEl.textContent = `${state.erosion}%`;
-    if (statusEl) statusEl.textContent = status || pick(statuses);
-  }
-
-  function createAmbientDust() {
-    const field = createLayer("death-dust-field");
-    field.innerHTML = "";
-
-    for (let i = 0; i < 110; i++) {
-      const dust = document.createElement("span");
-
-      dust.style.setProperty("--x", `${random(0, 100)}%`);
-      dust.style.setProperty("--y", `${random(0, 100)}%`);
-      dust.style.setProperty("--s", `${random(1, 4)}px`);
-      dust.style.setProperty("--d", `${random(6, 18)}s`);
-      dust.style.setProperty("--delay", `${random(-16, 0)}s`);
-
-      field.appendChild(dust);
+  function spawn(x, y, count = 16, power = 1) {
+    for (let i = 0; i < count; i++) {
+      if (particles.length > cfg.max) particles.shift();
+      particles.push({
+        x, y, vx: rand(-2.2, 2.2) * power, vy: rand(-2.2, 2.2) * power,
+        life: rand(35, 95), max: rand(35, 95), size: rand(1, 4) * power,
+        kind: type === "morte" ? "spiral" : type === "sangue" ? "instinct" : type === "energia" ? "glitch" : type === "medo" ? "void" : "symbol",
+        word: cfg.words ? pick(cfg.words) : "",
+        angle: rand(0, Math.PI * 2)
+      });
     }
   }
 
-  function createClockField() {
-    const field = createLayer("death-clock-field");
-    field.innerHTML = "";
+  function popup() {
+    if (type !== "conhecimento") return;
+    const now = Date.now();
+    if (now - lastPopup < 260) return;
+    lastPopup = now;
+    const box = document.createElement("button");
+    box.type = "button";
+    box.className = "knowledge-popup-alert";
+    box.innerHTML = `<strong>${pick(cfg.popups)}</strong><span>clique para fechar / ou abrir outra camada</span>`;
+    box.style.left = rand(4, 72) + "vw";
+    box.style.top = rand(12, 74) + "vh";
+    page.appendChild(box);
+    box.addEventListener("click", () => { box.remove(); if (Math.random() > .35) { popup(); setTimeout(popup, 90); } });
+    setTimeout(() => box.remove(), rand(3000, 7000));
+  }
 
-    for (let i = 0; i < 11; i++) {
-      const clock = document.createElement("span");
-
-      clock.style.setProperty("--x", `${random(4, 88)}%`);
-      clock.style.setProperty("--y", `${random(6, 84)}%`);
-      clock.style.setProperty("--size", `${random(70, 190)}px`);
-      clock.style.setProperty("--d", `${random(12, 32)}s`);
-      clock.style.setProperty("--delay", `${random(-22, 0)}s`);
-
-      field.appendChild(clock);
+  function addFragment() {
+    if (!fragments) return;
+    const p = document.createElement("p");
+    p.className = "edoc-fragment-line edoc-added-line";
+    const span = document.createElement("span");
+    span.textContent = "//";
+    p.appendChild(span);
+    p.appendChild(document.createTextNode(pick(cfg.logs)));
+    fragments.appendChild(p);
+    while (fragments.querySelectorAll(".edoc-added-line").length > 4) {
+      fragments.querySelector(".edoc-added-line")?.remove();
     }
   }
 
-  function spawnDust(x, y, intense = false) {
-    const layer = createLayer("death-js-layer");
-    const dust = document.createElement("span");
-
-    dust.className = "death-js-dust";
-    dust.style.setProperty("--x", `${x + random(-30, 30)}px`);
-    dust.style.setProperty("--y", `${y + random(-24, 24)}px`);
-    dust.style.setProperty("--dx", `${random(-90, 90)}px`);
-    dust.style.setProperty("--dy", `${random(-130, 80)}px`);
-    dust.style.setProperty("--s", intense ? `${random(4, 9)}px` : `${random(2, 5)}px`);
-
-    layer.appendChild(dust);
-    setTimeout(() => dust.remove(), 1900);
+  function action(kind) {
+    log(pick(cfg.logs)); setReading(pick(cfg.readings)); addFragment();
+    page.classList.add("edoc-shock"); setTimeout(() => page.classList.remove("edoc-shock"), 600);
+    spawn(w / 2, h / 2, type === "energia" ? 80 : 34, type === "energia" ? 2 : 1.4);
+    if (type === "conhecimento") { popup(); popup(); }
+    if (type === "morte") page.classList.toggle("death-cycle-active");
+    if (type === "medo") page.classList.toggle("fear-observed");
+    if (type === "sangue") page.classList.add("blood-instinct-war"), setTimeout(()=>page.classList.remove("blood-instinct-war"), 1000);
+    if (type === "energia") page.classList.add("energy-overload"), setTimeout(()=>page.classList.remove("energy-overload"), 900);
   }
 
-  function spawnRing(x, y) {
-    const layer = createLayer("death-js-layer");
-    const ring = document.createElement("span");
+  function draw() {
+    tick += 1;
+    ctx.clearRect(0, 0, w, h);
+    const [r,g,b] = cfg.color, [ar,ag,ab] = cfg.alt;
 
-    ring.className = "death-js-ring";
-    ring.style.setProperty("--x", `${x}px`);
-    ring.style.setProperty("--y", `${y}px`);
+    if (type === "energia") {
+      for (let i=0;i<10;i++) {
+        ctx.fillStyle = `rgba(${i%2?r:ar},${i%2?g:ag},${i%2?b:ab},${rand(.06,.22)})`;
+        ctx.fillRect(rand(0,w), rand(0,h), rand(20,180), rand(1,5));
+      }
+    }
 
-    layer.appendChild(ring);
-    setTimeout(() => ring.remove(), 1300);
-  }
-
-  function spawnSymbol(x, y) {
-    const layer = createLayer("death-js-layer");
-    const symbol = document.createElement("span");
-    const symbols = ["⌛", "◷", "◴", "◵", "◶", "∞", "I", "XII"];
-
-    symbol.className = "death-js-symbol";
-    symbol.textContent = pick(symbols);
-    symbol.style.setProperty("--x", `${x + random(-35, 35)}px`);
-    symbol.style.setProperty("--y", `${y + random(-35, 35)}px`);
-    symbol.style.setProperty("--s", `${random(.9, 1.8)}rem`);
-    symbol.style.setProperty("--r", `${random(-60, 60)}deg`);
-    symbol.style.setProperty("--dx", `${random(-70, 70)}px`);
-    symbol.style.setProperty("--dy", `${random(-90, 60)}px`);
-
-    layer.appendChild(symbol);
-    setTimeout(() => symbol.remove(), 1500);
-  }
-
-  function addLine(label) {
-    const list =
-      document.querySelector("[data-death-fragments]") ||
-      document.querySelector(".death-fragments") ||
-      document.querySelector(".element-fragments");
-
-    if (!list) return;
-
-    const line = document.createElement("p");
-
-    line.className = "death-js-line";
-    line.innerHTML = `<span>${label}</span>${pick(fragments)}`;
-
-    list.appendChild(line);
-    line.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
-
-  function hitLines(erode = false) {
-    const lines = document.querySelectorAll(".death-fragment-line, .element-fragments p, .element-main-file p");
-
-    lines.forEach((line, index) => {
-      setTimeout(() => {
-        line.classList.add("death-line-hit");
-
-        if (erode && Math.random() > 0.55) {
-          line.classList.add("death-line-eroded");
+    if (type === "morte") {
+      ctx.strokeStyle = `rgba(0,0,0,.38)`; ctx.lineWidth = 2;
+      for (let s=0;s<4;s++) {
+        ctx.beginPath();
+        const cx = (w * (.2 + s*.2)) + Math.sin(tick/80+s)*30, cy = h*(.25 + (s%2)*.4);
+        for (let a=0; a<Math.PI*7; a+=.18) {
+          const rr = 4 + a*5;
+          const x = cx + Math.cos(a + tick/120) * rr;
+          const y = cy + Math.sin(a + tick/120) * rr;
+          if (a === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
         }
-
-        setTimeout(() => {
-          line.classList.remove("death-line-hit");
-        }, 900);
-      }, index * 45);
-    });
-  }
-
-  function pulsePage(type) {
-    page.classList.remove("death-js-page-decay", "death-js-page-return", "death-js-page-cycle");
-    void page.offsetWidth;
-    page.classList.add(type);
-
-    setTimeout(() => {
-      page.classList.remove(type);
-    }, 1200);
-  }
-
-  function accelerateDecay(event) {
-    const x = event.clientX || innerWidth / 2;
-    const y = event.clientY || innerHeight / 2;
-
-    state.decay += 13;
-    state.erosion += 9;
-
-    updateStats("Decadência acelerada");
-    pulsePage("death-js-page-decay");
-    hitLines(true);
-    addLine("DECADÊNCIA ACELERADA");
-
-    spawnRing(x, y);
-
-    for (let i = 0; i < 55; i++) {
-      spawnDust(x, y, true);
+        ctx.stroke();
+      }
     }
 
-    for (let i = 0; i < 8; i++) {
-      spawnSymbol(x, y);
+    particles = particles.filter(p => p.life > 0);
+    for (const p of particles) {
+      const alpha = Math.max(0, p.life / p.max);
+      p.life -= 1; p.x += p.vx; p.y += p.vy; p.vy += type === "sangue" ? .015 : 0;
+      ctx.save(); ctx.globalAlpha = alpha;
+      if (p.kind === "instinct") {
+        ctx.fillStyle = `rgba(${r},${g},${b},${.4 + alpha*.45})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.size*2,0,Math.PI*2); ctx.fill();
+        if (p.word && alpha > .45) { ctx.font = "700 10px monospace"; ctx.fillText(p.word, p.x+8, p.y); }
+      } else if (p.kind === "glitch") {
+        ctx.fillStyle = `rgba(${Math.random()>.5?r:ar},${Math.random()>.5?g:ag},${Math.random()>.5?b:ab},${alpha})`;
+        ctx.fillRect(p.x,p.y,p.size*10,p.size*1.5);
+      } else if (p.kind === "spiral") {
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha*.45})`; ctx.beginPath();
+        for (let a=0; a<Math.PI*3; a+=.3) { const rr=a*p.size; const x=p.x+Math.cos(a+p.angle)*rr; const y=p.y+Math.sin(a+p.angle)*rr; if(a===0)ctx.moveTo(x,y);else ctx.lineTo(x,y); }
+        ctx.stroke();
+      } else if (p.kind === "void") {
+        ctx.fillStyle = `rgba(0,0,0,${alpha*.55})`; ctx.beginPath(); ctx.ellipse(p.x,p.y,p.size*5,p.size*2,p.angle,0,Math.PI*2); ctx.fill();
+      } else {
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`; ctx.strokeRect(p.x,p.y,p.size*4,p.size*4);
+      }
+      ctx.restore();
     }
+
+    requestAnimationFrame(draw);
   }
 
-  function tryReturn(event) {
-    const x = event.clientX || innerWidth / 2;
-    const y = event.clientY || innerHeight / 2;
+  resize(); window.addEventListener("resize", resize);
 
-    state.decay += 7;
-    state.erosion += 14;
+  document.addEventListener("pointermove", (event) => {
+    const now = Date.now();
+    if (now - lastMove < 28) return;
+    lastMove = now;
+    spawn(event.clientX, event.clientY, type === "energia" ? 5 : 2, type === "medo" ? .6 : 1);
+    if (type === "conhecimento" && Math.random() > .82) popup();
+    if (type === "medo" && safeClosest(event, ".edoc-fragment-line")) safeClosest(event, ".edoc-fragment-line")?.classList.add("fear-hide-line");
+  }, { passive: true });
 
-    updateStats("Retorno falhou");
-    pulsePage("death-js-page-return");
-    hitLines(true);
-    addLine("RETORNO IMPOSSÍVEL");
+  document.addEventListener("click", (event) => {
+    const btn = safeClosest(event, "[data-edoc-action]");
+    spawn(event.clientX, event.clientY, btn ? 38 : 18, btn ? 1.7 : 1);
+    if (btn) action(btn.dataset.edocAction);
+  });
 
-    for (let i = 0; i < 2; i++) spawnRing(x + random(-40, 40), y + random(-40, 40));
-    for (let i = 0; i < 38; i++) spawnDust(x, y, i % 2 === 0);
-  }
+  document.addEventListener("contextmenu", (event) => { event.preventDefault(); log("menu contextual bloqueado por contenção da Ordo."); spawn(event.clientX, event.clientY, 30, 1.4); return false; }, { capture: true });
+  ["selectstart", "dragstart", "copy", "cut"].forEach(evt => document.addEventListener(evt, e => e.preventDefault()));
 
-  function startCycle(event) {
-    const x = event.clientX || innerWidth / 2;
-    const y = event.clientY || innerHeight / 2;
-
-    state.cycle += 1;
-    state.decay += 5;
-    state.erosion += 5;
-
-    updateStats("Novo ciclo iniciado");
-    pulsePage("death-js-page-cycle");
-    addLine("CICLO INICIADO");
-
-    for (let i = 0; i < 4; i++) spawnRing(x + random(-80, 80), y + random(-80, 80));
-    for (let i = 0; i < 14; i++) spawnSymbol(x, y);
-  }
-
-  function bindEvents() {
-    document.addEventListener("click", event => {
-      const button = safeClosest(event, "[data-death-action]");
-      const action = button?.dataset.deathAction;
-
-      if (action === "decay") return accelerateDecay(event);
-      if (action === "return") return tryReturn(event);
-      if (action === "cycle") return startCycle(event);
-
-      spawnRing(event.clientX, event.clientY);
-
-      for (let i = 0; i < 18; i++) {
-        spawnDust(event.clientX, event.clientY, false);
-      }
-    });
-
-    document.addEventListener("pointermove", event => {
-      page.style.setProperty("--cursor-x", `${event.clientX}px`);
-      page.style.setProperty("--cursor-y", `${event.clientY}px`);
-
-      const now = performance.now();
-
-      if (now - state.lastMove < 120) return;
-
-      state.lastMove = now;
-
-      if (Math.random() > 0.35) {
-        spawnDust(event.clientX, event.clientY, false);
-      }
-
-      if (Math.random() > 0.86) {
-        spawnSymbol(event.clientX, event.clientY);
-      }
-    }, { passive: true });
-  }
-
-  function ambientCycle() {
-    setInterval(() => {
-      if (document.hidden) return;
-
-      spawnSymbol(random(80, innerWidth - 80), random(80, innerHeight - 80));
-
-      if (Math.random() > 0.58) {
-        hitLines(false);
-      }
-    }, 4200);
-  }
-
-  function init() {
-    injectCss();
-
-    createLayer("death-js-layer");
-    createLayer("death-vignette-field");
-    createAmbientDust();
-    createClockField();
-
-    updateStats("Arquivo envelhecendo");
-    bindEvents();
-    ambientCycle();
-
-    page.classList.add("death-js-active");
-
-    console.log("[MORTE] efeitos visíveis ativados.");
-  }
-
-  init();
+  setInterval(() => { log(pick(cfg.logs)); setReading(pick(cfg.readings)); if (type === "conhecimento") popup(); if (type === "energia") file?.classList.toggle("edoc-file-shift"); }, type === "energia" ? 2200 : type === "conhecimento" ? 3000 : 5200);
+  setInterval(() => spawn(rand(0,w), rand(0,h), type === "energia" ? 12 : 5, type === "energia" ? 1.5 : 1), 900);
+  setTimeout(() => { log("fragmento estabilizado com corrupção ativa."); spawn(w/2,h/2,45,1.5); }, 400);
+  draw();
 })();

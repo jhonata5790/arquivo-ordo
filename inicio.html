@@ -4,74 +4,133 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Arquivo da Campanha — Corações do Outro Lado</title>
+  <title>Início — Arquivo da Campanha</title>
 
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=15" />
 </head>
 
 <body>
-  <main class="home-archive-page" data-page="inicio">
+  <main class="home-archive-page" data-page="inicio" data-home-page>
     <div class="home-bg-grid" aria-hidden="true"></div>
     <div class="home-bg-scan" aria-hidden="true"></div>
     <div class="home-bg-orbital" aria-hidden="true"></div>
     <div class="home-bg-noise" aria-hidden="true"></div>
+    <div class="home-bg-bloodline" aria-hidden="true"></div>
+    <div class="home-bg-cursor" aria-hidden="true"></div>
+
+    <header class="home-topbar">
+      <a class="home-brand" href="./inicio.html" aria-label="Voltar para o início do Arquivo da Campanha">
+        <span class="home-brand-sigil">OR</span>
+        <div>
+          <strong>Arquivo da Campanha</strong>
+          <small>Corações do Outro Lado</small>
+        </div>
+      </a>
+
+      <nav class="home-topnav" aria-label="Navegação rápida">
+        <a href="./pages/agentes.html">Agentes</a>
+        <a href="./pages/documentos.html">Documentos</a>
+        <a href="./pages/elementos.html">Elementos</a>
+      </nav>
+    </header>
 
     <section class="home-hero">
       <div class="home-hero-copy">
-        <p class="home-kicker">ORDO REALITAS // ARQUIVO INTERNO</p>
+        <p class="home-kicker">ORDO REALITAS // SISTEMA INTERNO // SANTA LUZIA</p>
 
         <h1 data-text="CORAÇÕES DO OUTRO LADO">
-          Corações do<br />
-          Outro Lado
+          Corações do<br />Outro Lado
         </h1>
 
-        <p>
-          Sistema visual de investigação da campanha. Registros, documentos,
-          elementos, locais, agentes e fragmentos recuperados pela Ordo Realitas
-          durante a operação em Santa Luzia.
+        <p class="home-hero-text">
+          Interface de investigação da campanha. Cada setor do arquivo registra uma camada da operação:
+          agentes, documentos recuperados, elementos, locais, missões e componentes ritualísticos ligados
+          à contaminação de Santa Luzia.
         </p>
 
-        <div class="home-alert-line">
+        <div class="home-hero-actions">
+          <a href="./pages/agentes.html" class="home-primary-action" data-home-card="agentes">
+            Abrir central de agentes
+          </a>
+
+          <a href="./pages/documentos.html" class="home-secondary-action" data-home-card="documentos">
+            Consultar documentos
+          </a>
+        </div>
+
+        <div class="home-alert-line" aria-label="Alertas do sistema">
           <span>acesso parcial</span>
-          <span>integridade instável</span>
-          <span>risco paranormal</span>
+          <span>arquivo vivo</span>
+          <span>corrupção elemental</span>
+          <span>operação ativa</span>
         </div>
       </div>
 
-      <aside class="home-identity-card">
-        <span>arquivo ativo</span>
-        <strong>Corações do Outro Lado</strong>
+      <aside class="home-case-panel" aria-label="Painel do caso ativo">
+        <div class="home-case-panel-head">
+          <span>caso ativo</span>
+          <strong>ORDO-SLZ-███</strong>
+        </div>
+
+        <div class="home-case-orb" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <strong>SLZ</strong>
+        </div>
+
+        <div class="home-case-data">
+          <article>
+            <span>Local</span>
+            <strong>Santa Luzia</strong>
+          </article>
+
+          <article>
+            <span>Elemento em foco</span>
+            <strong>Sangue</strong>
+          </article>
+
+          <article>
+            <span>Status</span>
+            <strong>Em andamento</strong>
+          </article>
+
+          <article>
+            <span>Fonte</span>
+            <strong>Não confirmada</strong>
+          </article>
+        </div>
 
         <p>
-          Caso em andamento. A fonte da contaminação ainda não foi totalmente
-          identificada pela Ordo.
+          A Ordo reconhece um padrão recorrente de instinto, carne, culto, desaparecimentos e distorções
+          emocionais. O arquivo ainda não está completo.
         </p>
-
-        <div class="home-case-code">
-          COD: ORDO-SLZ-███
-        </div>
       </aside>
     </section>
 
-    <section class="home-status-strip" aria-label="Status do arquivo">
+    <section class="home-command-grid" aria-label="Resumo operacional">
       <article>
-        <span>Local</span>
-        <strong>Santa Luzia</strong>
+        <span>Agentes públicos</span>
+        <strong>3</strong>
+        <p>Maisie, Lilian e Roselyn com fichas completas.</p>
       </article>
 
       <article>
-        <span>Operação</span>
-        <strong>Em andamento</strong>
+        <span>Registros restritos</span>
+        <strong>4</strong>
+        <p>Yuna, Lisa, Blender e Klint ainda protegidos.</p>
       </article>
 
       <article>
-        <span>Elemento ativo</span>
-        <strong>Sangue</strong>
+        <span>Elementos indexados</span>
+        <strong>5</strong>
+        <p>Sangue, Conhecimento, Energia, Morte e Medo.</p>
       </article>
 
       <article>
-        <span>Acesso</span>
-        <strong>Parcial</strong>
+        <span>Integridade</span>
+        <strong data-home-integrity>72%</strong>
+        <p>Oscilação detectada durante a leitura.</p>
       </article>
     </section>
 
@@ -85,128 +144,110 @@
         </div>
 
         <div class="home-terminal-lines" data-home-terminal>
-          <p>&gt; inicializando arquivo da campanha...</p>
-          <p>&gt; carregando registros de Santa Luzia...</p>
-          <p>&gt; documentos recuperados: acesso parcial.</p>
-          <p>&gt; aviso: corrupção elemental detectada.</p>
+          <p>&gt; inicializando Arquivo da Campanha...</p>
+          <p>&gt; sincronizando páginas concluídas...</p>
+          <p>&gt; agentes públicos: Maisie / Lilian / Roselyn.</p>
+          <p>&gt; aviso: setores restritos permanecem bloqueados.</p>
         </div>
       </aside>
 
-      <section class="home-navigation-panel" aria-label="Navegação principal">
+      <section class="home-navigation-panel" aria-label="Áreas principais do arquivo">
         <div class="home-section-title">
-          <span>áreas do arquivo</span>
-          <h2>Central de Investigação</h2>
+          <span>central de investigação</span>
+          <h2>Escolha um setor do arquivo</h2>
+          <p>
+            Cada card carrega uma parte da campanha. Os setores liberados abrem normalmente; os setores
+            sensíveis mantêm aviso visual de contenção.
+          </p>
         </div>
 
         <div class="home-card-grid">
-          <a class="home-nav-card home-card-docs" href="./pages/documentos.html" data-home-card="documentos">
+          <a class="home-nav-card home-card-agents" href="./pages/agentes.html" data-home-card="agentes">
             <span class="home-card-index">01</span>
-            <div class="home-card-icon">▤</div>
-
+            <div class="home-card-icon">◈</div>
             <div>
-              <p>Documentos</p>
-              <h3>Arquivos Recuperados</h3>
-              <span>
-                Relatórios, fragmentos, registros corrompidos e documentos
-                classificados da Ordo.
-              </span>
+              <p>Operacional</p>
+              <h3>Agentes</h3>
+              <span>Hub das fichas dos jogadores, Trindade da Ordo e comando superior.</span>
             </div>
+            <strong>Liberado</strong>
+          </a>
 
-            <strong>abrir</strong>
+          <a class="home-nav-card home-card-docs" href="./pages/documentos.html" data-home-card="documentos">
+            <span class="home-card-index">02</span>
+            <div class="home-card-icon">▤</div>
+            <div>
+              <p>Investigação</p>
+              <h3>Documentos</h3>
+              <span>Relatórios, fragmentos corrompidos, arquivos recuperados e dados bloqueados.</span>
+            </div>
+            <strong>Liberado</strong>
           </a>
 
           <a class="home-nav-card home-card-elements" href="./pages/elementos.html" data-home-card="elementos">
-            <span class="home-card-index">02</span>
-            <div class="home-card-icon">◎</div>
-
-            <div>
-              <p>Elementos</p>
-              <h3>Camadas Paranormais</h3>
-              <span>
-                Sangue, Conhecimento, Energia, Morte e Medo em arquivos
-                instáveis.
-              </span>
-            </div>
-
-            <strong>abrir</strong>
-          </a>
-
-          <a class="home-nav-card home-card-agents" href="./pages/agentes.html" data-home-card="agentes">
             <span class="home-card-index">03</span>
-            <div class="home-card-icon">◈</div>
-
+            <div class="home-card-icon">◎</div>
             <div>
-              <p>Agentes</p>
-              <h3>Perfis Operacionais</h3>
-              <span>
-                Fichas, dossiês e registros dos envolvidos na operação.
-              </span>
+              <p>Paranormal</p>
+              <h3>Elementos</h3>
+              <span>Camadas de Sangue, Conhecimento, Energia, Morte e Medo.</span>
             </div>
-
-            <strong>abrir</strong>
+            <strong>Instável</strong>
           </a>
 
           <a class="home-nav-card home-card-locais" href="./pages/locais.html" data-home-card="locais">
             <span class="home-card-index">04</span>
             <div class="home-card-icon">⌖</div>
-
             <div>
-              <p>Locais</p>
-              <h3>Santa Luzia</h3>
-              <span>
-                Pontos importantes, áreas investigáveis, regiões secretas e
-                mapa da cidade.
-              </span>
+              <p>Geográfico</p>
+              <h3>Locais</h3>
+              <span>Santa Luzia, Rodovia Ferreira, Rio Lepras, Árvore Mãe e zonas secretas.</span>
             </div>
-
-            <strong>abrir</strong>
+            <strong>Parcial</strong>
           </a>
 
           <a class="home-nav-card home-card-missions" href="./pages/missoes.html" data-home-card="missoes">
             <span class="home-card-index">05</span>
             <div class="home-card-icon">✦</div>
-
             <div>
-              <p>Missões</p>
-              <h3>Operações da Campanha</h3>
-              <span>
-                Registro das investigações, acontecimentos e avanço narrativo.
-              </span>
+              <p>Narrativo</p>
+              <h3>Missões</h3>
+              <span>Registro de sessões, pistas, consequências e avanço da operação.</span>
             </div>
-
-            <strong>abrir</strong>
+            <strong>Em breve</strong>
           </a>
 
           <a class="home-nav-card home-card-ordo" href="./pages/ordo-realitas.html" data-home-card="ordo">
             <span class="home-card-index">06</span>
             <div class="home-card-icon">⬡</div>
-
             <div>
-              <p>Ordo Realitas</p>
-              <h3>Estrutura Interna</h3>
-              <span>
-                Comando, hierarquia, setores, Trindade da Ordo e operações.
-              </span>
+              <p>Institucional</p>
+              <h3>Ordo Realitas</h3>
+              <span>Hierarquia, setores, Trindade, comando e protocolos internos da organização.</span>
             </div>
-
-            <strong>abrir</strong>
+            <strong>Parcial</strong>
           </a>
         </div>
       </section>
 
       <aside class="home-side-panel">
         <section class="home-current-reading">
-          <span>leitura atual</span>
+          <span>leitura dinâmica</span>
           <h2 data-home-reading-title>Arquivo em repouso</h2>
-
           <p data-home-reading-text>
-            Passe o cursor sobre uma área do arquivo para visualizar a resposta
-            do sistema da Ordo.
+            Passe o cursor sobre um setor para o sistema mostrar uma leitura operacional da área selecionada.
           </p>
+          <div class="home-reading-signal" data-home-reading-signal>sinal: neutro</div>
+        </section>
 
-          <div class="home-reading-signal" data-home-reading-signal>
-            sinal: neutro
-          </div>
+        <section class="home-trace-panel">
+          <span>trilha do arquivo</span>
+          <ol>
+            <li><strong>Entrada</strong><small>interface sincronizada</small></li>
+            <li><strong>Agentes</strong><small>fichas liberadas</small></li>
+            <li><strong>Documentos</strong><small>fragmentos recuperados</small></li>
+            <li><strong>Coração</strong><small>arquivo final indisponível</small></li>
+          </ol>
         </section>
 
         <section class="home-locked-section">
@@ -224,13 +265,13 @@
 
           <a href="./pages/componentes-ritualisticos.html" class="home-locked-card" data-home-card="componentes">
             <strong>Componentes Ritualísticos</strong>
-            <p>Objetos paranormais, relíquias e componentes contaminados.</p>
+            <p>Relíquias, objetos contaminados e peças de ritual.</p>
           </a>
         </section>
       </aside>
     </section>
   </main>
 
-  <script src="./inicio.js?v=1"></script>
+  <script src="./inicio.js?v=5"></script>
 </body>
 </html>
