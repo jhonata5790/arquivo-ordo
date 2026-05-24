@@ -50,3 +50,21 @@ git push
 NOTA DA ORDO:
 A clareza operacional foi aprimorada para agentes em campo.
 A contaminação visual permanece ativa onde ainda é necessária.
+
+
+==============================
+VERSÃO 2.1.2 — HOTFIX DE PERFORMANCE VFX
+==============================
+Foco: reduzir travamentos percebidos nas páginas Início e Elementos sem remover efeitos visuais.
+
+Alterações:
+- Ordo Performance Core atualizado para 2.1.2-hotfix.
+- Redução inteligente de DPR dos canvas VFX.
+- Menos pressão de partículas em cliques repetidos.
+- Limites menores para ondas, runas, símbolos e partículas simultâneas.
+- Intervalos ambientais menos agressivos na Início e no Hub de Elementos.
+- Trilha do mouse mais controlada em desktop e mobile.
+- Efeitos continuam ativos; apenas deixam de acumular em excesso.
+
+Observação da Ordo:
+A contenção visual permanece ativa. A instabilidade foi reduzida sem neutralizar a corrupção estética do arquivo.

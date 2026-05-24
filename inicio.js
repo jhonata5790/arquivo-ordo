@@ -176,6 +176,7 @@
     let width = 0;
     let height = 0;
     let raf = 0;
+    let frame = 0;
     const particles = [];
     const waves = [];
     const runes = [];
@@ -219,7 +220,8 @@
 
     function seedAmbient() {
       floaters.length = 0;
-      for (let i = 0; i < 42; i++) {
+      const ambientCount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(24, 16, 10) : 24;
+      for (let i = 0; i < ambientCount; i++) {
         floaters.push({
           x: random(0, width),
           y: random(0, height),
@@ -249,8 +251,8 @@
     function addTrail(x, y, cardName) {
       const color = getCardColor(cardName || state.activeCard);
       const rgb = hexToRgb(color);
-      if (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("home-trail", 0.35)) {
-        for (let i = 0; i < 2; i++) {
+      if (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("home-trail", 0.8)) {
+        for (let i = 0; i < 1; i++) {
         particles.push({
           x: x + random(-5, 5),
           y: y + random(-5, 5),
@@ -268,13 +270,13 @@
     }
 
     function burst(x, y, cardName) {
-      if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("home-burst", 10)) return;
+      if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("home-burst", 16)) return;
       const color = getCardColor(cardName || state.activeCard);
       const rgb = hexToRgb(color);
 
       waves.push({ x, y, life: 38, maxLife: 38, color, rgb, radius: 8, power: random(6, 10) });
 
-      const particleAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(32, 22, 14) : 32;
+      const particleAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(22, 14, 8) : 22;
       for (let i = 0; i < particleAmount; i++) {
         const angle = random(0, Math.PI * 2);
         const speed = random(1.4, 5.8);
@@ -292,7 +294,7 @@
         });
       }
 
-      const runeAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(5, 3, 2) : 5;
+      const runeAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(3, 2, 1) : 3;
       for (let i = 0; i < runeAmount; i++) {
         runes.push({
           x: x + random(-54, 54),
@@ -318,7 +320,8 @@
       state.lastGlitch = now;
       const color = getCardColor(cardName || state.activeCard);
       const rgb = hexToRgb(color);
-      for (let i = 0; i < 3; i++) {
+      const glitchCount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(2, 1, 1) : 2;
+      for (let i = 0; i < glitchCount; i++) {
         glitches.push({
           y: random(12, height - 12),
           h: random(2, 8),
@@ -362,7 +365,7 @@
     }
 
     function drawParticles() {
-      if (particles.length > 180) particles.splice(0, particles.length - 180);
+      if (particles.length > 115) particles.splice(0, particles.length - 115);
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.life -= 1;
@@ -376,7 +379,7 @@
         ctx.globalAlpha = Math.min(1, t * 1.15);
         ctx.fillStyle = `rgba(${p.rgb.r}, ${p.rgb.g}, ${p.rgb.b}, ${0.96 * t})`;
         ctx.strokeStyle = `rgba(${p.rgb.r}, ${p.rgb.g}, ${p.rgb.b}, ${0.8 * t})`;
-        glow(p.color, p.kind === "trail" ? 10 : 22);
+        glow(p.color, p.kind === "trail" ? 7 : 14);
 
         if (p.kind === "line") {
           ctx.beginPath();
@@ -397,7 +400,7 @@
     }
 
     function drawWaves() {
-      if (waves.length > 26) waves.splice(0, waves.length - 26);
+      if (waves.length > 12) waves.splice(0, waves.length - 12);
       for (let i = waves.length - 1; i >= 0; i--) {
         const w = waves[i];
         w.life -= 1;
@@ -406,7 +409,7 @@
         ctx.globalAlpha = t * 0.85;
         ctx.strokeStyle = `rgba(${w.rgb.r}, ${w.rgb.g}, ${w.rgb.b}, ${t})`;
         ctx.lineWidth = 1 + t * 3;
-        glow(w.color, 30);
+        glow(w.color, 18);
         ctx.beginPath();
         ctx.arc(w.x, w.y, radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -419,7 +422,7 @@
     function drawRunes() {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      if (runes.length > 45) runes.splice(0, runes.length - 45);
+      if (runes.length > 24) runes.splice(0, runes.length - 24);
       for (let i = runes.length - 1; i >= 0; i--) {
         const r = runes[i];
         r.life -= 1;
@@ -433,7 +436,7 @@
         ctx.globalAlpha = Math.min(1, t * 1.35);
         ctx.font = `800 ${r.size * (1.2 - t * 0.15)}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
         ctx.fillStyle = r.color;
-        glow(r.color, 26);
+        glow(r.color, 16);
         ctx.fillText(r.text, 0, 0);
         ctx.restore();
         if (r.life <= 0) runes.splice(i, 1);
@@ -448,7 +451,7 @@
         g.life -= 1;
         const t = Math.max(0, g.life / g.maxLife);
         ctx.globalAlpha = t * 0.65;
-        glow(g.color, 26);
+        glow(g.color, 14);
         const gradient = ctx.createLinearGradient(0, 0, width, 0);
         gradient.addColorStop(0, "rgba(0,0,0,0)");
         gradient.addColorStop(0.32, `rgba(${g.rgb.r}, ${g.rgb.g}, ${g.rgb.b}, 0.05)`);
@@ -466,8 +469,9 @@
     function loop() {
       raf = (window.OrdoPerf?.raf || window.requestAnimationFrame)(loop);
       if (!ctx) return;
+      frame += 1;
       ctx.clearRect(0, 0, width, height);
-      if (!state.reducedMotion) drawFloaters();
+      if (!state.reducedMotion && (frame % (window.OrdoPerf?.vfxFrameStep?.() || 1) === 0)) drawFloaters();
       drawGlitches();
       drawWaves();
       drawParticles();
@@ -588,7 +592,8 @@
       }
 
       const now = performance.now();
-      if (now - state.lastTrail > 34) {
+      const trailDelay = window.OrdoPerf?.isMobile?.() ? 120 : 64;
+      if (now - state.lastTrail > trailDelay) {
         state.lastTrail = now;
         vfx.addTrail(event.clientX, event.clientY, state.activeCard);
       }
@@ -644,12 +649,12 @@
         addTerminalLines([pick(randomTerminalLines)]);
       }
 
-      if (Math.random() > 0.54) {
+      if (Math.random() > 0.72) {
         vfx.burst(random(90, innerWidth - 90), random(90, innerHeight - 90), state.activeCard);
       } else {
         vfx.addGlitch(state.activeCard);
       }
-    }, 4200);
+    }, 6400);
   }
 
   function injectCanvasCssFallback() {

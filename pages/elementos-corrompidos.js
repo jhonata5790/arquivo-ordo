@@ -144,7 +144,7 @@
   function resizeCanvas() {
     if (!canvas || !ctx) return;
 
-    state.dpr = (window.OrdoPerf?.dpr?.(1.5) || Math.min(window.devicePixelRatio || 1, 1.5));
+    state.dpr = (window.OrdoPerf?.dpr?.(1.25) || Math.min(window.devicePixelRatio || 1, 1.25));
     state.width = window.innerWidth;
     state.height = window.innerHeight;
 
@@ -272,9 +272,14 @@
   }
 
   function burstAt(x, y, elementName = state.activeElement) {
+    if (window.OrdoPerf?.canSpawnVfx && !window.OrdoPerf.canSpawnVfx("elements-burst", 14)) return;
+
+    const particleAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(12, 8, 5) : 12;
+    const glyphAmount = window.OrdoPerf?.adaptiveCount ? window.OrdoPerf.adaptiveCount(3, 2, 1) : 3;
+
     spawnWave(x, y, elementName);
-    spawnParticle(x, y, elementName, 18);
-    spawnGlyph(x, y, elementName, 5);
+    spawnParticle(x, y, elementName, particleAmount);
+    spawnGlyph(x, y, elementName, glyphAmount);
   }
 
   function draw() {
@@ -283,8 +288,8 @@
     ctx.clearRect(0, 0, state.width, state.height);
     ctx.globalCompositeOperation = "lighter";
 
-    if (state.particles.length > 160) state.particles.splice(0, state.particles.length - 160);
-    if (state.waves.length > 24) state.waves.splice(0, state.waves.length - 24);
+    if (state.particles.length > 95) state.particles.splice(0, state.particles.length - 95);
+    if (state.waves.length > 10) state.waves.splice(0, state.waves.length - 10);
     for (let i = state.particles.length - 1; i >= 0; i--) {
       const p = state.particles[i];
       const alpha = Math.max(p.life / p.maxLife, 0);
@@ -298,7 +303,7 @@
       ctx.fillStyle = p.color;
       ctx.globalAlpha = alpha * .78;
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 16;
+      ctx.shadowBlur = 9;
       ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
       ctx.fill();
 
@@ -317,13 +322,14 @@
       ctx.lineWidth = 2.2 * alpha;
       ctx.globalAlpha = alpha * .64;
       ctx.shadowColor = w.color;
-      ctx.shadowBlur = 24;
+      ctx.shadowBlur = 13;
       ctx.arc(w.x, w.y, w.radius, 0, Math.PI * 2);
       ctx.stroke();
 
       if (w.life <= 0) state.waves.splice(i, 1);
     }
 
+    if (state.glyphs.length > 24) state.glyphs.splice(0, state.glyphs.length - 24);
     for (let i = state.glyphs.length - 1; i >= 0; i--) {
       const g = state.glyphs[i];
       const alpha = Math.max(g.life / g.maxLife, 0);
@@ -339,7 +345,7 @@
       ctx.globalAlpha = alpha * .78;
       ctx.fillStyle = g.color;
       ctx.shadowColor = g.color;
-      ctx.shadowBlur = 18;
+      ctx.shadowBlur = 10;
       ctx.font = `${g.size}px ui-serif, Georgia, serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -390,9 +396,12 @@
       }
 
       const now = performance.now();
-      if (now - state.lastMouseParticle > 85) {
+      const particleDelay = window.OrdoPerf?.isMobile?.() ? 180 : 130;
+      if (now - state.lastMouseParticle > particleDelay) {
         state.lastMouseParticle = now;
-        spawnParticle(event.clientX, event.clientY, card?.dataset.element || state.activeElement, 2);
+        if (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("elements-trail", 0.9)) {
+          spawnParticle(event.clientX, event.clientY, card?.dataset.element || state.activeElement, 1);
+        }
       }
     }, { passive: true });
 
@@ -473,12 +482,14 @@
       const elementName = state.activeElement === "neutral" ? pick(names) : state.activeElement;
 
       addAmbientTerminalLine();
-      spawnGlyph(random(80, window.innerWidth - 80), random(80, window.innerHeight - 80), elementName, 1);
-
-      if (Math.random() > .45) {
-        spawnParticle(random(0, window.innerWidth), random(0, window.innerHeight), elementName, 4);
+      if (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("elements-ambient", 4)) {
+        spawnGlyph(random(80, window.innerWidth - 80), random(80, window.innerHeight - 80), elementName, 1);
       }
-    }, 3400);
+
+      if (Math.random() > .62 && (!window.OrdoPerf?.canSpawnVfx || window.OrdoPerf.canSpawnVfx("elements-ambient-particle", 2))) {
+        spawnParticle(random(0, window.innerWidth), random(0, window.innerHeight), elementName, 2);
+      }
+    }, 5600);
   }
 
   function bootPulse() {

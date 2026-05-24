@@ -1,10 +1,10 @@
 /* Arquivo da Campanha — Corações do Outro Lado
-   Ordo Performance Core v2.1 FINAL
-   Correção: otimiza sem sequestrar requestAnimationFrame e sem esconder VFX. */
+   Ordo Performance Core v2.1.2 HOTFIX
+   Correção: reduz pressão dos VFX nas páginas Início e Elementos sem remover efeitos. */
 (() => {
   "use strict";
 
-  if (window.OrdoPerf?.version === "2.1-final") return;
+  if (window.OrdoPerf?.version === "2.1.2-hotfix") return;
 
   const nativeRAF = window.requestAnimationFrame.bind(window);
   const nativeCancelRAF = window.cancelAnimationFrame.bind(window);
@@ -31,9 +31,9 @@
 
 
   const vfxBudget = {
-    capacity: isMobile() ? 40 : 72,
-    tokens: isMobile() ? 40 : 72,
-    refillPerSecond: isMobile() ? 22 : 42,
+    capacity: isMobile() ? 30 : 54,
+    tokens: isMobile() ? 30 : 54,
+    refillPerSecond: isMobile() ? 16 : 30,
     last: performance.now(),
     pressureUntil: 0,
     skipped: 0
@@ -42,8 +42,8 @@
   function refillVfxBudget() {
     const now = performance.now();
     const mobile = isMobile();
-    const targetCapacity = mobile ? 40 : 72;
-    const targetRefill = mobile ? 22 : 42;
+    const targetCapacity = mobile ? 30 : 54;
+    const targetRefill = mobile ? 16 : 30;
 
     if (vfxBudget.capacity !== targetCapacity) {
       vfxBudget.capacity = targetCapacity;
@@ -77,7 +77,7 @@
   }
 
   function adaptiveCount(base, medium = 0.72, high = 0.48) {
-    const mobileScale = isMobile() ? 0.56 : 1;
+    const mobileScale = isMobile() ? 0.48 : 0.82;
     const pressure = vfxPressure();
     const scaledBase = base * mobileScale;
     const mediumValue = medium > 1 ? medium * mobileScale : scaledBase * medium;
@@ -87,9 +87,20 @@
     return Math.max(1, Math.round(scaledBase));
   }
 
+  function isLowPower() {
+    const cores = navigator.hardwareConcurrency || 4;
+    const memory = navigator.deviceMemory || 4;
+    return isMobile() || cores <= 4 || memory <= 4;
+  }
+
+  function vfxFrameStep() {
+    if (isMobile()) return 3;
+    return isLowPower() ? 2 : 1;
+  }
+
   function dpr(max = 1.5) {
-    const mobileMax = isMobile() ? Math.min(max, 1.15) : max;
-    return clamp(window.devicePixelRatio || 1, 1, mobileMax);
+    const safeMax = isMobile() ? Math.min(max, 1.08) : Math.min(max, 1.25);
+    return clamp(window.devicePixelRatio || 1, 1, safeMax);
   }
 
   /* Compatível com requestAnimationFrame(callback).
@@ -279,7 +290,7 @@
   window.addEventListener("blur", () => { state.focused = false; }, { passive: true });
 
   window.OrdoPerf = {
-    version: "2.1-final",
+    version: "2.1.2-hotfix",
     state,
     isMobile,
     dpr,
@@ -294,6 +305,8 @@
     canSpawnVfx,
     vfxPressure,
     adaptiveCount,
+    isLowPower,
+    vfxFrameStep,
     lockHorizontalScroll,
     addGlobalOptimizations,
     lazyImages
