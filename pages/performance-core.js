@@ -1,10 +1,10 @@
 /* Arquivo da Campanha — Corações do Outro Lado
-   Ordo Performance Core v2.0.2
+   Ordo Performance Core v2.1
    Correção: otimiza sem sequestrar requestAnimationFrame e sem esconder VFX. */
 (() => {
   "use strict";
 
-  if (window.OrdoPerf?.version === "2.0.2") return;
+  if (window.OrdoPerf?.version === "2.1") return;
 
   const nativeRAF = window.requestAnimationFrame.bind(window);
   const nativeCancelRAF = window.cancelAnimationFrame.bind(window);
@@ -12,10 +12,13 @@
   const nativeClearInterval = window.clearInterval.bind(window);
   const nativeSetTimeout = window.setTimeout.bind(window);
 
+  const isMobile = () => window.matchMedia?.("(max-width: 768px), (pointer: coarse)")?.matches || false;
+
   const state = {
     visible: !document.hidden,
     focused: document.hasFocus(),
-    intervals: new Set()
+    intervals: new Set(),
+    get mobile() { return isMobile(); }
   };
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -23,9 +26,9 @@
 
 
   const vfxBudget = {
-    capacity: 72,
-    tokens: 72,
-    refillPerSecond: 42,
+    capacity: isMobile() ? 46 : 72,
+    tokens: isMobile() ? 46 : 72,
+    refillPerSecond: isMobile() ? 25 : 42,
     last: performance.now(),
     pressureUntil: 0,
     skipped: 0
@@ -33,6 +36,17 @@
 
   function refillVfxBudget() {
     const now = performance.now();
+    const mobile = isMobile();
+    const targetCapacity = mobile ? 46 : 72;
+    const targetRefill = mobile ? 25 : 42;
+
+    if (vfxBudget.capacity !== targetCapacity) {
+      vfxBudget.capacity = targetCapacity;
+      vfxBudget.tokens = clamp(vfxBudget.tokens, 0, targetCapacity);
+    }
+
+    vfxBudget.refillPerSecond = targetRefill;
+
     const delta = Math.max(0, now - vfxBudget.last) / 1000;
     vfxBudget.last = now;
     vfxBudget.tokens = clamp(vfxBudget.tokens + delta * vfxBudget.refillPerSecond, 0, vfxBudget.capacity);
@@ -58,16 +72,19 @@
   }
 
   function adaptiveCount(base, medium = 0.72, high = 0.48) {
+    const mobileScale = isMobile() ? 0.62 : 1;
     const pressure = vfxPressure();
-    const mediumValue = medium > 1 ? medium : base * medium;
-    const highValue = high > 1 ? high : base * high;
+    const scaledBase = base * mobileScale;
+    const mediumValue = medium > 1 ? medium * mobileScale : scaledBase * medium;
+    const highValue = high > 1 ? high * mobileScale : scaledBase * high;
     if (pressure === "high") return Math.max(1, Math.round(highValue));
     if (pressure === "medium") return Math.max(1, Math.round(mediumValue));
-    return Math.max(1, Math.round(base));
+    return Math.max(1, Math.round(scaledBase));
   }
 
   function dpr(max = 1.5) {
-    return clamp(window.devicePixelRatio || 1, 1, max);
+    const mobileMax = isMobile() ? Math.min(max, 1.15) : max;
+    return clamp(window.devicePixelRatio || 1, 1, mobileMax);
   }
 
   /* Compatível com requestAnimationFrame(callback).
@@ -253,8 +270,9 @@
   window.addEventListener("blur", () => { state.focused = false; }, { passive: true });
 
   window.OrdoPerf = {
-    version: "2.0.2",
+    version: "2.1",
     state,
+    isMobile,
     dpr,
     raf,
     cancelRaf,

@@ -16864,3 +16864,585 @@ canvas[class*="vfx"] {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
+
+
+/* =========================================================
+   ORDO REALITAS // VERSÃO 2.1
+   Clareza Operacional Mobile
+   Objetivo: melhorar leitura e toque no celular sem remover efeitos.
+========================================================= */
+
+:root {
+  --tap-size: 44px;
+  --mobile-page-pad: clamp(14px, 4vw, 22px);
+}
+
+html,
+body {
+  min-width: 0;
+  overflow-x: hidden !important;
+  touch-action: pan-y;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+}
+
+main,
+section,
+article,
+aside,
+header,
+footer,
+div {
+  min-width: 0;
+}
+
+/* Elementos realmente clicáveis ficam mais claros */
+a,
+button,
+[role="button"],
+.agent-card.unlocked,
+.document-card,
+.element-card,
+.home-sector-card,
+.section-record-card,
+.section-action,
+.doc-filter,
+.agents-filters button,
+.section-filters button,
+.reader-action,
+.edoc-action,
+.element-action {
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(214, 179, 90, 0.18);
+}
+
+button,
+.back-link,
+.agents-back-link,
+.agent-open,
+.home-sector-card,
+.document-card,
+.element-card,
+.section-record-card,
+.section-action,
+.doc-filter,
+.agents-filters button,
+.section-filters button,
+.edoc-action {
+  min-height: var(--tap-size);
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid rgba(255, 240, 180, 0.88);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(214, 179, 90, 0.12);
+}
+
+/* Botões de ação recebem microtexto operacional sem mexer no HTML */
+.home-sector-card::after,
+.document-card::after,
+.element-card::after,
+.section-record-card::after,
+.agent-card.unlocked::after {
+  content: "TOQUE / ACESSAR";
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  z-index: 4;
+  max-width: calc(100% - 28px);
+  border: 1px solid rgba(214, 179, 90, 0.24);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.56);
+  color: rgba(255, 240, 180, 0.86);
+  padding: 6px 9px;
+  font-size: 0.58rem;
+  font-weight: 1000;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.agent-card.locked::after,
+.document-card.document-locked::after,
+.element-card.locked::after,
+.master-lock::after {
+  content: "ACESSO RESTRITO";
+  color: rgba(255, 120, 120, 0.92);
+  border-color: rgba(255, 70, 70, 0.28);
+}
+
+.agent-card,
+.document-card,
+.element-card,
+.home-sector-card,
+.section-record-card {
+  position: relative;
+}
+
+/* Painéis com leitura interna ganham indicação visual de continuidade */
+.documents-terminal,
+.documents-live-panel,
+.document-reader,
+.agents-terminal,
+.agents-reading-panel,
+.section-reader-panel,
+.section-reader,
+.reader-terminal,
+.edoc-file,
+.edoc-panel,
+.home-terminal-panel,
+.home-quick-read,
+.terminal-body,
+.terminal-feed {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 179, 90, 0.58) rgba(0, 0, 0, 0.32);
+}
+
+.documents-terminal::-webkit-scrollbar,
+.document-reader::-webkit-scrollbar,
+.agents-terminal::-webkit-scrollbar,
+.section-reader::-webkit-scrollbar,
+.edoc-file::-webkit-scrollbar,
+.edoc-panel::-webkit-scrollbar,
+.terminal-body::-webkit-scrollbar,
+.terminal-feed::-webkit-scrollbar {
+  width: 7px;
+}
+
+.documents-terminal::-webkit-scrollbar-thumb,
+.document-reader::-webkit-scrollbar-thumb,
+.agents-terminal::-webkit-scrollbar-thumb,
+.section-reader::-webkit-scrollbar-thumb,
+.edoc-file::-webkit-scrollbar-thumb,
+.edoc-panel::-webkit-scrollbar-thumb,
+.terminal-body::-webkit-scrollbar-thumb,
+.terminal-feed::-webkit-scrollbar-thumb {
+  background: rgba(214, 179, 90, 0.58);
+  border-radius: 999px;
+}
+
+.documents-terminal::before,
+.agents-terminal::before,
+.section-reader-panel::before,
+.document-reader::before {
+  content: "DESLIZE PARA LER MAIS";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 6;
+  border: 1px solid rgba(214, 179, 90, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 240, 180, 0.68);
+  padding: 5px 8px;
+  font-size: 0.56rem;
+  font-weight: 1000;
+  letter-spacing: 0.14em;
+  opacity: 0.0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.documents-terminal:hover::before,
+.agents-terminal:hover::before,
+.section-reader-panel:hover::before,
+.document-reader:hover::before {
+  opacity: 0.75;
+}
+
+/* Correção preventiva de grids que causavam scroll horizontal */
+.home-grid,
+.home-sector-grid,
+.home-main-grid,
+.home-status-grid,
+.documents-layout,
+.documents-grid,
+.documents-status-panel,
+.documents-tools,
+.agents-main-layout,
+.agents-grid,
+.agents-status-strip,
+.agents-control-panel,
+.elements-grid,
+.elements-layout,
+.elements-status-grid,
+.section-hero,
+.section-layout,
+.section-card-grid,
+.section-status-grid,
+.section-tools,
+.edoc-layout,
+.edoc-grid,
+.edoc-status-grid {
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .home-sector-card:hover,
+  .document-card:hover,
+  .element-card:hover,
+  .section-record-card:hover,
+  .agent-card:hover,
+  .back-link:hover,
+  .agents-back-link:hover {
+    transform: none;
+  }
+
+  .home-sector-card:active,
+  .document-card:active,
+  .element-card:active,
+  .section-record-card:active,
+  .agent-card.unlocked:active,
+  .back-link:active,
+  .agents-back-link:active {
+    transform: scale(0.985);
+    filter: brightness(1.12);
+  }
+}
+
+@media (max-width: 980px) {
+  .home-archive-page,
+  .documents-page,
+  .agents-page,
+  .elements-hub-page,
+  .archive-section-page,
+  .edoc-page,
+  .maisie-page,
+  .roselyn-page,
+  .lilian-page {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    padding-left: var(--mobile-page-pad) !important;
+    padding-right: var(--mobile-page-pad) !important;
+  }
+
+  .home-main-grid,
+  .home-grid,
+  .documents-layout,
+  .agents-control-panel,
+  .agents-main-layout,
+  .elements-layout,
+  .section-hero,
+  .section-layout,
+  .section-tools,
+  .edoc-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-status-grid,
+  .documents-status-panel,
+  .agents-status-strip,
+  .section-status-grid,
+  .elements-status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .home-sector-grid,
+  .documents-grid,
+  .agents-grid,
+  .section-card-grid,
+  .elements-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .documents-terminal,
+  .agents-terminal,
+  .section-reader-panel,
+  .elements-terminal,
+  .home-terminal-panel {
+    position: relative !important;
+    top: auto !important;
+    max-height: none;
+  }
+
+  .home-hero h1,
+  .archive-title,
+  .documents-header h1,
+  .agents-hero h1,
+  .elements-hero h1,
+  .section-hero h1,
+  .edoc-title,
+  .maisie-title,
+  .roselyn-title,
+  .lilian-title {
+    font-size: clamp(2.15rem, 12vw, 4.6rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: clamp(1px, 1vw, 4px) !important;
+    overflow-wrap: anywhere;
+  }
+
+  .documents-header,
+  .agents-hero,
+  .elements-hero,
+  .section-hero,
+  .edoc-hero,
+  .home-hero-panel,
+  .home-command-panel {
+    padding: clamp(18px, 5vw, 30px) !important;
+    border-radius: clamp(20px, 5vw, 28px) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --tap-size: 46px;
+    --mobile-page-pad: 12px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .tag,
+  .agents-kicker,
+  .doc-code,
+  .section-record-card span,
+  .element-kicker,
+  .edoc-kicker {
+    font-size: 0.62rem !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .home-archive-page,
+  .documents-page,
+  .agents-page,
+  .elements-hub-page,
+  .archive-section-page,
+  .edoc-page,
+  .maisie-page,
+  .roselyn-page,
+  .lilian-page {
+    padding-top: 14px !important;
+    padding-bottom: 34px !important;
+  }
+
+  .home-status-grid,
+  .documents-status-panel,
+  .agents-status-strip,
+  .section-status-grid,
+  .elements-status-grid,
+  .home-sector-grid,
+  .documents-grid,
+  .agents-grid,
+  .section-card-grid,
+  .elements-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-sector-card,
+  .document-card,
+  .agent-card,
+  .element-card,
+  .section-record-card {
+    width: 100% !important;
+    min-height: unset !important;
+    padding: 18px 16px 46px !important;
+    border-radius: 20px !important;
+  }
+
+  .home-sector-card p,
+  .document-card p,
+  .agent-card p,
+  .element-card p,
+  .section-record-card p,
+  .documents-header p,
+  .agents-hero p,
+  .section-hero p,
+  .elements-hero p,
+  .edoc-hero p {
+    font-size: 0.9rem !important;
+    line-height: 1.52 !important;
+  }
+
+  .documents-tools,
+  .section-tools,
+  .agents-filter-panel,
+  .elements-tools,
+  .home-actions,
+  .section-hero-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .documents-filter-bar,
+  .agents-filters,
+  .section-filters,
+  .elements-filter-bar {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .documents-filter-bar button,
+  .agents-filters button,
+  .section-filters button,
+  .doc-filter,
+  .section-action,
+  .home-main-button,
+  .home-secondary-button,
+  .back-link,
+  .agents-back-link,
+  .agent-open,
+  .edoc-action {
+    width: 100% !important;
+    min-height: var(--tap-size) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.12em !important;
+    padding: 11px 12px !important;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  .documents-search-box,
+  .section-search,
+  .agents-search-box {
+    width: 100% !important;
+  }
+
+  .documents-search-box input,
+  .section-search input,
+  .agents-search-box input {
+    width: 100% !important;
+    min-height: var(--tap-size) !important;
+  }
+
+  .documents-terminal,
+  .document-reader,
+  .agents-terminal,
+  .agents-reading-panel,
+  .section-reader-panel,
+  .section-reader,
+  .reader-terminal,
+  .home-terminal-panel,
+  .elements-terminal,
+  .edoc-file,
+  .edoc-panel {
+    border-radius: 20px !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .terminal-body,
+  .terminal-feed,
+  .terminal-feed-fixed,
+  .reader-terminal,
+  .section-reader,
+  .document-reader {
+    max-height: 52vh !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+
+  .documents-terminal::before,
+  .agents-terminal::before,
+  .section-reader-panel::before,
+  .document-reader::before {
+    opacity: 0.7;
+  }
+
+  .reader-lines span,
+  .document-line,
+  .terminal-body p,
+  .terminal-feed p,
+  .reader-terminal p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .home-sector-card::after,
+  .document-card::after,
+  .element-card::after,
+  .section-record-card::after,
+  .agent-card.unlocked::after {
+    left: 14px;
+    right: auto;
+    bottom: 12px;
+    font-size: 0.55rem;
+  }
+
+  /* Mobile: efeitos preservados, mas camadas decorativas pesadas ficam mais discretas fora dos Elementos */
+  .archive-home-noise,
+  .documents-noise,
+  .agents-bg-noise,
+  .elements-noise,
+  .documents-scan,
+  .agents-bg-scan,
+  .archive-home-scan {
+    opacity: 0.32 !important;
+  }
+
+  .documents-redline,
+  .agents-bg-orbit,
+  .home-orb-rings,
+  .sigil-orbit {
+    opacity: 0.55 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .home-title,
+  .home-hero h1,
+  .archive-title,
+  .documents-header h1,
+  .agents-hero h1,
+  .elements-hero h1,
+  .section-hero h1,
+  .edoc-title {
+    font-size: clamp(1.9rem, 13vw, 3.25rem) !important;
+  }
+
+  .documents-filter-bar,
+  .agents-filters,
+  .section-filters,
+  .elements-filter-bar {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .documents-header,
+  .agents-hero,
+  .elements-hero,
+  .section-hero,
+  .edoc-hero,
+  .home-hero-panel,
+  .home-command-panel,
+  .documents-command-panel,
+  .agents-control-panel {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .home-sector-card,
+  .document-card,
+  .agent-card,
+  .element-card,
+  .section-record-card {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

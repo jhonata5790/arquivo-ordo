@@ -206,6 +206,26 @@
       ],
       note: "Documento para dar profundidade ao mundo rural/paranormal, sem conectar ao segredo central da campanha."
     },
+
+    "log-sys-2-1": {
+      code: "OR-LOG-SYS-2.1",
+      status: "IMPLEMENTADO // CLAREZA OPERACIONAL",
+      access: "NÍVEL 1 — REGISTRO DE SISTEMA",
+      title: "Relatório de Ajuste Operacional — Interface Móvel",
+      type: "ordo",
+      category: "Sistema",
+      summary: "Log interno da atualização 2.1, criada para tornar o Arquivo mais utilizável em dispositivos móveis sem neutralizar sua identidade paranormal.",
+      quick: "Documento-log da Versão 2.1. A Ordo ajustou consulta móvel, botões, scroll e estabilidade visual.",
+      lines: [
+        "Relatórios de teste indicaram dificuldade de consulta em dispositivos móveis, especialmente em telas pequenas e durante leitura prolongada.",
+        "A atualização 2.1 reduziu escalas excessivas, reforçou hierarquia visual e padronizou áreas clicáveis com resposta mais evidente ao toque.",
+        "Painéis, terminais e grids receberam contenção para evitar deslocamento horizontal e crescimento inesperado da interface.",
+        "Os efeitos visuais foram preservados, mas a emissão em dispositivos móveis passou a seguir disciplina operacional para reduzir travamentos.",
+        "Áreas operacionais devem priorizar clareza. Áreas elementais continuam autorizadas a apresentar instabilidade, desde que a navegação principal permaneça recuperável.",
+        "A Ordo não busca tornar o sistema confortável. Busca torná-lo utilizável em campo."
+      ],
+      note: "Registro de versão inserido como documento diegético. Cada atualização futura pode gerar um arquivo semelhante no sistema."
+    },
     "comando-restrito": {
       code: "OR-CMD-000",
       status: "BLOQUEADO // CREDENCIAL INSUFICIENTE",

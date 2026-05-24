@@ -35,3 +35,17 @@ VERSÃO 2.0.1 — CORREÇÃO DOS EFEITOS
 
 
 Versão 2.0.2: otimização anti-travamento dos VFX. Mantém efeitos ativos, mas limita rajadas repetidas, reduz quantidade quando há spam de cliques e impede acúmulo excessivo de partículas.
+
+
+==============================
+VERSÃO 2.1 — CLAREZA OPERACIONAL MOBILE
+==============================
+- Ajustes globais de responsividade para celular.
+- Botões e cards clicáveis ficaram mais explícitos.
+- Painéis com leitura/terminal receberam indicação de deslize.
+- Correções preventivas contra scroll horizontal.
+- Performance Core atualizado para v2.1 com orçamento de VFX adaptado para mobile.
+- Documento-log OR-LOG-SYS-2.1 adicionado à aba Documentos.
+- Efeitos visuais foram preservados; no mobile eles seguem disciplina de intensidade para evitar travamentos.
+
+Após substituir os arquivos, use Ctrl + F5 no navegador.
