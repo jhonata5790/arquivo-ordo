@@ -49,3 +49,11 @@ VERSÃO 2.1 — CLAREZA OPERACIONAL MOBILE
 - Efeitos visuais foram preservados; no mobile eles seguem disciplina de intensidade para evitar travamentos.
 
 Após substituir os arquivos, use Ctrl + F5 no navegador.
+
+Versão 2.1.1 — Hotfix Agentes Mobile
+- Corrige cards da página Agentes no celular.
+- Reduz espaçamento exagerado dos textos.
+- Remove microtexto duplicado fora dos cards.
+- Mantém botões de abrir ficha mais claros.
+- Mantém retratos como camada visual discreta no mobile.
+- Cache CSS atualizado para v=24.
