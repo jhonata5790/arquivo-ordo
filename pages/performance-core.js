@@ -1,10 +1,10 @@
 /* Arquivo da Campanha — Corações do Outro Lado
-   Ordo Performance Core v2.1
+   Ordo Performance Core v2.1 FINAL
    Correção: otimiza sem sequestrar requestAnimationFrame e sem esconder VFX. */
 (() => {
   "use strict";
 
-  if (window.OrdoPerf?.version === "2.1") return;
+  if (window.OrdoPerf?.version === "2.1-final") return;
 
   const nativeRAF = window.requestAnimationFrame.bind(window);
   const nativeCancelRAF = window.cancelAnimationFrame.bind(window);
@@ -23,12 +23,17 @@
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
+  function refreshDeviceClasses() {
+    document.documentElement.classList.toggle("ordo-mobile", isMobile());
+    document.documentElement.classList.toggle("ordo-desktop", !isMobile());
+  }
+
 
 
   const vfxBudget = {
-    capacity: isMobile() ? 46 : 72,
-    tokens: isMobile() ? 46 : 72,
-    refillPerSecond: isMobile() ? 25 : 42,
+    capacity: isMobile() ? 40 : 72,
+    tokens: isMobile() ? 40 : 72,
+    refillPerSecond: isMobile() ? 22 : 42,
     last: performance.now(),
     pressureUntil: 0,
     skipped: 0
@@ -37,8 +42,8 @@
   function refillVfxBudget() {
     const now = performance.now();
     const mobile = isMobile();
-    const targetCapacity = mobile ? 46 : 72;
-    const targetRefill = mobile ? 25 : 42;
+    const targetCapacity = mobile ? 40 : 72;
+    const targetRefill = mobile ? 22 : 42;
 
     if (vfxBudget.capacity !== targetCapacity) {
       vfxBudget.capacity = targetCapacity;
@@ -72,7 +77,7 @@
   }
 
   function adaptiveCount(base, medium = 0.72, high = 0.48) {
-    const mobileScale = isMobile() ? 0.62 : 1;
+    const mobileScale = isMobile() ? 0.56 : 1;
     const pressure = vfxPressure();
     const scaledBase = base * mobileScale;
     const mediumValue = medium > 1 ? medium * mobileScale : scaledBase * medium;
@@ -266,11 +271,15 @@
     state.visible = !document.hidden;
   }, { passive: true });
 
+  window.addEventListener("resize", refreshDeviceClasses, { passive: true });
+  window.addEventListener("orientationchange", refreshDeviceClasses, { passive: true });
+  refreshDeviceClasses();
+
   window.addEventListener("focus", () => { state.focused = true; }, { passive: true });
   window.addEventListener("blur", () => { state.focused = false; }, { passive: true });
 
   window.OrdoPerf = {
-    version: "2.1",
+    version: "2.1-final",
     state,
     isMobile,
     dpr,

@@ -1,59 +1,52 @@
-PACOTE REFEITO — ARQUIVO DA CAMPANHA
+ARQUIVO DA CAMPANHA — CORAÇÕES DO OUTRO LADO
+VERSÃO 2.1 FINAL — CLAREZA OPERACIONAL MOBILE
 
-Este pacote alinha HTML e JS ao style.css refeito do zero.
-Substitua os arquivos no projeto mantendo a mesma estrutura de pastas.
+STATUS:
+Interface principal finalizada e ajustada para uso em desktop e celular.
 
-Inclui:
-- index.html
-- inicio.html
-- script.js
+FOCO DA VERSÃO 2.1 FINAL:
+- Melhorar a navegação mobile sem apagar a identidade visual da Ordo.
+- Reduzir tamanhos exagerados em telas pequenas.
+- Evitar scroll horizontal.
+- Melhorar clareza de botões, cards e áreas clicáveis.
+- Manter efeitos visuais ativos com orçamento menor em celular.
+- Tornar Início, Agentes, Documentos, Locais, Missões, Ordo Realitas e Elementos mais confortáveis no mobile.
+- Preservar a proposta das páginas elementais como áreas mais corrompidas/imersivas.
+
+ARQUIVOS PRINCIPAIS AJUSTADOS:
 - style.css
-- pages/*.html
-- pages/*.js
-- assets preservados
+- pages/performance-core.js
+- HTMLs com cache atualizado para v=25
 
-Modo lite/performance não foi reativado.
-Todos os scripts usam safeClosest ou proteções equivalentes para evitar erro com event.target.closest.
+ARQUIVOS REMOVIDOS POR NÃO ESTAREM EM USO:
+- css/player-page.css
+- pages/player-page.js
+- pages/player-pages.js
 
-==============================
-VERSÃO 2.0 — OTIMIZAÇÃO
-==============================
-- Adicionado pages/performance-core.js para centralizar otimizações sem remover efeitos.
-- Canvases e partículas continuam ativos, mas com DPR limitado para reduzir uso de GPU.
-- Loops de animação e timers agora respeitam aba invisível/inativa.
-- Scroll horizontal travado globalmente.
-- Cards e painéis ganharam contenção de layout/pintura.
-- Imagens receberam lazy loading e decoding assíncrono.
-- PNGs foram recompactados de forma lossless quando possível.
-- Cache bust atualizado para v=20.
+OBSERVAÇÃO:
+Nenhum arquivo da pasta assets foi removido.
 
-VERSÃO 2.0.1 — CORREÇÃO DOS EFEITOS
-- Corrigido performance-core.js para não quebrar requestAnimationFrame.
-- Removidas otimizações agressivas que podiam esconder VFX.
-- Mantidas otimizações seguras: DPR limitado, pausa em aba oculta, lazy loading de imagens, bloqueio de overflow horizontal e canvas VFX em camada garantida.
-- Após substituir, use Ctrl + F5.
+TESTE RECOMENDADO:
+1. Abrir inicio.html localmente.
+2. Testar no desktop.
+3. Testar no celular ou modo responsivo do navegador.
+4. Verificar principalmente:
+   - Início
+   - Agentes
+   - Documentos
+   - Elementos
+   - Locais
+   - Missões
+   - Ordo Realitas
+5. Depois de aprovado, publicar no GitHub Pages.
 
+COMANDO GIT RECOMENDADO:
+git status
+git add .
+git commit -m "V2.1 final mobile e clareza operacional"
+git pull --rebase origin main
+git push
 
-Versão 2.0.2: otimização anti-travamento dos VFX. Mantém efeitos ativos, mas limita rajadas repetidas, reduz quantidade quando há spam de cliques e impede acúmulo excessivo de partículas.
-
-
-==============================
-VERSÃO 2.1 — CLAREZA OPERACIONAL MOBILE
-==============================
-- Ajustes globais de responsividade para celular.
-- Botões e cards clicáveis ficaram mais explícitos.
-- Painéis com leitura/terminal receberam indicação de deslize.
-- Correções preventivas contra scroll horizontal.
-- Performance Core atualizado para v2.1 com orçamento de VFX adaptado para mobile.
-- Documento-log OR-LOG-SYS-2.1 adicionado à aba Documentos.
-- Efeitos visuais foram preservados; no mobile eles seguem disciplina de intensidade para evitar travamentos.
-
-Após substituir os arquivos, use Ctrl + F5 no navegador.
-
-Versão 2.1.1 — Hotfix Agentes Mobile
-- Corrige cards da página Agentes no celular.
-- Reduz espaçamento exagerado dos textos.
-- Remove microtexto duplicado fora dos cards.
-- Mantém botões de abrir ficha mais claros.
-- Mantém retratos como camada visual discreta no mobile.
-- Cache CSS atualizado para v=24.
+NOTA DA ORDO:
+A clareza operacional foi aprimorada para agentes em campo.
+A contaminação visual permanece ativa onde ainda é necessária.

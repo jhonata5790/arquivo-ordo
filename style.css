@@ -17641,3 +17641,595 @@ input:focus-visible,
     font-size: 0.82rem !important;
   }
 }
+
+/* =========================================================
+   ORDO REALITAS // VERSAO 2.1 FINAL
+   Mobile + clareza operacional global
+   Mantem a estética, reduz atrito no celular e deixa interações óbvias.
+========================================================= */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+button,
+[role="button"],
+.home-nav-card,
+.document-card,
+.agent-card,
+.element-card,
+.section-record-card {
+  -webkit-tap-highlight-color: rgba(215, 170, 69, 0.18);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+.section-record-card:focus-visible,
+.document-card:focus-visible,
+.agent-card:focus-visible,
+.element-card:focus-visible {
+  outline: 2px solid rgba(255, 225, 156, 0.92);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 5px rgba(215, 170, 69, 0.16), 0 0 30px rgba(215, 170, 69, 0.18);
+}
+
+img,
+canvas,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* Etiqueta visual discreta para coisas realmente clicáveis em telas de toque. */
+@media (hover: none), (pointer: coarse) {
+  .home-nav-card::after,
+  .document-card::after,
+  .element-card::after,
+  .section-record-card::after {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 8;
+    padding: 6px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(215, 170, 69, 0.25);
+    background: rgba(0, 0, 0, 0.62);
+    color: rgba(255, 234, 172, 0.72);
+    font-size: 0.48rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .home-nav-card::after,
+  .element-card::after,
+  .section-record-card::after {
+    content: "TOQUE";
+  }
+
+  .document-card::after {
+    content: "LER";
+  }
+
+  .document-locked::after,
+  .section-record-card.locked::after,
+  .element-card.locked::after {
+    content: "RESTRITO";
+    color: rgba(255, 126, 150, 0.76);
+    border-color: rgba(255, 55, 90, 0.25);
+  }
+
+  .agents-page .agent-card::after,
+  .agents-page .agent-card.unlocked::after,
+  .agents-page .agent-card.restricted::after {
+    content: none !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .home-topbar,
+  .home-hero,
+  .home-command-grid,
+  .home-main-grid,
+  .documents-page,
+  .archive-section-page,
+  .elements-hub-page,
+  .agents-page {
+    width: min(100% - 18px, 1480px) !important;
+    max-width: 100% !important;
+  }
+
+  .home-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .home-brand {
+    justify-content: center;
+  }
+
+  .home-topnav {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    border-radius: 20px;
+    padding: 0.45rem;
+  }
+
+  .home-topnav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .home-hero,
+  .home-main-grid,
+  .elements-hero,
+  .elements-hero-v2,
+  .elements-main-layout,
+  .section-hero,
+  .section-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-case-panel,
+  .home-terminal-panel,
+  .home-navigation-panel,
+  .home-current-reading,
+  .home-trace-panel,
+  .home-locked-section,
+  .documents-command-panel,
+  .documents-terminal,
+  .section-case-panel,
+  .section-reader-panel,
+  .elements-case-card,
+  .elements-terminal,
+  .elements-reading-panel,
+  .elements-map {
+    position: relative !important;
+    top: auto !important;
+    max-width: 100% !important;
+  }
+
+  .home-command-grid,
+  .home-card-grid,
+  .documents-status-panel,
+  .section-status-grid,
+  .elements-status-panel,
+  .elements-case-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .documents-layout,
+  .documents-layout-v3,
+  .investigation-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    min-width: 0 !important;
+  }
+
+  .home-archive-page,
+  .documents-body,
+  .archive-section-body,
+  .elements-hub-page,
+  .agents-page {
+    font-size: 15px;
+  }
+
+  .home-archive-page,
+  .documents-page,
+  .archive-section-page,
+  .elements-hub-page,
+  .agents-page {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .home-hero,
+  .home-command-grid,
+  .home-main-grid,
+  .documents-header,
+  .documents-command-panel,
+  .documents-tools,
+  .documents-layout,
+  .document-reader,
+  .section-hero,
+  .section-status-grid,
+  .section-tools,
+  .section-layout,
+  .elements-hero,
+  .elements-status-panel,
+  .elements-main-layout,
+  .elements-official-sigils {
+    width: min(100% - 18px, 720px) !important;
+    margin-inline: auto !important;
+  }
+
+  .home-hero {
+    min-height: auto !important;
+    padding: 1.35rem 0 1rem !important;
+    gap: 1rem !important;
+  }
+
+  .home-hero h1,
+  .elements-hero h1,
+  .documents-header h1,
+  .section-hero h1 {
+    font-size: clamp(2.15rem, 12vw, 3.65rem) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.045em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .home-hero-text,
+  .documents-header p:not(.tag),
+  .section-hero p,
+  .elements-hero-copy > p:not(.elements-kicker) {
+    font-size: 0.92rem !important;
+    line-height: 1.58 !important;
+  }
+
+  .home-kicker,
+  .elements-kicker,
+  .tag,
+  .section-hero .tag,
+  .documents-header .tag {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.16em !important;
+    line-height: 1.35 !important;
+  }
+
+  .home-hero-actions,
+  .section-hero-actions,
+  .elements-warning-line,
+  .documents-filter-bar,
+  .section-filters {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+  }
+
+  .home-primary-action,
+  .home-secondary-action,
+  .section-action,
+  .elements-back-link,
+  .elements-random-button,
+  .doc-filter,
+  .section-filters button,
+  .back-link,
+  .section-back {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.11em !important;
+    padding: 0.78rem 0.9rem !important;
+  }
+
+  .home-case-panel,
+  .home-terminal-panel,
+  .home-navigation-panel,
+  .home-current-reading,
+  .home-trace-panel,
+  .home-locked-section,
+  .documents-command-main,
+  .documents-terminal,
+  .document-reader,
+  .section-case-panel,
+  .section-reader-panel,
+  .elements-case-card,
+  .elements-terminal,
+  .elements-reading-panel,
+  .elements-map {
+    border-radius: 20px !important;
+    padding: 14px !important;
+  }
+
+  .home-case-orb,
+  .elements-case-core {
+    width: min(210px, 70vw) !important;
+    margin: 1rem auto !important;
+  }
+
+  .home-case-orb strong {
+    font-size: clamp(2.2rem, 15vw, 3.6rem) !important;
+  }
+
+  .home-command-grid,
+  .home-card-grid,
+  .documents-grid,
+  .documents-status-panel,
+  .section-status-grid,
+  .section-card-grid,
+  .elements-status-panel,
+  .elements-card-grid,
+  .elements-card-grid-v2,
+  .elements-case-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .home-command-grid article,
+  .home-nav-card,
+  .document-card,
+  .section-record-card,
+  .element-card,
+  .elements-status-panel article,
+  .documents-status-panel article,
+  .section-status-grid article {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border-radius: 20px !important;
+    padding: 14px !important;
+    transform: none !important;
+  }
+
+  .home-command-grid article strong,
+  .documents-status-panel strong,
+  .section-status-grid strong,
+  .elements-status-panel strong {
+    font-size: clamp(1.35rem, 8vw, 2rem) !important;
+    line-height: 1 !important;
+  }
+
+  .home-nav-card {
+    grid-template-columns: auto 1fr !important;
+    align-items: start !important;
+    gap: 0.75rem !important;
+  }
+
+  .home-nav-card h3,
+  .document-card strong,
+  .section-record-card strong,
+  .element-card h2,
+  .element-card h3,
+  .documents-command-main h2,
+  .section-reader h2,
+  .elements-reading-panel h2 {
+    font-size: clamp(1.15rem, 6.5vw, 1.65rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.03em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .home-nav-card span,
+  .document-card p,
+  .section-record-card p,
+  .element-card p,
+  .reader-lines span,
+  .documents-live-panel p,
+  .section-reader p,
+  .elements-reading-panel p {
+    font-size: 0.86rem !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.01em !important;
+    word-break: normal !important;
+  }
+
+  .document-card i,
+  .section-record-card i,
+  .element-card strong,
+  .home-nav-card strong {
+    font-size: 0.54rem !important;
+    letter-spacing: 0.12em !important;
+    line-height: 1.2 !important;
+  }
+
+  .documents-tools,
+  .section-tools {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .documents-search-box,
+  .section-search {
+    min-width: 0 !important;
+  }
+
+  .documents-search-box input,
+  .section-search input {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+  }
+
+  .documents-terminal,
+  .reader-terminal,
+  .home-terminal-lines,
+  .terminal-feed-fixed,
+  .terminal-lines {
+    max-height: 190px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .documents-terminal::after,
+  .section-reader-panel::after,
+  .document-reader::after,
+  .home-terminal-panel::after {
+    content: "DESLIZE PARA LER MAIS";
+    display: block;
+    margin-top: 10px;
+    color: rgba(255, 230, 170, 0.55);
+    font-size: 0.52rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .document-reader {
+    margin-top: 14px !important;
+    max-height: none !important;
+  }
+
+  .document-paper,
+  .reader-lines,
+  .section-reader,
+  .documents-live-panel {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .elements-official-sigils {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .elements-official-sigils .sigil-node {
+    min-width: 0 !important;
+    padding: 10px !important;
+  }
+
+  .elements-official-sigils .sigil-node img {
+    max-width: 86px !important;
+    max-height: 86px !important;
+  }
+
+  .elements-official-sigils .sigil-fear {
+    grid-column: 1 / -1;
+  }
+
+  .elements-core {
+    width: min(220px, 72vw) !important;
+    height: min(220px, 72vw) !important;
+    margin-inline: auto !important;
+  }
+
+  .elements-terminal {
+    order: 2;
+  }
+
+  .elements-map {
+    order: 1;
+  }
+
+  .elements-reading-panel {
+    order: 3;
+  }
+
+  .section-reader-panel {
+    order: 2;
+  }
+
+  .section-card-grid {
+    order: 1;
+  }
+
+  .home-bg-orbital,
+  .home-bg-bloodline,
+  .elements-bg-orbit,
+  .elements-bg-corruption {
+    opacity: 0.42 !important;
+  }
+
+  .home-case-panel::before,
+  .home-terminal-panel::before,
+  .home-navigation-panel::before,
+  .home-current-reading::before,
+  .home-trace-panel::before,
+  .home-locked-section::before,
+  .home-command-grid article::before,
+  .elements-status-panel article::after,
+  .elements-case-card::after {
+    animation-duration: 9s !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .home-topbar,
+  .home-hero,
+  .home-command-grid,
+  .home-main-grid,
+  .documents-header,
+  .documents-command-panel,
+  .documents-tools,
+  .documents-layout,
+  .document-reader,
+  .section-hero,
+  .section-status-grid,
+  .section-tools,
+  .section-layout,
+  .elements-hero,
+  .elements-status-panel,
+  .elements-main-layout,
+  .elements-official-sigils {
+    width: min(100% - 14px, 430px) !important;
+  }
+
+  .home-brand strong {
+    font-size: 0.76rem !important;
+  }
+
+  .home-brand small {
+    font-size: 0.62rem !important;
+  }
+
+  .home-brand-sigil {
+    width: 40px !important;
+    border-radius: 14px !important;
+  }
+
+  .home-topnav a {
+    padding: 0.52rem 0.68rem !important;
+    font-size: 0.58rem !important;
+  }
+
+  .home-hero h1,
+  .elements-hero h1,
+  .documents-header h1,
+  .section-hero h1 {
+    font-size: clamp(2rem, 11.8vw, 3.1rem) !important;
+  }
+
+  .home-alert-line span,
+  .elements-warning-line span {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-nav-card,
+  .document-card,
+  .section-record-card,
+  .element-card {
+    padding: 13px !important;
+  }
+
+  .documents-terminal,
+  .reader-terminal,
+  .home-terminal-lines,
+  .terminal-feed-fixed,
+  .terminal-lines {
+    max-height: 170px !important;
+  }
+}
